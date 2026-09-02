@@ -1,0 +1,708 @@
+{
+  "corridors": [
+    {
+      "id": "C1",
+      "sourceCountry": "United States",
+      "sourceCurrency": "USD",
+      "destCountry": "India",
+      "destCurrency": "INR",
+      "everydayAmount": 200.0,
+      "largeAmount": 2000.0
+    },
+    {
+      "id": "C2",
+      "sourceCountry": "United Kingdom",
+      "sourceCurrency": "GBP",
+      "destCountry": "India",
+      "destCurrency": "INR",
+      "everydayAmount": 200.0,
+      "largeAmount": 2000.0
+    },
+    {
+      "id": "C3",
+      "sourceCountry": "United States",
+      "sourceCurrency": "USD",
+      "destCountry": "Mexico",
+      "destCurrency": "MXN",
+      "everydayAmount": 200.0,
+      "largeAmount": 2000.0
+    },
+    {
+      "id": "C4",
+      "sourceCountry": "United States",
+      "sourceCurrency": "USD",
+      "destCountry": "Colombia",
+      "destCurrency": "COP",
+      "everydayAmount": 200.0,
+      "largeAmount": 2000.0
+    },
+    {
+      "id": "C5",
+      "sourceCountry": "Spain",
+      "sourceCurrency": "EUR",
+      "destCountry": "Colombia",
+      "destCurrency": "COP",
+      "everydayAmount": 200.0,
+      "largeAmount": 2000.0
+    },
+    {
+      "id": "C6",
+      "sourceCountry": "United Arab Emirates",
+      "sourceCurrency": "AED",
+      "destCountry": "India",
+      "destCurrency": "INR",
+      "everydayAmount": 750.0,
+      "largeAmount": 7500.0
+    }
+  ],
+  "providerRates": [
+    {
+      "corridorId": "C1",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 18829.26,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 18924.95,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 18938.0,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 19046.02,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "PayPal",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 18953.0,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 18913.56,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 189137.78,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 189180.49,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 189380.0,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 190800.0,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "PayPal",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 189526.0,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 189135.6,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 25591.51,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 25645.07,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 25550.0,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 25736.0,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "PayPal",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 25359.0,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 25610.88,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 256581.63,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 255896.53,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 255500.0,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 255818.0,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "PayPal",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 254407.0,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 256360.52,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 3262.03,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 3371.07,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 3280.0,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 3328.86,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "PayPal",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 3337.0,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 3357.2,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 33705.59,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 33670.87,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 33620.0,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 33968.8,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "PayPal",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 33953.0,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 33572.0,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 608873.14,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 618512.12,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 625528.0,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 622866.8,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "PayPal",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 604950.0,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 633732.6,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 6314214.95,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 6219956.65,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 6266120.0,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 6254140.0,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "PayPal",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 6205500.0,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 6337326.0,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 717047.82,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 715379.49,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 718920.0,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 741697.0,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "PayPal",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 720700.0,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 734820.0,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 7227841.98,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 7195268.66,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 7189200.0,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 7324990.0,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "PayPal",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 7207050.0,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 7348200.0,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 750,
+      "amountReceived": 19234.97,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 750,
+      "amountReceived": 19205.55,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 750,
+      "amountReceived": 19432.5,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 750,
+      "amountReceived": 19363.0,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "PayPal",
+      "tier": "Everyday",
+      "sendAmount": 750,
+      "amountReceived": 19367.0,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 750,
+      "amountReceived": 19244.55,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 7500,
+      "amountReceived": 192837.64,
+      "dateChecked": "2026-09-01",
+      "source": "Wise"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 7500,
+      "amountReceived": 192327.77,
+      "dateChecked": "2026-09-01",
+      "source": "Revolut"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 7500,
+      "amountReceived": 193695.0,
+      "dateChecked": "2026-09-01",
+      "source": "Remitly"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 7500,
+      "amountReceived": 193624.0,
+      "dateChecked": "2026-09-01",
+      "source": "Western Union"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "PayPal",
+      "tier": "Large",
+      "sendAmount": 7500,
+      "amountReceived": 193735.93,
+      "dateChecked": "2026-09-01",
+      "source": "Paypal (Xoom)"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 7500,
+      "amountReceived": 192445.5,
+      "dateChecked": "2026-09-01",
+      "source": "XE"
+    }
+  ]
+}
