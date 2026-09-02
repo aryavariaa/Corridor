@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import providerData from "@/data/provider-data.json";
 import type { Corridor, RankedProvidersResult, Tier } from "@/lib/corridors";
@@ -76,6 +77,14 @@ export default function Home() {
       <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
         Ranks providers by how much of the live mid-market value survives fees
         and FX margin. Cheapest first.
+      </p>
+      <p className="mt-2 text-sm">
+        <Link
+          href="/methodology"
+          className="text-blue-600 hover:underline dark:text-blue-400"
+        >
+          How we calculate this
+        </Link>
       </p>
 
       <form
@@ -217,6 +226,15 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      <footer className="mt-12 border-t border-zinc-200 pt-6 text-sm text-zinc-500 dark:border-zinc-800">
+        <Link
+          href="/methodology"
+          className="text-blue-600 hover:underline dark:text-blue-400"
+        >
+          How we calculate this
+        </Link>
+      </footer>
     </main>
   );
 }
