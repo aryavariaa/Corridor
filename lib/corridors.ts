@@ -38,6 +38,9 @@ export type RankedProvidersResult = {
   tier: Tier;
   liveRate: number;
   asOf: string;
+  // True when liveRate/asOf came from a cached fallback because the live
+  // FX fetch failed, not from a fresh request.
+  rateStale?: boolean;
   providers: RankedProvider[];
 };
 
@@ -89,6 +92,7 @@ export async function getRankedProviders(
     tier,
     liveRate: live.rate,
     asOf: live.asOf,
+    rateStale: live.stale,
     providers,
   };
 }

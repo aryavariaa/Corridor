@@ -215,12 +215,22 @@ export default function Home() {
 
       {result && corridor && !loading && (
         <section className="mt-8">
+          {result.rateStale && (
+            <div
+              role="status"
+              className="mb-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
+            >
+              We couldn&rsquo;t reach the live rate feed just now, so this is
+              the last rate we successfully fetched, not a live one.
+            </div>
+          )}
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h2 className="text-lg font-semibold">
               {corridorLabel(corridor)}
             </h2>
             <p className="text-xs text-zinc-500">
-              Live rate 1 {corridor.sourceCurrency} ={" "}
+              {result.rateStale ? "Last known rate" : "Live rate"} 1{" "}
+              {corridor.sourceCurrency} ={" "}
               {result.liveRate.toLocaleString("en-US", {
                 maximumFractionDigits: 4,
               })}{" "}
