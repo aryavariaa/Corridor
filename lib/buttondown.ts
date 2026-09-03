@@ -44,7 +44,7 @@ export async function subscribeToCorridorAlerts(
       // Treat a resubscribe to the same corridor as a no-op success rather
       // than a 400, since the UI has no way to tell a first-time signup
       // from someone re-submitting.
-      "X-Buttondown-Collision-Behavior": "silent_update",
+      "X-Buttondown-Collision-Behavior": "no_op",
     },
     body: JSON.stringify({
       email_address: email,
