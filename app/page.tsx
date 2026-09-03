@@ -46,6 +46,37 @@ export default function Home() {
     [corridorId]
   );
 
+  const [subscribeEmail, setSubscribeEmail] = useState("");
+  const [subscribeStatus, setSubscribeStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
+  const [subscribeError, setSubscribeError] = useState<string | null>(null);
+
+  async function handleSubscribe(e: React.FormEvent) {
+    e.preventDefault();
+    if (!corridorId) return;
+    setSubscribeStatus("submitting");
+    setSubscribeError(null);
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: subscribeEmail, corridorId }),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        throw new Error(json?.error ?? `Request failed (${res.status})`);
+      }
+      setSubscribeStatus("success");
+      setSubscribeEmail("");
+    } catch (err) {
+      setSubscribeStatus("error");
+      setSubscribeError(
+        err instanceof Error ? err.message : "Something went wrong"
+      );
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -101,7 +132,13 @@ export default function Home() {
           <select
             id="corridor"
             value={corridorId}
-            onChange={(e) => setCorridorId(e.target.value)}
+            onChange={(e) => {
+              // Reset the subscribe form's status when the viewed corridor
+              // changes, so a stale "subscribed!" message doesn't linger.
+              setCorridorId(e.target.value);
+              setSubscribeStatus("idle");
+              setSubscribeError(null);
+            }}
             className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
           >
             {corridors.map((c) => (
@@ -223,6 +260,51 @@ export default function Home() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          <div className="mt-6 rounded-lg border border-zinc-200 bg-zinc-50 p-5 dark:border-zinc-800 dark:bg-zinc-900">
+            <h3 className="text-sm font-semibold">
+              Get rate alerts for {corridorLabel(corridor)}
+            </h3>
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+              We&rsquo;ll email you when the cheapest provider or the live rate
+              for this corridor moves.
+            </p>
+            <form
+              onSubmit={handleSubscribe}
+              className="mt-3 flex flex-col gap-2 sm:flex-row"
+            >
+              <label htmlFor="subscribe-email" className="sr-only">
+                Email address
+              </label>
+              <input
+                id="subscribe-email"
+                type="email"
+                required
+                placeholder="you@example.com"
+                value={subscribeEmail}
+                onChange={(e) => setSubscribeEmail(e.target.value)}
+                disabled={subscribeStatus === "submitting"}
+                className="w-full flex-1 rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-zinc-500 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-950"
+              />
+              <button
+                type="submit"
+                disabled={subscribeStatus === "submitting"}
+                className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+              >
+                {subscribeStatus === "submitting" ? "Subscribing…" : "Notify me"}
+              </button>
+            </form>
+            {subscribeStatus === "success" && (
+              <p className="mt-2 text-sm text-green-700 dark:text-green-400">
+                You&rsquo;re subscribed — check your inbox to confirm.
+              </p>
+            )}
+            {subscribeStatus === "error" && subscribeError && (
+              <p role="alert" className="mt-2 text-sm text-red-700 dark:text-red-400">
+                {subscribeError}
+              </p>
+            )}
           </div>
         </section>
       )}
