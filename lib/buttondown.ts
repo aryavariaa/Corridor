@@ -54,7 +54,7 @@ export async function subscribeToCorridorAlerts(
         sourceCountry: corridor.sourceCountry,
         destCountry: corridor.destCountry,
       },
-      referrer_url: "https://corridor.app/",
+      referrer_url: "https://corridor-red.vercel.app/",
     }),
   });
 
@@ -65,9 +65,25 @@ export async function subscribeToCorridorAlerts(
   let message = `Buttondown API error (${res.status})`;
   try {
     const body = await res.json();
-    if (typeof body?.detail === "string") message = body.detail;
-    else if (typeof body?.email_address?.[0] === "string")
+    // 422s come back as { detail: [{ type, loc, msg }, ...] } (FastAPI-style
+    // validation errors), not a plain string -- surface the actual reason
+    // instead of losing it to the generic fallback.
+    if (Array.isArray(body?.detail) && body.detail.length > 0) {
+      message = body.detail
+        .map((d: { msg?: string; loc?: unknown[] }) =>
+          d?.msg ? `${d.msg}${d.loc ? ` (${d.loc.join(".")})` : ""}` : null
+        )
+        .filter(Boolean)
+        .join("; ") || message;
+    } else if (typeof body?.detail === "string") {
+      message = body.detail;
+    } else if (typeof body?.email_address?.[0] === "string") {
       message = body.email_address[0];
+    }
+    // Log the raw body server-side too, so Vercel's function logs have the
+    // full picture even if our parsing above misses a shape we didn't
+    // anticipate.
+    console.error("Buttondown subscribe error", res.status, JSON.stringify(body));
   } catch {
     // Ignore body-parsing failures; fall back to the generic message.
   }
