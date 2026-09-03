@@ -13,10 +13,26 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteTitle = "Corridor — Compare remittance providers";
+const siteDescription =
+  "See what you actually get after fees and FX markup, ranked cheapest first, across Wise, Revolut, Remitly, Western Union, PayPal, and XE.";
+
 export const metadata: Metadata = {
-  title: "Corridor — Compare remittance providers",
-  description:
-    "See what you actually get after fees and FX markup, ranked cheapest first, across Wise, Revolut, Remitly, Western Union, PayPal, and XE.",
+  metadataBase: new URL("https://corridor-red.vercel.app"),
+  title: siteTitle,
+  description: siteDescription,
+  openGraph: {
+    title: siteTitle,
+    description: siteDescription,
+    url: "/",
+    siteName: "Corridor",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

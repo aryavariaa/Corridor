@@ -47,6 +47,7 @@ export default function Home() {
   );
 
   const [subscribeEmail, setSubscribeEmail] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [subscribeStatus, setSubscribeStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
@@ -61,7 +62,11 @@ export default function Home() {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: subscribeEmail, corridorId }),
+        body: JSON.stringify({
+          email: subscribeEmail,
+          corridorId,
+          company: honeypot,
+        }),
       });
       const json = await res.json();
       if (!res.ok) {
@@ -277,6 +282,18 @@ export default function Home() {
               <label htmlFor="subscribe-email" className="sr-only">
                 Email address
               </label>
+              {/* Honeypot: hidden from real users, invisible to screen
+                  readers. Bots that fill every field trip it server-side. */}
+              <input
+                type="text"
+                name="company"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
               <input
                 id="subscribe-email"
                 type="email"
