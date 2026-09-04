@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import providerData from "@/data/provider-data.json";
 import type { Corridor, RankedProvidersResult, Tier } from "@/lib/corridors";
+import {
+  trackCorridorViewed,
+  trackSignupStarted,
+  trackSignupCompleted,
+  trackSignupFailed,
+} from "@/lib/analytics";
 
 const corridors = providerData.corridors as Corridor[];
 
@@ -48,6 +54,10 @@ export default function Home() {
 
   const [subscribeEmail, setSubscribeEmail] = useState("");
   const [honeypot, setHoneypot] = useState("");
+  // Guards "Rate Alert Signup Started" so it fires once per corridor
+  // view, on the first genuine focus of the email field, rather than
+  // once per focus/blur cycle.
+  const [signupStartTracked, setSignupStartTracked] = useState(false);
   const [subscribeStatus, setSubscribeStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
@@ -58,6 +68,11 @@ export default function Home() {
     if (!corridorId) return;
     setSubscribeStatus("submitting");
     setSubscribeError(null);
+    // The server fakes a 200 for honeypot-filled submissions so bots don't
+    // learn to leave the field blank (see app/api/subscribe/route.ts). We
+    // already know client-side this isn't a real signup, so skip Amplitude
+    // entirely rather than recording a fake conversion in the funnel.
+    const isBotSubmission = Boolean(honeypot);
     try {
       const res = await fetch("/api/subscribe", {
         method: "POST",
@@ -74,11 +89,17 @@ export default function Home() {
       }
       setSubscribeStatus("success");
       setSubscribeEmail("");
+      if (!isBotSubmission) {
+        trackSignupCompleted({ corridorId });
+      }
     } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Something went wrong";
       setSubscribeStatus("error");
-      setSubscribeError(
-        err instanceof Error ? err.message : "Something went wrong"
-      );
+      setSubscribeError(message);
+      if (!isBotSubmission) {
+        trackSignupFailed({ corridorId, reason: message });
+      }
     }
   }
 
@@ -98,6 +119,16 @@ export default function Home() {
         throw new Error(json?.error ?? `Request failed (${res.status})`);
       }
       setResult(json as RankedProvidersResult);
+      if (corridor) {
+        trackCorridorViewed({
+          corridorId: corridor.id,
+          sendCountry: corridor.sourceCountry,
+          receiveCountry: corridor.destCountry,
+          sendCurrency: corridor.sourceCurrency,
+          receiveCurrency: corridor.destCurrency,
+          tier,
+        });
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -143,6 +174,7 @@ export default function Home() {
               setCorridorId(e.target.value);
               setSubscribeStatus("idle");
               setSubscribeError(null);
+              setSignupStartTracked(false);
             }}
             className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
           >
@@ -311,6 +343,15 @@ export default function Home() {
                 placeholder="you@example.com"
                 value={subscribeEmail}
                 onChange={(e) => setSubscribeEmail(e.target.value)}
+                onFocus={() => {
+                  // Real users only; the honeypot field is unreachable by
+                  // tab/click (tabIndex=-1, aria-hidden) so a genuine focus
+                  // event here can't come from the same bots that trip it.
+                  if (!signupStartTracked) {
+                    trackSignupStarted({ corridorId });
+                    setSignupStartTracked(true);
+                  }
+                }}
                 disabled={subscribeStatus === "submitting"}
                 className="w-full flex-1 rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-zinc-500 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-950"
               />
