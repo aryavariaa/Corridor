@@ -7,8 +7,7 @@ import type { Corridor, RankedProvidersResult, Tier } from "@/lib/corridors";
 import {
   trackCorridorViewed,
   trackSignupStarted,
-  trackSignupCompleted,
-  trackSignupFailed,
+  getDeviceId,
 } from "@/lib/analytics";
 
 const corridors = providerData.corridors as Corridor[];
@@ -68,11 +67,13 @@ export default function Home() {
     if (!corridorId) return;
     setSubscribeStatus("submitting");
     setSubscribeError(null);
-    // The server fakes a 200 for honeypot-filled submissions so bots don't
-    // learn to leave the field blank (see app/api/subscribe/route.ts). We
-    // already know client-side this isn't a real signup, so skip Amplitude
-    // entirely rather than recording a fake conversion in the funnel.
-    const isBotSubmission = Boolean(honeypot);
+    // Rate Alert Signup Completed/Failed are no longer tracked from here --
+    // they fire server-side (app/api/subscribe/route.ts) only after a real
+    // Buttondown outcome, so a bot or a client-only failure can't record a
+    // fake conversion. We still hand the server this browser's Amplitude
+    // device_id so that server-fired event attaches to the same funnel
+    // timeline as Corridor Viewed / Signup Started above, instead of
+    // starting a disconnected one. See docs/amplitude-tracking-plan.md.
     try {
       const res = await fetch("/api/subscribe", {
         method: "POST",
@@ -81,6 +82,7 @@ export default function Home() {
           email: subscribeEmail,
           corridorId,
           company: honeypot,
+          deviceId: getDeviceId(),
         }),
       });
       const json = await res.json();
@@ -89,17 +91,11 @@ export default function Home() {
       }
       setSubscribeStatus("success");
       setSubscribeEmail("");
-      if (!isBotSubmission) {
-        trackSignupCompleted({ corridorId });
-      }
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Something went wrong";
       setSubscribeStatus("error");
-      setSubscribeError(message);
-      if (!isBotSubmission) {
-        trackSignupFailed({ corridorId, reason: message });
-      }
+      setSubscribeError(
+        err instanceof Error ? err.message : "Something went wrong"
+      );
     }
   }
 

@@ -2,8 +2,13 @@
 
 // Amplitude behavioral/funnel tracking, layered alongside Plausible
 // (Plausible stays for pageviews — see app/layout.tsx). This module only
-// ever runs in the browser and only sends events for the four funnel
-// moments defined below; it is not a general-purpose analytics wrapper.
+// ever runs in the browser and only covers the two top-of-funnel events
+// below; it is not a general-purpose analytics wrapper.
+//
+// Rate Alert Signup Completed/Failed and the identify() call are NOT
+// here anymore -- they fire from the server (lib/analytics-server.ts,
+// used by app/api/subscribe/route.ts) so they only ever record a real,
+// Buttondown-confirmed outcome. See docs/amplitude-tracking-plan.md.
 //
 // Event names and property keys are kept stable and consistent
 // (snake_case properties, a shared `corridor_id`) so the funnel
@@ -65,16 +70,14 @@ export function trackSignupStarted(props: { corridorId: string }): void {
   track("Rate Alert Signup Started", { corridor_id: props.corridorId });
 }
 
-export function trackSignupCompleted(props: { corridorId: string }): void {
-  track("Rate Alert Signup Completed", { corridor_id: props.corridorId });
-}
-
-export function trackSignupFailed(props: {
-  corridorId: string;
-  reason?: string;
-}): void {
-  track("Rate Alert Signup Failed", {
-    corridor_id: props.corridorId,
-    reason: props.reason ?? "unknown",
-  });
+// Used by app/page.tsx to hand the server (POST /api/subscribe) this
+// browser's Amplitude device_id, so the server-fired Signup
+// Completed/Failed event attaches to the same anonymous timeline as
+// Corridor Viewed / Signup Started instead of starting a disconnected
+// one. Returns undefined if Amplitude never initialized (no API key
+// configured, or called before any track() call has run) -- the server
+// treats a missing device_id as a documented edge case, not an error.
+export function getDeviceId(): string | undefined {
+  if (!ensureInitialized()) return undefined;
+  return amplitude.getDeviceId();
 }

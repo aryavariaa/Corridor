@@ -37,12 +37,14 @@ Two layers, deliberately separate:
 - **Amplitude** (`lib/analytics.ts`) — behavioral/funnel tracking, since Plausible only gives pageviews. Initialized client-side only, and only when `NEXT_PUBLIC_AMPLITUDE_API_KEY` is set (see `.env.example`); with no key it's a silent no-op, so it's safe to leave unset in local dev.
 
   Tracked events, in funnel order:
-  1. `Corridor Viewed` — a corridor's comparison results actually load (send/receive country + currency, tier).
-  2. `Rate Alert Signup Started` — first genuine focus of the email field for the currently viewed corridor.
-  3. `Rate Alert Signup Completed` — the subscribe request to Buttondown succeeds.
-  4. `Rate Alert Signup Failed` — the subscribe request fails, with the error reason.
+  1. `Corridor Viewed` — a corridor's comparison results actually load (send/receive country + currency, tier). Client-side (`lib/analytics.ts`).
+  2. `Rate Alert Signup Started` — first genuine focus of the email field for the currently viewed corridor. Client-side.
+  3. `Rate Alert Signup Completed` — Buttondown confirms the subscription. **Server-side** (`lib/analytics-server.ts`, called from `app/api/subscribe/route.ts`), so only a real confirmed signup can produce this event. Also sets the Amplitude `user_id` to a SHA-256 hash of the (normalized) email at this point — the raw email is never sent to Amplitude. See `docs/amplitude-tracking-plan.md` for the full reasoning.
+  4. `Rate Alert Signup Failed` — any non-bot failure (bad email, rate-limited, unknown corridor, Buttondown error), each with a machine-readable `reason`. Server-side, same file.
 
-  Submissions caught by the subscribe endpoint's honeypot/bot check (`app/api/subscribe/route.ts`) are never sent to Amplitude, even though the server still returns a fake success to the bot — so the funnel only reflects real visitors.
+  Submissions caught by the subscribe endpoint's honeypot/bot check (`app/api/subscribe/route.ts`) are never sent to Amplitude at all — the route returns its fake success to the bot before any tracking code runs — so the funnel only reflects real visitors.
+
+  The client passes its own Amplitude `device_id` (`getDeviceId()`) to `POST /api/subscribe` so the server-fired event stitches onto the same anonymous timeline as the client-side events above, rather than starting a disconnected one.
 
 ## Deploy on Vercel
 
