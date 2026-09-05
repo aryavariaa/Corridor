@@ -70,6 +70,18 @@ export function trackSignupStarted(props: { corridorId: string }): void {
   track("Rate Alert Signup Started", { corridor_id: props.corridorId });
 }
 
+export type SortField = "cost_asc" | "cost_desc" | "provider_az";
+
+export function trackCorridorSorted(props: {
+  corridorId: string;
+  sortField: SortField;
+}): void {
+  track("Corridor Sorted", {
+    corridor_id: props.corridorId,
+    sort_field: props.sortField,
+  });
+}
+
 // Used by app/page.tsx to hand the server (POST /api/subscribe) this
 // browser's Amplitude device_id, so the server-fired Signup
 // Completed/Failed event attaches to the same anonymous timeline as

@@ -34,7 +34,7 @@ this is what makes "look at a subscriber's later visits" possible.
 | `Rate Alert Signup Started` | First focus of the email field, per corridor view | Client (unchanged) | `corridor_id` | Mid-funnel intent, before commitment. |
 | `Rate Alert Signup Completed` | **Changed.** Buttondown confirms the subscription (2xx) | **Server** — `app/api/subscribe/route.ts`, after `subscribeToCorridorAlerts` returns `ok: true` | `corridor_id` | True conversion. Firing only after Buttondown confirms means nothing that gets past the honeypot/rate-limit already in place can inflate this number — there's no client-optimistic path left to skew it. |
 | `Rate Alert Signup Failed` | **Changed.** Validation error, rate-limit (429), or a Buttondown API failure | **Server** — same route, each failure branch | `corridor_id`, `reason`, `status_code` | Real failure signal (bad email, rate-limited, Buttondown down) instead of a client-side guess. Honeypot-caught bot submissions still never reach this code at all — the route returns its fake `{ok:true}` before any tracking logic runs, same as today, so bots can't generate fake failures either. |
-| `Corridor Sorted` | **New — blocked, see below.** | Client | `corridor_id`, `sort_field` | Tests whether engaging with sort correlates with signup rate. |
+| `Corridor Sorted` | Sort-by dropdown above the results table changes | Client | `corridor_id`, `sort_field` (`cost_asc` \| `cost_desc` \| `provider_az`) | Tests whether engaging with sort correlates with signup rate. |
 
 ## Identify — folded into the server-side Completed event
 
@@ -70,21 +70,23 @@ Buttondown subscriber.
   anonymous activity in that edge case, which is a reasonable, called-out
   tradeoff rather than a silent gap.
 
-## Open question: `Corridor Sorted` needs a feature, not just an event
+## `Corridor Sorted` — resolved and implemented
 
-Checked `app/page.tsx` — the results table has no sort control today.
-Columns (Rank, Provider, amount received, Cost %, As of) are static,
-server-ranked by cost % only; there's no clickable header, dropdown, or
-any state for "sort by." Instrumenting a sort-order change means
-building sortable columns first, which is a real UI feature addition,
-not just wiring up tracking.
+Decision: a "Sort by" dropdown above the results table (not click-to-sort
+headers — more familiar to a first-time visitor), with three options:
 
-Before I touch this one, I need a decision from you:
+- Cost % (low to high) — `cost_asc`, the default, matches the server's
+  existing cost ranking.
+- Cost % (high to low) — `cost_desc`.
+- Provider (A–Z) — `provider_az`.
 
-1. Which columns should be sortable — cost % only, or also amount
-   received / provider name?
-2. Click-the-column-header UX (like a typical data table), or a
-   separate "Sort by" dropdown next to the amount-tier toggle?
-
-Everything else in this plan (items 1, 2, 4 from your message) is ready
-to implement against the existing codebase as soon as you confirm scope.
+Sorting is client-side only (`app/page.tsx`'s `sortedProviders`) — it
+reorders the already-fetched `result.providers` array without a new
+API call. Each provider's `Rank` column still shows its true cost rank
+from the server regardless of display order, so re-sorting by provider
+name doesn't relabel anyone's rank. `Corridor Sorted` fires from the
+dropdown's `onChange`, so only a genuine user-initiated change counts
+(not the initial render, and not the reset back to `cost_asc` that
+happens on a new corridor/comparison). More sort options (amount
+received, etc.) are a straightforward follow-up if the plan changes
+after review.

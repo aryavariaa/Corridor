@@ -7,7 +7,9 @@ import type { Corridor, RankedProvidersResult, Tier } from "@/lib/corridors";
 import {
   trackCorridorViewed,
   trackSignupStarted,
+  trackCorridorSorted,
   getDeviceId,
+  type SortField,
 } from "@/lib/analytics";
 
 const corridors = providerData.corridors as Corridor[];
@@ -45,11 +47,37 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<RankedProvidersResult | null>(null);
+  const [sortBy, setSortBy] = useState<SortField>("cost_asc");
 
   const corridor = useMemo(
     () => corridors.find((c) => c.id === corridorId),
     [corridorId]
   );
+
+  // result.providers arrives cost-ranked from the server (cheapest
+  // first) -- this re-sorts a copy for display without touching each
+  // provider's original `rank`, so "Rank" always reflects true cost
+  // rank even when the table is displayed in a different order.
+  const sortedProviders = useMemo(() => {
+    if (!result) return [];
+    const arr = [...result.providers];
+    switch (sortBy) {
+      case "cost_desc":
+        return arr.sort((a, b) => b.costPercent - a.costPercent);
+      case "provider_az":
+        return arr.sort((a, b) => a.provider.localeCompare(b.provider));
+      case "cost_asc":
+      default:
+        return arr.sort((a, b) => a.costPercent - b.costPercent);
+    }
+  }, [result, sortBy]);
+
+  function handleSortChange(next: SortField) {
+    setSortBy(next);
+    if (corridorId) {
+      trackCorridorSorted({ corridorId, sortField: next });
+    }
+  }
 
   const [subscribeEmail, setSubscribeEmail] = useState("");
   const [honeypot, setHoneypot] = useState("");
@@ -115,6 +143,7 @@ export default function Home() {
         throw new Error(json?.error ?? `Request failed (${res.status})`);
       }
       setResult(json as RankedProvidersResult);
+      setSortBy("cost_asc");
       if (corridor) {
         trackCorridorViewed({
           corridorId: corridor.id,
@@ -171,6 +200,7 @@ export default function Home() {
               setSubscribeStatus("idle");
               setSubscribeError(null);
               setSignupStartTracked(false);
+              setSortBy("cost_asc");
             }}
             className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
           >
@@ -267,7 +297,26 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-3 overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+          <div className="mt-3 flex items-center justify-end gap-2">
+            <label
+              htmlFor="sort-by"
+              className="text-sm text-zinc-600 dark:text-zinc-400"
+            >
+              Sort by
+            </label>
+            <select
+              id="sort-by"
+              value={sortBy}
+              onChange={(e) => handleSortChange(e.target.value as SortField)}
+              className="rounded-md border border-zinc-300 bg-white px-2.5 py-1.5 text-sm shadow-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
+            >
+              <option value="cost_asc">Cost % (low to high)</option>
+              <option value="cost_desc">Cost % (high to low)</option>
+              <option value="provider_az">Provider (A–Z)</option>
+            </select>
+          </div>
+
+          <div className="mt-2 overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
             <table className="w-full text-sm">
               <thead className="bg-zinc-50 text-left text-xs uppercase tracking-wide text-zinc-500 dark:bg-zinc-900">
                 <tr>
@@ -281,7 +330,7 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                {result.providers.map((p) => (
+                {sortedProviders.map((p) => (
                   <tr
                     key={p.provider}
                     className={
