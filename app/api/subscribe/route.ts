@@ -1,5 +1,5 @@
 import { after } from "next/server";
-import { findCorridor } from "@/lib/corridors";
+import { corridorId, findCorridor } from "@/lib/corridors";
 import { subscribeToCorridorAlerts } from "@/lib/buttondown";
 import { isRateLimited } from "@/lib/rate-limit";
 import {
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
 
   if (isRateLimited(ip)) {
     // No request body has been read yet at this point, so there's no
-    // corridorId or deviceId to attach -- see analytics-server.ts's
+    // corridor or deviceId to attach -- see analytics-server.ts's
     // no-op-without-an-id behavior.
     after(() =>
       trackSignupFailedServer({
@@ -46,12 +46,14 @@ export async function POST(request: Request) {
     return Response.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { email, corridorId, company, deviceId } = (body ?? {}) as {
-    email?: string;
-    corridorId?: string;
-    company?: string; // honeypot — real users never fill this
-    deviceId?: string; // this browser's Amplitude device_id, if any
-  };
+  const { email, sendCountry, receiveCountry, company, deviceId } =
+    (body ?? {}) as {
+      email?: string;
+      sendCountry?: string;
+      receiveCountry?: string;
+      company?: string; // honeypot — real users never fill this
+      deviceId?: string; // this browser's Amplitude device_id, if any
+    };
 
   // Bots that fill every field trip the honeypot. Pretend success so they
   // don't learn to leave it blank, but never actually call Buttondown --
@@ -64,7 +66,10 @@ export async function POST(request: Request) {
   if (!email || !EMAIL_RE.test(email)) {
     after(() =>
       trackSignupFailedServer({
-        corridorId: corridorId ?? null,
+        corridorId:
+          sendCountry && receiveCountry
+            ? corridorId({ sendCountry, receiveCountry })
+            : null,
         reason: "invalid_email",
         statusCode: 400,
         deviceId,
@@ -73,29 +78,33 @@ export async function POST(request: Request) {
     return Response.json({ error: "Enter a valid email address" }, { status: 400 });
   }
 
-  if (!corridorId) {
+  if (!sendCountry || !receiveCountry) {
     after(() =>
       trackSignupFailedServer({
         corridorId: null,
-        reason: "missing_corridor_id",
+        reason: "missing_corridor",
         statusCode: 400,
         deviceId,
       })
     );
-    return Response.json({ error: "Missing corridorId" }, { status: 400 });
+    return Response.json(
+      { error: "Missing sendCountry/receiveCountry" },
+      { status: 400 }
+    );
   }
 
-  const corridor = findCorridor(corridorId);
+  const id = corridorId({ sendCountry, receiveCountry });
+  const corridor = findCorridor(sendCountry, receiveCountry);
   if (!corridor) {
     after(() =>
       trackSignupFailedServer({
-        corridorId,
+        corridorId: id,
         reason: "unknown_corridor",
         statusCode: 400,
         deviceId,
       })
     );
-    return Response.json({ error: `Unknown corridor "${corridorId}"` }, { status: 400 });
+    return Response.json({ error: `Unknown corridor "${id}"` }, { status: 400 });
   }
 
   const result = await subscribeToCorridorAlerts(email, corridor);
@@ -103,7 +112,7 @@ export async function POST(request: Request) {
   if (!result.ok) {
     after(() =>
       trackSignupFailedServer({
-        corridorId,
+        corridorId: id,
         reason: "buttondown_error",
         statusCode: result.status,
         deviceId,
@@ -115,7 +124,7 @@ export async function POST(request: Request) {
   // Only reachable once Buttondown has confirmed the subscription -- this
   // is the one and only place Rate Alert Signup Completed fires, and the
   // only place a user_id (hashed email) ever gets set in Amplitude.
-  after(() => trackSignupCompletedServer({ corridorId, email, deviceId }));
+  after(() => trackSignupCompletedServer({ corridorId: id, email, deviceId }));
 
   return Response.json({ ok: true });
 }

@@ -1,63 +1,70 @@
 {
   "corridors": [
     {
-      "id": "C1",
-      "sourceCountry": "United States",
-      "sourceCurrency": "USD",
-      "destCountry": "India",
-      "destCurrency": "INR",
+      "sendCountry": "US",
+      "sendCountryName": "United States",
+      "sendCurrency": "USD",
+      "receiveCountry": "IN",
+      "receiveCountryName": "India",
+      "receiveCurrency": "INR",
       "everydayAmount": 200.0,
       "largeAmount": 2000.0
     },
     {
-      "id": "C2",
-      "sourceCountry": "United Kingdom",
-      "sourceCurrency": "GBP",
-      "destCountry": "India",
-      "destCurrency": "INR",
+      "sendCountry": "GB",
+      "sendCountryName": "United Kingdom",
+      "sendCurrency": "GBP",
+      "receiveCountry": "IN",
+      "receiveCountryName": "India",
+      "receiveCurrency": "INR",
       "everydayAmount": 200.0,
       "largeAmount": 2000.0
     },
     {
-      "id": "C3",
-      "sourceCountry": "United States",
-      "sourceCurrency": "USD",
-      "destCountry": "Mexico",
-      "destCurrency": "MXN",
+      "sendCountry": "US",
+      "sendCountryName": "United States",
+      "sendCurrency": "USD",
+      "receiveCountry": "MX",
+      "receiveCountryName": "Mexico",
+      "receiveCurrency": "MXN",
       "everydayAmount": 200.0,
       "largeAmount": 2000.0
     },
     {
-      "id": "C4",
-      "sourceCountry": "United States",
-      "sourceCurrency": "USD",
-      "destCountry": "Colombia",
-      "destCurrency": "COP",
+      "sendCountry": "US",
+      "sendCountryName": "United States",
+      "sendCurrency": "USD",
+      "receiveCountry": "CO",
+      "receiveCountryName": "Colombia",
+      "receiveCurrency": "COP",
       "everydayAmount": 200.0,
       "largeAmount": 2000.0
     },
     {
-      "id": "C5",
-      "sourceCountry": "Spain",
-      "sourceCurrency": "EUR",
-      "destCountry": "Colombia",
-      "destCurrency": "COP",
+      "sendCountry": "ES",
+      "sendCountryName": "Spain",
+      "sendCurrency": "EUR",
+      "receiveCountry": "CO",
+      "receiveCountryName": "Colombia",
+      "receiveCurrency": "COP",
       "everydayAmount": 200.0,
       "largeAmount": 2000.0
     },
     {
-      "id": "C6",
-      "sourceCountry": "United Arab Emirates",
-      "sourceCurrency": "AED",
-      "destCountry": "India",
-      "destCurrency": "INR",
+      "sendCountry": "AE",
+      "sendCountryName": "United Arab Emirates",
+      "sendCurrency": "AED",
+      "receiveCountry": "IN",
+      "receiveCountryName": "India",
+      "receiveCurrency": "INR",
       "everydayAmount": 750.0,
       "largeAmount": 7500.0
     }
   ],
   "providerRates": [
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -66,7 +73,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -75,7 +83,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -84,7 +93,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -93,7 +103,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -102,7 +113,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -111,7 +123,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
@@ -120,7 +133,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 2000,
@@ -129,7 +143,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2000,
@@ -138,7 +153,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
@@ -147,7 +163,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
@@ -156,7 +173,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 2000,
@@ -165,7 +183,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -174,7 +193,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -183,7 +203,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -192,7 +213,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -201,7 +223,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -210,7 +233,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -219,7 +243,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
@@ -228,7 +253,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 2000,
@@ -237,7 +263,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2000,
@@ -246,7 +273,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
@@ -255,7 +283,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
@@ -264,7 +293,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 2000,
@@ -273,7 +303,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -282,7 +313,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -291,7 +323,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -300,7 +333,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -309,7 +343,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -318,7 +353,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -327,7 +363,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
@@ -336,7 +373,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 2000,
@@ -345,7 +383,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2000,
@@ -354,7 +393,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
@@ -363,7 +403,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
@@ -372,7 +413,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 2000,
@@ -381,7 +423,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -390,7 +433,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -399,7 +443,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -408,7 +453,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -417,7 +463,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -426,7 +473,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -435,7 +483,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
@@ -444,7 +493,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 2000,
@@ -453,7 +503,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2000,
@@ -462,7 +513,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
@@ -471,7 +523,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
@@ -480,7 +533,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 2000,
@@ -489,7 +543,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -498,7 +553,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -507,7 +563,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -516,7 +573,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -525,7 +583,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -534,7 +593,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -543,7 +603,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
@@ -552,7 +613,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 2000,
@@ -561,7 +623,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2000,
@@ -570,7 +633,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
@@ -579,7 +643,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
@@ -588,7 +653,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 2000,
@@ -597,7 +663,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 750,
@@ -606,7 +673,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 750,
@@ -615,7 +683,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 750,
@@ -624,7 +693,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 750,
@@ -633,7 +703,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 750,
@@ -642,7 +713,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 750,
@@ -651,7 +723,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 7500,
@@ -660,7 +733,8 @@
       "source": "Wise"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 7500,
@@ -669,7 +743,8 @@
       "source": "Revolut"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 7500,
@@ -678,7 +753,8 @@
       "source": "Remitly"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 7500,
@@ -687,7 +763,8 @@
       "source": "Western Union"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 7500,
@@ -696,7 +773,8 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 7500,
@@ -705,7 +783,8 @@
       "source": "XE"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -714,7 +793,8 @@
       "source": "WorldRemit"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 2000,
@@ -723,7 +803,8 @@
       "source": "WorldRemit"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -732,7 +813,8 @@
       "source": "WorldRemit"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 2000,
@@ -741,7 +823,8 @@
       "source": "WorldRemit"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -750,7 +833,8 @@
       "source": "WorldRemit"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 2000,
@@ -759,7 +843,8 @@
       "source": "WorldRemit"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -768,7 +853,8 @@
       "source": "WorldRemit"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 2000,
@@ -777,7 +863,8 @@
       "source": "WorldRemit"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -786,7 +873,8 @@
       "source": "WorldRemit"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 2000,
@@ -795,7 +883,8 @@
       "source": "WorldRemit"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -804,7 +893,8 @@
       "source": "Paysend"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 2000,
@@ -813,7 +903,8 @@
       "source": "Paysend"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -822,7 +913,8 @@
       "source": "Paysend"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 2000,
@@ -831,7 +923,8 @@
       "source": "Paysend"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -840,7 +933,8 @@
       "source": "Paysend"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 2000,
@@ -849,7 +943,8 @@
       "source": "Paysend"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -858,7 +953,8 @@
       "source": "Paysend"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 2000,
@@ -867,7 +963,8 @@
       "source": "Paysend"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -876,7 +973,8 @@
       "source": "Paysend"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 2000,
@@ -885,7 +983,8 @@
       "source": "Paysend"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -894,7 +993,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2000,
@@ -903,7 +1003,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -912,7 +1013,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2000,
@@ -921,7 +1023,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -930,7 +1033,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2000,
@@ -939,7 +1043,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -948,7 +1053,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2000,
@@ -957,7 +1063,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -966,7 +1073,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2000,
@@ -975,7 +1083,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 750,
@@ -984,7 +1093,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 7500,
@@ -993,7 +1103,8 @@
       "source": "MoneyGram"
     },
     {
-      "corridorId": "C1",
+      "sendCountry": "US",
+      "receiveCountry": "IN",
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -1002,7 +1113,8 @@
       "source": "Ria Money Transfer"
     },
     {
-      "corridorId": "C2",
+      "sendCountry": "GB",
+      "receiveCountry": "IN",
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -1011,7 +1123,8 @@
       "source": "Ria Money Transfer"
     },
     {
-      "corridorId": "C3",
+      "sendCountry": "US",
+      "receiveCountry": "MX",
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -1020,7 +1133,8 @@
       "source": "Ria Money Transfer"
     },
     {
-      "corridorId": "C4",
+      "sendCountry": "US",
+      "receiveCountry": "CO",
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -1029,7 +1143,8 @@
       "source": "Ria Money Transfer"
     },
     {
-      "corridorId": "C5",
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 200,
@@ -1038,7 +1153,8 @@
       "source": "Ria Money Transfer"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "Al Ansari Exchange",
       "tier": "Everyday",
       "sendAmount": 750,
@@ -1047,7 +1163,8 @@
       "source": "Al Ansari Exchange"
     },
     {
-      "corridorId": "C6",
+      "sendCountry": "AE",
+      "receiveCountry": "IN",
       "provider": "Al Ansari Exchange",
       "tier": "Large",
       "sendAmount": 7500,

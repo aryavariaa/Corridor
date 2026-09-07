@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import providerData from "@/data/provider-data.json";
-import type { Corridor, RankedProvidersResult, Tier } from "@/lib/corridors";
+import { corridorId, type Corridor, type RankedProvidersResult, type Tier } from "@/lib/corridors";
 import {
   trackCorridorViewed,
   trackSignupStarted,
@@ -15,7 +15,7 @@ import {
 const corridors = providerData.corridors as Corridor[];
 
 function corridorLabel(c: Corridor): string {
-  return `${c.sourceCountry} (${c.sourceCurrency}) → ${c.destCountry} (${c.destCurrency})`;
+  return `${c.sendCountryName} (${c.sendCurrency}) → ${c.receiveCountryName} (${c.receiveCurrency})`;
 }
 
 function money(currency: string, amount: number, fractionDigits = 2): string {
@@ -42,7 +42,14 @@ function tierAmount(c: Corridor, tier: Tier): number {
 }
 
 export default function Home() {
-  const [corridorId, setCorridorId] = useState<string>(corridors[0]?.id ?? "");
+  // A single "SEND-RECEIVE" string (see corridorId() in lib/corridors) that
+  // identifies the selected corridor for this dropdown-of-known-corridors
+  // UI. Not the data model itself -- the data model is keyed by the actual
+  // (sendCountry, receiveCountry) pair; this is just a convenient value for
+  // a single <select>, same as it's used in the URL/analytics/Buttondown.
+  const [corridorKey, setCorridorKey] = useState<string>(
+    corridors[0] ? corridorId(corridors[0]) : ""
+  );
   const [tier, setTier] = useState<Tier>("Everyday");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,8 +57,8 @@ export default function Home() {
   const [sortBy, setSortBy] = useState<SortField>("cost_asc");
 
   const corridor = useMemo(
-    () => corridors.find((c) => c.id === corridorId),
-    [corridorId]
+    () => corridors.find((c) => corridorId(c) === corridorKey),
+    [corridorKey]
   );
 
   // result.providers arrives cost-ranked from the server (cheapest
@@ -74,8 +81,8 @@ export default function Home() {
 
   function handleSortChange(next: SortField) {
     setSortBy(next);
-    if (corridorId) {
-      trackCorridorSorted({ corridorId, sortField: next });
+    if (corridorKey) {
+      trackCorridorSorted({ corridorId: corridorKey, sortField: next });
     }
   }
 
@@ -92,7 +99,7 @@ export default function Home() {
 
   async function handleSubscribe(e: React.FormEvent) {
     e.preventDefault();
-    if (!corridorId) return;
+    if (!corridor) return;
     setSubscribeStatus("submitting");
     setSubscribeError(null);
     // Rate Alert Signup Completed/Failed are no longer tracked from here --
@@ -108,7 +115,8 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: subscribeEmail,
-          corridorId,
+          sendCountry: corridor.sendCountry,
+          receiveCountry: corridor.receiveCountry,
           company: honeypot,
           deviceId: getDeviceId(),
         }),
@@ -132,10 +140,16 @@ export default function Home() {
     setLoading(true);
     setError(null);
     setResult(null);
+    if (!corridor) {
+      setLoading(false);
+      return;
+    }
     try {
       const res = await fetch(
-        `/api/compare?corridorId=${encodeURIComponent(
-          corridorId
+        `/api/compare?sendCountry=${encodeURIComponent(
+          corridor.sendCountry
+        )}&receiveCountry=${encodeURIComponent(
+          corridor.receiveCountry
         )}&tier=${encodeURIComponent(tier)}`
       );
       const json = await res.json();
@@ -144,16 +158,14 @@ export default function Home() {
       }
       setResult(json as RankedProvidersResult);
       setSortBy("cost_asc");
-      if (corridor) {
-        trackCorridorViewed({
-          corridorId: corridor.id,
-          sendCountry: corridor.sourceCountry,
-          receiveCountry: corridor.destCountry,
-          sendCurrency: corridor.sourceCurrency,
-          receiveCurrency: corridor.destCurrency,
-          tier,
-        });
-      }
+      trackCorridorViewed({
+        corridorId: corridorId(corridor),
+        sendCountry: corridor.sendCountryName,
+        receiveCountry: corridor.receiveCountryName,
+        sendCurrency: corridor.sendCurrency,
+        receiveCurrency: corridor.receiveCurrency,
+        tier,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -192,11 +204,11 @@ export default function Home() {
           </label>
           <select
             id="corridor"
-            value={corridorId}
+            value={corridorKey}
             onChange={(e) => {
               // Reset the subscribe form's status when the viewed corridor
               // changes, so a stale "subscribed!" message doesn't linger.
-              setCorridorId(e.target.value);
+              setCorridorKey(e.target.value);
               setSubscribeStatus("idle");
               setSubscribeError(null);
               setSignupStartTracked(false);
@@ -205,7 +217,7 @@ export default function Home() {
             className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
           >
             {corridors.map((c) => (
-              <option key={c.id} value={c.id}>
+              <option key={corridorId(c)} value={corridorId(c)}>
                 {corridorLabel(c)}
               </option>
             ))}
@@ -220,7 +232,7 @@ export default function Home() {
             {(["Everyday", "Large"] as Tier[]).map((t) => {
               const active = t === tier;
               const amountLabel = corridor
-                ? money(corridor.sourceCurrency, tierAmount(corridor, t), 0)
+                ? money(corridor.sendCurrency, tierAmount(corridor, t), 0)
                 : "";
               return (
                 <button
@@ -288,11 +300,11 @@ export default function Home() {
             </h2>
             <p className="text-xs text-zinc-500">
               {result.rateStale ? "Last known rate" : "Live rate"} 1{" "}
-              {corridor.sourceCurrency} ={" "}
+              {corridor.sendCurrency} ={" "}
               {result.liveRate.toLocaleString("en-US", {
                 maximumFractionDigits: 4,
               })}{" "}
-              {corridor.destCurrency} &middot; as of{" "}
+              {corridor.receiveCurrency} &middot; as of{" "}
               {new Date(result.asOf).toLocaleDateString("en-US")}
             </p>
           </div>
@@ -323,7 +335,7 @@ export default function Home() {
                   <th className="px-4 py-2.5 font-medium">Rank</th>
                   <th className="px-4 py-2.5 font-medium">Provider</th>
                   <th className="px-4 py-2.5 font-medium text-right">
-                    Amount received ({corridor.destCurrency})
+                    Amount received ({corridor.receiveCurrency})
                   </th>
                   <th className="px-4 py-2.5 font-medium text-right">Cost %</th>
                   <th className="px-4 py-2.5 font-medium text-right">As of</th>
@@ -340,7 +352,7 @@ export default function Home() {
                     <td className="px-4 py-2.5 tabular-nums">{p.rank}</td>
                     <td className="px-4 py-2.5 font-medium">{p.provider}</td>
                     <td className="px-4 py-2.5 text-right tabular-nums">
-                      {money(corridor.destCurrency, p.amountReceived)}
+                      {money(corridor.receiveCurrency, p.amountReceived)}
                     </td>
                     <td className="px-4 py-2.5 text-right tabular-nums">
                       {percent(p.costPercent)}
@@ -393,7 +405,7 @@ export default function Home() {
                   // tab/click (tabIndex=-1, aria-hidden) so a genuine focus
                   // event here can't come from the same bots that trip it.
                   if (!signupStartTracked) {
-                    trackSignupStarted({ corridorId });
+                    trackSignupStarted({ corridorId: corridorKey });
                     setSignupStartTracked(true);
                   }
                 }}

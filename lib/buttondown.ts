@@ -4,7 +4,7 @@
 // BUTTONDOWN_API_KEY must be set in the deployment environment (Vercel
 // project env vars). It is never committed — see .env.example.
 
-import type { Corridor } from "@/lib/corridors";
+import { corridorId, type Corridor } from "@/lib/corridors";
 
 const BUTTONDOWN_API_URL = "https://api.buttondown.com/v1/subscribers";
 
@@ -14,8 +14,8 @@ export type SubscribeResult =
 
 function corridorTag(corridor: Corridor): string {
   const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-  return `corridor-${slugify(corridor.sourceCountry)}-${slugify(
-    corridor.destCountry
+  return `corridor-${slugify(corridor.sendCountryName)}-${slugify(
+    corridor.receiveCountryName
   )}`;
 }
 
@@ -50,9 +50,9 @@ export async function subscribeToCorridorAlerts(
       email_address: email,
       tags: [corridorTag(corridor)],
       metadata: {
-        corridorId: corridor.id,
-        sourceCountry: corridor.sourceCountry,
-        destCountry: corridor.destCountry,
+        corridorId: corridorId(corridor),
+        sourceCountry: corridor.sendCountryName,
+        destCountry: corridor.receiveCountryName,
       },
       referrer_url: "https://corridor-red.vercel.app/",
     }),

@@ -1,15 +1,19 @@
-import { findCorridor, getRankedProviders, type Tier } from "@/lib/corridors";
+import { findCorridor, getRankedProviders, corridorId, type Tier } from "@/lib/corridors";
 
 const VALID_TIERS: Tier[] = ["Everyday", "Large"];
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const corridorId = searchParams.get("corridorId");
+  const sendCountry = searchParams.get("sendCountry");
+  const receiveCountry = searchParams.get("receiveCountry");
   const tier = searchParams.get("tier");
 
-  if (!corridorId || !tier) {
+  if (!sendCountry || !receiveCountry || !tier) {
     return Response.json(
-      { error: "Missing required query params: corridorId and tier" },
+      {
+        error:
+          "Missing required query params: sendCountry, receiveCountry, and tier",
+      },
       { status: 400 }
     );
   }
@@ -25,15 +29,19 @@ export async function GET(request: Request) {
     );
   }
 
-  if (!findCorridor(corridorId)) {
+  if (!findCorridor(sendCountry, receiveCountry)) {
     return Response.json(
-      { error: `Unknown corridor "${corridorId}"` },
+      { error: `Unknown corridor "${corridorId({ sendCountry, receiveCountry })}"` },
       { status: 400 }
     );
   }
 
   try {
-    const result = await getRankedProviders(corridorId, tier as Tier);
+    const result = await getRankedProviders(
+      sendCountry,
+      receiveCountry,
+      tier as Tier
+    );
     return Response.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
