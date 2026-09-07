@@ -703,6 +703,357 @@
       "amountReceived": 192445.5,
       "dateChecked": "2026-09-01",
       "source": "XE"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 18815,
+      "dateChecked": "2026-09-07",
+      "source": "WorldRemit"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 188341,
+      "dateChecked": "2026-09-07",
+      "source": "WorldRemit"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 25579,
+      "dateChecked": "2026-09-07",
+      "source": "WorldRemit"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 255790,
+      "dateChecked": "2026-09-07",
+      "source": "WorldRemit"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 3304.2,
+      "dateChecked": "2026-09-07",
+      "source": "WorldRemit"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 33042.2,
+      "dateChecked": "2026-09-07",
+      "source": "WorldRemit"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 610836,
+      "dateChecked": "2026-09-07",
+      "source": "WorldRemit"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 6158378,
+      "dateChecked": "2026-09-07",
+      "source": "WorldRemit"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 719406,
+      "dateChecked": "2026-09-07",
+      "source": "WorldRemit"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 7194060,
+      "dateChecked": "2026-09-07",
+      "source": "WorldRemit"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 18323.74,
+      "dateChecked": "2026-09-07",
+      "source": "Paysend"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 188040.34,
+      "dateChecked": "2026-09-07",
+      "source": "Paysend"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 25595.92,
+      "dateChecked": "2026-09-07",
+      "source": "Paysend"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 255959.2,
+      "dateChecked": "2026-09-07",
+      "source": "Paysend"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 3327.25,
+      "dateChecked": "2026-09-07",
+      "source": "Paysend"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 33421.45,
+      "dateChecked": "2026-09-07",
+      "source": "Paysend"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 618994.66,
+      "dateChecked": "2026-09-07",
+      "source": "Paysend"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 6189946.6,
+      "dateChecked": "2026-09-07",
+      "source": "Paysend"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 720412.88,
+      "dateChecked": "2026-09-07",
+      "source": "Paysend"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 7204128.8,
+      "dateChecked": "2026-09-07",
+      "source": "Paysend"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "MoneyGram",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 19203.89,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 192038.94,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "MoneyGram",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 25544.0,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 255440.0,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "MoneyGram",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 3368.0,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 33680.0,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "MoneyGram",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 618412,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 6184120,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "MoneyGram",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 715304,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 7153040,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "MoneyGram",
+      "tier": "Everyday",
+      "sendAmount": 750,
+      "amountReceived": 19246.8,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 7500,
+      "amountReceived": 192468.0,
+      "dateChecked": "2026-09-07",
+      "source": "MoneyGram"
+    },
+    {
+      "corridorId": "C1",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 17282.03,
+      "dateChecked": "2026-09-07",
+      "source": "Ria Money Transfer"
+    },
+    {
+      "corridorId": "C2",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 23119.35,
+      "dateChecked": "2026-09-07",
+      "source": "Ria Money Transfer"
+    },
+    {
+      "corridorId": "C3",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 3679.03,
+      "dateChecked": "2026-09-07",
+      "source": "Ria Money Transfer"
+    },
+    {
+      "corridorId": "C4",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 772151.8,
+      "dateChecked": "2026-09-07",
+      "source": "Ria Money Transfer"
+    },
+    {
+      "corridorId": "C5",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 923207.1,
+      "dateChecked": "2026-09-07",
+      "source": "Ria Money Transfer"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "Al Ansari Exchange",
+      "tier": "Everyday",
+      "sendAmount": 750,
+      "amountReceived": 19230,
+      "dateChecked": "2026-09-07",
+      "source": "Al Ansari Exchange"
+    },
+    {
+      "corridorId": "C6",
+      "provider": "Al Ansari Exchange",
+      "tier": "Large",
+      "sendAmount": 7500,
+      "amountReceived": 192300,
+      "dateChecked": "2026-09-07",
+      "source": "Al Ansari Exchange"
     }
   ]
 }

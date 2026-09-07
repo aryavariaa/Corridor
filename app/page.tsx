@@ -346,7 +346,7 @@ export default function Home() {
                       {percent(p.costPercent)}
                     </td>
                     <td className="px-4 py-2.5 text-right tabular-nums text-zinc-500">
-                      {new Date(result.asOf).toLocaleDateString("en-US")}
+                      {new Date(p.dateChecked).toLocaleDateString("en-US")}
                     </td>
                   </tr>
                 ))}
