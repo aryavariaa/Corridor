@@ -19,6 +19,37 @@ notes preserved. This doc exists so the next six don't lose that context.
   documents (rate page + fee schedule) rather than one single quote.
 - All entries dated 2026-09-07 unless noted.
 
+## Data quality correction — 2026-09-08
+
+Five rows added in the original six-provider batch produced an impossible negative
+`costPercent` in `lib/corridors.ts` (a provider appearing to beat the live mid-market rate,
+which no real remittance provider does): Ria's C3 (USD→MXN) and C4/C5 (COP corridors,
+Everyday tier), and MoneyGram's C1 (USD→INR, both tiers).
+
+**Root cause: bad source data, not a formula bug.** `getRankedProviders()`'s cost formula
+(`1 - amountReceived / (sendAmount * liveRate)`) was checked against this app's own published
+methodology (`app/methodology/page.tsx`) and matches it exactly — a negative result is the
+formula correctly reporting that a row's `amountReceived` is inconsistent with any real
+provider margin. Diagnosis method: for every row in a corridor+tier group, compute the implied
+rate (`amountReceived / sendAmount`) and compare it against the peer cluster. The five bad rows
+each implied a rate 8%+ better than every other provider in the same group — outside any
+realistic FX-margin range and a strong signal of bad source data, confirmed by re-sourcing
+each one from a live, first-party quote (see the Ria and MoneyGram sections above for what
+replaced them). A repeatable version of this check now lives in the verification step run
+before every data change to this file — flag anything where one provider beats its peer
+cluster's best implied rate by more than ~8%, and re-verify before trusting it.
+
+**Methodology reminder surfaced during re-verification:** several providers show a special,
+better first-transfer/promotional rate that reverts to a standard rate on repeat use. This
+app's methodology already calls for the standard (non-promotional) rate, but the MoneyGram
+re-check found this had actually gone wrong in the original data — the $200 quote captured was
+promo-rate-tainted (95.76 INR/USD) while a $2000 quote from the same session, not promo-boosted
+on rate, gave a clean standard rate (94.4681 INR/USD, i.e. 188,936.20 ÷ 2000). The corrected
+$200 figure (18,893.62) is derived from that clean rate rather than the tainted raw quote.
+Anywhere a provider's own site shows a struck-through "standard" rate next to a highlighted
+promo rate (as Ria's does), that's the reliable signal to use — a raw top-line number by itself
+isn't enough to assume it's promo-free.
+
 ## WorldRemit — high confidence
 
 Live quotes pulled directly from worldremit.com's own send-money calculator for each corridor
@@ -43,26 +74,35 @@ current, but worth a spot re-check.
 ## MoneyGram — medium confidence, largest caveats
 
 MoneyGram's own site blocks automated access entirely (no working authenticated flow available
-in this session). All 12 entries are third-party sourced:
-- C1 (USD→INR), C3 (USD→MXN), C5 (EUR→COP): live aggregator quotes.
+in this session). 10 of 12 entries remain third-party sourced:
+- C3 (USD→MXN), C5 (EUR→COP): live aggregator quotes.
 - C2 (GBP→INR), C4 (USD→COP), C6 (AED→INR): **estimated** — today's live mid-market rate
   combined with MoneyGram's FX margin from World Bank Remittance Prices Worldwide data that is
   12–30 months old, assuming the margin has stayed roughly stable. This is the weakest data in
   the new set.
+- **C1 (USD→INR): replaced 2026-09-08, now high confidence.** The original aggregator-sourced
+  figures produced an impossible negative `costPercent` (implying MoneyGram beat the live
+  mid-market rate) — see "Data quality correction" below. Re-sourced directly from
+  moneygram.com's own send-money flow.
 
 Flag: comparing today's live rate against the ~13-month-old World Bank baseline showed 10–15%
-swings for C1/C3/C5 (consistent with real currency movement, but large enough to want a live
+swings for C3/C5 (consistent with real currency movement, but large enough to want a live
 re-check if these numbers matter for a real decision). C2/C4/C6 are pure estimates — recommend
 getting an actual live MoneyGram quote before trusting them for anything beyond rough ranking.
 
 ## Ria Money Transfer — medium confidence, partial coverage
 
-Ria's own site shows mid-market rate only and gates real send rates behind login. All figures
-come from World Bank Remittance Prices Worldwide, which live-shops a fixed ~$200-equivalent
-test amount quarterly (Q3 2025 survey, so ~1 year old, not same-day).
+**Replaced 2026-09-08 for C3 (USD→MXN) and C4 (USD→COP)/C5 (EUR→COP)** — see "Data quality
+correction" below. The original World Bank RPW-sourced figures (Q3 2025 survey, ~1 year old)
+implied a rate meaningfully better than every competitor, an impossible result for a real
+remittance provider. All three corridors are now sourced from live quotes taken directly on
+riamoneytransfer.com, cross-checked against Ria's own displayed standard rate (not the
+promotional first-transfer rate — see the MoneyGram section for why that distinction matters).
 
-- **Everyday tier only** — no public source (including RPW) publishes a Ria quote at the
-  $2000/€2000/AED7500 "Large" tier, so those are omitted rather than extrapolated.
+- **Both tiers now covered for C3/C4/C5.** Ria's own site does publish Large-tier ($2000/
+  €2000-equivalent) quotes directly — the earlier "Everyday tier only" limitation was a
+  property of the World Bank RPW survey (which only shops the $200-equivalent tier), not of
+  Ria itself.
 - **C6 (AED→INR) not included** — Ria has no online AED-origination channel (no `en-ae`
   locale on their site); UAE customers appear to be served via in-person agents only, not a
   quotable online channel.

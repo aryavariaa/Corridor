@@ -983,26 +983,6 @@
       "source": "Paysend"
     },
     {
-      "sendCountry": "US",
-      "receiveCountry": "IN",
-      "provider": "MoneyGram",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 19203.89,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "IN",
-      "provider": "MoneyGram",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 192038.94,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
-    },
-    {
       "sendCountry": "GB",
       "receiveCountry": "IN",
       "provider": "MoneyGram",
@@ -1123,36 +1103,6 @@
       "source": "Ria Money Transfer"
     },
     {
-      "sendCountry": "US",
-      "receiveCountry": "MX",
-      "provider": "Ria",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 3679.03,
-      "dateChecked": "2026-09-07",
-      "source": "Ria Money Transfer"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Ria",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 772151.8,
-      "dateChecked": "2026-09-07",
-      "source": "Ria Money Transfer"
-    },
-    {
-      "sendCountry": "ES",
-      "receiveCountry": "CO",
-      "provider": "Ria",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 923207.1,
-      "dateChecked": "2026-09-07",
-      "source": "Ria Money Transfer"
-    },
-    {
       "sendCountry": "AE",
       "receiveCountry": "IN",
       "provider": "Al Ansari Exchange",
@@ -1171,6 +1121,86 @@
       "amountReceived": 192300,
       "dateChecked": "2026-09-07",
       "source": "Al Ansari Exchange"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "CO",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 200.0,
+      "amountReceived": 608972.0,
+      "dateChecked": "2026-09-08",
+      "source": "Ria Money Transfer"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "CO",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 2000.0,
+      "amountReceived": 6102148.0,
+      "dateChecked": "2026-09-08",
+      "source": "Ria Money Transfer"
+    },
+    {
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 200.0,
+      "amountReceived": 718000.0,
+      "dateChecked": "2026-09-08",
+      "source": "Ria Money Transfer"
+    },
+    {
+      "sendCountry": "ES",
+      "receiveCountry": "CO",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 2000.0,
+      "amountReceived": 7180000.0,
+      "dateChecked": "2026-09-08",
+      "source": "Ria Money Transfer"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "MX",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 200.0,
+      "amountReceived": 3320.0,
+      "dateChecked": "2026-09-08",
+      "source": "Ria Money Transfer"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "MX",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 2000.0,
+      "amountReceived": 33440.0,
+      "dateChecked": "2026-09-08",
+      "source": "Ria Money Transfer"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "IN",
+      "provider": "MoneyGram",
+      "tier": "Everyday",
+      "sendAmount": 200.0,
+      "amountReceived": 18893.62,
+      "dateChecked": "2026-09-08",
+      "source": "MoneyGram"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "IN",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 2000.0,
+      "amountReceived": 188936.2,
+      "dateChecked": "2026-09-08",
+      "source": "MoneyGram"
     }
   ]
 }
