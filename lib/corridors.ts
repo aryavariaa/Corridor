@@ -80,6 +80,31 @@ export function findCorridor(
   );
 }
 
+export type CountryOption = { code: string; name: string };
+
+// Distinct send countries across all corridors with real data -- used to
+// seed the picker's first dropdown. Order follows corridors[] (JSON file
+// order), matching how listCorridors() already behaves.
+export function getAvailableSendCountries(): CountryOption[] {
+  const seen = new Map<string, string>();
+  for (const c of corridors) {
+    if (!seen.has(c.sendCountry)) seen.set(c.sendCountry, c.sendCountryName);
+  }
+  return Array.from(seen, ([code, name]) => ({ code, name }));
+}
+
+// Receive countries actually paired with the given send country -- the
+// picker's second dropdown is constrained to this, not the full receive
+// country list, so a user can never land on an unresearched combination.
+export function getReceiveCountriesFor(sendCountry: string): CountryOption[] {
+  const seen = new Map<string, string>();
+  for (const c of corridors) {
+    if (c.sendCountry !== sendCountry) continue;
+    if (!seen.has(c.receiveCountry)) seen.set(c.receiveCountry, c.receiveCountryName);
+  }
+  return Array.from(seen, ([code, name]) => ({ code, name }));
+}
+
 export async function getRankedProviders(
   sendCountry: string,
   receiveCountry: string,
