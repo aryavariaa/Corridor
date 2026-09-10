@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import type { DirectoryEntry, Freshness, Region } from "@/lib/corridors";
+import { FRESHNESS_DOT_CLASS, type DirectoryEntry, type Freshness, type Region } from "@/lib/corridors";
 
 const REGION_ORDER: Region[] = [
   "North America",
@@ -18,12 +18,6 @@ const FRESHNESS_LABEL: Record<Freshness, string> = {
   stale: "Data over a month old",
 };
 
-const FRESHNESS_DOT: Record<Freshness, string> = {
-  fresh: "bg-fresh",
-  aging: "bg-aging",
-  stale: "bg-stale",
-};
-
 function percent(fraction: number): string {
   return `${(fraction * 100).toFixed(1)}%`;
 }
@@ -34,7 +28,7 @@ function FreshnessBadge({ freshness }: { freshness: DirectoryEntry["freshness"] 
     <span className="inline-flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-400">
       <span
         aria-hidden="true"
-        className={`h-1.5 w-1.5 rounded-full ${FRESHNESS_DOT[freshness.level]}`}
+        className={`h-1.5 w-1.5 rounded-full ${FRESHNESS_DOT_CLASS[freshness.level]}`}
       />
       {FRESHNESS_LABEL[freshness.level]}
     </span>
