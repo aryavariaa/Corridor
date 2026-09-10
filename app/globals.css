@@ -3,11 +3,31 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Brand accent: emerald. Replaces the previous default Tailwind blue --
+     ties visually to "how much of your money survives," and is reused as
+     the rank-1 / winner highlight color on the compare page. */
+  --accent: #059669;
+  --accent-foreground: #ffffff;
+
+  /* Freshness palette: green/amber/red keyed to how long ago a provider
+     row's dateChecked was (see lib/corridors.ts's getCorridorFreshness) --
+     fresh <=7 days, aging 8-30 days, stale 30+. Reused identically on
+     directory cards and per-provider rows so both views read as one
+     system, not two different color languages. */
+  --fresh: #16a34a;
+  --aging: #d97706;
+  --stale: #dc2626;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-fresh: var(--fresh);
+  --color-aging: var(--aging);
+  --color-stale: var(--stale);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -16,6 +36,16 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    /* Lighter shades for dark backgrounds -- same convention the rest of
+       this app already uses (e.g. text-zinc-400 in dark mode vs
+       text-zinc-600 in light), just applied to the new tokens too. */
+    --accent: #34d399;
+    --accent-foreground: #052e1e;
+
+    --fresh: #4ade80;
+    --aging: #fbbf24;
+    --stale: #f87171;
   }
 }
 

@@ -153,3 +153,110 @@ export async function getRankedProviders(
     providers,
   };
 }
+
+// --- Directory support (send-region grouping, freshness, cheapest teaser) ---
+// Added for the home-page directory redesign -- corridors[] itself is
+// unchanged; everything below derives from it or from providerRates.
+
+export type Region = "North America" | "Europe" | "Gulf" | "Asia-Pacific" | "Other";
+
+// Manual map, not a geo library -- only a handful of send countries exist
+// today (see getAvailableSendCountries), and a new one added without a
+// region entry here falls into "Other" rather than crashing (same
+// fail-open philosophy as dynamicParams defaulting true elsewhere).
+const SEND_REGIONS: Record<string, Region> = {
+  US: "North America",
+  CA: "North America",
+  GB: "Europe",
+  ES: "Europe",
+  IT: "Europe",
+  AE: "Gulf",
+  MY: "Asia-Pacific",
+  AU: "Asia-Pacific",
+};
+
+export function getSendRegion(sendCountry: string): Region {
+  return SEND_REGIONS[sendCountry] ?? "Other";
+}
+
+export type Freshness = "fresh" | "aging" | "stale";
+
+export type CorridorFreshness = {
+  // The OLDEST dateChecked among this corridor's provider rows, not the
+  // newest -- a corridor is only as trustworthy as its stalest row, and
+  // surfacing the freshest one would overstate it (the same mistake the
+  // "As-of column fix" in docs/provider-data-sourcing.md already corrected
+  // once for the live FX timestamp vs. provider dates).
+  oldestDateChecked: string;
+  level: Freshness;
+};
+
+export function getCorridorFreshness(
+  corridor: Pick<Corridor, "sendCountry" | "receiveCountry">
+): CorridorFreshness | null {
+  const rows = providerRates.filter(
+    (r) =>
+      r.sendCountry === corridor.sendCountry &&
+      r.receiveCountry === corridor.receiveCountry
+  );
+  if (rows.length === 0) return null;
+
+  // ISO "YYYY-MM-DD" strings sort correctly with plain string comparison.
+  const oldestDateChecked = rows.reduce((oldest, r) =>
+    r.dateChecked < oldest.dateChecked ? r : oldest
+  ).dateChecked;
+
+  const days =
+    (Date.now() - new Date(oldestDateChecked).getTime()) / (1000 * 60 * 60 * 24);
+  const level: Freshness = days <= 7 ? "fresh" : days <= 30 ? "aging" : "stale";
+
+  return { oldestDateChecked, level };
+}
+
+export type CorridorTeaser = {
+  cheapestProvider: string;
+  costPercent: number;
+} | null;
+
+// Best (lowest-cost) Everyday-tier provider for a corridor, for the
+// directory card teaser. Network-backed (live FX rate) like
+// getRankedProviders itself -- wrapped so one corridor's FX fetch failing
+// (e.g. a cold instance with no cached fallback yet, see lib/fx.ts) shows
+// that one card without a teaser rather than failing the whole directory.
+export async function getCorridorTeaser(corridor: Corridor): Promise<CorridorTeaser> {
+  try {
+    const result = await getRankedProviders(
+      corridor.sendCountry,
+      corridor.receiveCountry,
+      "Everyday"
+    );
+    const top = result.providers[0];
+    if (!top) return null;
+    return { cheapestProvider: top.provider, costPercent: top.costPercent };
+  } catch {
+    return null;
+  }
+}
+
+export type DirectoryEntry = {
+  corridor: Corridor;
+  region: Region;
+  freshness: CorridorFreshness | null;
+  teaser: CorridorTeaser;
+};
+
+// All corridors, grouped for the home-page directory. Teasers are fetched
+// concurrently (Promise.all) rather than one-by-one -- with 12+ corridors
+// sharing a handful of send currencies, Next's fetch cache/ISR window
+// (lib/fx.ts's revalidate: 3600) means most of these resolve from cache
+// rather than hitting the network independently.
+export async function getDirectoryEntries(): Promise<DirectoryEntry[]> {
+  const all = listCorridors();
+  const teasers = await Promise.all(all.map((c) => getCorridorTeaser(c)));
+  return all.map((c, i) => ({
+    corridor: c,
+    region: getSendRegion(c.sendCountry),
+    freshness: getCorridorFreshness(c),
+    teaser: teasers[i],
+  }));
+}
