@@ -1,4 +1,4 @@
-export type SupportedCurrency = "USD" | "GBP" | "EUR" | "AED" | "MYR";
+export type SupportedCurrency = "USD" | "GBP" | "EUR" | "AED" | "MYR" | "AUD" | "CAD";
 
 type ERApiResponse = {
   result: string;

@@ -147,3 +147,124 @@ is probably checking TransferGo's app directly, since the web calculator itself 
 which overstated freshness — it implied every provider's fee data was as current as the FX
 rate. It now shows each provider's own `dateChecked`, so all of the above (new and original
 six alike) is honestly dated in the UI, not just Al Ansari.
+
+## 2026-09-10 batch — US→Philippines, UK→Pakistan, Italy→Bangladesh, Australia→India, Canada→India
+
+All five corridors ship. All five clear the bar (3+ providers with a real, current,
+standard-rate public quote) — but three of them only get there after a methodology fix caught
+mid-batch, documented below because it changes how future batches should be researched.
+
+### Methodology finding: research agents without a JS-executing browser under-deliver
+
+The initial research pass (one general-purpose agent per corridor, fetch-based tools only, no
+JS execution) reported US→Philippines, UK→Pakistan and Canada→India as ready with 4-5 usable
+providers each. On inspection, most of the non-Wise rows in that pass weren't sourced from each
+provider's own site — they came from **Wise's own competitor-comparison feed**
+(`wise.com/gateway/v3/comparisons`), because Western Union, Remitly, WorldRemit and MoneyGram's
+own calculators are JS-rendered single-page apps that return nothing to a plain HTTP fetch.
+That's real, live data (Wise queries each competitor's live pricing), but it's a materially
+weaker sourcing standard than "the provider's own calculator," and stripping those rows back
+out left all three corridors below the 3-provider bar.
+
+A follow-up pass using an actual browser (JS execution, real page interaction) resolved this
+for good — see the per-provider notes below. Two more corridors that the fetch-only pass had
+held back (Italy→Bangladesh at 2 providers, Australia→India at 1) were then *also* rescued by
+the same browser pass, using a technique the fetch-only agents couldn't discover on their own
+(see the Remitly note). **Recommendation for future batches: do the research pass with a
+browser-capable agent from the start**, not a fetch-only one — the fetch-only pass undercounts
+real, non-promotional providers and overcounts on aggregator-sourced ones in roughly equal
+measure.
+
+### Western Union — excluded from all five corridors, systemic issue
+
+WU's public "currency converter" pages (`westernunion.com/<market>/en/currency-converter/...`)
+were checked directly for all three corridors that needed a WU quote (US→PH, UK→PK, CA→IN).
+In every case the displayed rate **beat that day's mid-market rate** — impossible for a real
+remittance quote and the same red flag that caught the Ria/MoneyGram bad data in the September
+8 correction (see above):
+
+- USD→PHP: converter showed 63.9788, mid-market was 62.6594 (+2.1%)
+- GBP→PKR: converter showed 387.2382, mid-market was 375.2035 (+3.2%)
+- CAD→INR: converter showed 70.0431, mid-market was 69.2098 (+1.2%)
+
+This isn't a one-off bad row, it's the tool: WU's own currency-converter widget appears to
+serve a marketing/indicative rate distinct from what its own checkout would actually offer,
+and it does so consistently across corridors and currencies. **Treat WU's currency-converter
+page as unusable as a data source going forward** — a real quote would need WU's actual
+send-money checkout flow (which requires an account and wasn't attempted here), not this page.
+
+### Remitly — the "select an amount above the promo cap" technique
+
+Remitly's default quote on every corridor page is a "Welcome rate" (first-transfer promo),
+which on its own fails this app's no-promo-data rule. But Remitly's page *does* disclose the
+real standard rate, in plain text, the moment the entered amount exceeds the promotional cap
+for that corridor — e.g. "Applied to first 500 EUR of your transfer. Standard rate 1 EUR =
+142.24 BDT applies to the rest of the transfer." Selecting a large enough quick-amount button
+reveals this cleanly, with no login needed. This worked on every corridor checked this batch,
+including the two that the fetch-only pass had marked as failing on provider count:
+
+- US→PH (cap $1,000): standard rate 62.50 PHP, $0 fee
+- UK→PK (cap £500): standard rate 374.61 PKR, £0 fee
+- IT→BD (cap €500): standard rate 142.24 BDT, base fee €0.99 shown alongside a "-€0.99"
+  first-transfer fee discount — treated the €0.99 as the real standard fee and excluded the
+  discount as promotional, but this is inferred, not confirmed by creating an account. No
+  Everyday-size (~€300) reading exists for Remitly on this corridor — €300 is under the cap, so
+  below it the page only ever shows the promo rate.
+- AU→IN (cap AUD 3,000): standard rate 68.31 INR, base fee AUD 0.99 (same discount caveat as
+  above). No Everyday-size (~AUD 300) reading exists here either — the cap is much higher than
+  a typical Everyday amount.
+- CA→IN (cap CAD 2,000): standard rate 68.77 INR, CAD 0 fee, no discount ambiguity (fee shown
+  as flatly zero, not a discounted non-zero fee)
+
+Medium confidence on IT→BD and AU→IN specifically, because of the fee-discount ambiguity;
+high confidence on US→PH, UK→PK and CA→IN, where the fee was unambiguous.
+
+### Per-corridor summary
+
+**US → Philippines — ready, 3 providers.** Wise (high — wise.com live comparison API, its own
+quote), XE (high — xe.com's own send-money product page, rate 62.0659, $0 fee), Remitly (high
+— see above, rate 62.50, $0 fee). Excluded: Western Union (see above), PayPal/Xoom (only shows
+a "First Time Rate," no toggle or higher-amount trick reveals a standard rate without creating
+an account).
+
+**UK → Pakistan — ready, 3 providers.** Wise (high), XE (high — xe.com product page, rate
+373.9271, £0 fee), Remitly (high — see above, rate 374.61, £0 fee). Excluded: Western Union
+(see above), WorldRemit (its page always labels the output "First Transfer Rate" and the
+blended figure doesn't cleanly separate into a standard-only number even at high amounts — no
+reliable non-promo reading), MoneyGram (the `/pakistan` URL silently redirected to an India
+quote instead of erroring, and a corrected URL returned an empty shell page — broken, not
+merely unsupported).
+
+**Italy → Bangladesh — ready, 3 providers** (upgraded from a 2-provider hold in the fetch-only
+pass). Wise (high — both its own compare page and its comparisons API agree on ~142.83),
+Paysend (medium — same caveat as the original batch: fee applied without independently
+re-verifying it holds at each exact tier amount), Remitly (medium — see fee-discount caveat
+above). Excluded: XE (this specific corridor's XE page has no rate/fee box at all, unlike every
+other corridor checked — an FAQ-only page), Western Union/WorldRemit/MoneyGram/Ria (JS-only
+calculators, no static reading, not re-attempted with the browser pass for this corridor since
+the bar was already met), PayPal (Xoom doesn't send from Italy at all), Revolut (its own
+calculator errored live — "Qualcosa è andato storto").
+
+**Australia → India — ready, 3 providers** (upgraded from a 1-provider hold in the fetch-only
+pass). Wise (high), XE (high — xe.com product page, rate 68.0657, AUD 0 fee), Remitly (medium
+— see fee-discount caveat above). Excluded: everyone else from the original 10-provider
+check (XE was actually already usable and just needed the direct product-page URL rather than
+the generic converter the fetch-only agent tried; Remitly, Ria, Paysend, Revolut required
+login for a real quote; Western Union, WorldRemit, MoneyGram had broken/non-rendering
+calculators; PayPal has no AUD→INR remittance product).
+
+**Canada → India — ready, 3 providers.** Wise (high), XE (high — rate 68.7126, CAD 0 fee),
+Remitly (high — see above, rate 68.77, CAD 0 fee, no fee-discount ambiguity). Western Union
+excluded (see above); WorldRemit/MoneyGram not independently re-checked directly since the bar
+was already met with three high-confidence sources.
+
+### Open items from this batch
+
+- Two Remitly rows (IT→BD, AU→IN) carry a fee-discount ambiguity — confirm with a real account
+  or a support query whether the "-€0.99"/"-AUD0.99" line is first-transfer-only before relying
+  on this data past casual ranking use.
+- Western Union is now excluded from eight corridors total (this batch's three, plus whatever
+  it was already missing from before) purely because its public currency-converter tool
+  produces an above-mid-market rate. Worth periodically re-checking whether that's still true,
+  in case it's a temporary bug on WU's end rather than a permanent characteristic of that page.
+- `lib/fx.ts`'s `SupportedCurrency` type gained `AUD` and `CAD` for this batch.

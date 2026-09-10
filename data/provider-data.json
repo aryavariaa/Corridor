@@ -69,6 +69,56 @@
       "receiveCurrency": "IDR",
       "everydayAmount": 850.0,
       "largeAmount": 8500.0
+    },
+    {
+      "sendCountry": "US",
+      "sendCountryName": "United States",
+      "sendCurrency": "USD",
+      "receiveCountry": "PH",
+      "receiveCountryName": "Philippines",
+      "receiveCurrency": "PHP",
+      "everydayAmount": 300.0,
+      "largeAmount": 3000.0
+    },
+    {
+      "sendCountry": "GB",
+      "sendCountryName": "United Kingdom",
+      "sendCurrency": "GBP",
+      "receiveCountry": "PK",
+      "receiveCountryName": "Pakistan",
+      "receiveCurrency": "PKR",
+      "everydayAmount": 300.0,
+      "largeAmount": 2000.0
+    },
+    {
+      "sendCountry": "IT",
+      "sendCountryName": "Italy",
+      "sendCurrency": "EUR",
+      "receiveCountry": "BD",
+      "receiveCountryName": "Bangladesh",
+      "receiveCurrency": "BDT",
+      "everydayAmount": 300.0,
+      "largeAmount": 2500.0
+    },
+    {
+      "sendCountry": "AU",
+      "sendCountryName": "Australia",
+      "sendCurrency": "AUD",
+      "receiveCountry": "IN",
+      "receiveCountryName": "India",
+      "receiveCurrency": "INR",
+      "everydayAmount": 300.0,
+      "largeAmount": 3000.0
+    },
+    {
+      "sendCountry": "CA",
+      "sendCountryName": "Canada",
+      "sendCurrency": "CAD",
+      "receiveCountry": "IN",
+      "receiveCountryName": "India",
+      "receiveCurrency": "INR",
+      "everydayAmount": 300.0,
+      "largeAmount": 3000.0
     }
   ],
   "providerRates": [
@@ -1231,6 +1281,286 @@
       "amountReceived": 36357491.0,
       "dateChecked": "2026-09-10",
       "source": "Wise"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "PH",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 500,
+      "amountReceived": 30765.56,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com live comparison API (Wise's own quote), rate 62.7139, fee 9.43 USD"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "PH",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 186786.45,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com live comparison API (Wise's own quote), rate 62.7139, fee 21.61 USD"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "PH",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 18619.77,
+      "dateChecked": "2026-09-10",
+      "source": "xe.com/en-us/send-money/send-money-to-philippines/from-united-states/ - rate 62.0659, $0 fee (site's own fixed example was $1,000; this row computed at $300 using that confirmed standard rate)"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "PH",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 186197.7,
+      "dateChecked": "2026-09-10",
+      "source": "xe.com/en-us/send-money/send-money-to-philippines/from-united-states/ - rate 62.0659, $0 fee"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "PH",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 18750.0,
+      "dateChecked": "2026-09-10",
+      "source": "remitly.com/us/en/philippines - standard (non-promo) rate 62.50 PHP disclosed on-page for the portion of a transfer above the $1,000 promo cap ('Welcome rate' 64.28 applies only to first $1,000); $0 fee shown"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "PH",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 187500.0,
+      "dateChecked": "2026-09-10",
+      "source": "remitly.com/us/en/philippines - standard rate 62.50 PHP, $0 fee"
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "PK",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 111566.73,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com live comparison API (Wise's own quote), rate 374.989, fee 2.48 GBP"
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "PK",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 745305.64,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com live comparison API (Wise's own quote), rate 374.989, fee 12.46 GBP"
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "PK",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 112178.13,
+      "dateChecked": "2026-09-10",
+      "source": "xe.com/en-gb/send-money/send-money-to-pakistan/from-united-kingdom/ - rate 373.9271, GBP0 fee"
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "PK",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 747854.2,
+      "dateChecked": "2026-09-10",
+      "source": "xe.com/en-gb/send-money/send-money-to-pakistan/from-united-kingdom/ - rate 373.9271, GBP0 fee"
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "PK",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 112383.0,
+      "dateChecked": "2026-09-10",
+      "source": "remitly.com/gb/en/pakistan - standard (non-promo) rate 374.61 PKR disclosed on-page above the GBP500 promo cap ('Welcome rate' 378.54 applies only to first GBP500); GBP0 fee shown"
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "PK",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 749220.0,
+      "dateChecked": "2026-09-10",
+      "source": "remitly.com/gb/en/pakistan - standard rate 374.61 PKR, GBP0 fee"
+    },
+    {
+      "sendCountry": "IT",
+      "receiveCountry": "BD",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 42041.17,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com/gateway/v3/comparisons (Wise's own quote), rate 142.832, fee 5.66 EUR"
+    },
+    {
+      "sendCountry": "IT",
+      "receiveCountry": "BD",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 1000,
+      "amountReceived": 141327.1,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com/us/compare/wise-eur-to-bdt, rate 142.834, fee 10.55 EUR"
+    },
+    {
+      "sendCountry": "IT",
+      "receiveCountry": "BD",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 42787.5,
+      "dateChecked": "2026-09-10",
+      "source": "paysend.com/en-it/send-money/from-italy-to-bangladesh - rate 142.6250, EUR0 fee, no promo indicated (received amount computed from the site's published rate/fee; calculator did not pre-fill an amount)"
+    },
+    {
+      "sendCountry": "IT",
+      "receiveCountry": "BD",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 2500,
+      "amountReceived": 356562.5,
+      "dateChecked": "2026-09-10",
+      "source": "paysend.com/en-it/send-money/from-italy-to-bangladesh - rate 142.6250, EUR0 fee"
+    },
+    {
+      "sendCountry": "IT",
+      "receiveCountry": "BD",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 1000,
+      "amountReceived": 142099.18,
+      "dateChecked": "2026-09-10",
+      "source": "remitly.com/it/en/bangladesh - standard (non-promo) rate 142.24 BDT disclosed on-page above the EUR500 promo cap ('Welcome rate' 145.58 applies only to first EUR500); base fee 0.99 EUR shown (a separate 'first transfer' fee discount was excluded as promotional). No usable Everyday-size (~EUR300) reading exists: below the EUR500 cap the page shows only the promotional rate."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "IN",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 450,
+      "amountReceived": 30617.16,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com/au/send-money/send-money-to-india - rate 68.4580, fee 2.76 AUD"
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "IN",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 204776.36,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com/au/send-money/send-money-to-india - rate 68.4580, fee 8.73 AUD"
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "IN",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 20419.71,
+      "dateChecked": "2026-09-10",
+      "source": "xe.com/en-au/send-money/send-money-to-india/from-australia/ - rate 68.0657, AUD0 fee"
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "IN",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 204197.1,
+      "dateChecked": "2026-09-10",
+      "source": "xe.com/en-au/send-money/send-money-to-india/from-australia/ - rate 68.0657, AUD0 fee"
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "IN",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 5000,
+      "amountReceived": 341482.37,
+      "dateChecked": "2026-09-10",
+      "source": "remitly.com/au/en/india - standard (non-promo) rate 68.31 INR disclosed on-page above the AUD3,000 promo cap ('Welcome rate' 69.40 applies only to first AUD3,000); base fee 0.99 AUD shown (a separate 'first transfer' fee discount was excluded as promotional). No usable Everyday-size (~AUD300) reading exists: below the AUD3,000 cap the page shows only the promotional rate."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "IN",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 20483.64,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com/ca/send-money/send-money-to-india (live gateway quote), fee 3.72 CAD"
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "IN",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 206074.66,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com/ca/send-money/send-money-to-india (live gateway quote), fee 19.29 CAD"
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "IN",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 20613.78,
+      "dateChecked": "2026-09-10",
+      "source": "xe.com/en-ca/send-money/send-money-to-india/from-canada/ - rate 68.7126, CAD0 fee"
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "IN",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 206137.8,
+      "dateChecked": "2026-09-10",
+      "source": "xe.com/en-ca/send-money/send-money-to-india/from-canada/ - rate 68.7126, CAD0 fee"
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "IN",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 20631.0,
+      "dateChecked": "2026-09-10",
+      "source": "remitly.com/ca/en/india - standard (non-promo) rate 68.77 INR disclosed on-page above the CAD2,000 promo cap ('Welcome rate' 69.95 applies only to first CAD2,000); CAD0 fee shown"
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "IN",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 206310.0,
+      "dateChecked": "2026-09-10",
+      "source": "remitly.com/ca/en/india - standard rate 68.77 INR, CAD0 fee"
     }
   ]
 }
