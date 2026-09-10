@@ -148,6 +148,43 @@ which overstated freshness — it implied every provider's fee data was as curre
 rate. It now shows each provider's own `dateChecked`, so all of the above (new and original
 six alike) is honestly dated in the UI, not just Al Ansari.
 
+## Data quality correction — 2026-09-10 (Western Union, US→India)
+
+The live US→India page was shipping Western Union ranked #1 with an impossible **-0.1%**
+`costPercent` — the same failure class as the September 8 Ria/MoneyGram correction (a provider
+appearing to beat the live mid-market rate). Root cause: the original 2026-09-01 seed data
+(94.6-95.4 implied rate depending on tier) sat noticeably above the rest of the corridor's
+provider cluster (93.9-94.8), and on the day this was caught, above that day's live mid-market
+rate specifically.
+
+**Re-sourcing attempt, and why WU's own public tools don't work as a source:** both of WU's
+public quote surfaces were checked directly before falling back to anything else —
+`westernunion.com/us/en/currency-converter/usd-to-inr-rate.html` and the send-money landing
+widget at `westernunion.com/us/en/send-money.html`. Both show a rate that doesn't change when
+the entered amount changes, and both carry the same disclaimer: "Exchange Rates and Fees shown
+are estimates... To check current rates and other options, simply click 'Send money.'" That
+"Send money" click leads into an account-creation flow, which is out of scope here. In other
+words: **Western Union does not expose a real, amount-specific standard-rate quote anywhere on
+its public site without creating an account.** This was also confirmed independently during the
+2026-09-10 corridor batch (see below), where WU's currency-converter page was found to quote
+*above* mid-market on three unrelated corridors (USD→PHP, GBP→PKR, CAD→INR) — the same tool,
+the same failure mode, not a one-off.
+
+**Fix applied:** both US→India rows re-sourced from `wise.com/gateway/v3/comparisons` — Wise's
+own live comparison feed reporting Western Union's real pricing (medium confidence, same
+standard applied to the other aggregator-sourced rows in this doc, e.g. MoneyGram's C3/C5).
+New implied rates (93.88 Everyday, 94.92 Large) sit inside the existing peer cluster for this
+corridor, comfortably below mid-market. A repository-wide outlier sweep (every provider's
+implied rate vs. its corridor+tier peer cluster, the same >8%-better-than-peer-best check used
+throughout this doc) was re-run after the fix and returned zero flags across all 24
+corridor+tier groups currently in the dataset.
+
+**Standing recommendation:** treat `westernunion.com`'s public currency-converter and
+send-money-landing pages as unusable data sources project-wide, not just for this corridor —
+see the 2026-09-10 batch section below for the cross-corridor evidence. Any future WU row
+should go through the Wise comparison feed (or a real logged-in quote, if that's ever worth the
+effort) rather than either of WU's own public pages.
+
 ## 2026-09-10 batch — US→Philippines, UK→Pakistan, Italy→Bangladesh, Australia→India, Canada→India
 
 All five corridors ship. All five clear the bar (3+ providers with a real, current,

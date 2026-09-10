@@ -158,9 +158,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 19046.02,
-      "dateChecked": "2026-09-01",
-      "source": "Western Union"
+      "amountReceived": 18775.83,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com/gateway/v3/comparisons (Western Union's live quote as reported by Wise's own comparison feed), rate 94.8226, fee 1.99 USD -- replaces the original 2026-09-01 figure, which implied a rate (95.2301) that beat every peer provider in this corridor and beat the live mid-market rate at time of viewing (see docs/provider-data-sourcing.md, 2026-09-10 correction). WU's own public quote tools (currency-converter page and send-money landing widget) were checked directly first and both show a static, amount-independent 'estimate' rate explicitly disclaimed as not the real checkout rate -- neither is a usable source."
     },
     {
       "sendCountry": "US",
@@ -218,9 +218,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 190800.0,
-      "dateChecked": "2026-09-01",
-      "source": "Western Union"
+      "amountReceived": 189835.83,
+      "dateChecked": "2026-09-10",
+      "source": "wise.com/gateway/v3/comparisons (Western Union's live quote as reported by Wise's own comparison feed), rate 94.9179, fee 0.00 USD -- replaces the original 2026-09-01 figure (see Everyday row note above for root cause)."
     },
     {
       "sendCountry": "US",
