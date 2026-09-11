@@ -1,9 +1,16 @@
 export type SupportedCurrency = "USD" | "GBP" | "EUR" | "AED" | "MYR" | "AUD" | "CAD";
 
-type ERApiResponse = {
-  result: string;
-  base_code: string;
-  rates: Record<string, number>;
+// Frankfurter (frankfurter.dev) -- free, no API key, no rate caps,
+// aggregating ~90+ central banks and refreshed daily. Replaces the
+// previous open.er-api.com source (2026-09-11): same live-rate contract,
+// same cached-fallback behavior below, just a different upstream.
+type FrankfurterRateResponse = {
+  date: string; // "YYYY-MM-DD" -- the rate's own effective date, not
+  // necessarily today (a weekend/holiday can mean the underlying central
+  // bank hasn't published a newer one yet).
+  base: string;
+  quote: string;
+  rate: number;
 };
 
 export type MidMarketRate = {
@@ -15,7 +22,7 @@ export type MidMarketRate = {
 };
 
 // Last known-good rate per currency pair, kept in memory so a single
-// upstream hiccup (open.er-api.com down, rate-limited, timing out) doesn't
+// upstream hiccup (Frankfurter down, rate-limited, timing out) doesn't
 // take the whole comparison table down with a 502.
 //
 // Best-effort only: state lives in a single serverless instance's memory,
@@ -36,26 +43,25 @@ export async function getMidMarketRate(
   const key = cacheKey(base, target);
 
   try {
-    const res = await fetch(`https://open.er-api.com/v6/latest/${base}`, {
-      next: { revalidate: 3600 },
-    });
+    const res = await fetch(
+      `https://api.frankfurter.dev/v2/rate/${base}/${target}`,
+      { next: { revalidate: 3600 } }
+    );
 
     if (!res.ok) {
       throw new Error(`FX API request failed: ${res.status}`);
     }
 
-    const data: ERApiResponse = await res.json();
+    const data: FrankfurterRateResponse = await res.json();
 
-    if (data.result !== "success") {
-      throw new Error("FX API returned an error result");
-    }
-
-    const rate = data.rates[target];
-    if (!rate) {
+    if (typeof data.rate !== "number") {
       throw new Error(`No rate found for ${base} -> ${target}`);
     }
 
-    const fresh = { rate, asOf: new Date().toISOString() };
+    // Use Frankfurter's own effective date rather than stamping "now" --
+    // more honest about actual freshness than the previous provider's
+    // approach of always recording the fetch time.
+    const fresh = { rate: data.rate, asOf: new Date(data.date).toISOString() };
     lastKnownGood.set(key, fresh);
     return fresh;
   } catch (err) {
