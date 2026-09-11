@@ -628,9 +628,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 741697.0,
-      "dateChecked": "2026-09-01",
-      "source": "Western Union"
+      "amountReceived": 688231.25,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com/gateway/v3/comparisons (Wise's comparison feed reporting Western Union's real pricing, sourceCountry=ES) -- rate 3493.3823 COP, fee 2.99 EUR. Replaces the original 2026-09-01 seed row, which implied a rate above that day's mid-market (impossible for a real remittance quote) -- same failure class as the 2026-09-08 Ria/MoneyGram and 2026-09-10 US-India WU corrections; see docs/provider-data-sourcing.md. WU's own currency-converter page is not usable as a source (see that doc) so this follows the established Wise-comparison-feed fallback. The API returns a slightly different WU quote per Eurozone origin country (checked IT/ES/EE/FR/DE); ES was used for consistency with this corridor's pre-rekeying identity (Spain -> Colombia)."
     },
     {
       "sendCountry": "EUR",
@@ -688,9 +688,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 7324990.0,
-      "dateChecked": "2026-09-01",
-      "source": "Western Union"
+      "amountReceived": 6972826.01,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com/gateway/v3/comparisons (Wise's comparison feed reporting Western Union's real pricing, sourceCountry=ES) -- rate 3493.3823 COP, fee 3.99 EUR. Replaces the original 2026-09-01 seed row, which implied a rate above that day's mid-market (impossible for a real remittance quote) -- same failure class as the 2026-09-08 Ria/MoneyGram and 2026-09-10 US-India WU corrections; see docs/provider-data-sourcing.md. WU's own currency-converter page is not usable as a source (see that doc) so this follows the established Wise-comparison-feed fallback. The API returns a slightly different WU quote per Eurozone origin country (checked IT/ES/EE/FR/DE); ES was used for consistency with this corridor's pre-rekeying identity (Spain -> Colombia)."
     },
     {
       "sendCountry": "EUR",
