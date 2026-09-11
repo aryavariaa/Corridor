@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "refresh:wise": "node scripts/refresh-wise-rows.mjs"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.45.8",

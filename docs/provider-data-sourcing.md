@@ -325,3 +325,78 @@ indexed or shared.
 
 **Any future Eurozone corridor (Germany, France, etc.) should follow this same pattern:
 `sendCountry: "EUR"`, not the specific member country.**
+
+## 2026-09-11 — Automated refresh: Wise, PayPal, Western Union only, everyone else stays manual
+
+`scripts/refresh-wise-rows.mjs` (`npm run refresh:wise`) is the first (and, as of this writing,
+only) piece of automation in this repo for `providerRates`. It exists because Wise's own
+Comparison API (`api.wise.com/v3/comparisons`) turned out to be a real, live, no-auth data
+source usable for more than just Wise's own numbers — but it is **narrowly scoped**, and that
+scope is intentional, not a placeholder for "automate everything later":
+
+- **It only ever writes rows for `provider` in `{Wise, PayPal, Western Union}`.** These are the
+  only three providers the Wise Comparison API actually returns.
+- **It only refreshes a row that already exists** for a given
+  `(sendCountry, receiveCountry, provider, tier)`. It never adds a new provider row to a
+  corridor that doesn't already offer that provider — the corridor/provider list stays exactly
+  as manually curated.
+- **Every other provider — XE, Remitly, Revolut, WorldRemit, Paysend, MoneyGram, Ria, Al
+  Ansari, TransferGo — is completely out of scope for this script and always will be**, not
+  because of a technical limitation that might get lifted, but because the Wise API simply does
+  not return them. This was confirmed directly, across multiple corridors, at both the $300 and
+  $3000 tier amounts, during the 2026-09 sessions that built this script and fixed the EUR→CO
+  WU row. **Do not assume this script (or a future one built the same way) can be extended to
+  cover these providers without a completely different data source.** They keep going through
+  the existing manual/browser-verified sourcing process described everywhere else in this doc,
+  indefinitely.
+- **Not every corridor+tier returns all three target providers either.** PayPal in particular is
+  frequently absent from the Wise API response even for corridors where PayPal has a manually-
+  sourced row in this dataset (e.g. it's missing entirely from `USD→INR` at any tested amount).
+  When a target provider is missing from the API response, the script leaves that row exactly as
+  it was and reports the gap — it never deletes or blanks a row it can't refresh.
+- **A fetched value that would beat its corridor+tier's peer cluster by more than 8% is refused
+  by default** (the same "probably bad data" signal behind every manual correction documented
+  above), requiring an explicit `--force` to write it after a human looks at it.
+- **Dry-run by default.** `npm run refresh:wise` only prints a diff; nothing is written unless
+  `--write` is passed. This is deliberate — the blast radius of a bad batch write across ~15
+  automatable rows is much larger than any single manual correction in this doc, so a run should
+  be reviewed before it's applied, not trusted blind.
+
+**Eurozone quote selection:** for a EUR-denominated corridor, the Wise API returns one quote per
+Eurozone origin country instead of one blended figure (this is the same multi-country structure
+that motivated re-keying Italy/Spain corridors to `sendCountry: "EUR"` — see the section above).
+The script picks deterministically by a fixed preference order (`ES, IT, DE, FR, EE`, first
+match wins) so repeated runs are stable. `ES` was the country used when this pattern was first
+established, in the EUR→CO Western Union fix below.
+
+**Corridors this script can touch, as of 2026-09-11** (has ≥1 of Wise/PayPal/WU already):
+AE→IN, EUR→CO, GB→IN, US→CO, US→IN, US→MX (all three providers present); AU→IN, CA→IN, EUR→BD,
+GB→PK, US→PH (Wise only — PayPal/WU aren't offered on these corridors in the current dataset).
+
+**Network requirement — this script cannot run from inside a network-sandboxed environment.**
+`api.wise.com` is unreachable from the sandbox this repo has been edited from throughout this
+project (confirmed via both `curl` and Node's `fetch` — both fail with a 403 from the sandbox's
+own egress proxy, "organization policy"). The script itself is correct and has been verified
+against fixture data shaped exactly like the real API response (fixed provider-name matching,
+EUR multi-country quote selection, the not-found skip path, the outlier-refusal path, and
+`--write` actually persisting only the intended rows — all independently exercised), but an
+actual live run needs to happen somewhere with normal outbound HTTPS: the user's own machine
+outside this sandbox, or a CI job with unrestricted egress. It is not something Claude can run
+end-to-end and verify live from this environment.
+
+### Data quality correction — EUR→Colombia Western Union, 2026-09-11
+
+Same failure class as every other correction in this doc: both EUR→CO Western Union rows
+(Everyday, Large) implied a rate above that day's live mid-market rate — impossible for a real
+remittance quote. Re-sourced from `wise.com/gateway/v3/comparisons`, `sourceCountry=ES`, per the
+selection rule above. New implied rates land inside the corridor's peer cluster and comfortably
+below mid-market (Everyday ≈4.6% below, Large ≈3.4% below).
+
+A full outlier sweep (negative `costPercent`, and >8%-beats-peer-cluster) was re-run across all
+22 corridor+tier groups in the dataset after this fix. EUR→CO is clean. The sweep also surfaced
+several **pre-existing** negative-`costPercent` rows outside EUR→CO — mostly in US→CO and
+US→MX — that are **not** part of this fix and haven't been corrected here; they most likely
+reflect live mid-market rate drift since those rows were dated (2026-09-01 through 2026-09-08)
+rather than bad sourcing at the time, but that's exactly the kind of thing this script's peer
+sweep exists to catch going forward. Flagging here rather than silently expanding this fix's
+scope — worth a dedicated pass.
