@@ -448,9 +448,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 33968.8,
-      "dateChecked": "2026-09-01",
-      "source": "Western Union"
+      "amountReceived": 33405.09,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com/gateway/v3/comparisons (Wise's comparison feed reporting Western Union's real pricing, sourceCountry=US) -- rate 16.7192, fee 1.99 USD. Re-sourced -- the 2026-09-01 seed value had drifted to an impossible negative costPercent vs today's live mid-market. WU's own currency-converter page remains an unusable source project-wide, per docs/provider-data-sourcing.md."
     },
     {
       "sendCountry": "US",
@@ -458,9 +458,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 33953.0,
-      "dateChecked": "2026-09-01",
-      "source": "Paypal (Xoom)"
+      "amountReceived": 32306.6,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com/gateway/v3/comparisons (Wise's comparison feed reporting PayPal's real pricing, sourceCountry=US) -- rate 16.1937, fee 4.99 USD. Re-sourced -- the 2026-09-01 seed value had drifted to an impossible negative costPercent vs today's live mid-market."
     },
     {
       "sendCountry": "US",
@@ -478,9 +478,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 608873.14,
-      "dateChecked": "2026-09-01",
-      "source": "Wise"
+      "amountReceived": 582834.8,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com live comparison API (Wise's own quote), rate 3075.97, fee 10.52 USD. Re-sourced after COP moved ~3.2% since the original 2026-09-01 seed data (no confidence/method notes preserved on that batch), which had pushed several providers on this corridor to an impossible negative costPercent vs today's live mid-market -- see the 2026-09-11 lib/fx.ts commit for the investigation."
     },
     {
       "sendCountry": "US",
@@ -508,9 +508,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 622866.8,
-      "dateChecked": "2026-09-01",
-      "source": "Western Union"
+      "amountReceived": 588872.28,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com/gateway/v3/comparisons (Wise's comparison feed reporting Western Union's real pricing, sourceCountry=US) -- rate 2973.9522, fee 1.99 USD. Re-sourced after COP moved ~3.2% since the original 2026-09-01 seed data (no confidence/method notes preserved on that batch), which had pushed this row to an impossible negative costPercent vs today's live mid-market -- see the 2026-09-11 lib/fx.ts commit for the investigation. WU's own currency-converter page remains an unusable source project-wide, per docs/provider-data-sourcing.md."
     },
     {
       "sendCountry": "US",
@@ -538,9 +538,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 6314214.95,
-      "dateChecked": "2026-09-01",
-      "source": "Wise"
+      "amountReceived": 6044188.77,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com live comparison API (Wise's own quote), rate 3075.97, fee 35.03 USD. Re-sourced after COP moved ~3.2% since the original 2026-09-01 seed data (no confidence/method notes preserved on that batch), which had pushed several providers on this corridor to an impossible negative costPercent vs today's live mid-market -- see the 2026-09-11 lib/fx.ts commit for the investigation."
     },
     {
       "sendCountry": "US",
@@ -568,9 +568,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 6254140.0,
-      "dateChecked": "2026-09-01",
-      "source": "Western Union"
+      "amountReceived": 6040099.6,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com/gateway/v3/comparisons (Wise's comparison feed reporting Western Union's real pricing, sourceCountry=US) -- rate 3023.0577, fee 1.99 USD. Re-sourced after COP moved ~3.2% since the original 2026-09-01 seed data (no confidence/method notes preserved on that batch), which had pushed this row to an impossible negative costPercent vs today's live mid-market -- see the 2026-09-11 lib/fx.ts commit for the investigation. WU's own currency-converter page remains an unusable source project-wide, per docs/provider-data-sourcing.md."
     },
     {
       "sendCountry": "US",
@@ -598,9 +598,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 717047.82,
-      "dateChecked": "2026-09-01",
-      "source": "Wise"
+      "amountReceived": 702142.43,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com live comparison API (Wise's own quote), rate 3596.12, fee 4.75 EUR. Re-sourced after COP moved ~3.2% since the original 2026-09-01 seed data (no confidence/method notes preserved on that batch), which had pushed several providers on this corridor to an impossible negative costPercent vs today's live mid-market -- see the 2026-09-11 lib/fx.ts commit for the investigation."
     },
     {
       "sendCountry": "EUR",
@@ -658,9 +658,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 7227841.98,
-      "dateChecked": "2026-09-01",
-      "source": "Wise"
+      "amountReceived": 7077595.69,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com live comparison API (Wise's own quote), rate 3596.12, fee 31.88 EUR. Re-sourced after COP moved ~3.2% since the original 2026-09-01 seed data (no confidence/method notes preserved on that batch), which had pushed several providers on this corridor to an impossible negative costPercent vs today's live mid-market -- see the 2026-09-11 lib/fx.ts commit for the investigation."
     },
     {
       "sendCountry": "EUR",

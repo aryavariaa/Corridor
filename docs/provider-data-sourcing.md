@@ -400,3 +400,38 @@ reflect live mid-market rate drift since those rows were dated (2026-09-01 throu
 rather than bad sourcing at the time, but that's exactly the kind of thing this script's peer
 sweep exists to catch going forward. Flagging here rather than silently expanding this fix's
 scope — worth a dedicated pass.
+
+## 2026-09-11 — COP genuinely moved; re-sourced the Wise/PayPal/WU rows it broke
+
+Following the `lib/fx.ts` investigation above: COP moved ~3.2% between 2026-09-01 (when the
+original "six providers" batch was dated) and today, which pushed several of that batch's
+thin-margin rows on `US→CO`, `EUR→CO`, and (much more marginally) `US→MX` to an impossible
+negative `costPercent`. Re-sourced everything the Wise Comparison API could cover:
+
+- **US→CO**: Wise (both tiers), Western Union (both tiers).
+- **EUR→CO**: Wise (both tiers).
+- **US→MX**: Western Union and PayPal (Large tier — the only negative row there; Everyday was
+  already fine).
+
+All now sit inside their corridor's peer cluster and comfortably below live mid-market.
+
+**Left un-fixed, still flagged negative — cannot be re-sourced through the Wise API:**
+
+- **XE** on both `US→CO` (-2.3%) and `EUR→CO` (-2.07%) — same implied rate on both (XE's
+  original source doesn't vary by send currency the way this API does), consistently ~2% above
+  today's live COP mid-market. Needs a fresh xe.com quote.
+- **Remitly** on `US→CO` (-0.97% Everyday, -1.15% Large).
+- **Revolut** on `US→CO` Large only (-0.4%).
+- **Paysend** on `EUR→CO` (-0.065%, both tiers — barely negative, effectively noise-level, but
+  technically still fails the ≥0-cost sanity check).
+- **PayPal** on `US→CO` Large (-0.17%) and `EUR→CO` (both tiers, ~-0.1%) — not a coverage gap in
+  the usual sense: PayPal was queried at the correct corridor+tier amounts and is genuinely
+  absent from the Wise API response for `USD→COP` and `EUR→COP` at every amount tried, matching
+  the same pattern documented elsewhere in this file (PayPal is also absent from `USD→INR`
+  entirely).
+
+None of these five are in `{Wise, PayPal, Western Union}` scope for `scripts/refresh-wise-rows.mjs`
+except PayPal, and PayPal specifically doesn't come back from the API for either COP corridor —
+so this script cannot close the remaining gap on its own. XE, Remitly, Revolut, and Paysend need
+their standard manual/browser-verified sourcing process; Remitly in particular will likely need
+the promo-cap-reveal technique (see above), which requires a JS-capable browser tool.
