@@ -1257,10 +1257,10 @@
       "receiveCountry": "PH",
       "provider": "Wise",
       "tier": "Everyday",
-      "sendAmount": 500,
-      "amountReceived": 30765.56,
-      "dateChecked": "2026-09-10",
-      "source": "wise.com live comparison API (Wise's own quote), rate 62.7139, fee 9.43 USD"
+      "sendAmount": 300,
+      "amountReceived": 18283.33,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com live comparison API (Wise's own quote), rate 62.7108, fee 8.45 USD -- corrected to the corridor's actual Everyday sendAmount (300); the prior row had erroneously used 500."
     },
     {
       "sendCountry": "US",
@@ -1387,10 +1387,10 @@
       "receiveCountry": "BD",
       "provider": "Wise",
       "tier": "Large",
-      "sendAmount": 1000,
-      "amountReceived": 141327.1,
-      "dateChecked": "2026-09-10",
-      "source": "wise.com/us/compare/wise-eur-to-bdt, rate 142.834, fee 10.55 EUR"
+      "sendAmount": 2500,
+      "amountReceived": 352684.2,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com live comparison API (Wise's own quote), rate 142.801, fee 0.00 EUR -- corrected to the corridor's actual Large sendAmount (2500); the prior row had erroneously used 1000."
     },
     {
       "sendCountry": "EUR",
@@ -1417,20 +1417,20 @@
       "receiveCountry": "BD",
       "provider": "Remitly",
       "tier": "Large",
-      "sendAmount": 1000,
-      "amountReceived": 142099.18,
+      "sendAmount": 2500,
+      "amountReceived": 355459.18,
       "dateChecked": "2026-09-10",
-      "source": "remitly.com/it/en/bangladesh - standard (non-promo) rate 142.24 BDT disclosed on-page above the EUR500 promo cap ('Welcome rate' 145.58 applies only to first EUR500); base fee 0.99 EUR shown (a separate 'first transfer' fee discount was excluded as promotional). No usable Everyday-size (~EUR300) reading exists: below the EUR500 cap the page shows only the promotional rate."
+      "source": "remitly.com/it/en/bangladesh - standard (non-promo) rate 142.24 BDT disclosed on-page above the EUR500 promo cap ('Welcome rate' 145.58 applies only to first EUR500); base fee 0.99 EUR shown (a separate 'first transfer' fee discount was excluded as promotional). amountReceived recomputed at the corridor's actual Large sendAmount (2500, well above the EUR500 promo cap so the standard rate applies cleanly) from this same documented rate/fee -- the prior row had erroneously used sendAmount 1000. No usable Everyday-size (~EUR300) reading exists: below the EUR500 cap the page shows only the promotional rate."
     },
     {
       "sendCountry": "AU",
       "receiveCountry": "IN",
       "provider": "Wise",
       "tier": "Everyday",
-      "sendAmount": 450,
-      "amountReceived": 30617.16,
-      "dateChecked": "2026-09-10",
-      "source": "wise.com/au/send-money/send-money-to-india - rate 68.4580, fee 2.76 AUD"
+      "sendAmount": 300,
+      "amountReceived": 20392.12,
+      "dateChecked": "2026-09-11",
+      "source": "wise.com live comparison API (Wise's own quote), rate 68.4851, fee 2.24 AUD -- corrected to the corridor's actual Everyday sendAmount (300); the prior row had erroneously used 450."
     },
     {
       "sendCountry": "AU",
@@ -1467,10 +1467,10 @@
       "receiveCountry": "IN",
       "provider": "Remitly",
       "tier": "Large",
-      "sendAmount": 5000,
-      "amountReceived": 341482.37,
+      "sendAmount": 3000,
+      "amountReceived": 204862.37,
       "dateChecked": "2026-09-10",
-      "source": "remitly.com/au/en/india - standard (non-promo) rate 68.31 INR disclosed on-page above the AUD3,000 promo cap ('Welcome rate' 69.40 applies only to first AUD3,000); base fee 0.99 AUD shown (a separate 'first transfer' fee discount was excluded as promotional). No usable Everyday-size (~AUD300) reading exists: below the AUD3,000 cap the page shows only the promotional rate."
+      "source": "remitly.com/au/en/india - standard (non-promo) rate 68.31 INR disclosed on-page above the AUD3,000 promo cap ('Welcome rate' 69.40 applies only to first AUD3,000); base fee 0.99 AUD shown (a separate 'first transfer' fee discount was excluded as promotional). amountReceived recomputed at the corridor's actual Large sendAmount (3000) from this same documented rate/fee -- the prior row had erroneously used sendAmount 5000. Note: AUD3,000 sits exactly at Remitly's promo-cap boundary; following this file's existing convention of reporting the standard non-promo rate rather than first-transfer promo pricing. No usable Everyday-size (~AUD300) reading exists: below the AUD3,000 cap the page shows only the promotional rate."
     },
     {
       "sendCountry": "CA",
