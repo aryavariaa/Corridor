@@ -305,3 +305,23 @@ was already met with three high-confidence sources.
   produces an above-mid-market rate. Worth periodically re-checking whether that's still true,
   in case it's a temporary bug on WU's end rather than a permanent characteristic of that page.
 - `lib/fx.ts`'s `SupportedCurrency` type gained `AUD` and `CAD` for this batch.
+
+## 2026-09-11 — Eurozone corridors keyed by currency, not member country
+
+Italy → Bangladesh and Spain → Colombia were originally added with `sendCountry` set to the
+specific EU member country ("IT", "ES"). That was never a meaningful distinction: the
+underlying rate/fee data is SEPA-based and currency-driven, not country-specific within the
+Eurozone -- a Wise/Remitly/etc. quote from Italy and the same quote from Spain are the same
+quote, just labeled with a different origin country. "Italy" vs. "Spain" as the send side was
+a label difference, not a different corridor.
+
+Both corridors are now keyed `sendCountry: "EUR"` (`sendCountryName` also "EUR", so the
+picker/directory show one "EUR" origin instead of two separate countries), with their
+`receiveCountry` unchanged (BD, CO) -- they remain two distinct corridors, just sharing one
+send origin. `providerRates` rows for both were re-keyed the same way; `sendCurrency` was
+already "EUR" and is unchanged. The old `/compare/IT/BD` and `/compare/ES/CO` URLs 301-redirect
+to `/compare/EUR/BD` and `/compare/EUR/CO` (see `next.config.ts`), in case either was already
+indexed or shared.
+
+**Any future Eurozone corridor (Germany, France, etc.) should follow this same pattern:
+`sendCountry: "EUR"`, not the specific member country.**

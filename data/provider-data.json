@@ -41,8 +41,8 @@
       "largeAmount": 2000.0
     },
     {
-      "sendCountry": "ES",
-      "sendCountryName": "Spain",
+      "sendCountry": "EUR",
+      "sendCountryName": "EUR",
       "sendCurrency": "EUR",
       "receiveCountry": "CO",
       "receiveCountryName": "Colombia",
@@ -81,8 +81,8 @@
       "largeAmount": 2000.0
     },
     {
-      "sendCountry": "IT",
-      "sendCountryName": "Italy",
+      "sendCountry": "EUR",
+      "sendCountryName": "EUR",
       "sendCurrency": "EUR",
       "receiveCountry": "BD",
       "receiveCountryName": "Bangladesh",
@@ -593,7 +593,7 @@
       "source": "XE"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Wise",
       "tier": "Everyday",
@@ -603,7 +603,7 @@
       "source": "Wise"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Revolut",
       "tier": "Everyday",
@@ -613,7 +613,7 @@
       "source": "Revolut"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Remitly",
       "tier": "Everyday",
@@ -623,7 +623,7 @@
       "source": "Remitly"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Western Union",
       "tier": "Everyday",
@@ -633,7 +633,7 @@
       "source": "Western Union"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "PayPal",
       "tier": "Everyday",
@@ -643,7 +643,7 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "XE",
       "tier": "Everyday",
@@ -653,7 +653,7 @@
       "source": "XE"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Wise",
       "tier": "Large",
@@ -663,7 +663,7 @@
       "source": "Wise"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Revolut",
       "tier": "Large",
@@ -673,7 +673,7 @@
       "source": "Revolut"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Remitly",
       "tier": "Large",
@@ -683,7 +683,7 @@
       "source": "Remitly"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Western Union",
       "tier": "Large",
@@ -693,7 +693,7 @@
       "source": "Western Union"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "PayPal",
       "tier": "Large",
@@ -703,7 +703,7 @@
       "source": "Paypal (Xoom)"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "XE",
       "tier": "Large",
@@ -913,7 +913,7 @@
       "source": "WorldRemit"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "WorldRemit",
       "tier": "Everyday",
@@ -923,7 +923,7 @@
       "source": "WorldRemit"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "WorldRemit",
       "tier": "Large",
@@ -1013,7 +1013,7 @@
       "source": "Paysend"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Paysend",
       "tier": "Everyday",
@@ -1023,7 +1023,7 @@
       "source": "Paysend"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Paysend",
       "tier": "Large",
@@ -1093,7 +1093,7 @@
       "source": "MoneyGram"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "MoneyGram",
       "tier": "Everyday",
@@ -1103,7 +1103,7 @@
       "source": "MoneyGram"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "MoneyGram",
       "tier": "Large",
@@ -1193,7 +1193,7 @@
       "source": "Ria Money Transfer"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Ria",
       "tier": "Everyday",
@@ -1203,7 +1203,7 @@
       "source": "Ria Money Transfer"
     },
     {
-      "sendCountry": "ES",
+      "sendCountry": "EUR",
       "receiveCountry": "CO",
       "provider": "Ria",
       "tier": "Large",
@@ -1373,7 +1373,7 @@
       "source": "remitly.com/gb/en/pakistan - standard rate 374.61 PKR, GBP0 fee"
     },
     {
-      "sendCountry": "IT",
+      "sendCountry": "EUR",
       "receiveCountry": "BD",
       "provider": "Wise",
       "tier": "Everyday",
@@ -1383,7 +1383,7 @@
       "source": "wise.com/gateway/v3/comparisons (Wise's own quote), rate 142.832, fee 5.66 EUR"
     },
     {
-      "sendCountry": "IT",
+      "sendCountry": "EUR",
       "receiveCountry": "BD",
       "provider": "Wise",
       "tier": "Large",
@@ -1393,7 +1393,7 @@
       "source": "wise.com/us/compare/wise-eur-to-bdt, rate 142.834, fee 10.55 EUR"
     },
     {
-      "sendCountry": "IT",
+      "sendCountry": "EUR",
       "receiveCountry": "BD",
       "provider": "Paysend",
       "tier": "Everyday",
@@ -1403,7 +1403,7 @@
       "source": "paysend.com/en-it/send-money/from-italy-to-bangladesh - rate 142.6250, EUR0 fee, no promo indicated (received amount computed from the site's published rate/fee; calculator did not pre-fill an amount)"
     },
     {
-      "sendCountry": "IT",
+      "sendCountry": "EUR",
       "receiveCountry": "BD",
       "provider": "Paysend",
       "tier": "Large",
@@ -1413,7 +1413,7 @@
       "source": "paysend.com/en-it/send-money/from-italy-to-bangladesh - rate 142.6250, EUR0 fee"
     },
     {
-      "sendCountry": "IT",
+      "sendCountry": "EUR",
       "receiveCountry": "BD",
       "provider": "Remitly",
       "tier": "Large",

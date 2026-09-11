@@ -19,8 +19,16 @@ import {
   type SortField,
 } from "@/lib/analytics";
 
+// Omits the parenthetical when the name and currency are already the same
+// string -- true for Eurozone corridors, where sendCountryName is "EUR"
+// (see lib/corridors.ts). Without this, those corridors would read
+// "EUR (EUR) -> ..." instead of just "EUR -> ...".
+function sendSideLabel(name: string, currency: string): string {
+  return name === currency ? name : `${name} (${currency})`;
+}
+
 function corridorLabel(c: Corridor): string {
-  return `${c.sendCountryName} (${c.sendCurrency}) → ${c.receiveCountryName} (${c.receiveCurrency})`;
+  return `${sendSideLabel(c.sendCountryName, c.sendCurrency)} → ${c.receiveCountryName} (${c.receiveCurrency})`;
 }
 
 function money(currency: string, amount: number, fractionDigits = 2): string {

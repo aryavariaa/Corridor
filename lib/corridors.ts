@@ -10,7 +10,13 @@ export type Tier = "Everyday" | "Large";
 // carry per-pair display names, currencies, and the two test-amount tiers,
 // not to gate which pairs "exist."
 export type Corridor = {
-  sendCountry: string; // ISO 3166-1 alpha-2, e.g. "US"
+  // ISO 3166-1 alpha-2 (e.g. "US") for most corridors -- but Eurozone
+  // corridors use the currency code "EUR" instead of a specific member
+  // country, since SEPA-based rate/fee data doesn't vary by which
+  // Eurozone country you send from (see the 2026-09-11 EUR-keying change
+  // in docs/provider-data-sourcing.md). Any future Eurozone corridor
+  // (Germany, France, etc.) should follow this same pattern.
+  sendCountry: string;
   sendCountryName: string;
   sendCurrency: string;
   receiveCountry: string; // ISO 3166-1 alpha-2, e.g. "IN"
@@ -168,8 +174,9 @@ const SEND_REGIONS: Record<string, Region> = {
   US: "North America",
   CA: "North America",
   GB: "Europe",
-  ES: "Europe",
-  IT: "Europe",
+  // Eurozone corridors are keyed by currency ("EUR"), not by member
+  // country -- see the Corridor.sendCountry comment above.
+  EUR: "Europe",
   AE: "Gulf",
   AU: "Asia-Pacific",
 };
