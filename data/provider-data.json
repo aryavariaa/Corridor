@@ -61,16 +61,6 @@
       "largeAmount": 7500.0
     },
     {
-      "sendCountry": "MY",
-      "sendCountryName": "Malaysia",
-      "sendCurrency": "MYR",
-      "receiveCountry": "ID",
-      "receiveCountryName": "Indonesia",
-      "receiveCurrency": "IDR",
-      "everydayAmount": 850.0,
-      "largeAmount": 8500.0
-    },
-    {
       "sendCountry": "US",
       "sendCountryName": "United States",
       "sendCurrency": "USD",
@@ -1261,26 +1251,6 @@
       "amountReceived": 188936.2,
       "dateChecked": "2026-09-08",
       "source": "MoneyGram"
-    },
-    {
-      "sendCountry": "MY",
-      "receiveCountry": "ID",
-      "provider": "Wise",
-      "tier": "Everyday",
-      "sendAmount": 850.0,
-      "amountReceived": 3614955.0,
-      "dateChecked": "2026-09-10",
-      "source": "Wise"
-    },
-    {
-      "sendCountry": "MY",
-      "receiveCountry": "ID",
-      "provider": "Wise",
-      "tier": "Large",
-      "sendAmount": 8500.0,
-      "amountReceived": 36357491.0,
-      "dateChecked": "2026-09-10",
-      "source": "Wise"
     },
     {
       "sendCountry": "US",

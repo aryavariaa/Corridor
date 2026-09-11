@@ -171,7 +171,6 @@ const SEND_REGIONS: Record<string, Region> = {
   ES: "Europe",
   IT: "Europe",
   AE: "Gulf",
-  MY: "Asia-Pacific",
   AU: "Asia-Pacific",
 };
 
