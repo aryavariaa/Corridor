@@ -64,6 +64,37 @@ function cacheKey(base: string, target: string): string {
 // against instead. Worth adding one if this keeps recurring.
 const MAX_PLAUSIBLE_SWING = 0.03; // 3%
 
+// The one-off rejection above only distinguishes "flaky snapshot" from
+// "real move" by re-checking on the *next* fetch: a flaky CDN inconsistency
+// won't reproduce itself, but a genuine move (like COP's ~3.2% drift this
+// week) will keep reading the same new level again. Track the rejected
+// value per pair so a second, independent fetch landing back near it
+// promotes it to the new known-good rate instead of leaving the pair stuck.
+//
+// Without this, `lastKnownGood` is never written on rejection, so every
+// later fetch keeps comparing against the same pre-move baseline forever --
+// each one swings >3% from that frozen baseline and gets rejected again,
+// with no way back to a live rate short of a process restart (cold start
+// wiping the map). That silently contradicts this file's own "costs one
+// extra cache cycle of staleness" claim above, which assumes recovery
+// happens -- it doesn't, as implemented. A currency having a real bad
+// multi-day run (again, see COP) would leave the comparison table quoting
+// a rate that's days or weeks stale, still labeled merely `stale: true`
+// with no indication it's now arbitrarily far off, while genuinely-current
+// provider quotes are compared against it -- the *opposite* direction of
+// the currently-tracked negative-cost issue in docs/provider-data-sourcing.md,
+// but the same failure mode: a mid-market benchmark that no longer reflects
+// the real market it's supposed to represent.
+const pendingCandidates = new Map<string, { rate: number; confirmations: number }>();
+
+// How close a newly-rejected reading must land to the previously-rejected
+// one to count as "the same real level showing up again," as opposed to
+// still-inconsistent bouncing between unrelated snapshots. Deliberately
+// tighter than MAX_PLAUSIBLE_SWING -- confirmation is about two suspect
+// readings agreeing with each other, not about either agreeing with the
+// old baseline.
+const CANDIDATE_CONFIRM_TOLERANCE = 0.01; // 1%
+
 export async function getMidMarketRate(
   base: SupportedCurrency,
   target: string
@@ -91,6 +122,26 @@ export async function getMidMarketRate(
       const swing =
         Math.abs(data.rate - previouslyKnownGood.rate) / previouslyKnownGood.rate;
       if (swing > MAX_PLAUSIBLE_SWING) {
+        const pending = pendingCandidates.get(key);
+        const confirmsPending =
+          pending !== undefined &&
+          Math.abs(data.rate - pending.rate) / pending.rate <= CANDIDATE_CONFIRM_TOLERANCE;
+
+        if (confirmsPending && pending.confirmations + 1 >= 2) {
+          // Same suspect level as last time, on an independent fetch --
+          // this is a real move, not a one-off flaky snapshot. Accept it
+          // as the new baseline instead of staying stuck on the old one.
+          pendingCandidates.delete(key);
+          const fresh = { rate: data.rate, asOf: new Date(data.date).toISOString() };
+          lastKnownGood.set(key, fresh);
+          return fresh;
+        }
+
+        pendingCandidates.set(key, {
+          rate: data.rate,
+          confirmations: confirmsPending ? pending.confirmations + 1 : 1,
+        });
+
         console.error(
           `FX rate for ${key} swung ${(swing * 100).toFixed(1)}% since last known good ` +
             `(${previouslyKnownGood.rate} @ ${previouslyKnownGood.asOf} -> ${data.rate} @ ` +
@@ -99,6 +150,9 @@ export async function getMidMarketRate(
         );
         return { ...previouslyKnownGood, stale: true };
       }
+      // Within tolerance of known-good -- no longer a suspect reading, so
+      // drop any pending candidate from an earlier rejected swing.
+      pendingCandidates.delete(key);
     }
 
     // Use Frankfurter's own effective date rather than stamping "now" --
