@@ -177,7 +177,6 @@ const SEND_REGIONS: Record<string, Region> = {
   // Eurozone corridors are keyed by currency ("EUR"), not by member
   // country -- see the Corridor.sendCountry comment above.
   EUR: "Europe",
-  AE: "Gulf",
   AU: "Asia-Pacific",
 };
 
