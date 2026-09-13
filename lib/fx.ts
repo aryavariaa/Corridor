@@ -1,4 +1,4 @@
-export type SupportedCurrency = "USD" | "GBP" | "EUR" | "AED" | "MYR" | "AUD" | "CAD";
+export type SupportedCurrency = "USD" | "GBP" | "EUR" | "AUD" | "CAD";
 
 // Frankfurter (frankfurter.dev) -- free, no API key, no rate caps,
 // aggregating ~90+ central banks and refreshed daily. Replaces the

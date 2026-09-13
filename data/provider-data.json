@@ -51,16 +51,6 @@
       "largeAmount": 2000
     },
     {
-      "sendCountry": "AE",
-      "sendCountryName": "United Arab Emirates",
-      "sendCurrency": "AED",
-      "receiveCountry": "IN",
-      "receiveCountryName": "India",
-      "receiveCurrency": "INR",
-      "everydayAmount": 750,
-      "largeAmount": 7500
-    },
-    {
       "sendCountry": "US",
       "sendCountryName": "United States",
       "sendCurrency": "USD",
@@ -713,126 +703,6 @@
       "source": "XE"
     },
     {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "Wise",
-      "tier": "Everyday",
-      "sendAmount": 750,
-      "amountReceived": 19234.97,
-      "dateChecked": "2026-09-01",
-      "source": "Wise"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "Revolut",
-      "tier": "Everyday",
-      "sendAmount": 750,
-      "amountReceived": 19205.55,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "Remitly",
-      "tier": "Everyday",
-      "sendAmount": 750,
-      "amountReceived": 19432.5,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "Western Union",
-      "tier": "Everyday",
-      "sendAmount": 750,
-      "amountReceived": 19363,
-      "dateChecked": "2026-09-01",
-      "source": "Western Union"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "PayPal",
-      "tier": "Everyday",
-      "sendAmount": 750,
-      "amountReceived": 19367,
-      "dateChecked": "2026-09-01",
-      "source": "Paypal (Xoom)"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "XE",
-      "tier": "Everyday",
-      "sendAmount": 750,
-      "amountReceived": 19244.55,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "Wise",
-      "tier": "Large",
-      "sendAmount": 7500,
-      "amountReceived": 192837.64,
-      "dateChecked": "2026-09-01",
-      "source": "Wise"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "Revolut",
-      "tier": "Large",
-      "sendAmount": 7500,
-      "amountReceived": 192327.77,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "Remitly",
-      "tier": "Large",
-      "sendAmount": 7500,
-      "amountReceived": 193695,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "Western Union",
-      "tier": "Large",
-      "sendAmount": 7500,
-      "amountReceived": 193624,
-      "dateChecked": "2026-09-01",
-      "source": "Western Union"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "PayPal",
-      "tier": "Large",
-      "sendAmount": 7500,
-      "amountReceived": 193735.93,
-      "dateChecked": "2026-09-01",
-      "source": "Paypal (Xoom)"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "XE",
-      "tier": "Large",
-      "sendAmount": 7500,
-      "amountReceived": 192445.5,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
-    },
-    {
       "sendCountry": "US",
       "receiveCountry": "IN",
       "provider": "WorldRemit",
@@ -1113,26 +983,6 @@
       "source": "MoneyGram"
     },
     {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "MoneyGram",
-      "tier": "Everyday",
-      "sendAmount": 750,
-      "amountReceived": 19246.8,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "MoneyGram",
-      "tier": "Large",
-      "sendAmount": 7500,
-      "amountReceived": 192468,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
-    },
-    {
       "sendCountry": "US",
       "receiveCountry": "IN",
       "provider": "Ria",
@@ -1151,26 +1001,6 @@
       "amountReceived": 23119.35,
       "dateChecked": "2026-09-07",
       "source": "Ria Money Transfer"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "Al Ansari Exchange",
-      "tier": "Everyday",
-      "sendAmount": 750,
-      "amountReceived": 19230,
-      "dateChecked": "2026-09-07",
-      "source": "Al Ansari Exchange"
-    },
-    {
-      "sendCountry": "AE",
-      "receiveCountry": "IN",
-      "provider": "Al Ansari Exchange",
-      "tier": "Large",
-      "sendAmount": 7500,
-      "amountReceived": 192300,
-      "dateChecked": "2026-09-07",
-      "source": "Al Ansari Exchange"
     },
     {
       "sendCountry": "US",
