@@ -435,3 +435,75 @@ except PayPal, and PayPal specifically doesn't come back from the API for either
 so this script cannot close the remaining gap on its own. XE, Remitly, Revolut, and Paysend need
 their standard manual/browser-verified sourcing process; Remitly in particular will likely need
 the promo-cap-reveal technique (see above), which requires a JS-capable browser tool.
+
+## 2026-09-13 — Wise's own Comparison API documentation, read directly
+
+Everything this doc previously said about `wise.com/gateway/v3/comparisons` /
+`api.wise.com/v3/comparisons` (only ever returns Wise/PayPal/Western Union, one row per
+Eurozone origin country, etc.) was reverse-engineered from the response shape — the endpoint
+turned out to have real published docs (`docs.wise.com/api-reference/comparison`). Read them
+directly; a few things confirm what we'd inferred, a couple are genuinely new and actionable.
+
+**Confirms, and explains the COP fix more precisely.** Wise's own methodology: they collect
+real third-party quotes (rate + fee) for each provider roughly once an hour, compute that
+quote's markup over mid-market *at collection time*, then reapply that markup to *today's*
+mid-market rate on every request. That's why re-running `refresh-wise-rows.mjs` after COP's
+~3.2% move fixed the broken rows cleanly with zero code changes: Wise's feed was already
+re-basing itself to current mid-market on its own schedule, so pulling from it again was
+sufficient. Our own `providerRates` JSON has no such auto-rebasing — it's why a stale snapshot
+and a live comparison feed drift apart after a real market move in exactly the way this dataset
+did in September.
+
+**Confirms the multi-quote-per-provider behavior**, and gives it a name: a provider can expose
+several quotes for the same currency route, differentiated by target country (their example:
+one GBP→EUR quote for GB→ES, a different one for GB→DE). This is the documented reason the
+Eurozone quote-selection logic exists at all (fixed country-preference order `ES, IT, DE, FR,
+EE`, first match wins — see the automated-refresh section above) — not a workaround for
+undocumented behavior, the API working as designed.
+
+**New: the endpoint path in this repo may be stale.** The docs' own example request hits
+`api.wise.com/2026Q3/comparisons` — a quarterly-versioned path — not the `v3` path
+`scripts/refresh-wise-rows.mjs` currently calls (`fetchWiseComparison`, line 69:
+`https://api.wise.com/v3/comparisons/...`). Whether `v3` is still a live alias or has been
+retired in favor of date-versioned paths isn't something that can be checked from here — the
+sandbox this repo is edited from can't reach `api.wise.com` at all (see the automated-refresh
+section above). **Needs a live check from a machine with real egress** (the same constraint
+already noted for actually running the refresh script) before trusting `v3` still works.
+
+**New: the API takes several parameters the script doesn't use yet**, visible in the docs'
+full example request — `payInMethod`, `providers`, `sourceCountry`/`targetCountry`,
+`excludePartners`, `includeWise`, `numberOfProviders`, `filter`. Two are worth a follow-up pass
+on the script itself (not done here, this is a doc update, not a code change):
+- `payInMethod` would let the script request bank-transfer pricing explicitly instead of
+  relying on it being the undocumented default — directly relevant to the bank-transfer-only
+  caveat below.
+- `sourceCountry`/`targetCountry` would let it ask for a specific Eurozone origin directly,
+  replacing the current client-side "try ES, then IT, then DE..." preference-order fallback
+  with an actual request parameter.
+
+Also noted: the example request includes an `X-External-Correlation-Id` header, which the
+script doesn't currently send — likely fine (no auth requirement is documented), but worth
+adding if Wise's side ever needs to trace a specific request.
+
+**New caveat, not previously in this doc: bank-transfer-only scope.** Wise's docs state plainly
+that today the comparison API "only provide[s] estimations for FX transactions with a Bank
+Transfer pay-in and pay-out option," and that fees/rates can differ significantly for
+card/cash. `refresh-wise-rows.mjs` never sends a payment-method parameter, so every row it
+writes is implicitly whatever Wise defaults to — presumed bank transfer, now checkable via the
+`payInMethod` param above rather than assumed. What's still unconfirmed is whether every
+*manually*-sourced row elsewhere in this dataset (WorldRemit, Paysend, MoneyGram, Ria, Al
+Ansari, TransferGo) was captured from each provider's bank-transfer flow specifically, rather
+than a default card/cash quote where bank transfer isn't the first option shown. **Flagging for
+a future pass**: re-check each manual row's capture method against "was this bank-transfer
+pricing," not just "was this the standard non-promo rate."
+
+**Spot-checked `refresh-wise-rows.mjs` against the docs' stated request contract** ("you must
+provide either `sendAmount` or `recipientGetsAmount`, but not both") — the script only ever
+sends `sendAmount` (`fetchWiseComparison`, line 68-69), never both. No change needed, noting it
+here since it's now a documented requirement rather than an assumption.
+
+Escalation path also newly documented: Wise takes data-accuracy reports at
+`comparison@wise.com`, with their collection methodology and disclaimer at
+`wise.com/gb/compare/disclaimer` — worth citing directly if a future outlier can't be resolved
+by re-sourcing (e.g. the still-open XE/Remitly/Revolut/Paysend/PayPal gaps on `US→CO`/`EUR→CO`
+listed above).
