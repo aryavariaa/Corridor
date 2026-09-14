@@ -34,26 +34,6 @@
       "sendCountry": "US",
       "sendCountryName": "United States",
       "sendCurrency": "USD",
-      "receiveCountry": "CO",
-      "receiveCountryName": "Colombia",
-      "receiveCurrency": "COP",
-      "everydayAmount": 200,
-      "largeAmount": 2000
-    },
-    {
-      "sendCountry": "EUR",
-      "sendCountryName": "EUR",
-      "sendCurrency": "EUR",
-      "receiveCountry": "CO",
-      "receiveCountryName": "Colombia",
-      "receiveCurrency": "COP",
-      "everydayAmount": 200,
-      "largeAmount": 2000
-    },
-    {
-      "sendCountry": "US",
-      "sendCountryName": "United States",
-      "sendCurrency": "USD",
       "receiveCountry": "PH",
       "receiveCountryName": "Philippines",
       "receiveCurrency": "PHP",
@@ -97,6 +77,26 @@
       "receiveCountry": "IN",
       "receiveCountryName": "India",
       "receiveCurrency": "INR",
+      "everydayAmount": 300,
+      "largeAmount": 3000
+    },
+    {
+      "sendCountry": "EUR",
+      "sendCountryName": "EUR",
+      "sendCurrency": "EUR",
+      "receiveCountry": "IN",
+      "receiveCountryName": "India",
+      "receiveCurrency": "INR",
+      "everydayAmount": 200,
+      "largeAmount": 2000
+    },
+    {
+      "sendCountry": "US",
+      "sendCountryName": "United States",
+      "sendCurrency": "USD",
+      "receiveCountry": "VN",
+      "receiveCountryName": "Vietnam",
+      "receiveCurrency": "VND",
       "everydayAmount": 300,
       "largeAmount": 3000
     }
@@ -464,246 +464,6 @@
     },
     {
       "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Wise",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 583598.4,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=COP, sendAmount=200) -- rate 3080, fee 10.52 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Revolut",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 618512.12,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Remitly",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 625528,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Western Union",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 588269,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=COP, sendAmount=200, sourceCountry=US) -- rate 2970.9055, fee 1.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "PayPal",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 604950,
-      "dateChecked": "2026-09-01",
-      "source": "Paypal (Xoom)"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "XE",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 633732.6,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Wise",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 6052107.6,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=COP, sendAmount=2000) -- rate 3080, fee 35.03 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Revolut",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 6219956.65,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Remitly",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 6266120,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Western Union",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 6033911.68,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=COP, sendAmount=2000, sourceCountry=US) -- rate 3019.9607, fee 1.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "PayPal",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 6205500,
-      "dateChecked": "2026-09-01",
-      "source": "Paypal (Xoom)"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "XE",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 6337326,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Wise",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 697528.67,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=COP, sendAmount=200) -- rate 3572.49, fee 4.75 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Revolut",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 715379.49,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Remitly",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 718920,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Western Union",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 683649.97,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=COP, sendAmount=200, sourceCountry=ES) -- rate 3470.1282496265, fee 2.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "PayPal",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 720700,
-      "dateChecked": "2026-09-01",
-      "source": "Paypal (Xoom)"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "XE",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 734820,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Wise",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 7031089.02,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=COP, sendAmount=2000) -- rate 3572.49, fee 31.88 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Revolut",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 7195268.66,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Remitly",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 7189200,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Western Union",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 6926410.69,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=COP, sendAmount=2000, sourceCountry=ES) -- rate 3470.1282496265, fee 3.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "PayPal",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 7207050,
-      "dateChecked": "2026-09-01",
-      "source": "Paypal (Xoom)"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "XE",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 7348200,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
-    },
-    {
-      "sendCountry": "US",
       "receiveCountry": "IN",
       "provider": "WorldRemit",
       "tier": "Everyday",
@@ -759,46 +519,6 @@
       "tier": "Large",
       "sendAmount": 2000,
       "amountReceived": 33042.2,
-      "dateChecked": "2026-09-07",
-      "source": "WorldRemit"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "WorldRemit",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 610836,
-      "dateChecked": "2026-09-07",
-      "source": "WorldRemit"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "WorldRemit",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 6158378,
-      "dateChecked": "2026-09-07",
-      "source": "WorldRemit"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "WorldRemit",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 719406,
-      "dateChecked": "2026-09-07",
-      "source": "WorldRemit"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "WorldRemit",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 7194060,
       "dateChecked": "2026-09-07",
       "source": "WorldRemit"
     },
@@ -863,46 +583,6 @@
       "source": "Paysend"
     },
     {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Paysend",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 618994.66,
-      "dateChecked": "2026-09-07",
-      "source": "Paysend"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Paysend",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 6189946.6,
-      "dateChecked": "2026-09-07",
-      "source": "Paysend"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Paysend",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 720412.88,
-      "dateChecked": "2026-09-07",
-      "source": "Paysend"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Paysend",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 7204128.8,
-      "dateChecked": "2026-09-07",
-      "source": "Paysend"
-    },
-    {
       "sendCountry": "GB",
       "receiveCountry": "IN",
       "provider": "MoneyGram",
@@ -944,46 +624,6 @@
     },
     {
       "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "MoneyGram",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 618412,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "MoneyGram",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 6184120,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "MoneyGram",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 715304,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "MoneyGram",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 7153040,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
-    },
-    {
-      "sendCountry": "US",
       "receiveCountry": "IN",
       "provider": "Ria",
       "tier": "Everyday",
@@ -1000,46 +640,6 @@
       "sendAmount": 200,
       "amountReceived": 23119.35,
       "dateChecked": "2026-09-07",
-      "source": "Ria Money Transfer"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Ria",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 608972,
-      "dateChecked": "2026-09-08",
-      "source": "Ria Money Transfer"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "CO",
-      "provider": "Ria",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 6102148,
-      "dateChecked": "2026-09-08",
-      "source": "Ria Money Transfer"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Ria",
-      "tier": "Everyday",
-      "sendAmount": 200,
-      "amountReceived": 718000,
-      "dateChecked": "2026-09-08",
-      "source": "Ria Money Transfer"
-    },
-    {
-      "sendCountry": "EUR",
-      "receiveCountry": "CO",
-      "provider": "Ria",
-      "tier": "Large",
-      "sendAmount": 2000,
-      "amountReceived": 7180000,
-      "dateChecked": "2026-09-08",
       "source": "Ria Money Transfer"
     },
     {
@@ -1361,6 +961,366 @@
       "amountReceived": 206310,
       "dateChecked": "2026-09-10",
       "source": "remitly.com/ca/en/india - standard rate 68.77 INR, CAD0 fee"
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 21875.88,
+      "dateChecked": "2026-09-14",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=200) -- rate 110.568, fee 2.15 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 219769.38,
+      "dateChecked": "2026-09-14",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=2000) -- rate 110.568, fee 12.36 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 21941.95,
+      "dateChecked": "2026-09-14",
+      "source": "revolut.com international-money-transfer widget (EUR->INR) -- live rate 110.02885, fee EUR0.58"
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 219099.33,
+      "dateChecked": "2026-09-14",
+      "source": "revolut.com international-money-transfer widget (EUR->INR) -- live rate 110.17435, fee EUR11.34"
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 21827.42,
+      "dateChecked": "2026-09-14",
+      "source": "remitly.com/es/en/india -- standard (non-promo) rate 109.68 INR disclosed on-page above the EUR1,000 promo cap ('Welcome rate' 109.90 applies only to first EUR1,000); base fee EUR0.99 shown (first-transfer fee discount excluded as promotional). amountReceived computed as (sendAmount - fee) * rate per this dataset's established Remitly convention (see EUR->BD row)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 219251.42,
+      "dateChecked": "2026-09-14",
+      "source": "remitly.com/es/en/india -- standard (non-promo) rate 109.68 INR disclosed above the EUR1,000 promo cap; base fee EUR0.99. amountReceived computed as (sendAmount - fee) * rate."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 21305.29,
+      "dateChecked": "2026-09-14",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=200, sourceCountry=ES) -- rate 108.1431893639, fee 2.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 215746.74,
+      "dateChecked": "2026-09-14",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=2000, sourceCountry=ES) -- rate 108.1431893639, fee 4.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "PayPal",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 21842.0,
+      "dateChecked": "2026-09-14",
+      "source": "xoom.com (en-es/eur locale) live quote, Bank Deposit -- absent from the Wise Comparison API response for EUR->INR (as with USD->INR elsewhere in this dataset), sourced directly from PayPal's own Xoom calculator instead. Real standard rate shown, no first-transfer promo badge. Rate 109.2076 INR, fee EUR1.99."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "PayPal",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 218634.0,
+      "dateChecked": "2026-09-14",
+      "source": "xoom.com (en-es/eur locale) live quote, Bank Deposit. Rate 109.3169 INR, fee EUR0.00 (fee waived at this amount)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 22036.42,
+      "dateChecked": "2026-09-14",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 110.1821 INR, fee EUR3.00"
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 220364.2,
+      "dateChecked": "2026-09-14",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 110.1821 INR, fee EUR0.00"
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 21935,
+      "dateChecked": "2026-09-14",
+      "source": "worldremit.com (Spain origin) live quote, Bank Transfer -- rate 109.6773 INR, fee EUR1.99"
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 219355,
+      "dateChecked": "2026-09-14",
+      "source": "worldremit.com (Spain origin) live quote, Bank Transfer -- rate 109.6773 INR, fee EUR1.99"
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "MoneyGram",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 21714.0,
+      "dateChecked": "2026-09-14",
+      "source": "moneygram.com (es/en locale) live quote -- standard (non-promo) rate 108.57 INR disclosed struck-through next to the highlighted first-transfer promo rate (111.98); this dataset's established convention is to use the standard, non-promo figure (see docs/provider-data-sourcing.md's 'Data quality correction' note on MoneyGram promo-rate contamination). amountReceived = sendAmount * standard rate, matching this dataset's existing MoneyGram US->IN row convention."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 217140.0,
+      "dateChecked": "2026-09-14",
+      "source": "moneygram.com (es/en locale) live quote -- at EUR2,000 the page shows the standard rate directly (108.57 INR, no promo badge), confirming the EUR200 standard-rate reading. amountReceived = sendAmount * rate."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 200,
+      "amountReceived": 21422.0,
+      "dateChecked": "2026-09-14",
+      "source": "riamoneytransfer.com (es-es locale) live quote -- standard (non-promo) rate 107.11 INR disclosed struck-through next to the first-transfer promo rate (107.8830); fee EUR0.00 (standard, not promo-only -- promo fee also EUR0.00). amountReceived = sendAmount * rate."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "IN",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 2000,
+      "amountReceived": 214220.0,
+      "dateChecked": "2026-09-14",
+      "source": "riamoneytransfer.com (es-es locale) live quote -- at EUR2,000 the page shows the standard rate directly (107.11 INR, no promo badge), confirming the EUR200 standard-rate reading. Fee EUR0.00. amountReceived = sendAmount * rate."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 7550936.0,
+      "dateChecked": "2026-09-14",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=300) -- rate 25992.0, fee 9.49 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 77352452.0,
+      "dateChecked": "2026-09-14",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=3000) -- rate 25992.0, fee 23.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 7713680,
+      "dateChecked": "2026-09-14",
+      "source": "revolut.com international-money-transfer widget (USD->VND) -- live rate 25839.74399, fee USD1.48"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 77087486,
+      "dateChecked": "2026-09-14",
+      "source": "revolut.com international-money-transfer widget (USD->VND) -- live rate 25877.22816, fee USD21.03"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 7686347.56,
+      "dateChecked": "2026-09-14",
+      "source": "remitly.com/us/en/vietnam -- standard (non-promo) rate 25792.18 VND disclosed on-page above the $700 promo cap ('Welcome rate' 26,050.10 applies only to first $700); base fee $1.99 shown (first-transfer fee discount excluded as promotional). amountReceived computed as (sendAmount - fee) * rate per this dataset's established Remitly convention (see EUR->BD row)."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 77325213.56,
+      "dateChecked": "2026-09-14",
+      "source": "remitly.com/us/en/vietnam -- standard (non-promo) rate 25792.18 VND disclosed above the $700 promo cap; base fee $1.99. amountReceived computed as (sendAmount - fee) * rate."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 7650669.0,
+      "dateChecked": "2026-09-14",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=300, sourceCountry=US) -- rate 25586.6673895936, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 76734671.0,
+      "dateChecked": "2026-09-14",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=3000, sourceCountry=US) -- rate 25586.6673895936, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "PayPal",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 7556100.0,
+      "dateChecked": "2026-09-14",
+      "source": "xoom.com live quote, Bank Account -- absent from the Wise Comparison API response for USD->VND, sourced directly from PayPal's own Xoom calculator instead. Real standard rate shown ('Best Xoom Rate', no first-transfer promo badge). Rate 25187.06 VND, fee $2.99."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "PayPal",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 75561200.0,
+      "dateChecked": "2026-09-14",
+      "source": "xoom.com live quote, Bank Account -- rate 25187.06 VND, fee $2.99 (flat, unchanged from Everyday tier)."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 7700700.0,
+      "dateChecked": "2026-09-14",
+      "source": "xe.com send-money product page, Direct Debit (ACH) -- rate 25669 VND, fee $4.00"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 77007000.0,
+      "dateChecked": "2026-09-14",
+      "source": "xe.com send-money product page, Direct Debit (ACH) -- rate 25669 VND, fee $0.00"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 7671150,
+      "dateChecked": "2026-09-14",
+      "source": "worldremit.com live quote, Cash Pickup (no Bank Transfer option offered on this corridor) -- rate 25570.5007 VND, fee $1.99"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 76711502,
+      "dateChecked": "2026-09-14",
+      "source": "worldremit.com live quote, Cash Pickup -- rate 25570.5007 VND, fee $1.99"
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "MoneyGram",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 7706610.0,
+      "dateChecked": "2026-09-14",
+      "source": "moneygram.com live quote -- standard (non-promo) rate 25688.70 VND disclosed struck-through next to the highlighted first-transfer promo rate (26,168.79); this dataset's established convention is to use the standard, non-promo figure. amountReceived = sendAmount * standard rate, matching this dataset's existing MoneyGram US->IN row convention."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 77066100.0,
+      "dateChecked": "2026-09-14",
+      "source": "moneygram.com live quote -- at $3,000 the page shows the standard rate directly (25688.70 VND, 'Great rates, every time', no promo badge), confirming the $300 standard-rate reading. amountReceived = sendAmount * rate."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 7710477.0,
+      "dateChecked": "2026-09-14",
+      "source": "riamoneytransfer.com live quote -- standard (non-promo) rate 25701.59 VND disclosed struck-through next to the first-transfer promo rate (26,135.955); standard fee $2.90 (promo fee $0). amountReceived = sendAmount * rate."
+    },
+    {
+      "sendCountry": "US",
+      "receiveCountry": "VN",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 77104770.0,
+      "dateChecked": "2026-09-14",
+      "source": "riamoneytransfer.com live quote -- rate unchanged at $3,000 (25701.59 VND), confirming the standard-rate reading; standard fee $2.90. amountReceived = sendAmount * rate."
     }
   ]
 }

@@ -507,3 +507,92 @@ Escalation path also newly documented: Wise takes data-accuracy reports at
 `wise.com/gb/compare/disclaimer` — worth citing directly if a future outlier can't be resolved
 by re-sourcing (e.g. the still-open XE/Remitly/Revolut/Paysend/PayPal gaps on `US→CO`/`EUR→CO`
 listed above).
+
+## 2026-09-14 — Phase 1 of corridor expansion: drop Colombia, add EUR→India and US→Vietnam
+
+Net corridor count is unchanged at 10 (−2 Colombia, +2 new), just a different mix. This phase's
+own environment turned out to have real outbound network access (unlike every earlier session
+documented in this file) — `curl`/`fetch` to `api.wise.com` succeeded directly, so the Wise
+rows below were pulled live rather than left for a human to run `refresh-wise-rows.mjs`
+outside the sandbox. Worth re-checking in future sessions rather than assuming the network
+restriction documented above still holds everywhere.
+
+**Colombia removed.** Both `US→CO` and `EUR→CO`, and all 40 associated `providerRates` rows,
+are gone — this was a deliberate risk-reduction call (see the case study and the COP sections
+above for the real incident this corridor caused: a ~3.2% swing that produced impossible
+negative-cost readings and originally motivated the swing-guard in `lib/fx.ts`), not a data
+quality problem with the corridor itself. `lib/corridors.ts`'s `SEND_REGIONS` map never had a
+`CO` entry (Colombia was always a receive-side country, never a send-side one, so nothing there
+needed cleanup — same conclusion as the earlier AE cleanup). The one dead reference that did
+need removing: `next.config.ts` had a `/compare/ES/CO → /compare/EUR/CO` redirect from the
+2026-09-11 Eurozone re-keying, now pointing at a corridor that no longer exists — removed rather
+than left to redirect into the "not available yet" state one hop later.
+
+Per this repo's own precedent (the AE/AED cleanup left historical AE mentions throughout this
+file untouched), the historical COP/Colombia narrative elsewhere in this doc and in
+`lib/fx.ts`'s comments is left as-is — it documents *why* the swing-guard mechanism exists and
+remains accurate engineering history, not a claim that the corridor still exists today.
+
+**EUR→India added** (`sendCountry: "EUR"`, `everydayAmount`/`largeAmount` 200/2000, matching
+the existing `US→IN`/`GB→IN` convention exactly, per the brief). **US→Vietnam added**
+(`receiveCountryName: "Vietnam"`, `receiveCurrency: "VND"`, 300/3000, matching `US→PH`'s tier
+amounts as the more comparable-sized remittance market).
+
+**Provider coverage: 9 of this dataset's 10 current providers, both corridors, both tiers (18
+rows each, 36 total).** Note the dataset currently has exactly 10 providers, not 11 — Al Ansari
+Exchange (UAE-only) was already removed from the active provider list as part of the earlier AE
+corridor cleanup, so it was never a candidate here regardless.
+
+- **Wise, Western Union** — live `api.wise.com/v3/comparisons` pulls (same endpoint/logic as
+  `scripts/refresh-wise-rows.mjs`, including the `ES` EUR-source-country preference for
+  Western Union's EUR→INR quote). PayPal was queried too and, consistent with this doc's
+  existing PayPal-absence pattern (e.g. `USD→INR`), the API returned nothing for PayPal on
+  either new corridor at either tier.
+- **PayPal** — the Wise API's silence doesn't mean PayPal doesn't offer these corridors (see
+  the existing `USD→INR` PayPal row, which is real despite the same API gap), so it was sourced
+  directly from `xoom.com` instead. Both corridors returned a real, non-promotional "Best Xoom
+  Rate" quote (Bank Deposit for EUR→India, Bank Account for US→Vietnam) with no first-transfer
+  promo badge — notably *different* from `xoom.com`'s plain `/en-us/usd/` India flow, which only
+  ever shows a "First Time Rate" with no way to reveal a standard rate (matching this doc's
+  existing PayPal/Xoom exclusion on other India-bound corridors); the `/en-es/eur/` locale for
+  the same India destination did not have this restriction.
+- **Revolut** — live `revolut.com/money-transfer` widget quotes, both corridors/tiers directly
+  read off the page (no promo distinction shown on this provider's widget). The same widget
+  also confirmed `EUR→Vietnam` is a real corridor Revolut supports — noted here only in case
+  it's useful for a future batch, not added now (out of scope for this phase).
+- **Remitly** — promo-cap-reveal technique (see the 2026-09-10 batch section above): standard
+  rate disclosed in on-page text once the entered amount exceeds the promo cap (EUR→India cap
+  €1,000; US→Vietnam cap $700). `amountReceived` computed as `(sendAmount − fee) × rate` per
+  this dataset's established Remitly convention (see the `EUR→BD` row) rather than read directly
+  off the blended promo+standard total the page shows below full confirmation.
+- **XE** — live `xe.com` send-money product page quotes, both corridors/tiers, direct reads
+  (Wire Transfer for EUR→India, Direct Debit/ACH for US→Vietnam).
+- **WorldRemit** — live `worldremit.com` quotes. EUR→India via Bank Transfer (Spain origin,
+  consistent with this dataset's `ES` EUR-preference convention). US→Vietnam via **Cash
+  Pickup** — Bank Transfer isn't offered as a receive method into `VND` on this corridor
+  (only Cash Pickup and Airtime Top-up are), so Cash Pickup was used instead of leaving the
+  provider out.
+- **MoneyGram** — live `moneygram.com` quotes (`.com/mgo/us/en` and `.com/mgo/es/en` locales).
+  Same struck-through-standard-vs-highlighted-promo pattern as this doc's other MoneyGram
+  corrections: used the standard rate (108.57 EUR→INR, 25688.70 USD→VND), confirmed independently
+  by the fact that at the Large tier amount the page stops showing a promo badge at all and
+  displays that same standard rate directly ("Great rates, every time"). `amountReceived =
+  sendAmount × rate`, matching this dataset's existing MoneyGram `US→IN` row convention (no fee
+  subtraction).
+- **Ria Money Transfer** — live `riamoneytransfer.com` quotes (`en-us` and `es-es` locales).
+  Same struck-through standard-vs-promo pattern; standard fee was €0.00/$2.90 respectively
+  (not promotional artifacts — the EUR→India promo fee is *also* €0.00, so no promo/standard fee
+  gap exists there). `amountReceived = sendAmount × rate`.
+- **Paysend — not sourced, needs manual entry.** `paysend.com` served a Cloudflare
+  "verify you are human" bot-detection challenge for this session, which was not attempted
+  (bypassing bot-detection is out of policy). Unlike TransferGo's exclusion elsewhere in this
+  doc, this isn't a "provider doesn't support the corridor" gap — it's simply unattempted.
+  Needs a real browser session (or a human) that Cloudflare doesn't challenge.
+
+**Outlier/negative-cost sweep**, same method as every other correction in this file (implied
+rate = `amountReceived / sendAmount`, flag anything beating its corridor+tier peer cluster by
+more than ~8%, and flag anything beating the live Frankfurter mid-market rate at all): run
+across all 20 corridor+tier groups in the updated dataset (10 corridors × 2 tiers). Zero flags.
+Both new corridors' implied rates cluster within roughly a 2–4% band per corridor+tier, and
+every row sits comfortably below that day's live mid-market rate (EUR→INR 110.88, USD→VND
+25,862 on 2026-09-14).
