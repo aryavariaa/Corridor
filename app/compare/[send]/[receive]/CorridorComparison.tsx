@@ -33,10 +33,23 @@ function corridorLabel(c: Corridor): string {
   return `${sendSideLabel(c.sendCountryName, c.sendCurrency)} → ${c.receiveCountryName} (${c.receiveCurrency})`;
 }
 
+// timeZone: "UTC" is load-bearing, not cosmetic. dateChecked/asOf are
+// date-only or UTC-effective values (see lib/corridors.ts/lib/fx.ts), and
+// this app statically prerenders these pages (generateStaticParams +
+// ISR). Without a pinned timeZone, toLocaleDateString renders in
+// whatever timezone the *runtime* happens to be in -- Vercel's build/SSR
+// environment (UTC) vs. a visitor's browser (their local zone) -- so the
+// same ISO string can format to two different calendar dates one day
+// apart, producing a text mismatch between the server-rendered HTML and
+// the client's hydration render. That's a real, reproduced hydration
+// failure (React error #418), not a hypothetical: confirmed by building
+// under TZ=UTC and hydrating in a Pacific-time browser, where e.g.
+// "2026-08-31" rendered "Aug 31" server-side and "Aug 30" client-side.
 function shortDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
+    timeZone: "UTC",
   });
 }
 
@@ -54,7 +67,7 @@ function RowFreshnessBadge({ dateChecked }: { dateChecked: string }) {
   return (
     <span
       className="inline-flex items-center gap-1.5 tabular-nums"
-      title={new Date(dateChecked).toLocaleDateString("en-US")}
+      title={new Date(dateChecked).toLocaleDateString("en-US", { timeZone: "UTC" })}
     >
       <span
         aria-hidden="true"
@@ -332,7 +345,7 @@ export default function CorridorComparison({
             {corridor.sendCurrency} ={" "}
             {rate(result.liveRate)}{" "}
             {corridor.receiveCurrency} &middot; as of{" "}
-            {new Date(result.asOf).toLocaleDateString("en-US")}
+            {new Date(result.asOf).toLocaleDateString("en-US", { timeZone: "UTC" })}
           </p>
 
           {heroProvider ? (
