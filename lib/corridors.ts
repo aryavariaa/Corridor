@@ -1,5 +1,5 @@
 import providerData from "@/data/provider-data.json";
-import { getMidMarketRate, type SupportedCurrency } from "@/lib/fx";
+import { getMidMarketRate, type RateAnomaly, type SupportedCurrency } from "@/lib/fx";
 
 export type Tier = "Everyday" | "Large";
 
@@ -56,6 +56,11 @@ export type RankedProvidersResult = {
   // True when liveRate/asOf came from a cached fallback because the live
   // FX fetch failed, not from a fresh request.
   rateStale?: boolean;
+  // Present only when rateStale is true because getMidMarketRate rejected
+  // a suspect swing (see lib/fx.ts), not a plain upstream fetch failure --
+  // lets the UI/AI-insight layer explain *why* with real numbers instead
+  // of just showing the generic "not live right now" state.
+  rateAnomaly?: RateAnomaly;
   providers: RankedProvider[];
 };
 
@@ -156,6 +161,7 @@ export async function getRankedProviders(
     liveRate: live.rate,
     asOf: live.asOf,
     rateStale: live.stale,
+    rateAnomaly: live.anomaly,
     providers,
   };
 }

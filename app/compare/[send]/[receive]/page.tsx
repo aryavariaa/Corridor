@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { findCorridor, getRankedProviders, listCorridors } from "@/lib/corridors";
+import { corridorId, findCorridor, getRankedProviders, listCorridors } from "@/lib/corridors";
+import { getPickExplainer, getAnomalyExplanation } from "@/lib/ai";
 import CorridorComparison from "./CorridorComparison";
 
 // Only the pairs we actually have researched provider data for are
@@ -119,5 +120,28 @@ export default async function ComparePage({
     );
   }
 
-  return <CorridorComparison corridor={corridor} initialResult={initialResult} />;
+  // Computed alongside the ranking, server-side, so the first paint
+  // already has the AI insight/anomaly text where available -- same
+  // reasoning as computing initialResult here instead of only client-side.
+  // Both fail gracefully to null internally (no ANTHROPIC_API_KEY, a
+  // timeout, etc.) rather than throwing, so this never blocks the page.
+  const id = corridorId(corridor);
+  const [initialInsight, initialAnomalyExplanation] = await Promise.all([
+    getPickExplainer(id, "Everyday", initialResult, corridor.receiveCurrency),
+    initialResult.rateAnomaly
+      ? getAnomalyExplanation(
+          `${corridor.sendCurrency}->${corridor.receiveCurrency}`,
+          initialResult.rateAnomaly
+        )
+      : Promise.resolve(null),
+  ]);
+
+  return (
+    <CorridorComparison
+      corridor={corridor}
+      initialResult={initialResult}
+      initialInsight={initialInsight}
+      initialAnomalyExplanation={initialAnomalyExplanation}
+    />
+  );
 }

@@ -13,12 +13,29 @@ type FrankfurterRateResponse = {
   rate: number;
 };
 
+// Structured detail for the specific "swing rejected" case below, as
+// opposed to a plain upstream fetch failure -- both set `stale: true` on
+// MidMarketRate, but only this case has real numbers behind it worth
+// narrating (see lib/ai.ts's getAnomalyExplanation, added for the AI Rate
+// Insights feature). Every field here is a real value already computed
+// below; nothing here is invented for the narration.
+export type RateAnomaly = {
+  previousRate: number;
+  previousAsOf: string;
+  rejectedRate: number;
+  rejectedAsOf: string;
+  swingPercent: number; // e.g. 3.2 for a 3.2% swing
+};
+
 export type MidMarketRate = {
   rate: number;
   asOf: string;
   // True when this is a cached rate served because the live fetch failed —
   // lets the UI say so instead of silently showing a stale number as live.
   stale?: boolean;
+  // Present only when `stale` is true because of a rejected swing (see
+  // MAX_PLAUSIBLE_SWING below), not a plain fetch failure.
+  anomaly?: RateAnomaly;
 };
 
 // Last known-good rate per currency pair, kept in memory so a single
@@ -142,13 +159,24 @@ export async function getMidMarketRate(
           confirmations: confirmsPending ? pending.confirmations + 1 : 1,
         });
 
+        const rejectedAsOf = new Date(data.date).toISOString();
         console.error(
           `FX rate for ${key} swung ${(swing * 100).toFixed(1)}% since last known good ` +
             `(${previouslyKnownGood.rate} @ ${previouslyKnownGood.asOf} -> ${data.rate} @ ` +
-            `${new Date(data.date).toISOString()}) -- treating this as a suspect upstream ` +
+            `${rejectedAsOf}) -- treating this as a suspect upstream ` +
             `snapshot rather than a real move, serving the last known-good rate instead.`
         );
-        return { ...previouslyKnownGood, stale: true };
+        return {
+          ...previouslyKnownGood,
+          stale: true,
+          anomaly: {
+            previousRate: previouslyKnownGood.rate,
+            previousAsOf: previouslyKnownGood.asOf,
+            rejectedRate: data.rate,
+            rejectedAsOf,
+            swingPercent: swing * 100,
+          },
+        };
       }
       // Within tolerance of known-good -- no longer a suspect reading, so
       // drop any pending candidate from an earlier rejected swing.

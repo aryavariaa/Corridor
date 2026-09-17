@@ -18,6 +18,8 @@ import {
   getDeviceId,
   type SortField,
 } from "@/lib/analytics";
+import { trackAiInsightShown, trackAnomalyExplanationShown } from "@/lib/plausible";
+import { money, percent, rate } from "@/lib/format";
 
 // Omits the parenthetical when the name and currency are already the same
 // string -- true for Eurozone corridors, where sendCountryName is "EUR"
@@ -29,25 +31,6 @@ function sendSideLabel(name: string, currency: string): string {
 
 function corridorLabel(c: Corridor): string {
   return `${sendSideLabel(c.sendCountryName, c.sendCurrency)} → ${c.receiveCountryName} (${c.receiveCurrency})`;
-}
-
-function money(currency: string, amount: number, fractionDigits = 2): string {
-  try {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency,
-      minimumFractionDigits: fractionDigits,
-      maximumFractionDigits: fractionDigits,
-    }).format(amount);
-  } catch {
-    return `${amount.toLocaleString("en-US", {
-      maximumFractionDigits: fractionDigits,
-    })} ${currency}`;
-  }
-}
-
-function percent(fraction: number): string {
-  return `${(fraction * 100).toFixed(1)}%`;
 }
 
 function shortDate(iso: string): string {
@@ -85,9 +68,13 @@ function RowFreshnessBadge({ dateChecked }: { dateChecked: string }) {
 export default function CorridorComparison({
   corridor,
   initialResult,
+  initialInsight,
+  initialAnomalyExplanation,
 }: {
   corridor: Corridor;
   initialResult: RankedProvidersResult;
+  initialInsight: string | null;
+  initialAnomalyExplanation: string | null;
 }) {
   const id = corridorId(corridor);
 
@@ -96,6 +83,29 @@ export default function CorridorComparison({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortField>("cost_asc");
+
+  // AI Rate Insights: both narrations are LLM-generated from numbers
+  // already computed above (see lib/ai.ts) and both render always-visible
+  // rather than behind an expand click, so a change in either fires a
+  // page-level "shown" event below, not an "expanded" one. Fetched
+  // alongside /api/compare on every tier switch, but never blocks it --
+  // a slow or failed insight/anomaly call just leaves these null.
+  const [insight, setInsight] = useState<string | null>(initialInsight);
+  const [anomalyExplanation, setAnomalyExplanation] = useState<string | null>(
+    initialAnomalyExplanation
+  );
+
+  useEffect(() => {
+    if (insight) trackAiInsightShown({ corridorId: id, tier });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [insight]);
+
+  useEffect(() => {
+    if (anomalyExplanation) {
+      trackAnomalyExplanationShown({ corridorId: id, tier });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anomalyExplanation]);
 
   // Fires once for the page's initial (server-rendered) tier on mount --
   // this component fully remounts on every corridor navigation, so an
@@ -145,13 +155,12 @@ export default function CorridorComparison({
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `/api/compare?sendCountry=${encodeURIComponent(
-          corridor.sendCountry
-        )}&receiveCountry=${encodeURIComponent(
-          corridor.receiveCountry
-        )}&tier=${encodeURIComponent(next)}`
-      );
+      const query =
+        `sendCountry=${encodeURIComponent(corridor.sendCountry)}` +
+        `&receiveCountry=${encodeURIComponent(corridor.receiveCountry)}` +
+        `&tier=${encodeURIComponent(next)}`;
+
+      const res = await fetch(`/api/compare?${query}`);
       const json = await res.json();
       if (!res.ok) {
         throw new Error(json?.error ?? `Request failed (${res.status})`);
@@ -167,6 +176,22 @@ export default function CorridorComparison({
         receiveCurrency: corridor.receiveCurrency,
         tier: next,
       });
+
+      // Fire-and-forget relative to the ranking update above: the AI
+      // narration is a nice-to-have layered on top, never a blocker. A
+      // slow LLM call or a missing ANTHROPIC_API_KEY just leaves these
+      // null rather than delaying or failing the tier switch itself.
+      setInsight(null);
+      setAnomalyExplanation(null);
+      fetch(`/api/insight?${query}`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((json2: { insight?: string | null; anomalyExplanation?: string | null } | null) => {
+          setInsight(json2?.insight ?? null);
+          setAnomalyExplanation(json2?.anomalyExplanation ?? null);
+        })
+        .catch(() => {
+          // Already null from the reset above -- nothing more to do.
+        });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -294,16 +319,18 @@ export default function CorridorComparison({
               role="status"
               className="mb-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
             >
-              We couldn&rsquo;t reach the live rate feed just now, so this is
-              the last rate we successfully fetched, not a live one.
+              {/* AI-generated only when a real rejected reading is behind
+                  the staleness (see lib/ai.ts's getAnomalyExplanation) --
+                  otherwise this is a plain upstream fetch failure and the
+                  generic message below still applies. */}
+              {anomalyExplanation ??
+                "We couldn't reach the live rate feed just now, so this is the last rate we successfully fetched, not a live one."}
             </div>
           )}
           <p className="text-xs text-stone-500">
             {result.rateStale ? "Last known rate" : "Live rate"} 1{" "}
             {corridor.sendCurrency} ={" "}
-            {result.liveRate.toLocaleString("en-US", {
-              maximumFractionDigits: 4,
-            })}{" "}
+            {rate(result.liveRate)}{" "}
             {corridor.receiveCurrency} &middot; as of{" "}
             {new Date(result.asOf).toLocaleDateString("en-US")}
           </p>
@@ -335,6 +362,14 @@ export default function CorridorComparison({
               <div className="mt-3 text-xs text-stone-500 dark:text-stone-400">
                 <RowFreshnessBadge dateChecked={heroProvider.dateChecked} />
               </div>
+              {insight && (
+                <p className="mt-3 border-t border-accent/20 pt-3 text-sm text-stone-700 dark:text-stone-300">
+                  <span className="font-medium text-accent">
+                    Why {heroProvider.provider} wins:{" "}
+                  </span>
+                  {insight}
+                </p>
+              )}
             </div>
           ) : (
             <p className="mt-4 rounded-md border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-500 dark:border-stone-800 dark:bg-stone-900">
