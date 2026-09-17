@@ -22,10 +22,22 @@ function percent(fraction: number): string {
   return `${(fraction * 100).toFixed(1)}%`;
 }
 
+// Deterministic hairline-divider borders for a 2-column (1-column on
+// mobile) grid, purely a function of index -- see the design-pass notes
+// in the commit for why this specific formula (only index 1 needs a
+// responsive override; every other index either always or never gets a
+// top border at both breakpoints, so there's never a conflicting pair of
+// sm: utilities fighting over the same edge).
+function directoryCellBorder(i: number): string {
+  const top = i === 0 ? "" : i === 1 ? "border-t sm:border-t-0" : "border-t";
+  const right = i % 2 === 0 ? "sm:border-r" : "";
+  return `${top} ${right} border-card-border`.trim();
+}
+
 function FreshnessBadge({ freshness }: { freshness: DirectoryEntry["freshness"] }) {
   if (!freshness) return null;
   return (
-    <span className="inline-flex items-center gap-1.5 text-xs text-stone-600 dark:text-stone-400">
+    <span className="inline-flex items-center gap-1.5 text-xs text-text-dim">
       <span
         aria-hidden="true"
         className={`h-1.5 w-1.5 rounded-full ${FRESHNESS_DOT_CLASS[freshness.level]}`}
@@ -35,19 +47,25 @@ function FreshnessBadge({ freshness }: { freshness: DirectoryEntry["freshness"] 
   );
 }
 
-function CorridorCard({ entry }: { entry: DirectoryEntry }) {
+function CorridorCard({
+  entry,
+  className = "",
+}: {
+  entry: DirectoryEntry;
+  className?: string;
+}) {
   const { corridor, freshness, teaser } = entry;
   return (
     <Link
       href={`/compare/${corridor.sendCountry}/${corridor.receiveCountry}`}
-      className="flex flex-col gap-2 rounded-lg border border-stone-200 bg-white p-4 transition-colors hover:border-link dark:border-stone-800 dark:bg-stone-950 dark:hover:border-link"
+      className={`flex flex-col gap-2 p-4 transition-colors hover:bg-accent-tint/20 ${className}`}
     >
-      <span className="text-base font-semibold">
+      <span className="font-heading text-base font-semibold">
         {corridor.sendCountryName}
-        <span className="mx-1.5 text-stone-400 dark:text-stone-600">→</span>
+        <span className="mx-1.5 text-text-faint">→</span>
         {corridor.receiveCountryName}
       </span>
-      <span className="text-xs text-stone-600 dark:text-stone-400">
+      <span className="text-xs text-text-dim">
         {corridor.sendCurrency} → {corridor.receiveCurrency}
       </span>
       <span className="text-sm">
@@ -57,9 +75,7 @@ function CorridorCard({ entry }: { entry: DirectoryEntry }) {
             <span className="font-medium text-cost">{percent(teaser.costPercent)} cost</span>
           </>
         ) : (
-          <span className="text-stone-400 dark:text-stone-600">
-            Live rate unavailable right now
-          </span>
+          <span className="text-text-faint">Live rate unavailable right now</span>
         )}
       </span>
       <FreshnessBadge freshness={freshness} />
@@ -139,9 +155,9 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
   const hasFilter = Boolean(sendCountry || receiveCountry);
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-12">
-      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Corridor</h1>
-      <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+    <main className="mx-auto w-full max-w-5xl px-6 py-16">
+      <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight">Corridor</h1>
+      <p className="mt-3 text-sm text-text-dim">
         Ranks providers by how much of the live mid-market value survives fees
         and FX margin. Cheapest first.
       </p>
@@ -151,11 +167,11 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
         </Link>
       </p>
 
-      <div className="mt-8 flex flex-col gap-3 rounded-lg border border-stone-200 p-4 sm:flex-row sm:items-end sm:gap-4 dark:border-stone-800">
+      <div className="mt-10 flex flex-col gap-3 rounded-lg border border-card-border bg-card p-4 sm:flex-row sm:items-end sm:gap-4">
         <div className="flex-1 space-y-1.5">
           <label
             htmlFor="send-country"
-            className="block text-xs font-medium text-stone-700 dark:text-stone-300"
+            className="block text-xs font-medium text-text-dim"
           >
             Sending from
           </label>
@@ -163,7 +179,7 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
             id="send-country"
             value={sendCountry}
             onChange={(e) => handleSendChange(e.target.value)}
-            className="w-full rounded-md border border-stone-300 bg-white px-3 py-1.5 text-sm shadow-sm outline-none focus:border-link dark:border-stone-700 dark:bg-stone-950"
+            className="w-full rounded-md border border-card-border bg-card px-3 py-1.5 text-sm outline-none focus:border-link"
           >
             <option value="">Anywhere</option>
             {sendOptions.map((c) => (
@@ -177,7 +193,7 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
         <div className="flex-1 space-y-1.5">
           <label
             htmlFor="receive-country"
-            className="block text-xs font-medium text-stone-700 dark:text-stone-300"
+            className="block text-xs font-medium text-text-dim"
           >
             Sending to
           </label>
@@ -185,7 +201,7 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
             id="receive-country"
             value={receiveCountry}
             onChange={(e) => setReceiveCountry(e.target.value)}
-            className="w-full rounded-md border border-stone-300 bg-white px-3 py-1.5 text-sm shadow-sm outline-none focus:border-link dark:border-stone-700 dark:bg-stone-950"
+            className="w-full rounded-md border border-card-border bg-card px-3 py-1.5 text-sm outline-none focus:border-link"
           >
             <option value="">Anywhere</option>
             {receiveOptions.map((c) => (
@@ -203,29 +219,30 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
               setSendCountry("");
               setReceiveCountry("");
             }}
-            className="text-sm text-stone-500 hover:text-stone-700 hover:underline dark:text-stone-400 dark:hover:text-stone-200 sm:pb-2"
+            className="text-sm text-text-dim hover:text-text hover:underline sm:pb-2"
           >
             Clear filters
           </button>
         )}
       </div>
 
-      <div className="mt-10 space-y-10">
+      <div className="mt-12 space-y-12">
         {grouped.length === 0 && (
-          <p className="text-sm text-stone-600 dark:text-stone-400">
+          <p className="text-sm text-text-dim">
             No corridors match that combination yet.
           </p>
         )}
         {grouped.map(({ region, entries: regionEntries }) => (
           <section key={region}>
-            <h2 className="text-sm font-bold uppercase tracking-widest text-stone-600 dark:text-stone-400">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-text-dim">
               {region === "Other" ? "Other" : `From ${region}`}
             </h2>
-            <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {regionEntries.map((entry) => (
+            <div className="mt-4 grid grid-cols-1 rounded-lg border border-card-border bg-card sm:grid-cols-2">
+              {regionEntries.map((entry, i) => (
                 <CorridorCard
                   key={`${entry.corridor.sendCountry}-${entry.corridor.receiveCountry}`}
                   entry={entry}
+                  className={directoryCellBorder(i)}
                 />
               ))}
             </div>
@@ -233,7 +250,7 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
         ))}
       </div>
 
-      <footer className="mt-12 border-t border-stone-200 pt-6 text-sm text-stone-600 dark:border-stone-800 dark:text-stone-400">
+      <footer className="mt-16 border-t border-card-border pt-6 text-sm text-text-dim">
         <Link href="/methodology" className="text-link hover:underline">
           How we calculate this
         </Link>

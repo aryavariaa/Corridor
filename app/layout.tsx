@@ -1,18 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, Inter } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import SiteHeader from "./SiteHeader";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Headings, wordmark, provider names only -- see --font-heading in
+// globals.css. Google Fonts only ships Space Grotesk in 300-700 (no
+// 800); everywhere the design calls for "800" this uses 700, the
+// heaviest weight actually available, rather than a weight that doesn't
+// exist.
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Body copy, nav, labels, table cells -- see --font-sans in globals.css.
+const inter = Inter({
+  variable: "--font-body",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 const siteTitle = "Corridor — Compare remittance providers";
@@ -37,12 +45,40 @@ export const metadata: Metadata = {
   },
 };
 
+// Runs before hydration (strategy="beforeInteractive" injects this into
+// the initial HTML and executes it before the page becomes interactive)
+// so [data-theme] is correct on the very first paint -- no flash of the
+// wrong theme. Precedence: an explicit stored choice wins; otherwise
+// respect the OS's light preference; otherwise default dark. Keep this
+// logic in sync with app/ThemeToggle.tsx, which is the only other place
+// that reads/writes the same "corridor-theme" localStorage key.
+const THEME_INIT_SCRIPT = `
+(function() {
+  try {
+    var stored = localStorage.getItem('corridor-theme');
+    var theme = (stored === 'light' || stored === 'dark')
+      ? stored
+      : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
     >
+      <head>
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <SiteHeader />
         {children}

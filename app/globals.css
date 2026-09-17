@@ -1,90 +1,126 @@
 @import "tailwindcss";
 
-:root {
-  /* Warm off-white, not pure white -- light is the primary, default
-     experience for this consumer trust product (dark stays supported,
-     OS-driven, but secondary -- see the dark block below). This doesn't
-     copy the portfolio site's (aryavaria.com) exact palette, just moves
-     in the same warm direction instead of clashing with it, since the
-     two are one person's work and shouldn't read as designed by two
-     different people. */
-  --background: #faf7f2;
-  --foreground: #1c1917;
+/* Retargets Tailwind's dark: variant from its default prefers-color-scheme
+   media query onto the toggle-driven [data-theme="dark"] attribute (see
+   app/ThemeToggle.tsx and app/layout.tsx's theme-init script). This is
+   what keeps every existing dark: utility class already in the codebase
+   (the amber rate/cost-anomaly banners, the red/green subscribe-status
+   text) correctly following the manual toggle -- without it, those would
+   still be listening for the OS setting instead of the user's choice. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-  /* Brand / featured accent: warm terracotta. Owns exactly two things --
-     brand identity (wordmark, nav) and "featured" UI (the cheapest-
-     right-now badge, the active tier toggle, primary buttons). Every
-     other color below is deliberately a different hue, so "this is
-     featured," "this number is good," and "this is a link" each read as
-     one distinct signal instead of one green covering all three (plus
-     freshness) the way it used to. */
-  --accent: #b5502f;
-  --accent-foreground: #ffffff;
+/* Final visual system (supersedes the brief-7 warm-terracotta pass,
+   commit 72bcf47) -- exact token values as specified. Toggle-driven via
+   [data-theme], not prefers-color-scheme media queries: see
+   app/ThemeToggle.tsx and the inline theme-init script in app/layout.tsx
+   for how [data-theme] gets set (localStorage choice > OS light
+   preference > dark fallback). */
+:root {
+  --bg: #ebfdfe;
+  --bg-grad: #d8fdfd;
+  --card: #ffffff;
+  --card-border: #cdeef0;
+
+  /* Brand / featured accent -- badges, buttons, active toggle states,
+     link-adjacent UI. Deliberately never the same color as --cost below,
+     so "this is featured" and "this number is good" stay two distinct
+     signals. */
+  --accent: #165e67;
+  --accent-contrast: #ffffff;
+  --accent-tint: #bff0e6;
 
   /* Cost-percentage color: owns exactly one meaning, everywhere in the
-     app -- the cost% value itself (hero stat, table column, directory
-     teaser). Never reused for links, badges, or freshness, so it stays a
-     singular, legible signal for "this is the number that matters." */
-  --cost: #15803d;
+     app -- the cost% value itself. Never reused for links, badges, or
+     anything else. */
+  --cost: #0f7a4f;
 
-  /* Link color: distinct from both accent (featured) and cost (the
-     number), so "this is clickable" never gets confused with either. */
   --link: #0e7490;
 
-  /* Freshness dots: neutral grayscale, not color -- freshness (how
-     recently a rate was checked) is a secondary, informational signal,
-     not a judgment call like cost or featured status, so it shouldn't
-     compete with them for the same visual register. Darker = older/
-     stalest (the state that most deserves a second look), lighter =
-     fresher (barely worth noticing) -- the same way faded print vs.
-     crisp new ink reads. Dark mode below inverts the actual lightness
-     values to preserve this same intent against a dark background. */
-  --fresh: #a8a29e;
-  --aging: #78716c;
-  --stale: #44403c;
+  --text: #10182e;
+  --text-dim: #4b5568;
+  /* Measured contrast: 3.06:1 (light) / 3.29:1 (dark) against --card,
+     3.21:1 (light) / 3.52:1 (dark) against --bg -- below the 4.5:1 AA
+     threshold for normal text at these exact spec'd values. Used only
+     for genuinely secondary/decorative text where the same information
+     is always available elsewhere (e.g. a static caption under a much
+     larger colored number, never as the sole carrier of anything). See
+     the verification notes in the commit for the full contrast table.
+     */
+  --text-faint: #88909f;
+
+  /* Freshness dots -- not in the brief's token list (freshness itself is
+     out of scope / untouched from brief-7), so these reuse the text
+     hierarchy tokens above rather than inventing new ones: fresh is
+     barely-there (--text-faint), aging is --text-dim, stale is --text
+     itself -- preserving brief-7's "darker/more prominent = older, more
+     worth a second look" intent without adding vocabulary the brief
+     didn't specify. */
+  --fresh: var(--text-faint);
+  --aging: var(--text-dim);
+  --stale: var(--text);
+
+  /* Low-opacity divider inside the solid-accent hero panel (item 4):
+     light mode's --accent is dark, so a light divider reads as a subtle
+     line on it -- the literal rgba(255,255,255,.25) the brief specifies. */
+  --hero-divider: rgba(255, 255, 255, 0.25);
+}
+
+[data-theme="dark"] {
+  --bg: #0b1120;
+  --bg-grad: #080c18;
+  --card: #10182e;
+  --card-border: #31384b;
+
+  --accent: #1dbfe1;
+  --accent-contrast: #051016;
+  --accent-tint: #0d3944;
+
+  --cost: #2dd4a0;
+
+  --link: #6fe1f5;
+
+  --text: #ebfdfe;
+  --text-dim: #9fa3ab;
+  --text-faint: #636b7c;
+
+  /* Lightness intent inverted vs. light mode, same as brief-7: stale is
+     now the tone closest to --text (most prominent against a dark
+     background), fresh is closest to --bg (recedes). */
+  --fresh: var(--text-faint);
+  --aging: var(--text-dim);
+  --stale: var(--text);
+
+  /* --accent is *light* in dark mode (bright cyan), so the divider needs
+     to go dark instead to read the same way -- reusing --accent-contrast
+     (the near-black used as text on that panel) at low opacity, the
+     "equivalent low-opacity divider on dark" the brief asks for. */
+  --hero-divider: rgba(5, 16, 22, 0.3);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg);
+  --color-card: var(--card);
+  --color-card-border: var(--card-border);
   --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-accent-tint: var(--accent-tint);
   --color-cost: var(--cost);
   --color-link: var(--link);
+  --color-text: var(--text);
+  --color-text-dim: var(--text-dim);
+  --color-text-faint: var(--text-faint);
   --color-fresh: var(--fresh);
   --color-aging: var(--aging);
   --color-stale: var(--stale);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Warm dark charcoal, not pure/near-black -- de-blacked per the
-       design pass (the old #0a0a0a read as "dev tool," per feedback),
-       but dark stays the secondary, OS-driven variant; light above is
-       primary. */
-    --background: #221e1a;
-    --foreground: #f0ece5;
-
-    --accent: #e08a5f;
-    --accent-foreground: #221108;
-
-    --cost: #4ade80;
-
-    --link: #22d3ee;
-
-    /* Lightness intent inverted vs. light mode (see the light block's
-       comment): stale is now the *lighter* gray, since against a dark
-       background, lighter is what reads as "more prominent." */
-    --fresh: #78716c;
-    --aging: #a8a29e;
-    --stale: #d6d3d1;
-  }
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-heading);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  color: var(--text);
   font-family: var(--font-sans);
+  /* Subtle depth, not a visible "gradient background" effect -- same two
+     close warm/cool tones the flat --bg used to be alone. */
+  background: linear-gradient(160deg, var(--bg) 0%, var(--bg-grad) 55%, var(--bg) 100%);
+  background-attachment: fixed;
 }

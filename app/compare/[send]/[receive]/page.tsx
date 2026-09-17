@@ -65,23 +65,20 @@ export default async function ComparePage({
   if (!corridor) {
     return (
       <main className="mx-auto w-full max-w-3xl px-6 py-12">
-        <Link
-          href="/"
-          className="text-sm text-blue-600 hover:underline dark:text-blue-400"
-        >
+        <Link href="/" className="text-sm text-link hover:underline">
           ← Back to corridor picker
         </Link>
-        <h1 className="mt-6 text-2xl font-semibold tracking-tight">
+        <h1 className="font-heading mt-6 text-2xl font-bold tracking-tight">
           We don&rsquo;t have this corridor yet
         </h1>
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="mt-2 text-sm text-text-dim">
           We haven&rsquo;t researched real provider rates for{" "}
           <strong>{send}</strong> → <strong>{receive}</strong> yet. Pick one
           of the corridors we do have data for.
         </p>
         <Link
           href="/"
-          className="mt-6 inline-block rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          className="mt-6 inline-block rounded-md bg-accent px-4 py-2 text-sm font-medium text-accent-contrast hover:opacity-90"
         >
           Back to the corridor picker
         </Link>
@@ -100,13 +97,10 @@ export default async function ComparePage({
   } catch {
     return (
       <main className="mx-auto w-full max-w-3xl px-6 py-12">
-        <Link
-          href="/"
-          className="text-sm text-blue-600 hover:underline dark:text-blue-400"
-        >
+        <Link href="/" className="text-sm text-link hover:underline">
           ← Back to corridor picker
         </Link>
-        <h1 className="mt-4 text-2xl font-semibold tracking-tight">
+        <h1 className="font-heading mt-4 text-2xl font-bold tracking-tight">
           {corridor.sendCountryName} to {corridor.receiveCountryName}
         </h1>
         <div

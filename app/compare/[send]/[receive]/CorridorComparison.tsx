@@ -7,6 +7,7 @@ import {
   freshnessLevelFor,
   FRESHNESS_DOT_CLASS,
   type Corridor,
+  type Freshness,
   type RankedProvider,
   type RankedProvidersResult,
   type Tier,
@@ -57,22 +58,35 @@ function tierAmount(c: Corridor, tier: Tier): number {
   return tier === "Everyday" ? c.everydayAmount : c.largeAmount;
 }
 
-// Compact dot + short date, used on every provider row in the table --
-// replaces the old flat "As of 9/8/2026" text column with the same
-// fresh/aging/stale color language the directory cards already use (see
-// lib/corridors.ts's freshnessLevelFor / FRESHNESS_DOT_CLASS), just at
-// table-row density instead of the directory's wordier label.
-function RowFreshnessBadge({ dateChecked }: { dateChecked: string }) {
+// The normal --fresh/--aging/--stale dot colors (FRESHNESS_DOT_CLASS) are
+// tuned against --card/--bg -- inside the solid --accent hero panel they
+// measure as low as 1.0:1 (aging, effectively invisible), since neither
+// this brief's token list nor brief-7's covered "freshness dot sitting on
+// a solid brand-color fill." tone="onAccent" swaps in increasing opacity
+// steps of --accent-contrast instead, the same color already used for
+// emphasized text on that panel, confirmed to contrast well against both
+// themes' --accent.
+const ON_ACCENT_DOT_CLASS: Record<Freshness, string> = {
+  fresh: "bg-accent-contrast/40",
+  aging: "bg-accent-contrast/70",
+  stale: "bg-accent-contrast",
+};
+
+function RowFreshnessBadge({
+  dateChecked,
+  tone = "default",
+}: {
+  dateChecked: string;
+  tone?: "default" | "onAccent";
+}) {
   const level = freshnessLevelFor(dateChecked);
+  const dotClass = tone === "onAccent" ? ON_ACCENT_DOT_CLASS[level] : FRESHNESS_DOT_CLASS[level];
   return (
     <span
       className="inline-flex items-center gap-1.5 tabular-nums"
       title={new Date(dateChecked).toLocaleDateString("en-US", { timeZone: "UTC" })}
     >
-      <span
-        aria-hidden="true"
-        className={`h-1.5 w-1.5 rounded-full ${FRESHNESS_DOT_CLASS[level]}`}
-      />
+      <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${dotClass}`} />
       {shortDate(dateChecked)}
     </span>
   );
@@ -282,10 +296,10 @@ export default function CorridorComparison({
 
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-12">
-      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
+      <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight">
         {corridorLabel(corridor)}
       </h1>
-      <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+      <p className="mt-2 text-sm text-text-dim">
         Ranks providers by how much of the live mid-market value survives fees
         and FX margin. Cheapest first.
       </p>
@@ -296,7 +310,7 @@ export default function CorridorComparison({
       </p>
 
       <div className="mt-8 space-y-1.5">
-        <span className="block text-xs font-bold uppercase tracking-widest text-stone-600 dark:text-stone-400">
+        <span className="block text-xs font-bold uppercase tracking-widest text-text-dim">
           Amount tier
         </span>
         <div className="flex gap-2">
@@ -316,12 +330,12 @@ export default function CorridorComparison({
                 aria-pressed={active}
                 className={`flex-1 rounded-md border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
                   active
-                    ? "border-accent bg-accent text-accent-foreground"
-                    : "border-stone-300 bg-white text-stone-700 hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-950 dark:text-stone-300 dark:hover:bg-stone-900"
+                    ? "border-accent bg-accent text-accent-contrast"
+                    : "border-card-border bg-card text-text hover:bg-accent-tint/20"
                 }`}
               >
                 <span className="font-medium">{t}</span>
-                <span className={active ? "opacity-80" : "text-stone-600 dark:text-stone-400"}>
+                <span className={active ? "opacity-80" : "text-text-dim"}>
                   {" · "}
                   {amountLabel}
                 </span>
@@ -341,7 +355,7 @@ export default function CorridorComparison({
       )}
 
       {loading && (
-        <p className="mt-6 text-sm text-stone-600 dark:text-stone-400">
+        <p className="mt-6 text-sm text-text-dim">
           Fetching live rate and ranking providers…
         </p>
       )}
@@ -376,7 +390,7 @@ export default function CorridorComparison({
                 "One or more providers here currently show a cost below the live mid-market rate, which usually means that provider's own rate data is stale rather than a genuinely better deal. We're holding off on the \"why this pick\" explanation until it's re-verified."}
             </div>
           )}
-          <p className="text-xs text-stone-600 dark:text-stone-400">
+          <p className="text-xs text-text-dim">
             {result.rateStale ? "Last known rate" : "Live rate"} 1{" "}
             {corridor.sendCurrency} ={" "}
             {rate(result.liveRate)}{" "}
@@ -385,42 +399,45 @@ export default function CorridorComparison({
           </p>
 
           {heroProvider ? (
-            // Deliberately much heavier than the table below: a real
-            // border-2 + shadow + stronger tint (not the old border/30 +
-            // bg/5 wash, which barely differed from the plain table rows
-            // it sat above), a filled badge chip instead of colored
-            // label text, and each number a full step larger than its
-            // table-row equivalent. This is the single most important
-            // element on the page and needs to look like it.
-            <div className="mt-4 rounded-2xl border-2 border-accent bg-accent/10 p-6 shadow-md sm:p-7 dark:bg-accent/15">
-              <span className="inline-flex items-center rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wide text-accent-foreground">
+            // Solid accent-filled panel, deliberate departure from the
+            // brief-7 tinted-border-card treatment: the top pick is now a
+            // block of pure --accent, not a wash of it. cost% keeps using
+            // --cost (not --accent-contrast) even against this fill --
+            // the brief is explicit --cost must stay visually distinct
+            // from --accent everywhere, this panel included, and #2dd4a0/
+            // #0f7a4f still read clearly against both themes' accent fill.
+            <div className="mt-4 rounded-[14px] bg-accent p-6 sm:p-7">
+              <span className="text-xs font-bold uppercase tracking-widest text-accent-tint">
                 Cheapest right now
               </span>
               <div className="mt-3 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
                 <div>
-                  <div className="text-2xl sm:text-3xl font-bold tracking-tight">
+                  <div className="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight text-accent-contrast">
                     {heroProvider.provider}
                   </div>
-                  <div className="mt-1 text-sm text-stone-600 dark:text-stone-400">
+                  <div className="mt-1 text-sm text-accent-tint">
                     You receive{" "}
-                    <span className="font-medium text-stone-900 dark:text-stone-100">
+                    <span className="font-medium text-accent-contrast">
                       {money(corridor.receiveCurrency, heroProvider.amountReceived)}
                     </span>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-3xl sm:text-4xl font-bold tabular-nums text-cost">
+                  <div className="font-heading text-[38px] font-extrabold leading-none tabular-nums text-cost">
                     {percent(heroProvider.costPercent)}
                   </div>
-                  <div className="text-xs text-stone-600 dark:text-stone-400">cost vs. mid-market</div>
+                  <div className="mt-1 text-xs text-accent-tint">cost vs. mid-market</div>
                 </div>
               </div>
-              <div className="mt-3 text-xs text-stone-600 dark:text-stone-400">
-                <RowFreshnessBadge dateChecked={heroProvider.dateChecked} />
+              <div className="mt-3 text-xs text-accent-tint">
+                <RowFreshnessBadge dateChecked={heroProvider.dateChecked} tone="onAccent" />
               </div>
               {insight && (
-                <p className="mt-3 border-t border-accent/30 pt-3 text-sm text-stone-700 dark:text-stone-300">
-                  <span className="font-medium text-accent">
+                <p
+                  className="mt-3 border-t pt-3 text-sm text-accent-tint"
+                  style={{ borderColor: "var(--hero-divider)" }}
+                >
+                  <span className="font-bold text-accent-contrast">
                     Why {heroProvider.provider} wins:{" "}
                   </span>
                   {insight}
@@ -428,7 +445,7 @@ export default function CorridorComparison({
               )}
             </div>
           ) : (
-            <p className="mt-4 rounded-md border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-600 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400">
+            <p className="mt-4 rounded-md border border-card-border bg-card px-4 py-3 text-sm text-text-dim">
               No provider data available for this tier yet.
             </p>
           )}
@@ -436,13 +453,13 @@ export default function CorridorComparison({
           {restSorted.length > 0 && (
             <>
               <div className="mt-6 flex items-center justify-between gap-2">
-                <span className="text-xs font-bold uppercase tracking-widest text-stone-600 dark:text-stone-400">
+                <span className="text-xs font-bold uppercase tracking-widest text-text-dim">
                   Other providers ({restSorted.length})
                 </span>
                 <div className="flex items-center gap-2">
                   <label
                     htmlFor="sort-by"
-                    className="text-sm text-stone-600 dark:text-stone-400"
+                    className="text-sm text-text-dim"
                   >
                     Sort by
                   </label>
@@ -452,7 +469,7 @@ export default function CorridorComparison({
                     onChange={(e) =>
                       handleSortChange(e.target.value as SortField)
                     }
-                    className="rounded-md border border-stone-300 bg-white px-2.5 py-1.5 text-sm shadow-sm outline-none focus:border-link dark:border-stone-700 dark:bg-stone-950"
+                    className="rounded-md border border-card-border bg-card px-2.5 py-1.5 text-sm outline-none focus:border-link"
                   >
                     <option value="cost_asc">Cost % (low to high)</option>
                     <option value="cost_desc">Cost % (high to low)</option>
@@ -461,12 +478,14 @@ export default function CorridorComparison({
                 </div>
               </div>
 
-              {/* Deliberately quieter than the hero card above: no header
-                  shading, muted text, thin dividers -- this is the "rest of
-                  the field" list, not the headline number. */}
-              <div className="mt-2 overflow-x-auto rounded-lg border border-stone-200 dark:border-stone-800">
+              {/* Dense, grid-lined container per this brief's item 5 --
+                  one bordered box, hairline top-border dividers between
+                  rows, no shadow and no per-row background/rounding
+                  (that per-row "floating card" look was brief-7's
+                  approach; this pass deliberately moves away from it). */}
+              <div className="mt-2 overflow-x-auto rounded-lg border border-card-border bg-card">
                 <table className="w-full text-sm">
-                  <thead className="text-left text-xs font-bold uppercase tracking-widest text-stone-600 dark:text-stone-400">
+                  <thead className="bg-card-border/40 text-left text-xs font-bold uppercase tracking-widest text-text-dim">
                     <tr>
                       <th className="px-4 py-2 font-bold">Rank</th>
                       <th className="px-4 py-2 font-bold">Provider</th>
@@ -481,11 +500,11 @@ export default function CorridorComparison({
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-stone-100 dark:divide-stone-800 text-stone-600 dark:text-stone-400">
+                  <tbody className="text-text-dim">
                     {restSorted.map((p) => (
-                      <tr key={p.provider}>
+                      <tr key={p.provider} className="border-t border-card-border">
                         <td className="px-4 py-2 tabular-nums">{p.rank}</td>
-                        <td className="px-4 py-2 font-medium text-stone-900 dark:text-stone-100">
+                        <td className="px-4 py-2 font-heading font-medium text-text">
                           {p.provider}
                         </td>
                         <td className="px-4 py-2 text-right tabular-nums">
@@ -507,11 +526,11 @@ export default function CorridorComparison({
             </>
           )}
 
-          <div className="mt-6 rounded-lg border border-stone-200 bg-stone-50 p-5 dark:border-stone-800 dark:bg-stone-900">
+          <div className="mt-6 rounded-lg border border-card-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Get rate alerts for {corridorLabel(corridor)}
             </h3>
-            <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
+            <p className="mt-1 text-sm text-text-dim">
               We&rsquo;ll email you when the cheapest provider or the live
               rate for this corridor moves.
             </p>
@@ -551,12 +570,12 @@ export default function CorridorComparison({
                   }
                 }}
                 disabled={subscribeStatus === "submitting"}
-                className="w-full flex-1 rounded-md border border-stone-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-link disabled:opacity-60 dark:border-stone-700 dark:bg-stone-950"
+                className="w-full flex-1 rounded-md border border-card-border bg-card px-3 py-2 text-sm outline-none focus:border-link disabled:opacity-60"
               />
               <button
                 type="submit"
                 disabled={subscribeStatus === "submitting"}
-                className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-accent-contrast hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {subscribeStatus === "submitting"
                   ? "Subscribing…"
@@ -580,7 +599,7 @@ export default function CorridorComparison({
         </section>
       )}
 
-      <footer className="mt-12 border-t border-stone-200 pt-6 text-sm text-stone-600 dark:border-stone-800 dark:text-stone-400">
+      <footer className="mt-12 border-t border-card-border pt-6 text-sm text-text-dim">
         <Link href="/methodology" className="text-link hover:underline">
           How we calculate this
         </Link>

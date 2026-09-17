@@ -16,14 +16,14 @@ export default function MethodologyPage() {
         ← Back to comparison
       </Link>
 
-      <h1 className="mt-6 text-3xl sm:text-4xl font-bold tracking-tight">
+      <h1 className="font-heading mt-6 text-3xl sm:text-4xl font-bold tracking-tight">
         How we calculate cost
       </h1>
 
       <div className="mt-8 space-y-8">
         <section className="space-y-2">
-          <h2 className="text-lg font-semibold">What &ldquo;Total Cost %&rdquo; means</h2>
-          <p className="text-sm leading-6 text-stone-700 dark:text-stone-300">
+          <h2 className="font-heading text-lg font-semibold">What &ldquo;Total Cost %&rdquo; means</h2>
+          <p className="text-sm leading-6 text-text-dim">
             The percentage of your money that fees and exchange-rate markup eat,
             compared to the true mid-market rate — the rate banks trade at with
             each other, the same one you&rsquo;d see on Google or xe.com.
@@ -34,12 +34,12 @@ export default function MethodologyPage() {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-lg font-semibold">The formula</h2>
-          <p className="text-sm leading-6 text-stone-700 dark:text-stone-300">
+          <h2 className="font-heading text-lg font-semibold">The formula</h2>
+          <p className="text-sm leading-6 text-text-dim">
             Total Cost % = 1 − (amount actually received ÷ amount you&rsquo;d
             receive at the true mid-market rate, with no fees).
           </p>
-          <p className="text-sm leading-6 text-stone-700 dark:text-stone-300">
+          <p className="text-sm leading-6 text-text-dim">
             This is the same methodology the World Bank&rsquo;s Remittance Prices
             Worldwide database uses — it&rsquo;s a standard, not something we
             invented to make the numbers look a certain way.
@@ -47,8 +47,8 @@ export default function MethodologyPage() {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-lg font-semibold">Where the numbers come from</h2>
-          <p className="text-sm leading-6 text-stone-700 dark:text-stone-300">
+          <h2 className="font-heading text-lg font-semibold">Where the numbers come from</h2>
+          <p className="text-sm leading-6 text-text-dim">
             The mid-market exchange rate is pulled live, at the moment you
             search. Provider fees and markup are checked by hand, directly from
             each provider&rsquo;s own calculator, about once a week — that data
@@ -60,8 +60,8 @@ export default function MethodologyPage() {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-lg font-semibold">A note on rate integrity</h2>
-          <p className="text-sm leading-6 text-stone-700 dark:text-stone-300">
+          <h2 className="font-heading text-lg font-semibold">A note on rate integrity</h2>
+          <p className="text-sm leading-6 text-text-dim">
             Several providers show a better &ldquo;first-time&rdquo; or
             &ldquo;welcome&rdquo; rate to new customers — a one-time promotional
             number, not what you&rsquo;d actually get on your second transfer or
@@ -74,10 +74,10 @@ export default function MethodologyPage() {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-lg font-semibold">
+          <h2 className="font-heading text-lg font-semibold">
             Why two amount tiers, not any amount
           </h2>
-          <p className="text-sm leading-6 text-stone-700 dark:text-stone-300">
+          <p className="text-sm leading-6 text-text-dim">
             This isn&rsquo;t a live quote engine — the fee and markup data behind
             it is manually verified, not computed on the fly. Supporting every
             possible amount would mean pretending to have precision we
@@ -88,7 +88,7 @@ export default function MethodologyPage() {
         </section>
       </div>
 
-      <div className="mt-10 border-t border-stone-200 pt-6 dark:border-stone-800">
+      <div className="mt-10 border-t border-card-border pt-6">
         <Link
           href="/"
           className="text-sm text-link hover:underline"
