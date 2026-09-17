@@ -282,21 +282,21 @@ export default function CorridorComparison({
 
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-12">
-      <h1 className="text-2xl font-semibold tracking-tight">
+      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
         {corridorLabel(corridor)}
       </h1>
-      <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
+      <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
         Ranks providers by how much of the live mid-market value survives fees
         and FX margin. Cheapest first.
       </p>
       <p className="mt-2 text-sm">
-        <Link href="/methodology" className="text-accent hover:underline">
+        <Link href="/methodology" className="text-link hover:underline">
           How we calculate this
         </Link>
       </p>
 
       <div className="mt-8 space-y-1.5">
-        <span className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+        <span className="block text-xs font-bold uppercase tracking-widest text-stone-600 dark:text-stone-400">
           Amount tier
         </span>
         <div className="flex gap-2">
@@ -321,7 +321,7 @@ export default function CorridorComparison({
                 }`}
               >
                 <span className="font-medium">{t}</span>
-                <span className={active ? "opacity-80" : "text-stone-500"}>
+                <span className={active ? "opacity-80" : "text-stone-600 dark:text-stone-400"}>
                   {" · "}
                   {amountLabel}
                 </span>
@@ -341,7 +341,7 @@ export default function CorridorComparison({
       )}
 
       {loading && (
-        <p className="mt-6 text-sm text-stone-500">
+        <p className="mt-6 text-sm text-stone-600 dark:text-stone-400">
           Fetching live rate and ranking providers…
         </p>
       )}
@@ -376,7 +376,7 @@ export default function CorridorComparison({
                 "One or more providers here currently show a cost below the live mid-market rate, which usually means that provider's own rate data is stale rather than a genuinely better deal. We're holding off on the \"why this pick\" explanation until it's re-verified."}
             </div>
           )}
-          <p className="text-xs text-stone-500">
+          <p className="text-xs text-stone-600 dark:text-stone-400">
             {result.rateStale ? "Last known rate" : "Live rate"} 1{" "}
             {corridor.sendCurrency} ={" "}
             {rate(result.liveRate)}{" "}
@@ -385,13 +385,20 @@ export default function CorridorComparison({
           </p>
 
           {heroProvider ? (
-            <div className="mt-4 rounded-xl border border-accent/30 bg-accent/5 p-5 dark:bg-accent/10">
-              <span className="text-xs font-semibold uppercase tracking-wide text-accent">
+            // Deliberately much heavier than the table below: a real
+            // border-2 + shadow + stronger tint (not the old border/30 +
+            // bg/5 wash, which barely differed from the plain table rows
+            // it sat above), a filled badge chip instead of colored
+            // label text, and each number a full step larger than its
+            // table-row equivalent. This is the single most important
+            // element on the page and needs to look like it.
+            <div className="mt-4 rounded-2xl border-2 border-accent bg-accent/10 p-6 shadow-md sm:p-7 dark:bg-accent/15">
+              <span className="inline-flex items-center rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wide text-accent-foreground">
                 Cheapest right now
               </span>
-              <div className="mt-2 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+              <div className="mt-3 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
                 <div>
-                  <div className="text-xl font-semibold tracking-tight">
+                  <div className="text-2xl sm:text-3xl font-bold tracking-tight">
                     {heroProvider.provider}
                   </div>
                   <div className="mt-1 text-sm text-stone-600 dark:text-stone-400">
@@ -402,17 +409,17 @@ export default function CorridorComparison({
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-semibold tabular-nums text-accent">
+                  <div className="text-3xl sm:text-4xl font-bold tabular-nums text-cost">
                     {percent(heroProvider.costPercent)}
                   </div>
-                  <div className="text-xs text-stone-500">cost vs. mid-market</div>
+                  <div className="text-xs text-stone-600 dark:text-stone-400">cost vs. mid-market</div>
                 </div>
               </div>
-              <div className="mt-3 text-xs text-stone-500 dark:text-stone-400">
+              <div className="mt-3 text-xs text-stone-600 dark:text-stone-400">
                 <RowFreshnessBadge dateChecked={heroProvider.dateChecked} />
               </div>
               {insight && (
-                <p className="mt-3 border-t border-accent/20 pt-3 text-sm text-stone-700 dark:text-stone-300">
+                <p className="mt-3 border-t border-accent/30 pt-3 text-sm text-stone-700 dark:text-stone-300">
                   <span className="font-medium text-accent">
                     Why {heroProvider.provider} wins:{" "}
                   </span>
@@ -421,7 +428,7 @@ export default function CorridorComparison({
               )}
             </div>
           ) : (
-            <p className="mt-4 rounded-md border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-500 dark:border-stone-800 dark:bg-stone-900">
+            <p className="mt-4 rounded-md border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-600 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-400">
               No provider data available for this tier yet.
             </p>
           )}
@@ -429,7 +436,7 @@ export default function CorridorComparison({
           {restSorted.length > 0 && (
             <>
               <div className="mt-6 flex items-center justify-between gap-2">
-                <span className="text-xs font-medium uppercase tracking-wide text-stone-400">
+                <span className="text-xs font-bold uppercase tracking-widest text-stone-600 dark:text-stone-400">
                   Other providers ({restSorted.length})
                 </span>
                 <div className="flex items-center gap-2">
@@ -445,7 +452,7 @@ export default function CorridorComparison({
                     onChange={(e) =>
                       handleSortChange(e.target.value as SortField)
                     }
-                    className="rounded-md border border-stone-300 bg-white px-2.5 py-1.5 text-sm shadow-sm outline-none focus:border-accent dark:border-stone-700 dark:bg-stone-950"
+                    className="rounded-md border border-stone-300 bg-white px-2.5 py-1.5 text-sm shadow-sm outline-none focus:border-link dark:border-stone-700 dark:bg-stone-950"
                   >
                     <option value="cost_asc">Cost % (low to high)</option>
                     <option value="cost_desc">Cost % (high to low)</option>
@@ -459,17 +466,17 @@ export default function CorridorComparison({
                   the field" list, not the headline number. */}
               <div className="mt-2 overflow-x-auto rounded-lg border border-stone-200 dark:border-stone-800">
                 <table className="w-full text-sm">
-                  <thead className="text-left text-xs uppercase tracking-wide text-stone-400">
+                  <thead className="text-left text-xs font-bold uppercase tracking-widest text-stone-600 dark:text-stone-400">
                     <tr>
-                      <th className="px-4 py-2 font-medium">Rank</th>
-                      <th className="px-4 py-2 font-medium">Provider</th>
-                      <th className="px-4 py-2 font-medium text-right">
+                      <th className="px-4 py-2 font-bold">Rank</th>
+                      <th className="px-4 py-2 font-bold">Provider</th>
+                      <th className="px-4 py-2 font-bold text-right">
                         Amount received ({corridor.receiveCurrency})
                       </th>
-                      <th className="px-4 py-2 font-medium text-right">
+                      <th className="px-4 py-2 font-bold text-right">
                         Cost %
                       </th>
-                      <th className="px-4 py-2 font-medium text-right">
+                      <th className="px-4 py-2 font-bold text-right">
                         Updated
                       </th>
                     </tr>
@@ -484,7 +491,7 @@ export default function CorridorComparison({
                         <td className="px-4 py-2 text-right tabular-nums">
                           {money(corridor.receiveCurrency, p.amountReceived)}
                         </td>
-                        <td className="px-4 py-2 text-right tabular-nums">
+                        <td className="px-4 py-2 text-right tabular-nums font-medium text-cost">
                           {percent(p.costPercent)}
                         </td>
                         <td className="px-4 py-2 text-right text-xs">
@@ -544,7 +551,7 @@ export default function CorridorComparison({
                   }
                 }}
                 disabled={subscribeStatus === "submitting"}
-                className="w-full flex-1 rounded-md border border-stone-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-accent disabled:opacity-60 dark:border-stone-700 dark:bg-stone-950"
+                className="w-full flex-1 rounded-md border border-stone-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-link disabled:opacity-60 dark:border-stone-700 dark:bg-stone-950"
               />
               <button
                 type="submit"
@@ -573,8 +580,8 @@ export default function CorridorComparison({
         </section>
       )}
 
-      <footer className="mt-12 border-t border-stone-200 pt-6 text-sm text-stone-500 dark:border-stone-800">
-        <Link href="/methodology" className="text-accent hover:underline">
+      <footer className="mt-12 border-t border-stone-200 pt-6 text-sm text-stone-600 dark:border-stone-800 dark:text-stone-400">
+        <Link href="/methodology" className="text-link hover:underline">
           How we calculate this
         </Link>
       </footer>

@@ -11,15 +11,15 @@ export default function SiteHeader() {
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-4">
         <Link
           href="/"
-          className="text-sm font-semibold tracking-tight text-accent"
+          className="text-xl font-bold tracking-tight text-accent"
         >
           Corridor
         </Link>
         <nav className="flex items-center gap-4 text-sm text-stone-600 dark:text-stone-400">
-          <Link href="/" className="hover:text-accent">
+          <Link href="/" className="hover:text-link">
             Browse corridors
           </Link>
-          <Link href="/methodology" className="hover:text-accent">
+          <Link href="/methodology" className="hover:text-link">
             Methodology
           </Link>
         </nav>

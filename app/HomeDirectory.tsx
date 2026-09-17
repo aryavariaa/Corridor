@@ -25,7 +25,7 @@ function percent(fraction: number): string {
 function FreshnessBadge({ freshness }: { freshness: DirectoryEntry["freshness"] }) {
   if (!freshness) return null;
   return (
-    <span className="inline-flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-400">
+    <span className="inline-flex items-center gap-1.5 text-xs text-stone-600 dark:text-stone-400">
       <span
         aria-hidden="true"
         className={`h-1.5 w-1.5 rounded-full ${FRESHNESS_DOT_CLASS[freshness.level]}`}
@@ -40,21 +40,21 @@ function CorridorCard({ entry }: { entry: DirectoryEntry }) {
   return (
     <Link
       href={`/compare/${corridor.sendCountry}/${corridor.receiveCountry}`}
-      className="flex flex-col gap-2 rounded-lg border border-stone-200 bg-white p-4 transition-colors hover:border-accent dark:border-stone-800 dark:bg-stone-950 dark:hover:border-accent"
+      className="flex flex-col gap-2 rounded-lg border border-stone-200 bg-white p-4 transition-colors hover:border-link dark:border-stone-800 dark:bg-stone-950 dark:hover:border-link"
     >
-      <span className="text-sm font-medium">
+      <span className="text-base font-semibold">
         {corridor.sendCountryName}
         <span className="mx-1.5 text-stone-400 dark:text-stone-600">→</span>
         {corridor.receiveCountryName}
       </span>
-      <span className="text-xs text-stone-500 dark:text-stone-400">
+      <span className="text-xs text-stone-600 dark:text-stone-400">
         {corridor.sendCurrency} → {corridor.receiveCurrency}
       </span>
       <span className="text-sm">
         {teaser ? (
           <>
             From <span className="font-medium">{teaser.cheapestProvider}</span>{" "}
-            <span className="text-accent">{percent(teaser.costPercent)} cost</span>
+            <span className="font-medium text-cost">{percent(teaser.costPercent)} cost</span>
           </>
         ) : (
           <span className="text-stone-400 dark:text-stone-600">
@@ -140,13 +140,13 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
 
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-12">
-      <h1 className="text-2xl font-semibold tracking-tight">Corridor</h1>
-      <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
+      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Corridor</h1>
+      <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
         Ranks providers by how much of the live mid-market value survives fees
         and FX margin. Cheapest first.
       </p>
       <p className="mt-2 text-sm">
-        <Link href="/methodology" className="text-accent hover:underline">
+        <Link href="/methodology" className="text-link hover:underline">
           How we calculate this
         </Link>
       </p>
@@ -163,7 +163,7 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
             id="send-country"
             value={sendCountry}
             onChange={(e) => handleSendChange(e.target.value)}
-            className="w-full rounded-md border border-stone-300 bg-white px-3 py-1.5 text-sm shadow-sm outline-none focus:border-accent dark:border-stone-700 dark:bg-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-white px-3 py-1.5 text-sm shadow-sm outline-none focus:border-link dark:border-stone-700 dark:bg-stone-950"
           >
             <option value="">Anywhere</option>
             {sendOptions.map((c) => (
@@ -185,7 +185,7 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
             id="receive-country"
             value={receiveCountry}
             onChange={(e) => setReceiveCountry(e.target.value)}
-            className="w-full rounded-md border border-stone-300 bg-white px-3 py-1.5 text-sm shadow-sm outline-none focus:border-accent dark:border-stone-700 dark:bg-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-white px-3 py-1.5 text-sm shadow-sm outline-none focus:border-link dark:border-stone-700 dark:bg-stone-950"
           >
             <option value="">Anywhere</option>
             {receiveOptions.map((c) => (
@@ -212,13 +212,13 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
 
       <div className="mt-10 space-y-10">
         {grouped.length === 0 && (
-          <p className="text-sm text-stone-500">
+          <p className="text-sm text-stone-600 dark:text-stone-400">
             No corridors match that combination yet.
           </p>
         )}
         {grouped.map(({ region, entries: regionEntries }) => (
           <section key={region}>
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-stone-500 dark:text-stone-400">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-stone-600 dark:text-stone-400">
               {region === "Other" ? "Other" : `From ${region}`}
             </h2>
             <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -233,8 +233,8 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
         ))}
       </div>
 
-      <footer className="mt-12 border-t border-stone-200 pt-6 text-sm text-stone-500 dark:border-stone-800">
-        <Link href="/methodology" className="text-accent hover:underline">
+      <footer className="mt-12 border-t border-stone-200 pt-6 text-sm text-stone-600 dark:border-stone-800 dark:text-stone-400">
+        <Link href="/methodology" className="text-link hover:underline">
           How we calculate this
         </Link>
       </footer>

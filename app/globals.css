@@ -1,23 +1,47 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Warm off-white, not pure white -- light is the primary, default
+     experience for this consumer trust product (dark stays supported,
+     OS-driven, but secondary -- see the dark block below). This doesn't
+     copy the portfolio site's (aryavaria.com) exact palette, just moves
+     in the same warm direction instead of clashing with it, since the
+     two are one person's work and shouldn't read as designed by two
+     different people. */
+  --background: #faf7f2;
+  --foreground: #1c1917;
 
-  /* Brand accent: emerald. Replaces the previous default Tailwind blue --
-     ties visually to "how much of your money survives," and is reused as
-     the rank-1 / winner highlight color on the compare page. */
-  --accent: #059669;
+  /* Brand / featured accent: warm terracotta. Owns exactly two things --
+     brand identity (wordmark, nav) and "featured" UI (the cheapest-
+     right-now badge, the active tier toggle, primary buttons). Every
+     other color below is deliberately a different hue, so "this is
+     featured," "this number is good," and "this is a link" each read as
+     one distinct signal instead of one green covering all three (plus
+     freshness) the way it used to. */
+  --accent: #b5502f;
   --accent-foreground: #ffffff;
 
-  /* Freshness palette: green/amber/red keyed to how long ago a provider
-     row's dateChecked was (see lib/corridors.ts's getCorridorFreshness) --
-     fresh <=7 days, aging 8-30 days, stale 30+. Reused identically on
-     directory cards and per-provider rows so both views read as one
-     system, not two different color languages. */
-  --fresh: #16a34a;
-  --aging: #d97706;
-  --stale: #dc2626;
+  /* Cost-percentage color: owns exactly one meaning, everywhere in the
+     app -- the cost% value itself (hero stat, table column, directory
+     teaser). Never reused for links, badges, or freshness, so it stays a
+     singular, legible signal for "this is the number that matters." */
+  --cost: #15803d;
+
+  /* Link color: distinct from both accent (featured) and cost (the
+     number), so "this is clickable" never gets confused with either. */
+  --link: #0e7490;
+
+  /* Freshness dots: neutral grayscale, not color -- freshness (how
+     recently a rate was checked) is a secondary, informational signal,
+     not a judgment call like cost or featured status, so it shouldn't
+     compete with them for the same visual register. Darker = older/
+     stalest (the state that most deserves a second look), lighter =
+     fresher (barely worth noticing) -- the same way faded print vs.
+     crisp new ink reads. Dark mode below inverts the actual lightness
+     values to preserve this same intent against a dark background. */
+  --fresh: #a8a29e;
+  --aging: #78716c;
+  --stale: #44403c;
 }
 
 @theme inline {
@@ -25,6 +49,8 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-cost: var(--cost);
+  --color-link: var(--link);
   --color-fresh: var(--fresh);
   --color-aging: var(--aging);
   --color-stale: var(--stale);
@@ -34,18 +60,26 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Warm dark charcoal, not pure/near-black -- de-blacked per the
+       design pass (the old #0a0a0a read as "dev tool," per feedback),
+       but dark stays the secondary, OS-driven variant; light above is
+       primary. */
+    --background: #221e1a;
+    --foreground: #f0ece5;
 
-    /* Lighter shades for dark backgrounds -- same convention the rest of
-       this app already uses (e.g. text-zinc-400 in dark mode vs
-       text-zinc-600 in light), just applied to the new tokens too. */
-    --accent: #34d399;
-    --accent-foreground: #052e1e;
+    --accent: #e08a5f;
+    --accent-foreground: #221108;
 
-    --fresh: #4ade80;
-    --aging: #fbbf24;
-    --stale: #f87171;
+    --cost: #4ade80;
+
+    --link: #22d3ee;
+
+    /* Lightness intent inverted vs. light mode (see the light block's
+       comment): stale is now the *lighter* gray, since against a dark
+       background, lighter is what reads as "more prominent." */
+    --fresh: #78716c;
+    --aging: #a8a29e;
+    --stale: #d6d3d1;
   }
 }
 
