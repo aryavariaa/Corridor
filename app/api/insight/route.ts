@@ -1,5 +1,5 @@
 import { findCorridor, getRankedProviders, corridorId, type Tier } from "@/lib/corridors";
-import { getPickExplainer, getAnomalyExplanation } from "@/lib/ai";
+import { getPickExplainer, getAnomalyExplanation, getCostAnomalyExplanation } from "@/lib/ai";
 
 const VALID_TIERS: Tier[] = ["Everyday", "Large"];
 
@@ -51,10 +51,14 @@ export async function GET(request: Request) {
     const id = corridorId({ sendCountry, receiveCountry });
 
     // Independent of each other -- a failure or missing API key on one
-    // must never block the other, and neither should ever fail the
-    // request itself (getPickExplainer/getAnomalyExplanation already fail
-    // gracefully to null internally).
-    const [insight, anomalyExplanation] = await Promise.all([
+    // must never block the others, and none of them should ever fail the
+    // request itself (all three fail gracefully to null internally).
+    // getPickExplainer also refuses on its own when result.costAnomaly
+    // covers the top pick or runner-up (see lib/ai.ts) -- costAnomaly is
+    // still checked here too so getCostAnomalyExplanation actually runs
+    // in that case, rather than the client just seeing insight: null with
+    // no explanation why.
+    const [insight, anomalyExplanation, costAnomalyExplanation] = await Promise.all([
       getPickExplainer(id, tier, result, corridor.receiveCurrency),
       result.rateAnomaly
         ? getAnomalyExplanation(
@@ -62,9 +66,12 @@ export async function GET(request: Request) {
             result.rateAnomaly
           )
         : Promise.resolve(null),
+      result.costAnomaly
+        ? getCostAnomalyExplanation(id, tier, result.costAnomaly)
+        : Promise.resolve(null),
     ]);
 
-    return Response.json({ insight, anomalyExplanation });
+    return Response.json({ insight, anomalyExplanation, costAnomalyExplanation });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
     // Upstream FX API failure — not our server's fault.

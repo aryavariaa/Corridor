@@ -47,6 +47,24 @@ export type RankedProvider = {
   source: string;
 };
 
+// A provider row whose costPercent came out negative -- it appears to
+// receive MORE than the live mid-market value implies, which no real
+// remittance provider actually does (see docs/provider-data-sourcing.md's
+// repeated "impossible negative cost" corrections, starting with the
+// original COP incident). This is a request-time check nothing previously
+// performed: rateAnomaly (above) only ever covers a rejected *FX-rate
+// fetch* -- two consecutive live-rate reads disagreeing with each other.
+// It says nothing about a manually-sourced provider row simply going
+// stale against today's live rate, which is the actual, much more common
+// cause here (confirmed 2026-09-17: 7 of 20 corridor+tier groups showed
+// this, always at rank 1, always because of a >=1-week-old manual row --
+// not a calculation bug, and not a swing in the FX fetch itself).
+export type CostAnomalyProvider = {
+  provider: string;
+  costPercent: number;
+  dateChecked: string;
+};
+
 export type RankedProvidersResult = {
   sendCountry: string;
   receiveCountry: string;
@@ -61,6 +79,12 @@ export type RankedProvidersResult = {
   // lets the UI/AI-insight layer explain *why* with real numbers instead
   // of just showing the generic "not live right now" state.
   rateAnomaly?: RateAnomaly;
+  // Every provider in this corridor+tier with costPercent < 0, sorted
+  // worst-first (most negative = most likely rank 1, since a negative
+  // cost always looks "best" to the sort). Independent of rateStale/
+  // rateAnomaly -- the live FX fetch can be perfectly fresh and correct
+  // while a provider's own manually-sourced row is what's out of date.
+  costAnomaly?: CostAnomalyProvider[];
   providers: RankedProvider[];
 };
 
@@ -154,6 +178,15 @@ export async function getRankedProviders(
     .sort((a, b) => a.costPercent - b.costPercent)
     .map((p, i) => ({ ...p, rank: i + 1 }));
 
+  const costAnomaly: CostAnomalyProvider[] = providers
+    .filter((p) => p.costPercent < 0)
+    .sort((a, b) => a.costPercent - b.costPercent)
+    .map((p) => ({
+      provider: p.provider,
+      costPercent: p.costPercent,
+      dateChecked: p.dateChecked,
+    }));
+
   return {
     sendCountry,
     receiveCountry,
@@ -162,6 +195,7 @@ export async function getRankedProviders(
     asOf: live.asOf,
     rateStale: live.stale,
     rateAnomaly: live.anomaly,
+    costAnomaly: costAnomaly.length > 0 ? costAnomaly : undefined,
     providers,
   };
 }

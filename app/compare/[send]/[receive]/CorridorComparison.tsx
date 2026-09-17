@@ -83,11 +83,13 @@ export default function CorridorComparison({
   initialResult,
   initialInsight,
   initialAnomalyExplanation,
+  initialCostAnomalyExplanation,
 }: {
   corridor: Corridor;
   initialResult: RankedProvidersResult;
   initialInsight: string | null;
   initialAnomalyExplanation: string | null;
+  initialCostAnomalyExplanation: string | null;
 }) {
   const id = corridorId(corridor);
 
@@ -107,6 +109,15 @@ export default function CorridorComparison({
   const [anomalyExplanation, setAnomalyExplanation] = useState<string | null>(
     initialAnomalyExplanation
   );
+  // Distinct from anomalyExplanation above: that one covers a rejected
+  // FX-rate fetch (result.rateAnomaly); this one covers one or more
+  // providers showing an impossible negative cost against a perfectly
+  // fresh live rate (result.costAnomaly) -- see lib/ai.ts's
+  // getCostAnomalyExplanation. getPickExplainer already refuses to run
+  // when this applies, so `insight` is null whenever this is set.
+  const [costAnomalyExplanation, setCostAnomalyExplanation] = useState<
+    string | null
+  >(initialCostAnomalyExplanation);
 
   useEffect(() => {
     if (insight) trackAiInsightShown({ corridorId: id, tier });
@@ -114,11 +125,11 @@ export default function CorridorComparison({
   }, [insight]);
 
   useEffect(() => {
-    if (anomalyExplanation) {
+    if (anomalyExplanation || costAnomalyExplanation) {
       trackAnomalyExplanationShown({ corridorId: id, tier });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anomalyExplanation]);
+  }, [anomalyExplanation, costAnomalyExplanation]);
 
   // Fires once for the page's initial (server-rendered) tier on mount --
   // this component fully remounts on every corridor navigation, so an
@@ -196,12 +207,22 @@ export default function CorridorComparison({
       // null rather than delaying or failing the tier switch itself.
       setInsight(null);
       setAnomalyExplanation(null);
+      setCostAnomalyExplanation(null);
       fetch(`/api/insight?${query}`)
         .then((r) => (r.ok ? r.json() : null))
-        .then((json2: { insight?: string | null; anomalyExplanation?: string | null } | null) => {
-          setInsight(json2?.insight ?? null);
-          setAnomalyExplanation(json2?.anomalyExplanation ?? null);
-        })
+        .then(
+          (
+            json2: {
+              insight?: string | null;
+              anomalyExplanation?: string | null;
+              costAnomalyExplanation?: string | null;
+            } | null
+          ) => {
+            setInsight(json2?.insight ?? null);
+            setAnomalyExplanation(json2?.anomalyExplanation ?? null);
+            setCostAnomalyExplanation(json2?.costAnomalyExplanation ?? null);
+          }
+        )
         .catch(() => {
           // Already null from the reset above -- nothing more to do.
         });
@@ -338,6 +359,21 @@ export default function CorridorComparison({
                   generic message below still applies. */}
               {anomalyExplanation ??
                 "We couldn't reach the live rate feed just now, so this is the last rate we successfully fetched, not a live one."}
+            </div>
+          )}
+          {/* Independent of rateStale above: the live FX rate can be
+              perfectly fresh while a provider's own manually-sourced row
+              has simply gone stale against it (see lib/corridors.ts's
+              costAnomaly). Only one of these two banners shows at once --
+              a rejected rate fetch is the more fundamental problem, so it
+              takes priority when both happen to apply. */}
+          {!result.rateStale && result.costAnomaly && result.costAnomaly.length > 0 && (
+            <div
+              role="status"
+              className="mb-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
+            >
+              {costAnomalyExplanation ??
+                "One or more providers here currently show a cost below the live mid-market rate, which usually means that provider's own rate data is stale rather than a genuinely better deal. We're holding off on the \"why this pick\" explanation until it's re-verified."}
             </div>
           )}
           <p className="text-xs text-stone-500">

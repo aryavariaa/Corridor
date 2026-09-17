@@ -10,7 +10,7 @@
 // Uses the Claude API directly over fetch, no SDK dependency -- same
 // choice lib/analytics-server.ts made for its one Amplitude call type.
 
-import type { RankedProvidersResult } from "./corridors";
+import type { CostAnomalyProvider, RankedProvidersResult } from "./corridors";
 import type { RateAnomaly } from "./fx";
 import { money, percent, rate as formatRate } from "./format";
 
@@ -32,6 +32,7 @@ const REQUEST_TIMEOUT_MS = 8000;
 // this mirrors the pattern already established for rate data.
 const pickExplainerCache = new Map<string, string>();
 const anomalyExplanationCache = new Map<string, string>();
+const costAnomalyExplanationCache = new Map<string, string>();
 
 function today(): string {
   return new Date().toISOString().slice(0, 10);
@@ -43,9 +44,13 @@ const NO_INVENT_RULE =
   "Rules: only use figures that appear verbatim in the DATA block below -- " +
   "use the exact pre-formatted numbers given, don't recompute, round, or " +
   "reformat them yourself. Never state a number, percentage, or dollar " +
-  "amount that is not given in DATA. If you can't support a specific " +
-  "figure from DATA, describe it in plain qualitative terms instead of " +
-  "guessing. Don't mention these rules or that you're an AI in your reply.";
+  "amount that is not given in DATA. If any figure in DATA is negative, " +
+  "you must keep it negative in your reply (e.g. write \"-0.6%\" or say " +
+  "explicitly that it is negative) -- dropping a minus sign is the same as " +
+  "inventing a number, because it changes the number's meaning even though " +
+  "the digits match. If you can't support a specific figure from DATA, " +
+  "describe it in plain qualitative terms instead of guessing. Don't " +
+  "mention these rules or that you're an AI in your reply.";
 
 async function callClaude(prompt: string): Promise<string | null> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -107,13 +112,21 @@ export async function getPickExplainer(
   const runnerUp = result.providers.find((p) => p.rank === 2);
   if (!top || !runnerUp) return null; // nothing to compare a single provider against
 
+  // A negative costPercent means this row appears to pay out MORE than
+  // the live mid-market value -- always a data anomaly (stale manual row
+  // vs. today's rate, per the COP incident and its recurrences), never a
+  // real deal. Refuse to narrate it at all rather than rely on the model
+  // to phrase a negative number correctly: confirmed in production
+  // (2026-09-17) that the model will paraphrase "-0.6%" as "costs just
+  // 0.6%", silently flipping the sign while technically obeying "only use
+  // the exact figures given." The caller should route this corridor+tier
+  // to getCostAnomalyExplanation instead (see result.costAnomaly).
+  if (top.costPercent < 0 || runnerUp.costPercent < 0) return null;
+
   const cacheKey = `${corridorId}|${tier}|${today()}`;
   const cached = pickExplainerCache.get(cacheKey);
   if (cached) return cached;
 
-  // costPercent is ascending by rank, so this is always >= 0 for the same
-  // sendAmount -- see getRankedProviders, where costPercent is a strictly
-  // decreasing function of amountReceived for a fixed sendAmount/liveRate.
   const dollarDelta = top.amountReceived - runnerUp.amountReceived;
   const costPercentDelta = runnerUp.costPercent - top.costPercent;
 
@@ -156,5 +169,48 @@ Write exactly 1-2 sentences telling a curious visitor what happened and why the 
 
   const text = await callClaude(prompt);
   if (text) anomalyExplanationCache.set(cacheKey, text);
+  return text;
+}
+
+// Cost anomaly explanation: fires when result.costAnomaly is present --
+// one or more providers in this corridor+tier show an impossible negative
+// cost (see lib/corridors.ts's getRankedProviders). Distinct from
+// getAnomalyExplanation above: that one covers a rejected *FX-rate fetch*
+// with a specific previous/rejected rate to cite; this covers a
+// manually-sourced provider row that's simply gone stale against today's
+// live rate, which has no "previous reading" to point to -- only the
+// provider's own dateChecked. getPickExplainer refuses to run at all when
+// this applies (see its own guard above), so this is what the UI shows
+// in its place, not an addition alongside it.
+export async function getCostAnomalyExplanation(
+  corridorId: string,
+  tier: string,
+  anomalies: CostAnomalyProvider[]
+): Promise<string | null> {
+  if (anomalies.length === 0) return null;
+
+  const cacheKey = `${corridorId}|${tier}|${today()}`;
+  const cached = costAnomalyExplanationCache.get(cacheKey);
+  if (cached) return cached;
+
+  const rows = anomalies
+    .map(
+      (a) =>
+        `${a.provider}: cost ${percent(a.costPercent)} vs. the live mid-market rate (last checked ${a.dateChecked})`
+    )
+    .join("; ");
+
+  const prompt = `You write a short, plain-English explanation for a remittance comparison website. ${NO_INVENT_RULE}
+
+DATA:
+- One or more providers in this comparison show a NEGATIVE cost, meaning they appear to pay out MORE than today's live mid-market rate -- something no real remittance provider actually does.
+- Affected: ${rows}
+- Current handling: this comparison's normal "why this pick" explanation is being withheld until the affected rate is re-verified, because it would otherwise be describing a broken number as if it were a good deal.
+- Likely cause: the affected provider's rate was last checked on the date given above and simply hasn't been re-verified since the live mid-market rate moved -- not a bug in this site's own calculation.
+
+Write exactly 1-2 sentences telling a curious visitor why the top pick isn't being explained right now. Do not describe the negative cost as a good deal or a low price. Plain English -- no internal jargon like "cost anomaly" or "getRankedProviders."`;
+
+  const text = await callClaude(prompt);
+  if (text) costAnomalyExplanationCache.set(cacheKey, text);
   return text;
 }

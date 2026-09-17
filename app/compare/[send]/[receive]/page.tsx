@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { corridorId, findCorridor, getRankedProviders, listCorridors } from "@/lib/corridors";
-import { getPickExplainer, getAnomalyExplanation } from "@/lib/ai";
+import { getPickExplainer, getAnomalyExplanation, getCostAnomalyExplanation } from "@/lib/ai";
 import CorridorComparison from "./CorridorComparison";
 
 // Only the pairs we actually have researched provider data for are
@@ -126,15 +126,19 @@ export default async function ComparePage({
   // Both fail gracefully to null internally (no ANTHROPIC_API_KEY, a
   // timeout, etc.) rather than throwing, so this never blocks the page.
   const id = corridorId(corridor);
-  const [initialInsight, initialAnomalyExplanation] = await Promise.all([
-    getPickExplainer(id, "Everyday", initialResult, corridor.receiveCurrency),
-    initialResult.rateAnomaly
-      ? getAnomalyExplanation(
-          `${corridor.sendCurrency}->${corridor.receiveCurrency}`,
-          initialResult.rateAnomaly
-        )
-      : Promise.resolve(null),
-  ]);
+  const [initialInsight, initialAnomalyExplanation, initialCostAnomalyExplanation] =
+    await Promise.all([
+      getPickExplainer(id, "Everyday", initialResult, corridor.receiveCurrency),
+      initialResult.rateAnomaly
+        ? getAnomalyExplanation(
+            `${corridor.sendCurrency}->${corridor.receiveCurrency}`,
+            initialResult.rateAnomaly
+          )
+        : Promise.resolve(null),
+      initialResult.costAnomaly
+        ? getCostAnomalyExplanation(id, "Everyday", initialResult.costAnomaly)
+        : Promise.resolve(null),
+    ]);
 
   return (
     <CorridorComparison
@@ -142,6 +146,7 @@ export default async function ComparePage({
       initialResult={initialResult}
       initialInsight={initialInsight}
       initialAnomalyExplanation={initialAnomalyExplanation}
+      initialCostAnomalyExplanation={initialCostAnomalyExplanation}
     />
   );
 }
