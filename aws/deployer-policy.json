@@ -1,0 +1,138 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "StackCorridorRateRefresh",
+      "Effect": "Allow",
+      "Action": [
+        "cloudformation:CreateStack", "cloudformation:UpdateStack", "cloudformation:DeleteStack",
+        "cloudformation:DescribeStacks", "cloudformation:DescribeStackEvents", "cloudformation:DescribeStackResource",
+        "cloudformation:DescribeStackResources", "cloudformation:ListStackResources", "cloudformation:GetTemplate",
+        "cloudformation:GetTemplateSummary", "cloudformation:CreateChangeSet", "cloudformation:DescribeChangeSet",
+        "cloudformation:ExecuteChangeSet", "cloudformation:DeleteChangeSet", "cloudformation:ListChangeSets"
+      ],
+      "Resource": "arn:aws:cloudformation:${REGION}:${ACCOUNT_ID}:stack/corridor-rate-refresh/*"
+    },
+    {
+      "Sid": "SamTransform",
+      "Effect": "Allow",
+      "Action": "cloudformation:CreateChangeSet",
+      "Resource": "arn:aws:cloudformation:${REGION}:aws:transform/Serverless-2016-10-31"
+    },
+    {
+      "Sid": "ArtifactBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:CreateBucket", "s3:ListBucket", "s3:GetBucketLocation", "s3:PutBucketPublicAccessBlock",
+        "s3:PutEncryptionConfiguration", "s3:PutBucketVersioning", "s3:PutLifecycleConfiguration"
+      ],
+      "Resource": "arn:aws:s3:::corridor-rate-refresh-artifacts-${ACCOUNT_ID}-${REGION}"
+    },
+    {
+      "Sid": "ArtifactObjects",
+      "Effect": "Allow",
+      "Action": ["s3:PutObject", "s3:GetObject"],
+      "Resource": "arn:aws:s3:::corridor-rate-refresh-artifacts-${ACCOUNT_ID}-${REGION}/*"
+    },
+    {
+      "Sid": "LambdaFunction",
+      "Effect": "Allow",
+      "Action": [
+        "lambda:CreateFunction", "lambda:DeleteFunction", "lambda:UpdateFunctionCode", "lambda:UpdateFunctionConfiguration",
+        "lambda:Get*", "lambda:List*", "lambda:TagResource", "lambda:UntagResource", "lambda:AddPermission",
+        "lambda:RemovePermission", "lambda:PutFunctionEventInvokeConfig", "lambda:UpdateFunctionEventInvokeConfig",
+        "lambda:DeleteFunctionEventInvokeConfig", "lambda:InvokeFunction"
+      ],
+      "Resource": "arn:aws:lambda:${REGION}:${ACCOUNT_ID}:function:corridor-rate-refresh"
+    },
+    {
+      "Sid": "ExecutionRoleManage",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateRole", "iam:DeleteRole", "iam:GetRole", "iam:TagRole", "iam:UntagRole", "iam:UpdateAssumeRolePolicy",
+        "iam:PutRolePolicy", "iam:DeleteRolePolicy", "iam:GetRolePolicy", "iam:ListRolePolicies",
+        "iam:ListAttachedRolePolicies", "iam:ListInstanceProfilesForRole", "iam:DetachRolePolicy"
+      ],
+      "Resource": "arn:aws:iam::${ACCOUNT_ID}:role/corridor-rate-refresh-*"
+    },
+    {
+      "Sid": "ExecutionRoleAttachBasicLoggingOnly",
+      "Effect": "Allow",
+      "Action": "iam:AttachRolePolicy",
+      "Resource": "arn:aws:iam::${ACCOUNT_ID}:role/corridor-rate-refresh-*",
+      "Condition": {
+        "ArnEquals": {
+          "iam:PolicyARN": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        }
+      }
+    },
+    {
+      "Sid": "PassRoleToLambdaOnly",
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": "arn:aws:iam::${ACCOUNT_ID}:role/corridor-rate-refresh-*",
+      "Condition": { "StringEquals": { "iam:PassedToService": "lambda.amazonaws.com" } }
+    },
+    {
+      "Sid": "ScheduleRule",
+      "Effect": "Allow",
+      "Action": [
+        "events:PutRule", "events:DeleteRule", "events:DescribeRule", "events:EnableRule", "events:DisableRule",
+        "events:PutTargets", "events:RemoveTargets", "events:ListTargetsByRule", "events:TagResource",
+        "events:UntagResource", "events:ListTagsForResource"
+      ],
+      "Resource": "arn:aws:events:${REGION}:${ACCOUNT_ID}:rule/corridor-rate-refresh-*"
+    },
+    {
+      "Sid": "LogGroupAndMetricFilter",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup", "logs:DeleteLogGroup", "logs:PutRetentionPolicy", "logs:DeleteRetentionPolicy",
+        "logs:TagResource", "logs:UntagResource", "logs:ListTagsForResource", "logs:PutMetricFilter",
+        "logs:DeleteMetricFilter", "logs:DescribeLogStreams", "logs:GetLogEvents", "logs:FilterLogEvents",
+        "logs:StartLiveTail"
+      ],
+      "Resource": [
+        "arn:aws:logs:${REGION}:${ACCOUNT_ID}:log-group:/aws/lambda/corridor-rate-refresh",
+        "arn:aws:logs:${REGION}:${ACCOUNT_ID}:log-group:/aws/lambda/corridor-rate-refresh:*"
+      ]
+    },
+    {
+      "Sid": "LogDescribeReadOnly",
+      "Effect": "Allow",
+      "Action": ["logs:DescribeLogGroups", "logs:DescribeMetricFilters", "cloudwatch:DescribeAlarms"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "Alarms",
+      "Effect": "Allow",
+      "Action": [
+        "cloudwatch:PutMetricAlarm", "cloudwatch:DeleteAlarms", "cloudwatch:TagResource", "cloudwatch:UntagResource",
+        "cloudwatch:ListTagsForResource"
+      ],
+      "Resource": "arn:aws:cloudwatch:${REGION}:${ACCOUNT_ID}:alarm:corridor-rate-refresh-*"
+    },
+    {
+      "Sid": "AlertTopic",
+      "Effect": "Allow",
+      "Action": [
+        "sns:CreateTopic", "sns:DeleteTopic", "sns:GetTopicAttributes", "sns:SetTopicAttributes", "sns:Subscribe",
+        "sns:Unsubscribe", "sns:ListSubscriptionsByTopic", "sns:GetSubscriptionAttributes", "sns:TagResource",
+        "sns:UntagResource", "sns:ListTagsForResource"
+      ],
+      "Resource": ["arn:aws:sns:${REGION}:${ACCOUNT_ID}:corridor-rate-refresh-alerts", "arn:aws:sns:${REGION}:${ACCOUNT_ID}:corridor-rate-refresh-alerts:*"]
+    },
+    {
+      "Sid": "GitHubTokenSecretWriteOnly",
+      "Effect": "Allow",
+      "Action": ["secretsmanager:CreateSecret", "secretsmanager:PutSecretValue", "secretsmanager:UpdateSecret", "secretsmanager:DescribeSecret", "secretsmanager:TagResource"],
+      "Resource": "arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:corridor/github-token-*"
+    },
+    {
+      "Sid": "CleanUpFailedSamManagedStackOnly",
+      "Effect": "Allow",
+      "Action": ["cloudformation:DescribeStacks", "cloudformation:DescribeStackEvents", "cloudformation:DeleteStack"],
+      "Resource": "arn:aws:cloudformation:${REGION}:${ACCOUNT_ID}:stack/aws-sam-cli-managed-default/*"
+    }
+  ]
+}

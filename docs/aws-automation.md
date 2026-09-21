@@ -50,6 +50,26 @@ Blocked rows are never applied. They are logged as `update_blocked` (WARN) with 
 
 Invocation events: `{}` runs in the configured mode; `{"dryRun": true}` never commits even when commits are enabled.
 
+## Deployer permissions
+
+Deploying needs a real set of permissions (CloudFormation, Lambda, IAM role creation, EventBridge, Logs, CloudWatch alarms, SNS, S3 for the artifact). `aws/deployer-policy.json` grants exactly that, and only on resources named `corridor-rate-refresh*`:
+
+- CloudFormation on the one stack, plus the `Serverless-2016-10-31` transform; S3 on one dedicated artifact bucket (`corridor-rate-refresh-artifacts-<account>-<region>`), so SAM's own `aws-sam-cli-managed-default` stack is not used.
+- IAM only on `role/corridor-rate-refresh-*`; `AttachRolePolicy` is limited by condition to `AWSLambdaBasicExecutionRole`, and `PassRole` to `lambda.amazonaws.com`. The deployer cannot mint an admin role.
+- Secrets Manager is **write-only** on `corridor/github-token-*` (no `GetSecretValue`): the deployer can store the token but never read it back. Only the Lambda's role can read it.
+- The single wildcard is read-only `Describe*` (`logs:DescribeLogGroups`, `logs:DescribeMetricFilters`, `cloudwatch:DescribeAlarms`), which do not support resource-level scoping.
+- `CleanUpFailedSamManagedStackOnly` exists only to delete a leftover stack from a failed first attempt; remove that statement afterwards.
+
+The policy is 5,105 characters, over IAM's 2,048-character limit for a user's inline policies, so it is a customer-managed policy. It contains `${ACCOUNT_ID}`/`${REGION}` placeholders:
+
+```bash
+sed -e 's/${REGION}/us-west-2/g' -e "s/\${ACCOUNT_ID}/$(aws sts get-caller-identity --query Account --output text --profile corridor)/g" aws/deployer-policy.json > /tmp/deployer-policy.json
+aws iam create-policy --policy-name corridor-rate-refresh-deployer --policy-document file:///tmp/deployer-policy.json --profile corridor
+aws iam attach-user-policy --user-name corridor-deploy --policy-arn arn:aws:iam::<account>:policy/corridor-rate-refresh-deployer --profile corridor
+```
+
+Note that any broader policy also attached to the user (for example `IAMFullAccess`) still applies; this policy only narrows what is *needed*. Detach the broad ones once a deploy has worked with this one.
+
 ## One-time setup (needs your AWS account)
 
 Prerequisites: AWS CLI v2 and [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) installed, and credentials configured (`aws configure sso` or `aws configure`). Check with `aws sts get-caller-identity`. Costs are pennies per month (one short daily invocation, one secret at about $0.40/month, a few alarms at about $0.10 each).
@@ -62,9 +82,10 @@ Prerequisites: AWS CLI v2 and [AWS SAM CLI](https://docs.aws.amazon.com/serverle
 3. Build and deploy (dry-run mode):
    ```bash
    npm run aws:test
-   sam deploy --template-file aws/template.yaml --stack-name corridor-rate-refresh --resolve-s3 --capabilities CAPABILITY_IAM --parameter-overrides AlertEmail=you@example.com
+   aws s3api create-bucket --bucket corridor-rate-refresh-artifacts-<account>-<region> --region <region> --create-bucket-configuration LocationConstraint=<region>
+   sam deploy --template-file aws/template.yaml --stack-name corridor-rate-refresh --s3-bucket corridor-rate-refresh-artifacts-<account>-<region> --region <region> --capabilities CAPABILITY_IAM --parameter-overrides AlertEmail=you@example.com
    ```
-   Use `sam build --template-file aws/template.yaml` first if `sam deploy` does not pick up `aws/.build`; `npm run aws:build` produces that directory. Confirm the SNS subscription email, or no alarm will reach you.
+   (Omit `--create-bucket-configuration` in `us-east-1`.) `sam deploy` packages `aws/.build`, which `npm run aws:test` / `npm run aws:build` produce. Confirm the SNS subscription email, or no alarm will reach you.
 4. Dry-run in AWS against the real corridors:
    ```bash
    aws lambda invoke --function-name corridor-rate-refresh --cli-binary-format raw-in-base64-out --payload '{"dryRun":true}' out.json && cat out.json
