@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "refresh:wise": "node scripts/refresh-wise-rows.mjs"
+    "refresh:wise": "node scripts/refresh-wise-rows.mjs",
+    "aws:build": "sh aws/build.sh",
+    "aws:test": "sh aws/build.sh && node --test aws/test/handler.test.mjs"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.45.8",

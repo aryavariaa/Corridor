@@ -362,6 +362,11 @@ scope is intentional, not a placeholder for "automate everything later":
   automatable rows is much larger than any single manual correction in this doc, so a run should
   be reviewed before it's applied, not trusted blind.
 
+**Scheduled runs (AWS Lambda):** the same refresh logic now also runs daily on AWS and commits
+safe changes to GitHub. The refresh/guard code lives in `scripts/lib/refresh-core.mjs`, shared by
+the CLI and the Lambda. The guard is a *peer* check, not a deviation-from-previous-value check;
+the Lambda adds a stricter change-from-current check on top. See `docs/aws-automation.md`.
+
 **Eurozone quote selection:** for a EUR-denominated corridor, the Wise API returns one quote per
 Eurozone origin country instead of one blended figure (this is the same multi-country structure
 that motivated re-keying Italy/Spain corridors to `sendCountry: "EUR"` — see the section above).

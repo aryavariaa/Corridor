@@ -1,0 +1,178 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Corridor scheduled rate refresh. A daily EventBridge schedule invokes a
+  Lambda that runs the same Wise/PayPal/Western Union refresh + guard as
+  scripts/refresh-wise-rows.mjs and commits data/provider-data.json to GitHub
+  (which Vercel then deploys). See docs/aws-automation.md.
+
+Parameters:
+  GitHubRepo:
+    Type: String
+    Default: aryavariaa/Corridor
+    Description: owner/name of the repo holding data/provider-data.json.
+  GitHubBranch:
+    Type: String
+    Default: main
+  GitHubTokenSecretName:
+    Type: String
+    Default: corridor/github-token
+    Description: >
+      Name of an EXISTING Secrets Manager secret whose SecretString is a
+      fine-grained GitHub PAT (Contents: read/write on the one repo). It is
+      created out-of-band (see docs/aws-automation.md) so the token never
+      passes through this template, its parameters, or CloudFormation history.
+  AlertEmail:
+    Type: String
+    Description: Address that receives blocked-update and failure alarms.
+  EnableCommits:
+    Type: String
+    Default: "false"
+    AllowedValues: ["false", "true"]
+    Description: >
+      "false" = every scheduled run is a dry run (logs what it WOULD commit).
+      Flip to "true" only after a dry run has been reviewed.
+  ScheduleExpression:
+    Type: String
+    Default: cron(17 6 * * ? *)
+    Description: Daily at 06:17 UTC. Wise's comparison data refreshes hourly server-side.
+
+Resources:
+  RefreshFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: corridor-rate-refresh
+      Description: Refresh Wise/PayPal/WU rows in provider-data.json and commit safe changes to GitHub.
+      CodeUri: .build/
+      Handler: handler.handler
+      Runtime: nodejs22.x
+      Architectures: [arm64]
+      MemorySize: 256
+      # 20 sequential Wise calls at ~0.2-1s each plus two GitHub calls.
+      Timeout: 180
+      Environment:
+        Variables:
+          GITHUB_REPO: !Ref GitHubRepo
+          GITHUB_BRANCH: !Ref GitHubBranch
+          DATA_PATH: data/provider-data.json
+          # A secret NAME, not the secret. The token itself is fetched at
+          # runtime; it is never in an environment variable or in the repo.
+          GITHUB_TOKEN_SECRET_ID: !Ref GitHubTokenSecretName
+          COMMITS_ENABLED: !Ref EnableCommits
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Sid: ReadGitHubTokenSecretOnly
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              # Secrets Manager appends "-XXXXXX" to the ARN, hence the "-*".
+              Resource: !Sub arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${GitHubTokenSecretName}-*
+      # Basic execution (CloudWatch Logs write) is added by SAM automatically.
+      LoggingConfig:
+        LogGroup: !Ref RefreshLogGroup
+        LogFormat: Text
+      EventInvokeConfig:
+        # A failed run alarms; it does not retry. The next scheduled run (or a
+        # manual invoke) is the retry, and is what a human would decide anyway.
+        MaximumRetryAttempts: 0
+      Events:
+        DailyRefresh:
+          Type: Schedule
+          Properties:
+            Schedule: !Ref ScheduleExpression
+            Description: Daily rate refresh
+            Enabled: true
+            # Scheduled runs commit whenever EnableCommits is "true". Manual
+            # dry runs pass {"dryRun": true} instead.
+            Input: "{}"
+
+  RefreshLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/corridor-rate-refresh
+      RetentionInDays: 90
+
+  AlertTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: corridor-rate-refresh-alerts
+      Subscription:
+        - Protocol: email
+          Endpoint: !Ref AlertEmail
+
+  # ---- Alarms -------------------------------------------------------------
+  # Three things must never be silent: the guard blocking a row, the run
+  # failing, and the run not happening at all.
+
+  BlockedUpdateMetricFilter:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      LogGroupName: !Ref RefreshLogGroup
+      FilterPattern: '{ $.event = "update_blocked" }'
+      MetricTransformations:
+        - MetricNamespace: Corridor/RateRefresh
+          MetricName: BlockedUpdates
+          MetricValue: "1"
+          DefaultValue: 0
+
+  BlockedUpdateAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: corridor-rate-refresh-blocked-update
+      AlarmDescription: >
+        The guard refused at least one refreshed row. Nothing bad was applied,
+        but a human should look: find the "update_blocked" lines in the
+        /aws/lambda/corridor-rate-refresh log group for the row and reason.
+      Namespace: Corridor/RateRefresh
+      MetricName: BlockedUpdates
+      Statistic: Sum
+      Period: 86400
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertTopic]
+
+  ErrorsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: corridor-rate-refresh-errors
+      AlarmDescription: The refresh Lambda failed (Wise/GitHub error, integrity check, or partial fetch failure).
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref RefreshFunction
+      Statistic: Sum
+      Period: 86400
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertTopic]
+
+  NotRunningAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: corridor-rate-refresh-not-running
+      AlarmDescription: No invocation in the last ~25 hours (schedule disabled or broken).
+      Namespace: AWS/Lambda
+      MetricName: Invocations
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref RefreshFunction
+      Statistic: Sum
+      Period: 90000
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: LessThanThreshold
+      TreatMissingData: breaching
+      AlarmActions: [!Ref AlertTopic]
+
+Outputs:
+  FunctionName:
+    Value: !Ref RefreshFunction
+  LogGroup:
+    Value: !Ref RefreshLogGroup
+  AlertTopicArn:
+    Value: !Ref AlertTopic

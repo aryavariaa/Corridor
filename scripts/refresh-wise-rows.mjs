@@ -38,165 +38,32 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import {
+  TARGET_PROVIDERS,
+  computeRefresh,
+  applyChanges,
+  serializeData,
+} from "./lib/refresh-core.mjs";
+
+// The refresh/guard logic lives in ./lib/refresh-core.mjs, shared with the
+// AWS Lambda (aws/refresh-lambda/) so the scheduled run and this manual one
+// can never disagree about what the guard allows. This file is only the
+// CLI: flag parsing, reading/writing data/provider-data.json, and printing.
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_PATH = path.join(__dirname, "..", "data", "provider-data.json");
 
-const TARGET_PROVIDERS = ["Wise", "PayPal", "Western Union"];
-
-// When a corridor's sendCurrency is EUR, the Wise API returns one quote per
-// Eurozone origin country instead of one blended figure. Pick
-// deterministically by this preference order (first match wins) so re-runs
-// are stable. ES was the country used when this pattern was first
-// established (2026-09-11, EUR->CO Western Union fix) -- see
-// docs/provider-data-sourcing.md.
-const EUR_SOURCE_COUNTRY_PREFERENCE = ["ES", "IT", "DE", "FR", "EE"];
-
-// >8% better than every peer's implied rate in the same corridor+tier group
-// is this repo's established "probably bad data" signal (see the
-// 2026-09-08 and 2026-09-10 corrections in docs/provider-data-sourcing.md).
-// Refuse to write a fetched value that trips it without --force.
-const OUTLIER_BEAT_THRESHOLD = 1.08;
-
 const WRITE = process.argv.includes("--write");
 const FORCE = process.argv.includes("--force");
-
-function impliedRate(row) {
-  return row.amountReceived / row.sendAmount;
-}
-
-async function fetchWiseComparison(sourceCurrency, targetCurrency, sendAmount) {
-  const url = `https://api.wise.com/v3/comparisons/?sourceCurrency=${sourceCurrency}&targetCurrency=${targetCurrency}&sendAmount=${sendAmount}`;
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`Wise API ${res.status} for ${url}`);
-  }
-  return res.json();
-}
-
-function pickQuote(providerEntry, sourceCurrency) {
-  const quotes = providerEntry.quotes ?? [];
-  if (quotes.length === 0) return null;
-  if (quotes.length === 1) return quotes[0];
-  if (sourceCurrency === "EUR") {
-    for (const cc of EUR_SOURCE_COUNTRY_PREFERENCE) {
-      const match = quotes.find((q) => q.sourceCountry === cc);
-      if (match) return match;
-    }
-  }
-  // Fallback: first quote, but this is an un-preferenced multi-quote
-  // currency combo we haven't seen before -- worth a manual look.
-  return quotes[0];
-}
 
 async function main() {
   const raw = readFileSync(DATA_PATH, "utf8");
   const data = JSON.parse(raw);
 
-  const corridorByKey = new Map(
-    data.corridors.map((c) => [`${c.sendCountry}|${c.receiveCountry}`, c])
-  );
+  const { corridorsChecked, changes, skippedNotFound, skippedOutlier, errors } =
+    await computeRefresh(data, { force: FORCE });
 
-  // Only rows for the three target providers, grouped by corridor.
-  const eligibleRows = data.providerRates.filter((r) =>
-    TARGET_PROVIDERS.includes(r.provider)
-  );
-
-  const corridorsNeeded = new Map(); // key -> corridor
-  for (const row of eligibleRows) {
-    const key = `${row.sendCountry}|${row.receiveCountry}`;
-    corridorsNeeded.set(key, corridorByKey.get(key));
-  }
-
-  const today = new Date().toISOString().slice(0, 10);
-  const changes = [];
-  const skippedNotFound = [];
-  const skippedOutlier = [];
-  const errors = [];
-
-  for (const [key, corridor] of corridorsNeeded) {
-    if (!corridor) continue;
-    for (const tier of ["Everyday", "Large"]) {
-      const amount = tier === "Everyday" ? corridor.everydayAmount : corridor.largeAmount;
-      let apiData;
-      try {
-        apiData = await fetchWiseComparison(corridor.sendCurrency, corridor.receiveCurrency, amount);
-      } catch (err) {
-        errors.push({ corridor: key, tier, error: err.message });
-        continue;
-      }
-
-      for (const providerName of TARGET_PROVIDERS) {
-        const row = data.providerRates.find(
-          (r) =>
-            r.sendCountry === corridor.sendCountry &&
-            r.receiveCountry === corridor.receiveCountry &&
-            r.provider === providerName &&
-            r.tier === tier
-        );
-        if (!row) continue; // this corridor+tier doesn't offer this provider -- never invent one
-
-        const entry = apiData.providers?.find((p) => p.name === providerName);
-        if (!entry) {
-          skippedNotFound.push({ corridor: key, tier, provider: providerName });
-          continue;
-        }
-        const quote = pickQuote(entry, corridor.sendCurrency);
-        if (!quote) {
-          skippedNotFound.push({ corridor: key, tier, provider: providerName, reason: "empty quotes array" });
-          continue;
-        }
-
-        const newAmountReceived = quote.receivedAmount;
-        const newImplied = newAmountReceived / amount;
-
-        // Peer check: compare against every OTHER row in this corridor+tier
-        // group (excluding the one we're about to replace).
-        const peers = data.providerRates.filter(
-          (r) =>
-            r.sendCountry === corridor.sendCountry &&
-            r.receiveCountry === corridor.receiveCountry &&
-            r.tier === tier &&
-            r !== row
-        );
-        const bestPeer = peers.length ? Math.max(...peers.map(impliedRate)) : null;
-        const isOutlier = bestPeer !== null && newImplied > bestPeer * OUTLIER_BEAT_THRESHOLD;
-
-        if (isOutlier && !FORCE) {
-          skippedOutlier.push({
-            corridor: key,
-            tier,
-            provider: providerName,
-            newImplied: newImplied.toFixed(4),
-            bestPeer: bestPeer.toFixed(4),
-          });
-          continue;
-        }
-
-        changes.push({
-          row,
-          before: {
-            sendAmount: row.sendAmount,
-            amountReceived: row.amountReceived,
-            dateChecked: row.dateChecked,
-          },
-          after: {
-            sendAmount: amount,
-            amountReceived: newAmountReceived,
-            dateChecked: today,
-            source:
-              `wise.com live comparison API (sourceCurrency=${corridor.sendCurrency}, ` +
-              `targetCurrency=${corridor.receiveCurrency}, sendAmount=${amount}` +
-              `${quote.sourceCountry ? `, sourceCountry=${quote.sourceCountry}` : ""}) -- ` +
-              `rate ${quote.rate}, fee ${quote.fee} ${corridor.sendCurrency}. ` +
-              `Auto-refreshed by scripts/refresh-wise-rows.mjs.`,
-          },
-        });
-      }
-    }
-  }
-
-  console.log(`Checked ${corridorsNeeded.size} corridors, ${TARGET_PROVIDERS.join("/")} rows only.\n`);
+  console.log(`Checked ${corridorsChecked} corridors, ${TARGET_PROVIDERS.join("/")} rows only.\n`);
 
   if (changes.length) {
     console.log(`${changes.length} row(s) would change:`);
@@ -246,10 +113,8 @@ async function main() {
     return;
   }
 
-  for (const c of changes) {
-    Object.assign(c.row, c.after);
-  }
-  writeFileSync(DATA_PATH, JSON.stringify(data, null, 2) + "\n");
+  applyChanges(changes);
+  writeFileSync(DATA_PATH, serializeData(data));
   console.log(`\nWrote ${changes.length} updated row(s) to ${path.relative(process.cwd(), DATA_PATH)}.`);
 }
 
