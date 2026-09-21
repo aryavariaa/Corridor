@@ -59,7 +59,7 @@ Deploying needs a real set of permissions (CloudFormation, Lambda, IAM role crea
 - Secrets Manager is **write-only** on `corridor/github-token-*` (no `GetSecretValue`): the deployer can store the token but never read it back. Only the Lambda's role can read it.
 - The single wildcard is read-only `Describe*` (`logs:DescribeLogGroups`, `logs:DescribeMetricFilters`, `cloudwatch:DescribeAlarms`), which do not support resource-level scoping.
 
-The policy is 5,105 characters, over IAM's 2,048-character limit for a user's inline policies, so it is a customer-managed policy. It contains `${ACCOUNT_ID}`/`${REGION}` placeholders:
+The policy is about 4,800 characters, over IAM's 2,048-character limit for a user's inline policies, so it is a customer-managed policy. It contains `${ACCOUNT_ID}`/`${REGION}` placeholders:
 
 ```bash
 sed -e 's/${REGION}/us-west-2/g' -e "s/\${ACCOUNT_ID}/$(aws sts get-caller-identity --query Account --output text --profile corridor)/g" aws/deployer-policy.json > /tmp/deployer-policy.json
