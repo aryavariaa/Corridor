@@ -108,9 +108,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 18357.91,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=INR, sendAmount=200) -- rate 95.5693, fee 7.91 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 18403.37,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=INR, sendAmount=200) -- rate 95.806, fee 7.91 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -138,9 +138,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 18817.44,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=INR, sendAmount=200, sourceCountry=US) -- rate 95.0328, fee 1.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 18875.51,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=INR, sendAmount=200, sourceCountry=US) -- rate 95.3260381875, fee 1.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -168,9 +168,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 189663.97,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=INR, sendAmount=2000) -- rate 95.5693, fee 15.43 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 190133.71,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=INR, sendAmount=2000) -- rate 95.806, fee 15.43 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -198,9 +198,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 190256.6,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=INR, sendAmount=2000, sourceCountry=US) -- rate 95.1283, fee 0 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 190843.7,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=INR, sendAmount=2000, sourceCountry=US) -- rate 95.421850789, fee 0 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -228,9 +228,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 25648.48,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=200) -- rate 129.205, fee 1.49 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 25428.54,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=200) -- rate 128.097, fee 1.49 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -258,9 +258,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 25421.82,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=200, sourceCountry=GB) -- rate 128.386568, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 25257.14,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=200, sourceCountry=GB) -- rate 127.5548580733, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -268,9 +268,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 24351.67,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=200, sourceCountry=GB) -- rate 123.606266, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 24194.17,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=200, sourceCountry=GB) -- rate 122.8068113476, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -288,9 +288,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 257152.84,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=2000) -- rate 129.205, fee 9.73 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 254947.62,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=2000) -- rate 128.097, fee 9.73 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -318,9 +318,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 256517.65,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=2000, sourceCountry=GB) -- rate 128.386568, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 254855.88,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=2000, sourceCountry=GB) -- rate 127.5548580733, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -328,9 +328,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 246842.95,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=2000, sourceCountry=GB) -- rate 123.606266, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 245246.43,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=INR, sendAmount=2000, sourceCountry=GB) -- rate 122.8068113476, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -348,9 +348,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 3257.19,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=200) -- rate 16.9725, fee 8.09 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 3305.04,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=200) -- rate 17.2218, fee 8.09 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -378,9 +378,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 3288.07,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=200, sourceCountry=US) -- rate 16.6056, fee 1.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 3333.5,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=200, sourceCountry=US) -- rate 16.8350102302, fee 1.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -388,9 +388,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 3167.96,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=200, sourceCountry=US) -- rate 16.24513, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 3211.28,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=200, sourceCountry=US) -- rate 16.4672588146, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -408,9 +408,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 33655.62,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=2000) -- rate 16.9725, fee 17.05 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 34149.97,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=2000) -- rate 17.2218, fee 17.05 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -438,9 +438,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 33415.52,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=2000, sourceCountry=US) -- rate 16.7244, fee 1.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 33877.14,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=2000, sourceCountry=US) -- rate 16.9554382027, fee 1.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -448,9 +448,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 32409.2,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=2000, sourceCountry=US) -- rate 16.24513, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 32852.35,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=MXN, sendAmount=2000, sourceCountry=US) -- rate 16.4672588146, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -688,9 +688,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 18254.18,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=PHP, sendAmount=300) -- rate 62.6108, fee 8.45 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 18297.71,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=PHP, sendAmount=300) -- rate 62.7601, fee 8.45 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -698,9 +698,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 186479.38,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=PHP, sendAmount=3000) -- rate 62.6108, fee 21.61 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 186924.05,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=PHP, sendAmount=3000) -- rate 62.7601, fee 21.61 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -748,9 +748,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 111624.74,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=PKR, sendAmount=300) -- rate 375.184, fee 2.48 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 110256.31,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=PKR, sendAmount=300) -- rate 370.597, fee 2.49 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -758,9 +758,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 745693.21,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=PKR, sendAmount=2000) -- rate 375.184, fee 12.46 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 736576.36,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=PKR, sendAmount=2000) -- rate 370.597, fee 12.46 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -808,9 +808,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 42001.43,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=BDT, sendAmount=300) -- rate 142.697, fee 5.66 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 41322.93,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=BDT, sendAmount=300) -- rate 140.669, fee 6.24 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "EUR",
@@ -818,9 +818,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2500,
-      "amountReceived": 352427.34,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=BDT, sendAmount=2500) -- rate 142.697, fee 30.24 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 346733.61,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=BDT, sendAmount=2500) -- rate 140.669, fee 35.11 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "EUR",
@@ -858,9 +858,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 20403.47,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=INR, sendAmount=300) -- rate 68.5232, fee 2.24 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 20311.37,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=INR, sendAmount=300) -- rate 68.2139, fee 2.24 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -868,9 +868,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 204606.16,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=INR, sendAmount=3000) -- rate 68.5232, fee 14.06 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 203682.61,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=INR, sendAmount=3000) -- rate 68.2139, fee 14.06 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -908,9 +908,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 20411.88,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=INR, sendAmount=300) -- rate 68.8962, fee 3.73 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 20227.66,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=INR, sendAmount=300) -- rate 68.2744, fee 3.73 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -918,9 +918,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 205358.9,
-      "dateChecked": "2026-09-13",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=INR, sendAmount=3000) -- rate 68.8962, fee 19.3 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 203505.5,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=INR, sendAmount=3000) -- rate 68.2744, fee 19.3 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -968,9 +968,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 21875.88,
-      "dateChecked": "2026-09-14",
-      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=200) -- rate 110.568, fee 2.15 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 21731.25,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=200) -- rate 109.837, fee 2.15 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "EUR",
@@ -978,9 +978,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 219769.38,
-      "dateChecked": "2026-09-14",
-      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=2000) -- rate 110.568, fee 12.36 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 218316.41,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=2000) -- rate 109.837, fee 12.36 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "EUR",
@@ -1028,9 +1028,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 21305.29,
-      "dateChecked": "2026-09-14",
-      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=200, sourceCountry=ES) -- rate 108.1431893639, fee 2.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 21618.34,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=200, sourceCountry=IT) -- rate 109.1780074, fee 1.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "EUR",
@@ -1038,9 +1038,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 215746.74,
-      "dateChecked": "2026-09-14",
-      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=2000, sourceCountry=ES) -- rate 108.1431893639, fee 4.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 218380.44,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=INR, sendAmount=2000, sourceCountry=IT) -- rate 109.2989742, fee 1.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "EUR",
@@ -1048,7 +1048,7 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 21842.0,
+      "amountReceived": 21842,
       "dateChecked": "2026-09-14",
       "source": "xoom.com (en-es/eur locale) live quote, Bank Deposit -- absent from the Wise Comparison API response for EUR->INR (as with USD->INR elsewhere in this dataset), sourced directly from PayPal's own Xoom calculator instead. Real standard rate shown, no first-transfer promo badge. Rate 109.2076 INR, fee EUR1.99."
     },
@@ -1058,7 +1058,7 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 218634.0,
+      "amountReceived": 218634,
       "dateChecked": "2026-09-14",
       "source": "xoom.com (en-es/eur locale) live quote, Bank Deposit. Rate 109.3169 INR, fee EUR0.00 (fee waived at this amount)."
     },
@@ -1108,7 +1108,7 @@
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 21714.0,
+      "amountReceived": 21714,
       "dateChecked": "2026-09-14",
       "source": "moneygram.com (es/en locale) live quote -- standard (non-promo) rate 108.57 INR disclosed struck-through next to the highlighted first-transfer promo rate (111.98); this dataset's established convention is to use the standard, non-promo figure (see docs/provider-data-sourcing.md's 'Data quality correction' note on MoneyGram promo-rate contamination). amountReceived = sendAmount * standard rate, matching this dataset's existing MoneyGram US->IN row convention."
     },
@@ -1118,7 +1118,7 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 217140.0,
+      "amountReceived": 217140,
       "dateChecked": "2026-09-14",
       "source": "moneygram.com (es/en locale) live quote -- at EUR2,000 the page shows the standard rate directly (108.57 INR, no promo badge), confirming the EUR200 standard-rate reading. amountReceived = sendAmount * rate."
     },
@@ -1128,7 +1128,7 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 21422.0,
+      "amountReceived": 21422,
       "dateChecked": "2026-09-14",
       "source": "riamoneytransfer.com (es-es locale) live quote -- standard (non-promo) rate 107.11 INR disclosed struck-through next to the first-transfer promo rate (107.8830); fee EUR0.00 (standard, not promo-only -- promo fee also EUR0.00). amountReceived = sendAmount * rate."
     },
@@ -1138,7 +1138,7 @@
       "provider": "Ria",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 214220.0,
+      "amountReceived": 214220,
       "dateChecked": "2026-09-14",
       "source": "riamoneytransfer.com (es-es locale) live quote -- at EUR2,000 the page shows the standard rate directly (107.11 INR, no promo badge), confirming the EUR200 standard-rate reading. Fee EUR0.00. amountReceived = sendAmount * rate."
     },
@@ -1148,9 +1148,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 7550936.0,
-      "dateChecked": "2026-09-14",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=300) -- rate 25992.0, fee 9.49 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 7559796,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=300) -- rate 26022.5, fee 9.49 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -1158,9 +1158,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 77352452.0,
-      "dateChecked": "2026-09-14",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=3000) -- rate 25992.0, fee 23.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 77443220,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=3000) -- rate 26022.5, fee 23.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -1208,9 +1208,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 7650669.0,
-      "dateChecked": "2026-09-14",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=300, sourceCountry=US) -- rate 25586.6673895936, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 7670138,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=300, sourceCountry=US) -- rate 25651.776, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -1218,9 +1218,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 76734671.0,
-      "dateChecked": "2026-09-14",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=3000, sourceCountry=US) -- rate 25586.6673895936, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 76929933,
+      "dateChecked": "2026-09-21",
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=VND, sendAmount=3000, sourceCountry=US) -- rate 25651.776, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -1228,7 +1228,7 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 7556100.0,
+      "amountReceived": 7556100,
       "dateChecked": "2026-09-14",
       "source": "xoom.com live quote, Bank Account -- absent from the Wise Comparison API response for USD->VND, sourced directly from PayPal's own Xoom calculator instead. Real standard rate shown ('Best Xoom Rate', no first-transfer promo badge). Rate 25187.06 VND, fee $2.99."
     },
@@ -1238,7 +1238,7 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 75561200.0,
+      "amountReceived": 75561200,
       "dateChecked": "2026-09-14",
       "source": "xoom.com live quote, Bank Account -- rate 25187.06 VND, fee $2.99 (flat, unchanged from Everyday tier)."
     },
@@ -1248,7 +1248,7 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 7700700.0,
+      "amountReceived": 7700700,
       "dateChecked": "2026-09-14",
       "source": "xe.com send-money product page, Direct Debit (ACH) -- rate 25669 VND, fee $4.00"
     },
@@ -1258,7 +1258,7 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 77007000.0,
+      "amountReceived": 77007000,
       "dateChecked": "2026-09-14",
       "source": "xe.com send-money product page, Direct Debit (ACH) -- rate 25669 VND, fee $0.00"
     },
@@ -1288,7 +1288,7 @@
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 7706610.0,
+      "amountReceived": 7706610,
       "dateChecked": "2026-09-14",
       "source": "moneygram.com live quote -- standard (non-promo) rate 25688.70 VND disclosed struck-through next to the highlighted first-transfer promo rate (26,168.79); this dataset's established convention is to use the standard, non-promo figure. amountReceived = sendAmount * standard rate, matching this dataset's existing MoneyGram US->IN row convention."
     },
@@ -1298,7 +1298,7 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 77066100.0,
+      "amountReceived": 77066100,
       "dateChecked": "2026-09-14",
       "source": "moneygram.com live quote -- at $3,000 the page shows the standard rate directly (25688.70 VND, 'Great rates, every time', no promo badge), confirming the $300 standard-rate reading. amountReceived = sendAmount * rate."
     },
@@ -1308,7 +1308,7 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 7710477.0,
+      "amountReceived": 7710477,
       "dateChecked": "2026-09-14",
       "source": "riamoneytransfer.com live quote -- standard (non-promo) rate 25701.59 VND disclosed struck-through next to the first-transfer promo rate (26,135.955); standard fee $2.90 (promo fee $0). amountReceived = sendAmount * rate."
     },
@@ -1318,7 +1318,7 @@
       "provider": "Ria",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 77104770.0,
+      "amountReceived": 77104770,
       "dateChecked": "2026-09-14",
       "source": "riamoneytransfer.com live quote -- rate unchanged at $3,000 (25701.59 VND), confirming the standard-rate reading; standard fee $2.90. amountReceived = sendAmount * rate."
     }
