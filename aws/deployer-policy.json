@@ -127,12 +127,6 @@
       "Effect": "Allow",
       "Action": ["secretsmanager:CreateSecret", "secretsmanager:PutSecretValue", "secretsmanager:UpdateSecret", "secretsmanager:DescribeSecret", "secretsmanager:TagResource"],
       "Resource": "arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:corridor/github-token-*"
-    },
-    {
-      "Sid": "CleanUpFailedSamManagedStackOnly",
-      "Effect": "Allow",
-      "Action": ["cloudformation:DescribeStacks", "cloudformation:DescribeStackEvents", "cloudformation:DeleteStack"],
-      "Resource": "arn:aws:cloudformation:${REGION}:${ACCOUNT_ID}:stack/aws-sam-cli-managed-default/*"
     }
   ]
 }
