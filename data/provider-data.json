@@ -99,6 +99,106 @@
       "receiveCurrency": "VND",
       "everydayAmount": 300,
       "largeAmount": 3000
+    },
+    {
+      "sendCountry": "CA",
+      "sendCountryName": "Canada",
+      "sendCurrency": "CAD",
+      "receiveCountry": "PH",
+      "receiveCountryName": "Philippines",
+      "receiveCurrency": "PHP",
+      "everydayAmount": 300,
+      "largeAmount": 3000
+    },
+    {
+      "sendCountry": "CA",
+      "sendCountryName": "Canada",
+      "sendCurrency": "CAD",
+      "receiveCountry": "VN",
+      "receiveCountryName": "Vietnam",
+      "receiveCurrency": "VND",
+      "everydayAmount": 300,
+      "largeAmount": 3000
+    },
+    {
+      "sendCountry": "CA",
+      "sendCountryName": "Canada",
+      "sendCurrency": "CAD",
+      "receiveCountry": "NG",
+      "receiveCountryName": "Nigeria",
+      "receiveCurrency": "NGN",
+      "everydayAmount": 300,
+      "largeAmount": 3000
+    },
+    {
+      "sendCountry": "GB",
+      "sendCountryName": "United Kingdom",
+      "sendCurrency": "GBP",
+      "receiveCountry": "NG",
+      "receiveCountryName": "Nigeria",
+      "receiveCurrency": "NGN",
+      "everydayAmount": 300,
+      "largeAmount": 3000
+    },
+    {
+      "sendCountry": "GB",
+      "sendCountryName": "United Kingdom",
+      "sendCurrency": "GBP",
+      "receiveCountry": "BD",
+      "receiveCountryName": "Bangladesh",
+      "receiveCurrency": "BDT",
+      "everydayAmount": 300,
+      "largeAmount": 2500
+    },
+    {
+      "sendCountry": "EUR",
+      "sendCountryName": "EUR",
+      "sendCurrency": "EUR",
+      "receiveCountry": "PH",
+      "receiveCountryName": "Philippines",
+      "receiveCurrency": "PHP",
+      "everydayAmount": 300,
+      "largeAmount": 3000
+    },
+    {
+      "sendCountry": "EUR",
+      "sendCountryName": "EUR",
+      "sendCurrency": "EUR",
+      "receiveCountry": "NG",
+      "receiveCountryName": "Nigeria",
+      "receiveCurrency": "NGN",
+      "everydayAmount": 300,
+      "largeAmount": 3000
+    },
+    {
+      "sendCountry": "AU",
+      "sendCountryName": "Australia",
+      "sendCurrency": "AUD",
+      "receiveCountry": "PH",
+      "receiveCountryName": "Philippines",
+      "receiveCurrency": "PHP",
+      "everydayAmount": 300,
+      "largeAmount": 3000
+    },
+    {
+      "sendCountry": "AU",
+      "sendCountryName": "Australia",
+      "sendCurrency": "AUD",
+      "receiveCountry": "VN",
+      "receiveCountryName": "Vietnam",
+      "receiveCurrency": "VND",
+      "everydayAmount": 300,
+      "largeAmount": 3000
+    },
+    {
+      "sendCountry": "AU",
+      "sendCountryName": "Australia",
+      "sendCurrency": "AUD",
+      "receiveCountry": "NG",
+      "receiveCountryName": "Nigeria",
+      "receiveCurrency": "NGN",
+      "everydayAmount": 300,
+      "largeAmount": 3000
     }
   ],
   "providerRates": [
@@ -1321,6 +1421,1596 @@
       "amountReceived": 77104770,
       "dateChecked": "2026-09-14",
       "source": "riamoneytransfer.com live quote -- rate unchanged at $3,000 (25701.59 VND), confirming the standard-rate reading; standard fee $2.90. amountReceived = sendAmount * rate."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13239.93,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=PHP, sendAmount=300) -- rate 44.7008, fee 3.81 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "PayPal",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 12636.73,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=PHP, sendAmount=300, sourceCountry=CA) -- rate 42.83491622, fee 4.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13277.27,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=PHP, sendAmount=300, sourceCountry=CA) -- rate 44.4040943261, fee 0.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 133152.96,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=PHP, sendAmount=3000) -- rate 44.7008, fee 21.24 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "PayPal",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 128291,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=PHP, sendAmount=3000, sourceCountry=CA) -- rate 42.83491622, fee 4.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 133436.54,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=PHP, sendAmount=3000, sourceCountry=CA) -- rate 44.4935286061, fee 0.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5469148,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=VND, sendAmount=300) -- rate 18546.4, fee 5.11 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5380046,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=VND, sendAmount=300, sourceCountry=CA) -- rate 18053.238847451, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 55196497,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=VND, sendAmount=3000) -- rate 18546.4, fee 23.87 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 54123791,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=VND, sendAmount=3000, sourceCountry=CA) -- rate 18053.238847451, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 289302.36,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=NGN, sendAmount=300) -- rate 977.571, fee 4.06 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 277510.42,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=NGN, sendAmount=300, sourceCountry=CA) -- rate 931.2117621056, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2911177.11,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=NGN, sendAmount=3000) -- rate 977.571, fee 22.03 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2800579.81,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=NGN, sendAmount=3000, sourceCountry=CA) -- rate 934.1462529162, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 546196.06,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=NGN, sendAmount=300) -- rate 1834.35, fee 2.24 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 532586.84,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=NGN, sendAmount=300, sourceCountry=GB) -- rate 1787.1442011274, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 5471829.36,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=NGN, sendAmount=3000) -- rate 1834.35, fee 17.02 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 5356089.04,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=NGN, sendAmount=3000, sourceCountry=GB) -- rate 1787.1442011274, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 48351.64,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=BDT, sendAmount=300) -- rate 164.093, fee 5.34 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 48219.69,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=BDT, sendAmount=300, sourceCountry=GB) -- rate 161.805603412, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 2500,
+      "amountReceived": 404970.04,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=BDT, sendAmount=2500) -- rate 164.093, fee 32.07 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 2500,
+      "amountReceived": 406084.25,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=BDT, sendAmount=2500, sourceCountry=GB) -- rate 162.6282042934, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 21371.87,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=PHP, sendAmount=300) -- rate 71.9301, fee 2.88 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "PayPal",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 20418.78,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=PHP, sendAmount=300, sourceCountry=ES) -- rate 68.9800332842, fee 3.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 20957.77,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=PHP, sendAmount=300, sourceCountry=IT) -- rate 70.0905176996, fee 0.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 214348.82,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=PHP, sendAmount=3000) -- rate 71.9301, fee 20.04 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "PayPal",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 206664.87,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=PHP, sendAmount=3000, sourceCountry=ES) -- rate 68.9800332842, fee 3.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 210202.16,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=PHP, sendAmount=3000, sourceCountry=IT) -- rate 70.0905176996, fee 0.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 467148.66,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=NGN, sendAmount=300) -- rate 1573.05, fee 3.03 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 464008.19,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=NGN, sendAmount=300, sourceCountry=IT) -- rate 1557.0221981251, fee 1.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 4686540.67,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=NGN, sendAmount=3000) -- rate 1573.05, fee 20.73 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 4667968.12,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=EUR, targetCurrency=NGN, sendAmount=3000, sourceCountry=IT) -- rate 1557.0221981251, fee 1.99 EUR. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13296.65,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=PHP, sendAmount=300) -- rate 44.6721, fee 2.35 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "PayPal",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 12554.62,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=PHP, sendAmount=300, sourceCountry=AU) -- rate 42.7013412514, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13186.23,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=PHP, sendAmount=300, sourceCountry=AU) -- rate 44.0996270464, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 133299.31,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=PHP, sendAmount=3000) -- rate 44.6721, fee 16.05 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "PayPal",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 127848.24,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=PHP, sendAmount=3000, sourceCountry=AU) -- rate 42.7013412514, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 132479.16,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=PHP, sendAmount=3000, sourceCountry=AU) -- rate 44.1890333399, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5490290,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=VND, sendAmount=300) -- rate 18534.5, fee 3.78 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5453131,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=VND, sendAmount=300, sourceCountry=AU) -- rate 18237.2871214685, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 55254681,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=VND, sendAmount=3000) -- rate 18534.5, fee 18.82 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 54869868,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=VND, sendAmount=3000, sourceCountry=AU) -- rate 18302.0962437406, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "Wise",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 290513.54,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=NGN, sendAmount=300) -- rate 976.943, fee 2.63 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "Western Union",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 285695.51,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=NGN, sendAmount=300, sourceCountry=AU) -- rate 955.47143259, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "Wise",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2914347.97,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=NGN, sendAmount=3000) -- rate 976.943, fee 16.87 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "Western Union",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2873301.56,
+      "dateChecked": "2026-09-22",
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=NGN, sendAmount=3000, sourceCountry=AU) -- rate 958.4029259831, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13314.84,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 44.3828 PHP, fee AUD5.00."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 133483.8,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 44.4946 PHP, fee AUD0.00."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5504100.0,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 18347 VND, fee AUD5.00."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 55041000.0,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 18347 VND, fee AUD0.00."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 288706.41,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 962.3547 NGN, fee AUD5.00."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2887064.1,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 962.3547 NGN, fee AUD0.00."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13342.41,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 44.4747 PHP, fee CAD5.00."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 133760.1,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 44.5867 PHP, fee CAD0.00."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5515500.0,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 18385 VND, fee CAD5.00."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 55155000.0,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 18385 VND, fee CAD0.00."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 289304.61,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 964.3487 NGN, fee CAD5.00."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2893046.1,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 964.3487 NGN, fee CAD0.00."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 542475.18,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 1808.2506 NGN, fee GBP3.00."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 5424751.8,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 1808.2506 NGN, fee GBP0.00."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 49021.08,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 163.4036 BDT, fee GBP3.00."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 2500,
+      "amountReceived": 408509.0,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 163.4036 BDT, fee GBP0.00 (2500 GBP, this corridor's Large tier)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 21459.27,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 71.5309 PHP, fee EUR4.00."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 215133.0,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 71.711 PHP, fee EUR0.00."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "XE",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 465302.55,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 1551.0085 NGN, fee EUR4.00."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "XE",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 4653025.5,
+      "dateChecked": "2026-09-22",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 1551.0085 NGN, fee EUR0.00."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 527645.82,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 48528.11,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 2500,
+      "amountReceived": 405486.71,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13267.25,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 132727.01,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5497901,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 55147602,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 281055.29,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2804805.35,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13258.49,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 132651.69,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5493416,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 55106593,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 280851.53,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2802717.14,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 21382.73,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "Revolut",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 213069.75,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "Revolut",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 452621.88,
+      "dateChecked": "2026-09-22",
+      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 133260,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 44.42 revealed above this corridor's promo cap (zero fee, no ambiguity)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 55244520,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 18414.84 revealed above this corridor's promo cap (fee 1.99 CAD discounted to 0, medium confidence)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2900820,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 966.94 revealed above this corridor's promo cap (zero fee, no ambiguity)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 548373,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 1827.91 revealed above this corridor's promo cap (zero fee, no ambiguity)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 5483730,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 1827.91 revealed above this corridor's promo cap (zero fee, no ambiguity)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Remitly",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 49260,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 164.2 revealed above this corridor's promo cap (fee 0.99 GBP discounted to 0, medium confidence)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 2500,
+      "amountReceived": 410500,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 164.2 revealed above this corridor's promo cap (fee 0.99 GBP discounted to 0, medium confidence)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 213630,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 71.21 revealed above this corridor's promo cap (fee 0.99 EUR discounted to 0, medium confidence)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 4514550,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 1504.85 revealed above this corridor's promo cap (zero fee, no ambiguity)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 132900,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 44.3 revealed above this corridor's promo cap (zero fee, no ambiguity)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 55308600,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 18436.2 revealed above this corridor's promo cap (fee 1.99 AUD discounted to 0, medium confidence)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "Remitly",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2874690,
+      "dateChecked": "2026-09-22",
+      "source": "remitly.com corridor page, standard rate 958.23 revealed above this corridor's promo cap (zero fee, no ambiguity)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5436837.09,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote (Cash Pickup (no Bank Transfer offered for VND), clean, no promo badge) -- rate 18122.7903, fee 2.99."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 54368370.9,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote -- rate 18122.7903, fee 2.99."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 289329.93,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote -- rate 964.4331, fee 0."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2893299.3,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote -- rate 964.4331, fee 0."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 544535.22,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote -- rate 1815.1174, fee 0."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 5445352.2,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote -- rate 1815.1174, fee 0."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 48630.72,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote (Debit Card Deposit (default receive method shown)) -- rate 162.1024, fee 0."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 2500,
+      "amountReceived": 405256,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote -- rate 162.1024, fee 0."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 21442.5,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote (Spain origin) -- rate 71.475, fee 1.99."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 214425,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote -- rate 71.475, fee 1.99."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 466820.61,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote (Spain origin) -- rate 1556.0687, fee 0."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 4668206.1,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote -- rate 1556.0687, fee 0."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "WorldRemit",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5466907.59,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote (Cash Pickup) -- rate 18223.0253, fee 1.99."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "WorldRemit",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 54669075.9,
+      "dateChecked": "2026-09-22",
+      "source": "worldremit.com live quote -- rate 18223.0253, fee 1.99."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 133172.7,
+      "dateChecked": "2026-09-22",
+      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 44.39, fee 3.49 CAD discounted to 0."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 55102830.9,
+      "dateChecked": "2026-09-22",
+      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 18367.61, fee 4.99 CAD discounted to 0."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2883010.2,
+      "dateChecked": "2026-09-22",
+      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 961.0, fee 5.99 CAD discounted to 0."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 5481815.7,
+      "dateChecked": "2026-09-22",
+      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 1827.27, fee 0.99 GBP discounted to 0."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 2500,
+      "amountReceived": 410300.0,
+      "dateChecked": "2026-09-22",
+      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 164.12, fee 1.99 GBP discounted to 0."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 211223.7,
+      "dateChecked": "2026-09-22",
+      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 70.41, flat fee 0.99 EUR, unambiguous."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 4633445.1,
+      "dateChecked": "2026-09-22",
+      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 1544.48, fee 1.99 EUR discounted to 0."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 132449.1,
+      "dateChecked": "2026-09-22",
+      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 44.15, fee 1.49 AUD discounted to 0."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "MoneyGram",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2875206.6,
+      "dateChecked": "2026-09-22",
+      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 958.4, fee 2.99 AUD discounted to 0."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13314.12,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 44.3804, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 133141.2,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 44.3804, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5522077.56,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 18406.9252, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 55220775.6,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 18406.9252, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 290076.48,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 966.9216, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2900764.8,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 966.9216, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 545005.41,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 1816.6847, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 5450054.1,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 1816.6847, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 49065.09,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 163.5503, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 2500,
+      "amountReceived": 408875.75,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 163.5503, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 21431.46,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 71.4382, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 214314.6,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 71.4382, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 467750.55,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 1559.1685, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 4677505.5,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 1559.1685, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13001.24,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 43.7605, fee 2.90 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 131154.56,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 43.7605, fee 2.90 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5322047.05,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 17913.3189, fee 2.90 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 53688008.08,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 17913.3189, fee 2.90 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "Paysend",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 281455.5,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 938.185, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "Paysend",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2814555.0,
+      "dateChecked": "2026-09-22",
+      "source": "paysend.com corridor page, live quote -- rate 938.185, fee 0.00 (flat, same both tiers)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13262.1,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 44.207 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "PH",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 132621.0,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 44.207 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5481000,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 18270 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "VN",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 54810000,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 18270 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 281421,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 938.07 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "CA",
+      "receiveCountry": "NG",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2814210,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 938.07 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 549300,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 1831.0 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "NG",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 5493000,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 1831.0 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 49212,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 164.04 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "GB",
+      "receiveCountry": "BD",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 2500,
+      "amountReceived": 410100,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 164.04 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 21330,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 71.1 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "PH",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 213300,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 71.1 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 465953.52,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 1553.1784 (no promo shown, single clean rate)."
+    },
+    {
+      "sendCountry": "EUR",
+      "receiveCountry": "NG",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 4659535.2,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 1553.1784 (no promo shown, single clean rate)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 13253.4,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 44.178 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "PH",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 132534.0,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 44.178 (standard rate vs. crossed-out first-transfer promo)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 5524500,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 18415 (no promo shown, single clean rate)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "VN",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 55245000,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 18415 (no promo shown, single clean rate)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "Ria",
+      "tier": "Everyday",
+      "sendAmount": 300,
+      "amountReceived": 286600.02,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 955.3334 (no promo shown, single clean rate)."
+    },
+    {
+      "sendCountry": "AU",
+      "receiveCountry": "NG",
+      "provider": "Ria",
+      "tier": "Large",
+      "sendAmount": 3000,
+      "amountReceived": 2866000.2,
+      "dateChecked": "2026-09-22",
+      "source": "riamoneytransfer.com corridor widget -- rate 955.3334 (no promo shown, single clean rate)."
     }
   ]
 }

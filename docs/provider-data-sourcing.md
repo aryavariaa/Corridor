@@ -601,3 +601,50 @@ across all 20 corridor+tier groups in the updated dataset (10 corridors × 2 tie
 Both new corridors' implied rates cluster within roughly a 2–4% band per corridor+tier, and
 every row sits comfortably below that day's live mid-market rate (EUR→INR 110.88, USD→VND
 25,862 on 2026-09-14).
+
+## 2026-09-22 — Phase 2: 20-corridor major-currency expansion
+
+Added 10 corridors to fill CAD, GBP, EUR, and AUD out to 4 receive markets each:
+CA→PH, CA→VN, CA→NG, GB→NG, GB→BD, EUR→PH, EUR→NG, AU→PH, AU→VN, AU→NG.
+Wise, PayPal, and Western Union rows were seeded via `scripts/refresh-wise-rows.mjs`
+(API-backed, unchanged process). The remaining 7 providers were sourced manually per
+corridor/tier using each provider's own established reveal method from this doc. Totals:
+281 new `providerRates` rows (Wise 20, Western Union 20, XE 20, Paysend 20, Ria 20,
+Revolut 18, WorldRemit 14, Remitly 12, MoneyGram 9, PayPal 6).
+
+**Deliberate exclusions (no standard rate could be revealed — no row recorded rather than
+guessed):**
+- WorldRemit: CA→PH, AU→PH, AU→NG — the "First Transfer Rate" promo persists to the
+  maximum amount the calculator allows (CAD 8999 / AUD 9989), with no threshold that
+  reveals a standard rate.
+- Remitly: Everyday tier is under that corridor's promo cap on CA→PH, CA→VN, CA→NG,
+  EUR→PH, EUR→NG, AU→PH, AU→VN, AU→NG (promo caps range CAD/AUD/EUR 500–2,000) — Large
+  tier clears the cap on all of these and was recorded normally.
+- MoneyGram: Everyday tier is blocked by an unconditional promo on all 10 corridors.
+  AU→VN is excluded on both tiers — the promo persists at every amount tested (AUD 300,
+  3,000, 10,000), with no reveal threshold found.
+
+**Confidence notes:**
+- Ria: all 10 corridors read cleanly as either a standard rate shown against a crossed-out
+  first-transfer promo, or (EUR→NG, AU→VN, AU→NG) no promo shown at all.
+- Paysend: clean direct reads on all corridors; AU corridors carry a real 2.90 AUD flat fee
+  (deducted before conversion), so `amountReceived` was taken from the live "recipient
+  gets" field rather than computed as `sendAmount × rate`.
+- WorldRemit's clean reads used each corridor's dedicated destination-country page
+  (`worldremit.com/en/<destination>`), not the homepage's universal calculator, which
+  shows an unconditional promo badge regardless of amount.
+
+**Nigeria FX-benchmark divergence:** all four new Nigeria corridors (CA/GB/EUR/AU→NG) show
+negative-cost teasers on the homepage, implying the cheapest provider beats the live
+mid-market rate. Independently re-fetched live Frankfurter mid-market rates for all four
+send currencies→NGN and recomputed each corridor's cheapest-provider cost% by hand; both
+reconciled exactly with the app's displayed values. This reflects a genuine, real-time FX
+benchmark divergence for NGN — a volatile, thinly-traded currency — consistent with the
+COP precedent above, not a sourcing error. The existing costAnomaly UI correctly surfaces
+this without generating false AI narration.
+
+No changes were made to `scripts/lib/refresh-core.mjs`, the AWS Lambda, or its SAM
+template. `TARGET_PROVIDERS` (Wise/PayPal/Western Union) is corridor-agnostic, so the
+existing scheduled automation will now also refresh those rows on the 10 new corridors —
+expected behavior from adding them via the shared mechanism, not a scope change. All 7
+manually-sourced providers remain untouched by automation on every corridor, old and new.
