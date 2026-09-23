@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { corridorId, findCorridor, getRankedProviders, listCorridors } from "@/lib/corridors";
 import { getPickExplainer, getAnomalyExplanation, getCostAnomalyExplanation } from "@/lib/ai";
 import CorridorComparison from "./CorridorComparison";
 
-// Only the pairs we actually have researched provider data for are
-// pre-built at build time / on each ISR revalidation. Any other
-// (send, receive) pair still resolves (dynamicParams defaults to true)
-// but renders the "not available yet" state below, marked noindex via
-// generateMetadata -- see docs/provider-data-sourcing.md for how new
-// corridors get added to this list.
+// Only the pairs in data/provider-data.json's corridors[] exist as pages.
+// dynamicParams = false makes every other (send, receive) pair -- including a
+// corridor that was later removed from the data file -- a real 404 instead of
+// a rendered page, so removing a corridor needs no per-route cleanup: the next
+// deploy's generateStaticParams simply no longer lists it. The page also
+// calls notFound() below as a second layer. See docs/provider-data-sourcing.md
+// for how corridors get added.
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return listCorridors().map((c) => ({
     send: c.sendCountry,
@@ -62,29 +66,7 @@ export default async function ComparePage({
   const { send, receive } = await params;
   const corridor = findCorridor(send, receive);
 
-  if (!corridor) {
-    return (
-      <main className="mx-auto w-full max-w-3xl px-6 py-12">
-        <Link href="/" className="text-sm text-link hover:underline">
-          ← Back to corridor picker
-        </Link>
-        <h1 className="font-heading mt-6 text-2xl font-bold tracking-tight">
-          We don&rsquo;t have this corridor yet
-        </h1>
-        <p className="mt-2 text-sm text-text-dim">
-          We haven&rsquo;t researched real provider rates for{" "}
-          <strong>{send}</strong> → <strong>{receive}</strong> yet. Pick one
-          of the corridors we do have data for.
-        </p>
-        <Link
-          href="/"
-          className="mt-6 inline-block rounded-md bg-accent px-4 py-2 text-sm font-medium text-accent-contrast hover:opacity-90"
-        >
-          Back to the corridor picker
-        </Link>
-      </main>
-    );
-  }
+  if (!corridor) notFound();
 
   // Unlike /api/compare (which already wraps this in try/catch and returns
   // a 502), this is a Server Component render -- an uncaught throw here

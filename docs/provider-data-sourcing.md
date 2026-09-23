@@ -757,3 +757,18 @@ corridor+tier cluster by more than 8%.
 Wise's own rate it is not negative), so that tier can show the cost-anomaly banner. The existing
 CA→PH/CA→VN Revolut rows could not be re-checked from today's tooling for the same reason as the
 missing CA→ZA row.
+
+## 2026-09-24 — Removed corridors now 404
+
+Before this change the corridor route left `dynamicParams` at its default (`true`), so a pair not in
+`generateStaticParams` (any removed corridor, any typo) still rendered a "not available yet"
+placeholder with an HTTP **200** — a soft 404 that search engines can keep indexing, and a path where
+a cached pre-removal render could linger. Now `app/compare/[send]/[receive]/page.tsx` sets
+`dynamicParams = false` (unlisted pairs return a real 404 without rendering) and also calls
+`notFound()` if the corridor isn't in the data; both fall through to `app/not-found.tsx`. The static
+params, sitemap and homepage directory all derive from `corridors[]`, so **removing a corridor from
+`data/provider-data.json` is the whole job** — its URL 404s on the next deploy with no per-route
+cleanup. (Redirects in `next.config.ts` are only for corridors that were re-keyed, not removed.)
+On 2026-09-24 the removed NG and CO URLs were checked on production and were already showing the
+placeholder rather than stale rates; the earlier stale render was most likely a window before the
+swap deploy finished, and this change removes the soft-404 behavior for good.
