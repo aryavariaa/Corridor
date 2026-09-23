@@ -338,9 +338,9 @@
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 25645.07,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
+      "amountReceived": 25235.59,
+      "dateChecked": "2026-09-23",
+      "source": "revolut.com/en-GB/money-transfer widget (GBP->INR) -- live rate 126.49423 / fee GBP0.50 at Everyday, rate 126.74936 / fee GBP13.00 at Large; fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -348,9 +348,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 25550,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
+      "amountReceived": 25048.26,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/gb/en/india -- standard (non-promo) rate 126.50 INR disclosed on-page above the GBP1,000 promo cap ('Welcome rate' 129.38 applies only to first GBP1,000); base fee GBP1.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -378,9 +378,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 25610.88,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
+      "amountReceived": 25377.2,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-gb/send-money/send-money-to-india/from-united-kingdom/ - rate 126.886, fee GBP2.00 at Everyday / GBP0.00 at Large (add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "GB",
@@ -398,9 +398,9 @@
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 255896.53,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
+      "amountReceived": 251850.98,
+      "dateChecked": "2026-09-23",
+      "source": "revolut.com/en-GB/money-transfer widget (GBP->INR) -- live rate 126.49423 / fee GBP0.50 at Everyday, rate 126.74936 / fee GBP13.00 at Large; fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -408,9 +408,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 255500,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
+      "amountReceived": 252748.26,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/gb/en/india -- standard (non-promo) rate 126.50 INR disclosed on-page above the GBP1,000 promo cap ('Welcome rate' 129.38 applies only to first GBP1,000); base fee GBP1.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -438,9 +438,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 256360.52,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
+      "amountReceived": 253772.0,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-gb/send-money/send-money-to-india/from-united-kingdom/ - rate 126.886, fee GBP2.00 at Everyday / GBP0.00 at Large (add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "US",
@@ -588,9 +588,9 @@
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 25579,
-      "dateChecked": "2026-09-07",
-      "source": "WorldRemit"
+      "amountReceived": 25431.16,
+      "dateChecked": "2026-09-23",
+      "source": "worldremit.com/en/india (UK origin) live quote, Bank Transfer -- rate 127.1558 INR, fee GBP1.69 at Everyday / GBP5.99 at Large (add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "GB",
@@ -598,9 +598,9 @@
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 255790,
-      "dateChecked": "2026-09-07",
-      "source": "WorldRemit"
+      "amountReceived": 254311.6,
+      "dateChecked": "2026-09-23",
+      "source": "worldremit.com/en/india (UK origin) live quote, Bank Transfer -- rate 127.1558 INR, fee GBP1.69 at Everyday / GBP5.99 at Large (add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "US",
@@ -648,9 +648,9 @@
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 25595.92,
-      "dateChecked": "2026-09-07",
-      "source": "Paysend"
+      "amountReceived": 25302.68,
+      "dateChecked": "2026-09-23",
+      "source": "paysend.com/en-gb/send-money/from-united-kingdom-to-india - rate 126.5134, GBP0.00 fee (both tiers), no promo indicated. Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "GB",
@@ -658,9 +658,9 @@
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 255959.2,
-      "dateChecked": "2026-09-07",
-      "source": "Paysend"
+      "amountReceived": 253026.8,
+      "dateChecked": "2026-09-23",
+      "source": "paysend.com/en-gb/send-money/from-united-kingdom-to-india - rate 126.5134, GBP0.00 fee (both tiers), no promo indicated. Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "US",
@@ -688,9 +688,9 @@
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 25544,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
+      "amountReceived": 25415.22,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com/gb/en/corridor/india live quote -- standard (non-promo) rate 127.08 INR (127.0761 exact, from the EUR/GBP2,000 Recipient-gets read, where no promo badge shows) shown struck-through next to the first-transfer promo rate (128.49); standard fee GBP1.49 (add-on). Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -698,9 +698,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 255440,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
+      "amountReceived": 254152.2,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com/gb/en/corridor/india live quote -- standard (non-promo) rate 127.08 INR (127.0761 exact, from the EUR/GBP2,000 Recipient-gets read, where no promo badge shows) shown struck-through next to the first-transfer promo rate (128.49); standard fee GBP1.49 (add-on). Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -868,9 +868,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 112178.13,
-      "dateChecked": "2026-09-10",
-      "source": "xe.com/en-gb/send-money/send-money-to-pakistan/from-united-kingdom/ - rate 373.9271, GBP0 fee"
+      "amountReceived": 110087.64,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-gb/send-money/send-money-to-pakistan/from-united-kingdom/ - rate 366.9588, fee GBP3.00 at Everyday / GBP0.00 at Large (add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "GB",
@@ -878,9 +878,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 747854.2,
-      "dateChecked": "2026-09-10",
-      "source": "xe.com/en-gb/send-money/send-money-to-pakistan/from-united-kingdom/ - rate 373.9271, GBP0 fee"
+      "amountReceived": 733917.6,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-gb/send-money/send-money-to-pakistan/from-united-kingdom/ - rate 366.9588, fee GBP3.00 at Everyday / GBP0.00 at Large (add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "GB",
@@ -888,9 +888,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 112383,
-      "dateChecked": "2026-09-10",
-      "source": "remitly.com/gb/en/pakistan - standard (non-promo) rate 374.61 PKR disclosed on-page above the GBP500 promo cap ('Welcome rate' 378.54 applies only to first GBP500); GBP0 fee shown"
+      "amountReceived": 110280.0,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/gb/en/pakistan - standard (non-promo) rate 367.60 PKR disclosed on-page above the GBP500 promo cap ('Welcome rate' 368.63 applies only to first GBP500); GBP0 fee. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -898,9 +898,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 749220,
-      "dateChecked": "2026-09-10",
-      "source": "remitly.com/gb/en/pakistan - standard rate 374.61 PKR, GBP0 fee"
+      "amountReceived": 735200.0,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/gb/en/pakistan - standard (non-promo) rate 367.60 PKR disclosed on-page above the GBP500 promo cap ('Welcome rate' 368.63 applies only to first GBP500); GBP0 fee. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -1028,9 +1028,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 20613.78,
-      "dateChecked": "2026-09-10",
-      "source": "xe.com/en-ca/send-money/send-money-to-india/from-canada/ - rate 68.7126, CAD0 fee"
+      "amountReceived": 20312.88,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-ca/send-money/send-money-to-india/from-canada/ - rate 67.7096, CAD0 fee (default method; Everyday page also lists a CAD4 method). Re-sourced 2026-09-23 after stale-row negative-cost audit; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "CA",
@@ -1038,9 +1038,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 206137.8,
-      "dateChecked": "2026-09-10",
-      "source": "xe.com/en-ca/send-money/send-money-to-india/from-canada/ - rate 68.7126, CAD0 fee"
+      "amountReceived": 203128.8,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-ca/send-money/send-money-to-india/from-canada/ - rate 67.7096, CAD0 fee (default method; Everyday page also lists a CAD4 method). Re-sourced 2026-09-23 after stale-row negative-cost audit; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "CA",
@@ -1048,9 +1048,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 20631,
-      "dateChecked": "2026-09-10",
-      "source": "remitly.com/ca/en/india - standard (non-promo) rate 68.77 INR disclosed on-page above the CAD2,000 promo cap ('Welcome rate' 69.95 applies only to first CAD2,000); CAD0 fee shown"
+      "amountReceived": 20271.0,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/ca/en/india - standard (non-promo) rate 67.57 INR disclosed on-page above the CAD2,000 promo cap ('Welcome rate' 69.33 applies only to first CAD2,000); CAD0 fee. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "CA",
@@ -1058,9 +1058,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 206310,
-      "dateChecked": "2026-09-10",
-      "source": "remitly.com/ca/en/india - standard rate 68.77 INR, CAD0 fee"
+      "amountReceived": 202710.0,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/ca/en/india - standard (non-promo) rate 67.57 INR disclosed on-page above the CAD2,000 promo cap ('Welcome rate' 69.33 applies only to first CAD2,000); CAD0 fee. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -1088,9 +1088,9 @@
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 21941.95,
-      "dateChecked": "2026-09-14",
-      "source": "revolut.com international-money-transfer widget (EUR->INR) -- live rate 110.02885, fee EUR0.58"
+      "amountReceived": 21620.97,
+      "dateChecked": "2026-09-23",
+      "source": "revolut.com/en-ES/money-transfer widget (EUR->INR) -- live rate 108.59356 / fee EUR0.90 at Everyday, rate 108.74334 / fee EUR13.00 at Large; fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -1098,9 +1098,9 @@
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 219099.33,
-      "dateChecked": "2026-09-14",
-      "source": "revolut.com international-money-transfer widget (EUR->INR) -- live rate 110.17435, fee EUR11.34"
+      "amountReceived": 216073.01,
+      "dateChecked": "2026-09-23",
+      "source": "revolut.com/en-ES/money-transfer widget (EUR->INR) -- live rate 108.59356 / fee EUR0.90 at Everyday, rate 108.74334 / fee EUR13.00 at Large; fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -1108,9 +1108,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 21827.42,
-      "dateChecked": "2026-09-14",
-      "source": "remitly.com/es/en/india -- standard (non-promo) rate 109.68 INR disclosed on-page above the EUR1,000 promo cap ('Welcome rate' 109.90 applies only to first EUR1,000); base fee EUR0.99 shown (first-transfer fee discount excluded as promotional). amountReceived computed as (sendAmount - fee) * rate per this dataset's established Remitly convention (see EUR->BD row)."
+      "amountReceived": 21550.79,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/es/en/india -- standard (non-promo) rate 108.29 INR disclosed on-page above the EUR1,000 promo cap ('Welcome rate' 108.51 applies only to first EUR1,000); base fee EUR0.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -1118,9 +1118,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 219251.42,
-      "dateChecked": "2026-09-14",
-      "source": "remitly.com/es/en/india -- standard (non-promo) rate 109.68 INR disclosed above the EUR1,000 promo cap; base fee EUR0.99. amountReceived computed as (sendAmount - fee) * rate."
+      "amountReceived": 216472.79,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/es/en/india -- standard (non-promo) rate 108.29 INR disclosed on-page above the EUR1,000 promo cap ('Welcome rate' 108.51 applies only to first EUR1,000); base fee EUR0.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -1168,9 +1168,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 22036.42,
-      "dateChecked": "2026-09-14",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 110.1821 INR, fee EUR3.00"
+      "amountReceived": 21786.2,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 108.931 INR, fee EUR3.00 at Everyday / EUR0.00 at Large (add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "EUR",
@@ -1178,9 +1178,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 220364.2,
-      "dateChecked": "2026-09-14",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 110.1821 INR, fee EUR0.00"
+      "amountReceived": 217862.0,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com send-money product page, Wire Transfer -- rate 108.931 INR, fee EUR3.00 at Everyday / EUR0.00 at Large (add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "EUR",
@@ -1188,9 +1188,9 @@
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 21935,
-      "dateChecked": "2026-09-14",
-      "source": "worldremit.com (Spain origin) live quote, Bank Transfer -- rate 109.6773 INR, fee EUR1.99"
+      "amountReceived": 21721.92,
+      "dateChecked": "2026-09-23",
+      "source": "worldremit.com/en/india (Spain origin) live quote, Bank Transfer -- rate 108.6096 INR, fee EUR1.99 (both tiers, add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "EUR",
@@ -1198,9 +1198,9 @@
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 219355,
-      "dateChecked": "2026-09-14",
-      "source": "worldremit.com (Spain origin) live quote, Bank Transfer -- rate 109.6773 INR, fee EUR1.99"
+      "amountReceived": 217219.2,
+      "dateChecked": "2026-09-23",
+      "source": "worldremit.com/en/india (Spain origin) live quote, Bank Transfer -- rate 108.6096 INR, fee EUR1.99 (both tiers, add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "EUR",

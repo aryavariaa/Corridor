@@ -640,7 +640,8 @@ mid-market rate. Independently re-fetched live Frankfurter mid-market rates for 
 send currencies→NGN and recomputed each corridor's cheapest-provider cost% by hand; both
 reconciled exactly with the app's displayed values. This reflects a genuine, real-time FX
 benchmark divergence for NGN — a volatile, thinly-traded currency — consistent with the
-COP precedent above, not a sourcing error. The existing costAnomaly UI correctly surfaces
+COP precedent above, not a sourcing error. **(Explanation superseded 2026-09-23 — the
+divergence is structural, not a market move; see the section below.)** The existing costAnomaly UI correctly surfaces
 this without generating false AI narration.
 
 No changes were made to `scripts/lib/refresh-core.mjs`, the AWS Lambda, or its SAM
@@ -648,3 +649,46 @@ template. `TARGET_PROVIDERS` (Wise/PayPal/Western Union) is corridor-agnostic, s
 existing scheduled automation will now also refresh those rows on the 10 new corridors —
 expected behavior from adding them via the shared mechanism, not a scope change. All 7
 manually-sourced providers remain untouched by automation on every corridor, old and new.
+
+## 2026-09-23 — Negative-cost audit: stale manual rows re-sourced; Nigeria diagnosed
+
+**Problem 1 — stale manual rows (fixed).** Live audit of all 20 corridors against Frankfurter
+found manual rows 9–22 days old going negative as the mid-market drifted. Re-sourced from each
+provider's own calculator, dated 2026-09-23, both tiers (28 rows), in the four affected corridors:
+- CA→IN: XE (67.7096), Remitly (standard 67.57)
+- GB→PK: XE (366.9588; fee now GBP3 at Everyday), Remitly (standard 367.60)
+- GB→IN: Revolut, Remitly (standard 126.50), XE, WorldRemit, Paysend, MoneyGram (standard 127.08)
+- EUR→IN: Revolut, Remitly (standard 108.29), XE, WorldRemit
+The audit found more negative rows than the original report because rates kept moving (e.g.
+GB→IN had five providers negative, not one). Remitly GB→IN/EUR→IN use `(sendAmount − base fee)
+× rate`, per this dataset's documented Remitly convention. After the fix, none of the four
+corridors has any negative row on either tier and none renders the cost-anomaly banner.
+
+**Still stale/negative, out of this pass's scope (flagged, not fixed):**
+- Negative today: EUR→BD Paysend (−1.4%, 13d) and Remitly Large (−1.1%); AU→IN XE (−0.3%) and
+  Remitly Large (−0.6%) — all 13 days old, same failure mode, re-source next.
+- Marginal negatives on 1-day-old rows (≤0.2%, inside the ±0.4% Frankfurter-vs-Wise daily-fixing
+  noise, not stale): AU→PH/CA→PH/EUR→PH XE Large; GB→BD Remitly/MoneyGram Large/Ria; AU→VN
+  Remitly Large/Ria.
+- Near-failure (≥9 days old, thin margin): US→PH Remitly (+0.14%, 13d), US→PH XE (+0.83%),
+  EUR→IN MoneyGram/Ria (9d, not re-sourced — positive), GB→IN Ria (16d, positive).
+- Very old but comfortably positive: US→IN and US→MX manual rows (15–22 days).
+A ~10-day re-source cadence for XE/Remitly/Revolut (the providers that price closest to
+mid-market) would prevent recurrence.
+
+**Problem 2 — Nigeria: benchmark mismatch, not a sourcing error.** Findings:
+1. Frankfurter's NGN comes from central-bank sources (its NGN provider list includes CBN), i.e.
+   the official reference rate. Three independent aggregators agree with it (USD→NGN 1328.02
+   Frankfurter, 1328.37 open.er-api / exchangerate-api, 1324.9 fawazahmed0) — so it is not a
+   Frankfurter glitch; it is the published official rate.
+2. Wise, Western Union and all seven manual providers price at a rate ~3.1% higher (Wise's CAD→NGN
+   974.7 implies USD→NGN ≈ 1370). Across the other 16 corridors, Frankfurter and Wise's rate agree
+   within ±0.4%; on the four NGN corridors the gap is −3.10 / −3.09 / −3.09 / −3.35% — the same
+   regardless of send currency, so it lives in the NGN leg.
+3. Recomputing every Nigeria row against a Wise-derived mid-market removes the anomaly: 0 of 16
+   (CA), 0 of 15 (EUR), 0 of 14 (AU) and 2 of 16 (GB, worst −0.15%) rows are negative, with the
+   cheapest providers at ~0.6–0.7% cost. The provider rows are mutually consistent and accurate;
+   the benchmark is the outlier for this one currency. The gap (~3%) is far smaller than the
+   historical 20–40% official/parallel spread, consistent with the 2023–24 CBN unification.
+Conclusion: do not re-source Nigeria provider rows. The fix belongs in how the NGN benchmark is
+chosen or presented (pending decision).
