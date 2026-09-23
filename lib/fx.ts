@@ -36,7 +36,75 @@ export type MidMarketRate = {
   // Present only when `stale` is true because of a rejected swing (see
   // MAX_PLAUSIBLE_SWING below), not a plain fetch failure.
   anomaly?: RateAnomaly;
+  // Which upstream produced `rate`. Absent means Frankfurter.
+  source?: "wise" | "frankfurter";
 };
+
+// Currencies whose published official reference rate (what Frankfurter
+// reports) sits well away from the rate providers actually execute at.
+// NGN: Frankfurter's NGN comes from central-bank sources and runs ~3%
+// below Wise's mid-market rate; every provider prices near Wise's rate, so
+// against the official rate nearly every Nigeria row looked like it beat
+// mid-market (see docs/provider-data-sourcing.md, 2026-09-23). For these
+// targets the benchmark is Wise's own mid-market rate, with Frankfurter as
+// the fallback.
+const WISE_BENCHMARK_TARGETS = new Set(["NGN"]);
+
+export function usesWiseBenchmark(target: string): boolean {
+  return WISE_BENCHMARK_TARGETS.has(target);
+}
+
+const WISE_SOURCE_COUNTRY: Record<SupportedCurrency, string> = {
+  USD: "US",
+  GBP: "GB",
+  EUR: "ES",
+  AUD: "AU",
+  CAD: "CA",
+};
+
+type WiseComparisonResponse = {
+  providers?: {
+    name: string;
+    quotes?: { rate?: number; sourceCountry?: string | null }[];
+  }[];
+};
+
+// Kept apart from lastKnownGood: Wise and Frankfurter legitimately differ
+// by ~3% for NGN, so sharing one cache would make a Wise->Frankfurter
+// switch look like a suspect swing to the guard below.
+const wiseLastKnownGood = new Map<string, { rate: number; asOf: string }>();
+
+async function getWiseMidMarketRate(
+  base: SupportedCurrency,
+  target: string
+): Promise<MidMarketRate | null> {
+  const key = cacheKey(base, target);
+  const country = WISE_SOURCE_COUNTRY[base];
+  try {
+    const res = await fetch(
+      `https://api.wise.com/v3/comparisons/?sourceCurrency=${base}&targetCurrency=${target}&sendAmount=1000&sourceCountry=${country}`,
+      { next: { revalidate: 3600 }, signal: AbortSignal.timeout(5000) }
+    );
+    if (!res.ok) throw new Error(`Wise comparison request failed: ${res.status}`);
+    const data: WiseComparisonResponse = await res.json();
+    const quotes = data.providers?.find((p) => p.name === "Wise")?.quotes ?? [];
+    const rate = (quotes.find((q) => q.sourceCountry === country) ?? quotes[0])?.rate;
+    if (typeof rate !== "number" || !Number.isFinite(rate) || rate <= 0) {
+      throw new Error(`No Wise rate found for ${base} -> ${target}`);
+    }
+    const fresh = { rate, asOf: new Date().toISOString() };
+    wiseLastKnownGood.set(key, fresh);
+    return { ...fresh, source: "wise" };
+  } catch (err) {
+    const cached = wiseLastKnownGood.get(key);
+    if (cached) {
+      console.error(`Wise benchmark fetch failed for ${key}, serving last known rate`, err);
+      return { ...cached, stale: true, source: "wise" };
+    }
+    console.error(`Wise benchmark fetch failed for ${key}, falling back to Frankfurter`, err);
+    return null;
+  }
+}
 
 // Last known-good rate per currency pair, kept in memory so a single
 // upstream hiccup (Frankfurter down, rate-limited, timing out) doesn't
@@ -117,6 +185,11 @@ export async function getMidMarketRate(
   target: string
 ): Promise<MidMarketRate> {
   const key = cacheKey(base, target);
+
+  if (usesWiseBenchmark(target)) {
+    const wise = await getWiseMidMarketRate(base, target);
+    if (wise) return wise;
+  }
 
   try {
     const res = await fetch(

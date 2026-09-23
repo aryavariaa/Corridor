@@ -1,5 +1,10 @@
 import providerData from "@/data/provider-data.json";
-import { getMidMarketRate, type RateAnomaly, type SupportedCurrency } from "@/lib/fx";
+import {
+  getMidMarketRate,
+  usesWiseBenchmark,
+  type RateAnomaly,
+  type SupportedCurrency,
+} from "@/lib/fx";
 
 export type Tier = "Everyday" | "Large";
 
@@ -42,7 +47,12 @@ export type RankedProvider = {
   sendAmount: number;
   amountReceived: number;
   costPercent: number;
+  // 0 for a benchmark reference row, which sits outside the ranking.
   rank: number;
+  // True for the provider whose own mid-market rate is the benchmark on
+  // this corridor (Wise on NGN corridors): its cost is only its fee, so
+  // it's shown as the reference rather than ranked against the others.
+  benchmarkReference?: boolean;
   dateChecked: string;
   source: string;
 };
@@ -85,6 +95,12 @@ export type RankedProvidersResult = {
   // rateAnomaly -- the live FX fetch can be perfectly fresh and correct
   // while a provider's own manually-sourced row is what's out of date.
   costAnomaly?: CostAnomalyProvider[];
+  benchmark: {
+    source: "wise" | "frankfurter";
+    // True on corridors configured to benchmark against Wise, even when
+    // the live fetch fell back to Frankfurter.
+    wiseConfigured: boolean;
+  };
   providers: RankedProvider[];
 };
 
@@ -165,20 +181,29 @@ export async function getRankedProviders(
       r.tier === tier
   );
 
-  const providers: RankedProvider[] = rows
-    .map((r) => ({
-      provider: r.provider,
-      sendAmount: r.sendAmount,
-      amountReceived: r.amountReceived,
-      // Fraction of the mid-market value lost to fees + FX margin.
-      costPercent: 1 - r.amountReceived / (r.sendAmount * live.rate),
-      dateChecked: r.dateChecked,
-      source: r.source,
-    }))
+  const benchmarkSource = live.source ?? "frankfurter";
+  const scored = rows.map((r) => ({
+    provider: r.provider,
+    sendAmount: r.sendAmount,
+    amountReceived: r.amountReceived,
+    // Fraction of the mid-market value lost to fees + FX margin.
+    costPercent: 1 - r.amountReceived / (r.sendAmount * live.rate),
+    dateChecked: r.dateChecked,
+    source: r.source,
+  }));
+  const isReference = (p: { provider: string }) =>
+    benchmarkSource === "wise" && p.provider === "Wise";
+
+  const ranked: RankedProvider[] = scored
+    .filter((p) => !isReference(p))
     .sort((a, b) => a.costPercent - b.costPercent)
     .map((p, i) => ({ ...p, rank: i + 1 }));
+  const references: RankedProvider[] = scored
+    .filter(isReference)
+    .map((p) => ({ ...p, rank: 0, benchmarkReference: true }));
+  const providers = [...ranked, ...references];
 
-  const costAnomaly: CostAnomalyProvider[] = providers
+  const costAnomaly: CostAnomalyProvider[] = ranked
     .filter((p) => p.costPercent < 0)
     .sort((a, b) => a.costPercent - b.costPercent)
     .map((p) => ({
@@ -196,6 +221,10 @@ export async function getRankedProviders(
     rateStale: live.stale,
     rateAnomaly: live.anomaly,
     costAnomaly: costAnomaly.length > 0 ? costAnomaly : undefined,
+    benchmark: {
+      source: benchmarkSource,
+      wiseConfigured: usesWiseBenchmark(corridor.receiveCurrency),
+    },
     providers,
   };
 }
@@ -294,7 +323,7 @@ export async function getCorridorTeaser(corridor: Corridor): Promise<CorridorTea
       "Everyday"
     );
     const top = result.providers[0];
-    if (!top) return null;
+    if (!top || top.benchmarkReference) return null;
     return { cheapestProvider: top.provider, costPercent: top.costPercent };
   } catch {
     return null;

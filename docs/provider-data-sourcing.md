@@ -692,3 +692,21 @@ mid-market) would prevent recurrence.
    historical 20–40% official/parallel spread, consistent with the 2023–24 CBN unification.
 Conclusion: do not re-source Nigeria provider rows. The fix belongs in how the NGN benchmark is
 chosen or presented (pending decision).
+
+**Problem 2 fix (2026-09-23).** NGN corridors now benchmark against Wise's own mid-market rate
+(`getWiseMidMarketRate` in `lib/fx.ts`, Wise comparison API, 1h revalidate) with Frankfurter as the
+fallback. Wise keeps a separate last-known-good cache, because Wise and Frankfurter differ by ~3% for
+NGN and sharing one cache would trip the 3% swing guard on a source switch. On these corridors Wise's
+own row is flagged `benchmarkReference`, excluded from ranking, the hero card and the directory
+teaser, pinned last in the table with a "Ref" label and no cost figure (its cost is measured against
+itself), and each page carries a footnote explaining the benchmark. If the Wise fetch fails with no
+cache, the page falls back to Frankfurter and the footnote says so. The list of Wise-benchmarked
+currencies is `WISE_BENCHMARK_TARGETS` in `lib/fx.ts`; add a currency there if another shows the same
+official-vs-executable gap.
+
+Nigeria rows also move fast: GBP→NGN dropped ~0.4% within a day, pushing three GB→NG rows sourced
+on 2026-09-22 slightly past the benchmark. Re-sourced 2026-09-23: Ria (standard 1825.00), Remitly
+(standard 1812.47, above the GBP250 promo cap), MoneyGram Large (1816.02). **Residual:** Ria's
+freshly verified GB→NG quote still beats Wise's live mid-market by ~0.3%, so that page keeps the
+cost-anomaly banner. The quote is real and current, not stale; NGN has no single agreed mid-market
+rate. Treat NGN rows as needing a re-source every 1–2 days, not the ~10-day cadence used elsewhere.

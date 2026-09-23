@@ -171,17 +171,24 @@ export default function CorridorComparison({
   );
 
   const restSorted = useMemo(() => {
-    const rest = result.providers.filter((p) => p.rank !== 1);
+    const rest = result.providers.filter((p) => p.rank !== 1 && !p.benchmarkReference);
+    const references = result.providers.filter((p) => p.benchmarkReference);
+    let sorted: RankedProvider[];
     switch (sortBy) {
       case "cost_desc":
-        return [...rest].sort((a, b) => b.costPercent - a.costPercent);
+        sorted = [...rest].sort((a, b) => b.costPercent - a.costPercent);
+        break;
       case "provider_az":
-        return [...rest].sort((a, b) => a.provider.localeCompare(b.provider));
+        sorted = [...rest].sort((a, b) => a.provider.localeCompare(b.provider));
+        break;
       case "cost_asc":
       default:
-        return [...rest].sort((a, b) => a.costPercent - b.costPercent);
+        sorted = [...rest].sort((a, b) => a.costPercent - b.costPercent);
     }
+    // Benchmark reference rows stay pinned last whatever the sort.
+    return [...sorted, ...references];
   }, [result, sortBy]);
+  const rankedOtherCount = restSorted.filter((p) => !p.benchmarkReference).length;
 
   function handleSortChange(next: SortField) {
     setSortBy(next);
@@ -397,6 +404,13 @@ export default function CorridorComparison({
             {corridor.receiveCurrency} &middot; as of{" "}
             {new Date(result.asOf).toLocaleDateString("en-US", { timeZone: "UTC" })}
           </p>
+          {result.benchmark.wiseConfigured && (
+            <p className="mt-1 text-xs text-text-dim">
+              {result.benchmark.source === "wise"
+                ? `Note on ${corridor.receiveCurrency}: the official ${corridor.receiveCurrency} reference rate published by central-bank sources sits a few percent below the rate providers actually trade at, which would make almost every provider look like it beats the market. For this corridor, "mid-market" is Wise's own mid-market rate, and Wise is shown as the benchmark reference rather than ranked. ${corridor.receiveCurrency} has no single agreed mid-market rate, so a provider can occasionally land marginally under the benchmark.`
+                : `Note on ${corridor.receiveCurrency}: Wise's mid-market rate is unavailable right now, so this page is falling back to the official reference rate. That rate sits a few percent below the rate providers actually trade at, so costs shown here may look unusually low or negative.`}
+            </p>
+          )}
 
           {heroProvider ? (
             // Solid accent-filled panel, deliberate departure from the
@@ -454,7 +468,7 @@ export default function CorridorComparison({
             <>
               <div className="mt-6 flex items-center justify-between gap-2">
                 <span className="text-xs font-bold uppercase tracking-widest text-text-dim">
-                  Other providers ({restSorted.length})
+                  Other providers ({rankedOtherCount})
                 </span>
                 <div className="flex items-center gap-2">
                   <label
@@ -503,15 +517,40 @@ export default function CorridorComparison({
                   <tbody className="text-text-dim">
                     {restSorted.map((p) => (
                       <tr key={p.provider} className="border-t border-card-border">
-                        <td className="px-4 py-2 tabular-nums">{p.rank}</td>
+                        <td className="px-4 py-2 tabular-nums">
+                          {p.benchmarkReference ? (
+                            <span
+                              title="Wise's mid-market rate is this corridor's benchmark, so Wise is shown as the reference rather than ranked."
+                              className="rounded border border-card-border px-1.5 py-0.5 text-xs font-bold uppercase tracking-wider text-text-dim"
+                            >
+                              Ref
+                            </span>
+                          ) : (
+                            p.rank
+                          )}
+                        </td>
                         <td className="px-4 py-2 font-heading font-medium text-text">
                           {p.provider}
+                          {p.benchmarkReference && (
+                            <span className="ml-2 text-xs font-normal text-text-dim">
+                              Benchmark reference &middot; not ranked
+                            </span>
+                          )}
                         </td>
                         <td className="px-4 py-2 text-right tabular-nums">
                           {money(corridor.receiveCurrency, p.amountReceived)}
                         </td>
                         <td className="px-4 py-2 text-right tabular-nums font-medium text-cost">
-                          {percent(p.costPercent)}
+                          {p.benchmarkReference ? (
+                            <span
+                              title="Cost is measured against this provider's own mid-market rate, so it isn't comparable."
+                              className="text-text-dim"
+                            >
+                              &mdash;
+                            </span>
+                          ) : (
+                            percent(p.costPercent)
+                          )}
                         </td>
                         <td className="px-4 py-2 text-right text-xs">
                           <span className="inline-flex justify-end">
