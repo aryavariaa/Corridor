@@ -2298,9 +2298,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 548373,
-      "dateChecked": "2026-09-22",
-      "source": "remitly.com corridor page, standard rate 1827.91 revealed above this corridor's promo cap (zero fee, no ambiguity)."
+      "amountReceived": 543741.0,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/gb/en/nigeria -- standard (non-promo) rate 1812.47 NGN disclosed on-page above the GBP250 promo cap ('Welcome rate' 1843.28 applies only to first GBP250); zero fee. Re-sourced 2026-09-23 after GBP->NGN moved ~0.4%."
     },
     {
       "sendCountry": "GB",
@@ -2308,9 +2308,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 5483730,
-      "dateChecked": "2026-09-22",
-      "source": "remitly.com corridor page, standard rate 1827.91 revealed above this corridor's promo cap (zero fee, no ambiguity)."
+      "amountReceived": 5437410.0,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/gb/en/nigeria -- standard (non-promo) rate 1812.47 NGN disclosed on-page above the GBP250 promo cap; zero fee. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -2558,9 +2558,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 5481815.7,
-      "dateChecked": "2026-09-22",
-      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 1827.27, fee 0.99 GBP discounted to 0."
+      "amountReceived": 5448048.6,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com/gb/en/corridor/nigeria live quote, standard rate (\"Great rates, every time\") -- rate 1816.02 (Recipient-gets read directly: 5,448,048.60 at GBP3,000), standard fee GBP0.99 (add-on). Re-sourced 2026-09-23 after GBP->NGN moved ~0.4%."
     },
     {
       "sendCountry": "GB",
@@ -2878,9 +2878,9 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 549300,
-      "dateChecked": "2026-09-22",
-      "source": "riamoneytransfer.com corridor widget -- rate 1831.0 (standard rate vs. crossed-out first-transfer promo)."
+      "amountReceived": 547500.0,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com corridor widget (en-gb) -- standard rate 1825.00 (standard rate vs. crossed-out first-transfer promo 1843.603); at GBP3,000 no promo shows and the same 1825.00 applies; standard fee GBP1.99 at Everyday / GBP3.99 at Large (add-on). Re-sourced 2026-09-23 after GBP->NGN moved ~0.4%; amountReceived = sendAmount x rate."
     },
     {
       "sendCountry": "GB",
@@ -2888,9 +2888,9 @@
       "provider": "Ria",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 5493000,
-      "dateChecked": "2026-09-22",
-      "source": "riamoneytransfer.com corridor widget -- rate 1831.0 (standard rate vs. crossed-out first-transfer promo)."
+      "amountReceived": 5475000.0,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com corridor widget (en-gb) -- standard rate 1825.00; no promo shown at GBP3,000 (Recipient-gets read directly: 5,475,000.00); standard fee GBP3.99 (add-on). Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
