@@ -634,6 +634,8 @@ guessed):**
   (`worldremit.com/en/<destination>`), not the homepage's universal calculator, which
   shows an unconditional promo badge regardless of amount.
 
+> **Historical — Nigeria was removed from the dataset on 2026-09-23** (see "Nigeria removed, South Africa added" below). What follows is kept as a record of what was tried and why it was reverted; none of these corridors exist any more.
+
 **Nigeria FX-benchmark divergence:** all four new Nigeria corridors (CA/GB/EUR/AU→NG) show
 negative-cost teasers on the homepage, implying the cheapest provider beats the live
 mid-market rate. Independently re-fetched live Frankfurter mid-market rates for all four
@@ -676,6 +678,8 @@ corridors has any negative row on either tier and none renders the cost-anomaly 
 A ~10-day re-source cadence for XE/Remitly/Revolut (the providers that price closest to
 mid-market) would prevent recurrence.
 
+> **Historical — Nigeria was removed from the dataset on 2026-09-23** (see "Nigeria removed, South Africa added" below). What follows is kept as a record of what was tried and why it was reverted; none of these corridors exist any more.
+
 **Problem 2 — Nigeria: benchmark mismatch, not a sourcing error.** Findings:
 1. Frankfurter's NGN comes from central-bank sources (its NGN provider list includes CBN), i.e.
    the official reference rate. Three independent aggregators agree with it (USD→NGN 1328.02
@@ -710,3 +714,46 @@ on 2026-09-22 slightly past the benchmark. Re-sourced 2026-09-23: Ria (standard 
 freshly verified GB→NG quote still beats Wise's live mid-market by ~0.3%, so that page keeps the
 cost-anomaly banner. The quote is real and current, not stale; NGN has no single agreed mid-market
 rate. Treat NGN rows as needing a re-source every 1–2 days, not the ~10-day cadence used elsewhere.
+
+## 2026-09-23 — Nigeria removed, South Africa added
+
+**Why Nigeria was dropped.** After the benchmark override (Wise's mid-market for NGN, Wise row shown as
+reference) shipped, GB→NG still tripped the anomaly banner: Ria's fresh, verified quote sat 0.3% above
+Wise's own live rate. NGN has no single agreed mid-market rate, so a genuine current quote can
+legitimately land on either side of any one benchmark. That is a property of the currency, not a bug to
+keep chasing, so the four NG corridors and all 61 of their rows were removed. The investigation above
+stays as the record of the finding (official reference rate ~3% below the executable rate, and the
+residual noise even after fixing the benchmark). The only Nigeria-specific code was the entry in
+`WISE_BENCHMARK_TARGETS`; the mechanism itself (`lib/fx.ts` Wise benchmark with its own cache, the
+`benchmarkReference` row handling in `lib/corridors.ts`, the reference label and footnote in
+`CorridorComparison.tsx`) is keyed by currency, so it stays in place, dormant, with the set now empty.
+(A "0.5% noise tolerance" was floated as an option but never built.)
+
+**Why South Africa.** ZAR has floated freely since the financial-rand dual rate ended in 1995, so
+there is no official-vs-executable split. Checked against live data before building: Frankfurter's
+ZAR agrees with Wise's own rate within +0.13% to −0.30% for CAD/GBP/EUR/AUD (the usual noise band).
+
+**Corridors.** CA→ZA, GB→ZA, EUR→ZA, AU→ZA, tiers 300 / 3,000 in the send currency (same as the
+other emerging-market corridors). Wise Comparison API confirmed to return ZAR for all four: Wise and
+Western Union for CAD/GBP/AUD, **Wise only for EUR→ZA** (no Western Union, no PayPal on any ZA
+corridor — not invented). The refresh script only updates rows that already exist, so Wise/WU rows
+were seeded as placeholders at ~3% below mid-market (so the 8% peer guard compares against something
+realistic rather than being forced past) and then written by `refresh-wise-rows.mjs --write`. Rows the
+script touched on other corridors were left out of this change. The Lambda's `TARGET_PROVIDERS` is
+provider-scoped with no corridor allowlist, so it refreshes these rows on its next run with no code
+change.
+
+**Manual providers (sourced 2026-09-23 from each provider's own calculator).** XE (all four), Revolut
+(GB, EUR, AU — **no CA row**: Revolut has no Canadian transfer calculator, `/en-CA/` redirects to the
+UK site), Remitly (standard rate above the promo cap, `(send − base fee) × rate`), WorldRemit (dedicated
+`worldremit.com/en/south-africa`, Bank Transfer, no promo shown), Paysend (AU carries a real AUD2.90
+fee deducted before conversion), MoneyGram (standard rate struck through beside the first-transfer
+promo; Everyday derived from the same standard rate as the Large read), Ria (standard rate; single
+rate at Large). Total: 14 Wise/WU rows + 54 manual rows = 68 ZA rows. Peer sweep: no provider beats its
+corridor+tier cluster by more than 8%.
+
+**Known caveats.** Remitly CA→ZA Large reads −0.1% against Frankfurter (its 11.59 standard rate is
+0.24% above Frankfurter's 11.5621, but inside the ±0.3% Frankfurter-vs-Wise noise band — against
+Wise's own rate it is not negative), so that tier can show the cost-anomaly banner. The existing
+CA→PH/CA→VN Revolut rows could not be re-checked from today's tooling for the same reason as the
+missing CA→ZA row.

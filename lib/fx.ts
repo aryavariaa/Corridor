@@ -41,14 +41,13 @@ export type MidMarketRate = {
 };
 
 // Currencies whose published official reference rate (what Frankfurter
-// reports) sits well away from the rate providers actually execute at.
-// NGN: Frankfurter's NGN comes from central-bank sources and runs ~3%
-// below Wise's mid-market rate; every provider prices near Wise's rate, so
-// against the official rate nearly every Nigeria row looked like it beat
-// mid-market (see docs/provider-data-sourcing.md, 2026-09-23). For these
-// targets the benchmark is Wise's own mid-market rate, with Frankfurter as
-// the fallback.
-const WISE_BENCHMARK_TARGETS = new Set(["NGN"]);
+// reports) sits well away from the rate providers actually execute at. For
+// these targets the benchmark is Wise's own mid-market rate, with Frankfurter
+// as the fallback, and Wise's row is shown as the reference, not ranked.
+// Currently empty: NGN was the only case and was dropped from the dataset
+// (docs/provider-data-sourcing.md, 2026-09-23). Add a currency here only
+// after checking Wise's rate against Frankfurter's across every send currency.
+const WISE_BENCHMARK_TARGETS = new Set<string>();
 
 export function usesWiseBenchmark(target: string): boolean {
   return WISE_BENCHMARK_TARGETS.has(target);
@@ -70,7 +69,7 @@ type WiseComparisonResponse = {
 };
 
 // Kept apart from lastKnownGood: Wise and Frankfurter legitimately differ
-// by ~3% for NGN, so sharing one cache would make a Wise->Frankfurter
+// by a few percent for such currencies, so sharing one cache would make a Wise->Frankfurter
 // switch look like a suspect swing to the guard below.
 const wiseLastKnownGood = new Map<string, { rate: number; asOf: string }>();
 

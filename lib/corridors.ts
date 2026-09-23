@@ -50,7 +50,7 @@ export type RankedProvider = {
   // 0 for a benchmark reference row, which sits outside the ranking.
   rank: number;
   // True for the provider whose own mid-market rate is the benchmark on
-  // this corridor (Wise on NGN corridors): its cost is only its fee, so
+  // this corridor (Wise, on corridors using the Wise benchmark): its cost is only its fee, so
   // it's shown as the reference rather than ranked against the others.
   benchmarkReference?: boolean;
   dateChecked: string;
