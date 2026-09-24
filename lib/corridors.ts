@@ -5,6 +5,7 @@ import {
   type RateAnomaly,
   type SupportedCurrency,
 } from "@/lib/fx";
+import { fetchLiveQuotes, LIVE_PROVIDERS } from "@/lib/wise-live";
 
 export type Tier = "Everyday" | "Large";
 
@@ -53,8 +54,34 @@ export type RankedProvider = {
   // this corridor (Wise, on corridors using the Wise benchmark): its cost is only its fee, so
   // it's shown as the reference rather than ranked against the others.
   benchmarkReference?: boolean;
+  // Where this row's number comes from. Preset-tier rows are "verified"
+  // (checked against the provider's own quote, dated dateChecked). On a
+  // custom amount, Wise/PayPal/Western Union rows are "live" (queried just
+  // now at that amount) and every other row is "estimated" (interpolated
+  // from its two verified tier rows, never checked at this amount).
+  basis: RowBasis;
   dateChecked: string;
   source: string;
+};
+
+export type RowBasis = "verified" | "live" | "estimated";
+
+// Present only on a custom-amount result.
+export type CustomAmountInfo = {
+  amount: number;
+  min: number;
+  max: number;
+  // The verified amounts the estimates are interpolated between.
+  anchors: [number, number];
+  // True when `amount` lies outside `anchors`, so estimates extend the
+  // line beyond the verified span rather than interpolating within it.
+  extrapolated: boolean;
+  // "live": every live-capable provider got a live quote; "partial": some
+  // fell back to estimates; "unavailable": the live call failed entirely.
+  liveStatus: "live" | "partial" | "unavailable";
+  // Providers left out because only one verified amount is on file, so
+  // there is no line to interpolate along -- listed rather than invented.
+  notEstimated: string[];
 };
 
 // A provider row whose costPercent came out negative -- it appears to
@@ -95,6 +122,9 @@ export type RankedProvidersResult = {
   // rateAnomaly -- the live FX fetch can be perfectly fresh and correct
   // while a provider's own manually-sourced row is what's out of date.
   costAnomaly?: CostAnomalyProvider[];
+  // Set only for custom amounts. For those, `tier` is the nearest preset
+  // tier and is not meaningful to the UI.
+  custom?: CustomAmountInfo;
   benchmark: {
     source: "wise" | "frankfurter";
     // True on corridors configured to benchmark against Wise, even when
@@ -181,15 +211,53 @@ export async function getRankedProviders(
       r.tier === tier
   );
 
+  const { providers, costAnomaly, benchmarkSource } = rankRows(
+    rows.map((r) => ({
+      provider: r.provider,
+      sendAmount: r.sendAmount,
+      amountReceived: r.amountReceived,
+      basis: "verified" as const,
+      dateChecked: r.dateChecked,
+      source: r.source,
+    })),
+    live
+  );
+
+  return {
+    sendCountry,
+    receiveCountry,
+    tier,
+    liveRate: live.rate,
+    asOf: live.asOf,
+    rateStale: live.stale,
+    rateAnomaly: live.anomaly,
+    costAnomaly,
+    benchmark: {
+      source: benchmarkSource,
+      wiseConfigured: usesWiseBenchmark(corridor.receiveCurrency),
+    },
+    providers,
+  };
+}
+
+type UnscoredRow = Omit<RankedProvider, "costPercent" | "rank" | "benchmarkReference">;
+
+// The one place rows get scored, ranked, and checked for anomalies -- used
+// by both the preset tiers and custom amounts so the two can never rank
+// differently for the same inputs.
+function rankRows(
+  rows: UnscoredRow[],
+  live: { rate: number; source?: "wise" | "frankfurter" }
+): {
+  providers: RankedProvider[];
+  costAnomaly: CostAnomalyProvider[] | undefined;
+  benchmarkSource: "wise" | "frankfurter";
+} {
   const benchmarkSource = live.source ?? "frankfurter";
   const scored = rows.map((r) => ({
-    provider: r.provider,
-    sendAmount: r.sendAmount,
-    amountReceived: r.amountReceived,
+    ...r,
     // Fraction of the mid-market value lost to fees + FX margin.
     costPercent: 1 - r.amountReceived / (r.sendAmount * live.rate),
-    dateChecked: r.dateChecked,
-    source: r.source,
   }));
   const isReference = (p: { provider: string }) =>
     benchmarkSource === "wise" && p.provider === "Wise";
@@ -201,7 +269,6 @@ export async function getRankedProviders(
   const references: RankedProvider[] = scored
     .filter(isReference)
     .map((p) => ({ ...p, rank: 0, benchmarkReference: true }));
-  const providers = [...ranked, ...references];
 
   const costAnomaly: CostAnomalyProvider[] = ranked
     .filter((p) => p.costPercent < 0)
@@ -213,14 +280,138 @@ export async function getRankedProviders(
     }));
 
   return {
+    providers: [...ranked, ...references],
+    costAnomaly: costAnomaly.length > 0 ? costAnomaly : undefined,
+    benchmarkSource,
+  };
+}
+
+// Custom-amount bounds. Fee structures (fixed minimums, markup caps) stop
+// being roughly linear well outside the verified amounts, so estimates aren't
+// defensible past these limits: from half the Everyday tier (so the Everyday
+// amount itself stays selectable) up to 3x the Large tier.
+export function customAmountRange(c: Pick<Corridor, "everydayAmount" | "largeAmount">) {
+  return { min: Math.ceil(c.everydayAmount * 0.5), max: c.largeAmount * 3 };
+}
+
+export class CustomAmountRangeError extends Error {
+  constructor(public min: number, public max: number) {
+    super(`Amount must be between ${min} and ${max}`);
+  }
+}
+
+// Ranking for an arbitrary amount. Wise/PayPal/Western Union get a live
+// quote at exactly this amount; every other provider is linearly
+// interpolated (or extrapolated, near the edges of the allowed range)
+// between its own two verified tier rows and tagged "estimated". If the live
+// call fails, the live providers fall back to the same labeled estimates.
+export async function getCustomAmountRanking(
+  sendCountry: string,
+  receiveCountry: string,
+  requestedAmount: number
+): Promise<RankedProvidersResult> {
+  const corridor = findCorridor(sendCountry, receiveCountry);
+  if (!corridor) {
+    throw new Error(`Unknown corridor: ${corridorId({ sendCountry, receiveCountry })}`);
+  }
+
+  // Whole currency units only: bounds the number of distinct cache keys a
+  // client can force on the upstream API.
+  const amount = Math.round(requestedAmount);
+  const { min, max } = customAmountRange(corridor);
+  if (!Number.isFinite(amount) || amount < min || amount > max) {
+    throw new CustomAmountRangeError(min, max);
+  }
+
+  const [live, liveQuotes] = await Promise.all([
+    getMidMarketRate(corridor.sendCurrency as SupportedCurrency, corridor.receiveCurrency),
+    fetchLiveQuotes(corridor.sendCurrency, corridor.receiveCurrency, amount),
+  ]);
+
+  const corridorRows = providerRates.filter(
+    (r) => r.sendCountry === sendCountry && r.receiveCountry === receiveCountry
+  );
+  const providerNames = Array.from(new Set(corridorRows.map((r) => r.provider)));
+  const today = new Date().toISOString().slice(0, 10);
+
+  const rows: UnscoredRow[] = [];
+  const notEstimated: string[] = [];
+  let liveCapable = 0;
+  let liveGot = 0;
+
+  for (const provider of providerNames) {
+    const isLiveProvider = LIVE_PROVIDERS.includes(provider);
+    if (isLiveProvider) liveCapable++;
+
+    const liveAmount = isLiveProvider ? liveQuotes?.get(provider) : undefined;
+    if (liveAmount !== undefined) {
+      liveGot++;
+      rows.push({
+        provider,
+        sendAmount: amount,
+        amountReceived: liveAmount,
+        basis: "live",
+        dateChecked: today,
+        source: `wise.com live comparison API, queried at ${amount} ${corridor.sendCurrency} -> ${corridor.receiveCurrency} just now.`,
+      });
+      continue;
+    }
+
+    const lo = corridorRows.find((r) => r.provider === provider && r.tier === "Everyday");
+    const hi = corridorRows.find((r) => r.provider === provider && r.tier === "Large");
+    if (!lo || !hi || lo.sendAmount === hi.sendAmount) {
+      notEstimated.push(provider);
+      continue;
+    }
+    const slope = (hi.amountReceived - lo.amountReceived) / (hi.sendAmount - lo.sendAmount);
+    const estimated = lo.amountReceived + slope * (amount - lo.sendAmount);
+    if (!(estimated > 0)) {
+      notEstimated.push(provider);
+      continue;
+    }
+    rows.push({
+      provider,
+      sendAmount: amount,
+      amountReceived: Math.round(estimated * 100) / 100,
+      basis: "estimated",
+      // The older of the two checks the estimate rests on.
+      dateChecked: lo.dateChecked < hi.dateChecked ? lo.dateChecked : hi.dateChecked,
+      source:
+        `Estimated, not checked at this amount: linear ` +
+        `${amount >= lo.sendAmount && amount <= hi.sendAmount ? "interpolation" : "extrapolation"} ` +
+        `between the verified ${lo.sendAmount} (${lo.dateChecked}) and ${hi.sendAmount} (${hi.dateChecked}) quotes.`,
+    });
+  }
+
+  const { providers, costAnomaly, benchmarkSource } = rankRows(rows, live);
+  const nearestTier: Tier =
+    Math.abs(amount - corridor.everydayAmount) <= Math.abs(amount - corridor.largeAmount)
+      ? "Everyday"
+      : "Large";
+
+  return {
     sendCountry,
     receiveCountry,
-    tier,
+    tier: nearestTier,
     liveRate: live.rate,
     asOf: live.asOf,
     rateStale: live.stale,
     rateAnomaly: live.anomaly,
-    costAnomaly: costAnomaly.length > 0 ? costAnomaly : undefined,
+    costAnomaly,
+    custom: {
+      amount,
+      min,
+      max,
+      anchors: [corridor.everydayAmount, corridor.largeAmount],
+      extrapolated: amount < corridor.everydayAmount || amount > corridor.largeAmount,
+      liveStatus:
+        liveCapable === 0 || liveGot === 0
+          ? "unavailable"
+          : liveGot < liveCapable
+            ? "partial"
+            : "live",
+      notEstimated,
+    },
     benchmark: {
       source: benchmarkSource,
       wiseConfigured: usesWiseBenchmark(corridor.receiveCurrency),

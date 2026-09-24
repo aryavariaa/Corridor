@@ -75,15 +75,22 @@ export default function MethodologyPage() {
 
         <section className="space-y-2">
           <h2 className="font-heading text-lg font-semibold">
-            Why two amount tiers, not any amount
+            Verified amounts vs. your own amount
           </h2>
           <p className="text-sm leading-6 text-text-dim">
-            This isn&rsquo;t a live quote engine — the fee and markup data behind
-            it is manually verified, not computed on the fly. Supporting every
-            possible amount would mean pretending to have precision we
-            don&rsquo;t actually have. Two tiers (a small &ldquo;everyday&rdquo;
-            send and a larger &ldquo;big&rdquo; send) still show how a
-            provider&rsquo;s pricing shifts with amount, without overclaiming.
+            The two preset tiers (a small &ldquo;everyday&rdquo; send and a
+            larger &ldquo;big&rdquo; send) are the amounts we actually
+            verify: every provider&rsquo;s number there was checked against its
+            own quote, and is dated. You can also enter your own amount, and
+            what you see is labeled by how much we know. Wise, PayPal and
+            Western Union are quoted live at exactly your amount. Every other
+            provider has no live source, so its number is a straight-line
+            estimate between the two amounts we verified and is tagged
+            &ldquo;Estimated&rdquo;; a provider with only one verified amount
+            is left out rather than guessed at. Custom amounts are limited to
+            half the everyday amount up to three times the big amount, because
+            beyond that fees stop scaling predictably. The AI explanation is
+            only offered on the verified presets.
           </p>
         </section>
       </div>

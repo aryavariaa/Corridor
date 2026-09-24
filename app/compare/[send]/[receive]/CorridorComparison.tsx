@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   corridorId,
+  customAmountRange,
   freshnessLevelFor,
   FRESHNESS_DOT_CLASS,
   type Corridor,
@@ -92,6 +93,46 @@ function RowFreshnessBadge({
   );
 }
 
+// What backs a row's number, shown where verified rows show their check
+// date. "Estimated" must read as visibly different from a checked/live row --
+// it is interpolated from two verified amounts, never checked at this one.
+function RowBasisBadge({
+  provider,
+  tone = "default",
+}: {
+  provider: RankedProvider;
+  tone?: "default" | "onAccent";
+}) {
+  if (provider.basis === "estimated") {
+    return (
+      <span
+        title={provider.source}
+        className={`inline-flex items-center rounded border border-dashed px-1.5 py-0.5 text-xs font-bold uppercase tracking-wider ${
+          tone === "onAccent"
+            ? "border-accent-contrast/60 text-accent-contrast"
+            : "border-amber-500 text-amber-700 dark:text-amber-300"
+        }`}
+      >
+        Estimated
+      </span>
+    );
+  }
+  if (provider.basis === "live") {
+    return (
+      <span
+        title={provider.source}
+        className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider ${
+          tone === "onAccent" ? "text-accent-contrast" : "text-fresh"
+        }`}
+      >
+        <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-current" />
+        Live quote
+      </span>
+    );
+  }
+  return <RowFreshnessBadge dateChecked={provider.dateChecked} tone={tone} />;
+}
+
 export default function CorridorComparison({
   corridor,
   initialResult,
@@ -112,6 +153,18 @@ export default function CorridorComparison({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortField>("cost_asc");
+
+  // Custom amount. `mode` says which of the two the current `result` is:
+  // a verified preset tier, or a live/estimated custom amount. The preset
+  // path (handleTierChange, /api/compare) is unchanged and stays fully
+  // static/verified.
+  const [mode, setMode] = useState<"tier" | "custom">("tier");
+  const [customText, setCustomText] = useState("");
+  const [customMessage, setCustomMessage] = useState<string | null>(null);
+  const [customLoading, setCustomLoading] = useState(false);
+  const customRange = useMemo(() => customAmountRange(corridor), [corridor]);
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const customAbort = useRef<AbortController | null>(null);
 
   // AI Rate Insights: both narrations are LLM-generated from numbers
   // already computed above (see lib/ai.ts) and both render always-visible
@@ -195,8 +248,85 @@ export default function CorridorComparison({
     trackCorridorSorted({ corridorId: id, sortField: next });
   }
 
+  function cancelPendingCustom() {
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    customAbort.current?.abort();
+    setCustomLoading(false);
+  }
+
+  useEffect(() => cancelPendingCustom, []);
+
+  // Validates locally first (out-of-range amounts never reach the API), then
+  // debounces so typing doesn't fire a request per keystroke.
+  function handleCustomChange(text: string) {
+    setCustomText(text);
+    cancelPendingCustom();
+    setError(null);
+
+    const cleaned = text.replace(/[,\s]/g, "");
+    if (cleaned === "") {
+      setCustomMessage(null);
+      return;
+    }
+    const value = Number(cleaned);
+    if (!Number.isFinite(value) || value <= 0) {
+      setCustomMessage("Enter a positive number.");
+      return;
+    }
+    const { min, max } = customRange;
+    if (value < min || value > max) {
+      setCustomMessage(
+        `Enter an amount between ${money(corridor.sendCurrency, min, 0)} and ${money(corridor.sendCurrency, max, 0)}. ` +
+          `Outside that range fees stop scaling predictably, so we don't show a number rather than guess.`
+      );
+      return;
+    }
+    setCustomMessage(null);
+    debounceTimer.current = setTimeout(() => runCustom(Math.round(value)), 600);
+  }
+
+  async function runCustom(amount: number) {
+    const controller = new AbortController();
+    customAbort.current = controller;
+    setCustomLoading(true);
+    try {
+      const res = await fetch(
+        `/api/custom-amount?sendCountry=${encodeURIComponent(corridor.sendCountry)}` +
+          `&receiveCountry=${encodeURIComponent(corridor.receiveCountry)}&amount=${amount}`,
+        { signal: controller.signal }
+      );
+      const json = await res.json();
+      if (!res.ok) throw new Error(json?.error ?? `Request failed (${res.status})`);
+      setResult(json as RankedProvidersResult);
+      setMode("custom");
+      setSortBy("cost_asc");
+      // AI narration is only offered on the verified preset amounts (see
+      // the note rendered in the hero card), so clear any left over from a
+      // preset view rather than leave it describing a different amount.
+      setInsight(null);
+      setAnomalyExplanation(null);
+      setCostAnomalyExplanation(null);
+      trackCorridorViewed({
+        corridorId: id,
+        sendCountry: corridor.sendCountryName,
+        receiveCountry: corridor.receiveCountryName,
+        sendCurrency: corridor.sendCurrency,
+        receiveCurrency: corridor.receiveCurrency,
+        tier: "Custom",
+      });
+      setCustomLoading(false);
+    } catch (err) {
+      if (controller.signal.aborted) return; // superseded by a newer amount
+      setCustomLoading(false);
+      setCustomMessage(err instanceof Error ? err.message : "Something went wrong");
+    }
+  }
+
   async function handleTierChange(next: Tier) {
-    if (next === tier || loading) return;
+    if ((next === tier && mode === "tier") || loading) return;
+    cancelPendingCustom();
+    setCustomText("");
+    setCustomMessage(null);
     setLoading(true);
     setError(null);
     try {
@@ -212,6 +342,7 @@ export default function CorridorComparison({
       }
       setResult(json as RankedProvidersResult);
       setTier(next);
+      setMode("tier");
       setSortBy("cost_asc");
       trackCorridorViewed({
         corridorId: id,
@@ -318,11 +449,11 @@ export default function CorridorComparison({
 
       <div className="mt-8 space-y-1.5">
         <span className="block text-xs font-bold uppercase tracking-widest text-text-dim">
-          Amount tier
+          Verified amounts
         </span>
         <div className="flex gap-2">
           {(["Everyday", "Large"] as Tier[]).map((t) => {
-            const active = t === tier;
+            const active = mode === "tier" && t === tier;
             const amountLabel = money(
               corridor.sendCurrency,
               tierAmount(corridor, t),
@@ -349,6 +480,41 @@ export default function CorridorComparison({
               </button>
             );
           })}
+        </div>
+
+        <div className="pt-3">
+          <label
+            htmlFor="custom-amount"
+            className="block text-xs font-bold uppercase tracking-widest text-text-dim"
+          >
+            Or enter your own amount
+          </label>
+          <div className="mt-1.5 flex items-center gap-2">
+            <span className="text-sm text-text-dim">{corridor.sendCurrency}</span>
+            <input
+              id="custom-amount"
+              type="text"
+              inputMode="numeric"
+              autoComplete="off"
+              value={customText}
+              onChange={(e) => handleCustomChange(e.target.value)}
+              placeholder={`${customRange.min.toLocaleString("en-US")} – ${customRange.max.toLocaleString("en-US")}`}
+              aria-invalid={customMessage !== null}
+              aria-describedby="custom-amount-help"
+              className={`w-44 rounded-md border bg-card px-3 py-2 text-sm tabular-nums outline-none focus:border-link ${
+                mode === "custom" ? "border-accent" : "border-card-border"
+              }`}
+            />
+            {customLoading && <span className="text-xs text-text-dim">Updating…</span>}
+          </div>
+          <p
+            id="custom-amount-help"
+            role={customMessage ? "alert" : undefined}
+            className={`mt-1.5 text-xs ${customMessage ? "text-red-700 dark:text-red-300" : "text-text-dim"}`}
+          >
+            {customMessage ??
+              `Between ${money(corridor.sendCurrency, customRange.min, 0)} and ${money(corridor.sendCurrency, customRange.max, 0)}. Wise, PayPal and Western Union are quoted live at your amount; other providers are estimated from the two amounts we verified.`}
+          </p>
         </div>
       </div>
 
@@ -397,6 +563,41 @@ export default function CorridorComparison({
                 "One or more providers here currently show a cost below the live mid-market rate, which usually means that provider's own rate data is stale rather than a genuinely better deal. We're holding off on the \"why this pick\" explanation until it's re-verified."}
             </div>
           )}
+          {result.custom && (
+            <div
+              role="status"
+              className="mb-3 rounded-md border border-card-border bg-card px-4 py-2.5 text-sm text-text-dim"
+            >
+              <p>
+                <span className="font-medium text-text">
+                  Custom amount: {money(corridor.sendCurrency, result.custom.amount, 0)}.
+                </span>{" "}
+                {result.custom.liveStatus === "live" &&
+                  "Wise, PayPal and Western Union are live quotes for this exact amount. "}
+                {result.custom.liveStatus === "partial" &&
+                  "Some of Wise, PayPal and Western Union are live quotes for this amount; the rest fell back to estimates. "}
+                {result.custom.liveStatus === "unavailable" &&
+                  "Live quotes aren't available right now, so every row below is an estimate. "}
+                Rows tagged{" "}
+                <span className="rounded border border-dashed border-amber-500 px-1 py-0.5 text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300">
+                  Estimated
+                </span>{" "}
+                were not checked at this amount: they&rsquo;re {result.custom.extrapolated
+                  ? "extended beyond"
+                  : "interpolated between"}{" "}
+                the {money(corridor.sendCurrency, result.custom.anchors[0], 0)} and{" "}
+                {money(corridor.sendCurrency, result.custom.anchors[1], 0)} amounts we verified.
+                {result.custom.extrapolated &&
+                  " This amount is outside those two, so treat estimates as rougher."}
+              </p>
+              {result.custom.notEstimated.length > 0 && (
+                <p className="mt-1.5">
+                  Not shown, because only one verified amount is on file so there is
+                  nothing to estimate from: {result.custom.notEstimated.join(", ")}.
+                </p>
+              )}
+            </div>
+          )}
           <p className="text-xs text-text-dim">
             {result.rateStale ? "Last known rate" : "Live rate"} 1{" "}
             {corridor.sendCurrency} ={" "}
@@ -423,6 +624,7 @@ export default function CorridorComparison({
             <div className="mt-4 rounded-[14px] bg-accent p-6 sm:p-7">
               <span className="text-xs font-bold uppercase tracking-widest text-accent-tint">
                 Cheapest right now
+                {heroProvider?.basis === "estimated" ? " (estimated)" : ""}
               </span>
               <div className="mt-3 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
                 <div>
@@ -444,8 +646,17 @@ export default function CorridorComparison({
                 </div>
               </div>
               <div className="mt-3 text-xs text-accent-tint">
-                <RowFreshnessBadge dateChecked={heroProvider.dateChecked} tone="onAccent" />
+                <RowBasisBadge provider={heroProvider} tone="onAccent" />
               </div>
+              {result.custom && (
+                <p
+                  className="mt-3 border-t pt-3 text-xs text-accent-tint"
+                  style={{ borderColor: "var(--hero-divider)" }}
+                >
+                  The AI explanation is only available for the verified preset
+                  amounts.
+                </p>
+              )}
               {insight && (
                 <p
                   className="mt-3 border-t pt-3 text-sm text-accent-tint"
@@ -510,7 +721,7 @@ export default function CorridorComparison({
                         Cost %
                       </th>
                       <th className="px-4 py-2 font-bold text-right">
-                        Updated
+                        {result.custom ? "Basis" : "Updated"}
                       </th>
                     </tr>
                   </thead>
@@ -554,7 +765,7 @@ export default function CorridorComparison({
                         </td>
                         <td className="px-4 py-2 text-right text-xs">
                           <span className="inline-flex justify-end">
-                            <RowFreshnessBadge dateChecked={p.dateChecked} />
+                            <RowBasisBadge provider={p} />
                           </span>
                         </td>
                       </tr>

@@ -772,3 +772,31 @@ cleanup. (Redirects in `next.config.ts` are only for corridors that were re-keye
 On 2026-09-23 the removed NG and CO URLs were checked on production and were already showing the
 placeholder rather than stale rates; the earlier stale render was most likely a window before the
 swap deploy finished, and this change removes the soft-404 behavior for good.
+
+## 2026-09-23 — Custom amounts (live vs. estimated)
+
+The corridor page now takes any amount, on top of the two verified preset tiers (which are unchanged:
+static, dated, verified, still served by `/api/compare`). What a number means depends on its source,
+and the UI labels it:
+- **Wise, PayPal, Western Union — "Live quote".** `/api/custom-amount` queries the Wise Comparison API
+  server-side at exactly the entered amount (`lib/wise-live.ts`, fetch-cached 90s; the cache key is the
+  URL, i.e. currencies + amount, and the amount is rounded to whole units so a client can't mint
+  unlimited cache keys). If the call fails or times out (5s), or the API doesn't return a provider at
+  that amount, that provider falls back to an estimate, tagged as one. PayPal is not returned for
+  every corridor (e.g. USD->INR, EUR->INR), so it is often an estimate there even when the call works.
+- **The seven manual providers — "Estimated".** No live source exists, so each row is a straight line
+  through the provider's own two verified tier rows (`getCustomAmountRanking` in `lib/corridors.ts`).
+  Rows are never silently interpolated: the tag, the row tooltip and a banner say so. A provider with
+  only one verified tier (e.g. Remitly/MoneyGram where the Everyday tier was unavailable because of an
+  unrevealable promo) has no line to interpolate, so it is listed as "not shown" instead of invented.
+- **Range.** Custom amounts are limited to 0.5x the Everyday tier up to 3x the Large tier. The brief
+  asked for 0.5x-3x the Large tier, but that lower bound (e.g. 1,500 on a 300/3,000 corridor) would have
+  rejected the Everyday preset amount itself, so the lower bound is anchored to the Everyday tier
+  instead. Between the two tiers estimates interpolate; outside them (down to 0.5x Everyday, up to 3x
+  Large) they extrapolate the same line and the banner says to treat them as rougher. Out-of-range input
+  is rejected with an explanation (client-side, and again in the API), never silently clamped.
+- **AI insight is preset-only.** `lib/ai.ts` grounds its narration in each row's sourcing notes and
+  caches per corridor+tier+day, both wrong for an interpolated amount, and narrating an estimate as
+  fact is exactly what this product avoids. Custom amounts show a note instead of an explanation.
+- Ranking, sorting and the cost-anomaly check run through one shared function (`rankRows`), so presets
+  and custom amounts can't diverge.
