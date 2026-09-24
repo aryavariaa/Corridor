@@ -928,9 +928,9 @@
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 42787.5,
-      "dateChecked": "2026-09-10",
-      "source": "paysend.com/en-it/send-money/from-italy-to-bangladesh - rate 142.6250, EUR0 fee, no promo indicated (received amount computed from the site's published rate/fee; calculator did not pre-fill an amount)"
+      "amountReceived": 41943.39,
+      "dateChecked": "2026-09-23",
+      "source": "paysend.com/en-it/send-money/from-italy-to-bangladesh - rate 139.8113, EUR0 fee (flat, both tiers), no promo indicated; amountReceived = sendAmount x rate. Re-sourced 2026-09-23 (was 142.6250 on 2026-09-10)."
     },
     {
       "sendCountry": "EUR",
@@ -938,9 +938,9 @@
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 2500,
-      "amountReceived": 356562.5,
-      "dateChecked": "2026-09-10",
-      "source": "paysend.com/en-it/send-money/from-italy-to-bangladesh - rate 142.6250, EUR0 fee"
+      "amountReceived": 349528.25,
+      "dateChecked": "2026-09-23",
+      "source": "paysend.com/en-it/send-money/from-italy-to-bangladesh - rate 139.8113, EUR0 fee (flat, both tiers), no promo indicated; amountReceived = sendAmount x rate. Re-sourced 2026-09-23 (was 142.6250 on 2026-09-10)."
     },
     {
       "sendCountry": "EUR",
@@ -948,9 +948,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2500,
-      "amountReceived": 355459.18,
-      "dateChecked": "2026-09-10",
-      "source": "remitly.com/it/en/bangladesh - standard (non-promo) rate 142.24 BDT disclosed on-page above the EUR500 promo cap ('Welcome rate' 145.58 applies only to first EUR500); base fee 0.99 EUR shown (a separate 'first transfer' fee discount was excluded as promotional). amountReceived recomputed at the corridor's actual Large sendAmount (2500, well above the EUR500 promo cap so the standard rate applies cleanly) from this same documented rate/fee -- the prior row had erroneously used sendAmount 1000. No usable Everyday-size (~EUR300) reading exists: below the EUR500 cap the page shows only the promotional rate."
+      "amountReceived": 347887.18,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/it/en/bangladesh - standard (non-promo) rate 139.21 BDT disclosed on-page above the EUR500 promo cap ('Welcome rate' 142.48 applies only to first EUR500); base fee 0.99 EUR shown (a separate 'first transfer' fee discount was excluded as promotional). amountReceived = (sendAmount - fee) x rate. Re-sourced 2026-09-23 (was 142.24 on 2026-09-10)."
     },
     {
       "sendCountry": "AU",
@@ -998,9 +998,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 204862.37,
-      "dateChecked": "2026-09-10",
-      "source": "remitly.com/au/en/india - standard (non-promo) rate 68.31 INR disclosed on-page above the AUD3,000 promo cap ('Welcome rate' 69.40 applies only to first AUD3,000); base fee 0.99 AUD shown (a separate 'first transfer' fee discount was excluded as promotional). amountReceived recomputed at the corridor's actual Large sendAmount (3000) from this same documented rate/fee -- the prior row had erroneously used sendAmount 5000. Note: AUD3,000 sits exactly at Remitly's promo-cap boundary; following this file's existing convention of reporting the standard non-promo rate rather than first-transfer promo pricing. No usable Everyday-size (~AUD300) reading exists: below the AUD3,000 cap the page shows only the promotional rate."
+      "amountReceived": 201953.33,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/au/en/india - standard (non-promo) rate 67.34 INR disclosed on-page above the AUD3,000 promo cap ('Welcome rate' 68.42 applies only to first AUD3,000); base fee 0.99 AUD shown (a separate 'first transfer' fee discount was excluded as promotional). amountReceived = (sendAmount - fee) x rate. Re-sourced 2026-09-23 (was 68.31 on 2026-09-10)."
     },
     {
       "sendCountry": "CA",

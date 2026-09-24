@@ -93,6 +93,22 @@ export default function MethodologyPage() {
             only offered on the verified presets.
           </p>
         </section>
+
+        <section className="space-y-2">
+          <h2 className="font-heading text-lg font-semibold">
+            When a cost reads below zero
+          </h2>
+          <p className="text-sm leading-6 text-text-dim">
+            No provider genuinely beats the mid-market rate, so a negative cost
+            means something is off. Sometimes a provider&rsquo;s stored quote has
+            gone stale. Sometimes it is only timing: our reference rate is
+            published once a day, so a quote taken today can read a few tenths of
+            a percent below a reference that is hours behind the market. We give
+            that second case a small allowance (0.5%) only for live quotes and
+            quotes verified today; anything older that reads negative is flagged
+            as possibly stale, and a card never headlines a negative rate.
+          </p>
+        </section>
       </div>
 
       <div className="mt-10 border-t border-card-border pt-6">

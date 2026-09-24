@@ -812,3 +812,55 @@ Against Wise's live mid the same row is **+0.20%**. So a freshly sourced live qu
 negative until Frankfurter publishes the next fixing (~16:00 CET); re-sourcing cannot fix that and
 should not be tried repeatedly. If it keeps recurring, the options are a small negative-cost tolerance
 or extending the (currently empty) Wise-benchmark set to ZAR — both are product decisions, not data fixes.
+
+## 2026-09-23 — Same-day fixing-lag allowance on the cost-anomaly banner (methodology)
+
+**Finding.** Frankfurter publishes one reference rate a day, while live quotes (the Wise API, and any
+provider page read today) track the market continuously. At the survey time (2026-09-24 00:27 UTC, ~10h
+after the fixing, i.e. the worst point in the cycle) every corridor's fixing was dated 2026-09-23 and
+Wise's live rate differed from it by more than 0.3% on 11 of 20 corridors (max 1.17%, USD->MXN). So a
+row that is accurate right now can read slightly negative against the fixing. The survey split:
+- **Live-queried** (92 quotes at both tier amounts): 1 negative, US->MX Wise Large at -0.32%, inside
+  the 0.5% band and +0.85% against Wise's live mid, i.e. fully explained by lag. 0 outside.
+- **Stored rows** (all 20 corridors, both tiers): 18 negative, 14 inside the band and 4 outside. Only
+  1 of the 18 (CA->ZA Remitly Large) turned positive against Wise's live mid; the other 17 stayed
+  negative, most more so. Their ages: the 12 small ones are 1-2 days old (ordinary market drift since
+  quoting, a mild real staleness), the outside-band four and two more are 14 days old. So most stored
+  negatives were **not** fixing lag, and a blanket tolerance would hide real (small) staleness.
+
+**Rule implemented** (`COST_ANOMALY_TOLERANCE` in `lib/corridors.ts`, generic, not currency-keyed): a
+negative cost within 0.5% is not raised as a banner anomaly **only if** the row is a live quote or was
+quoted on the same local calendar date as the check. Local means the operator's zone (America/Los_Angeles),
+matching how manual rows are dated; rows written by the daily refresh carry the UTC date, so a
+disagreement just means no allowance (the safe direction). Older rows get no allowance and still flag.
+Tolerated rows are never silent: the page notes them under the live rate ("reads slightly below the
+reference ... usually the reference lagging").
+
+**Checked against the real ranking code** (scratch dev server, real data file restored afterwards,
+checksum verified): a synthetic Nigeria-scale incident (-1.4/-2.0/-2.6/-3.0/-3.4%, five providers, same
+direction, all dated today) on GB->ZA still raised all five, so the same-day allowance does not apply to
+large anomalies. Edge cases: -0.3% today -> exempt; -0.3% yesterday -> flagged; -0.49% today -> exempt;
+-0.6% today -> flagged; a same-day -0.3% row next to a 3-day-old -0.3% row -> only the old one flagged.
+**Known residual:** a corridor whose fixing lags by more than 0.5% (USD->MXN was 1.17%) can still flag a
+correct live row at large amounts. That is a wider-band or Wise-benchmark decision, not made here.
+
+## 2026-09-23 — Stale rows re-sourced; PayPal EUR->IN explained; AU->PH XE checked; cards fixed
+
+- **Re-sourced (dated 2026-09-23):** EUR->BD Paysend (both tiers, 139.8113, was 142.6250), EUR->BD
+  Remitly Large (standard 139.21, was 142.24), AU->IN Remitly Large (standard 67.34, was 68.31). All four
+  were 13-14 days old; they now read +0.6% to +1.1%. This is a stale-row fix, separate from the
+  fixing-lag allowance above.
+- **PayPal EUR->IN "checked within a month" is not a guard or badge bug.** The Wise API never returns
+  PayPal for EUR->INR (or USD->INR), so `refresh-wise-rows.mjs` lists those rows as not found and leaves
+  them; the outlier guard skipped 0 rows. The rows are a manual Xoom quote dated 2026-09-14. The
+  directory badge shows the corridor's OLDEST row, which is that date (MoneyGram and Ria EUR->IN share
+  it). PayPal is only API-refreshed on corridors where the API returns it (currently GB->IN, US->MX,
+  CA->PH, EUR->PH, AU->PH). Re-sourcing the three 09-14 EUR->IN rows is the remaining cleanup.
+- **AU->PH XE "0.0%"** is real: Everyday implied 44.3828 vs fixing 44.403 = +0.0455% (a genuine,
+  near-flat quote, displayed to one decimal), not a rounded negative. Its Large tier is a real -0.21%.
+  XE's fee is an add-on outside amountReceived, so its cost understates total cost slightly.
+- **Directory cards** headlined negative rows unflagged. `getCorridorTeaser` now skips any row reading
+  negative and shows "N rate(s) under review" when it did, regardless of the tolerance above.
+- **Custom-amount banner** reused stale-data wording. For custom amounts it now says an estimated row
+  reading below mid-market is most likely an artifact of estimating (between or beyond the two verified
+  amounts), and a live row may be the reference rate lagging.

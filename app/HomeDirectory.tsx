@@ -73,6 +73,16 @@ function CorridorCard({
           <>
             From <span className="font-medium">{teaser.cheapestProvider}</span>{" "}
             <span className="font-medium text-cost">{percent(teaser.costPercent)} cost</span>
+            {teaser.underReview > 0 && (
+              <span
+                className="mt-0.5 block text-xs text-amber-700 dark:text-amber-300"
+                title="A cheaper-looking rate reads below the live mid-market rate, which real providers don't offer, so it's excluded here until it's re-verified."
+              >
+                {teaser.underReview === 1
+                  ? "1 rate under review"
+                  : `${teaser.underReview} rates under review`}
+              </span>
+            )}
           </>
         ) : (
           <span className="text-text-faint">Live rate unavailable right now</span>

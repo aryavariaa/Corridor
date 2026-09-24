@@ -100,7 +100,40 @@ export type CostAnomalyProvider = {
   provider: string;
   costPercent: number;
   dateChecked: string;
+  basis: RowBasis;
 };
+
+// A negative cost this small can be nothing more than the reference rate
+// (Frankfurter publishes once a day) lagging a market that has moved since,
+// so it isn't treated as an anomaly -- but only for rows that were quoted
+// the same day, or just now (see withinFixingLagAllowance). Older rows get
+// no allowance: they may simply be stale. See docs/provider-data-sourcing.md.
+export const COST_ANOMALY_TOLERANCE = 0.005; // 0.5%
+
+// Manual rows are dated with the operator's local calendar date (not UTC),
+// so "same day" is judged in that zone. Rows written by the daily refresh use
+// the UTC date; where the two disagree the row simply gets no allowance,
+// which is the safe direction.
+const ROW_DATING_TIMEZONE = "America/Los_Angeles";
+
+export function todayInRowTimezone(now: Date = new Date()): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: ROW_DATING_TIMEZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(now);
+}
+
+function withinFixingLagAllowance(
+  p: { costPercent: number; basis: RowBasis; dateChecked: string },
+  today: string
+): boolean {
+  return (
+    p.costPercent >= -COST_ANOMALY_TOLERANCE &&
+    (p.basis === "live" || p.dateChecked === today)
+  );
+}
 
 export type RankedProvidersResult = {
   sendCountry: string;
@@ -122,6 +155,10 @@ export type RankedProvidersResult = {
   // rateAnomaly -- the live FX fetch can be perfectly fresh and correct
   // while a provider's own manually-sourced row is what's out of date.
   costAnomaly?: CostAnomalyProvider[];
+  // Rows reading slightly below mid-market that were NOT raised as an
+  // anomaly because they fall inside the fixing-lag allowance. Never shown
+  // silently: the page notes them next to the live rate.
+  lagAllowed?: { provider: string; costPercent: number }[];
   // Set only for custom amounts. For those, `tier` is the nearest preset
   // tier and is not meaningful to the UI.
   custom?: CustomAmountInfo;
@@ -211,7 +248,7 @@ export async function getRankedProviders(
       r.tier === tier
   );
 
-  const { providers, costAnomaly, benchmarkSource } = rankRows(
+  const { providers, costAnomaly, lagAllowed, benchmarkSource } = rankRows(
     rows.map((r) => ({
       provider: r.provider,
       sendAmount: r.sendAmount,
@@ -232,6 +269,7 @@ export async function getRankedProviders(
     rateStale: live.stale,
     rateAnomaly: live.anomaly,
     costAnomaly,
+    lagAllowed,
     benchmark: {
       source: benchmarkSource,
       wiseConfigured: usesWiseBenchmark(corridor.receiveCurrency),
@@ -247,10 +285,12 @@ type UnscoredRow = Omit<RankedProvider, "costPercent" | "rank" | "benchmarkRefer
 // differently for the same inputs.
 function rankRows(
   rows: UnscoredRow[],
-  live: { rate: number; source?: "wise" | "frankfurter" }
+  live: { rate: number; source?: "wise" | "frankfurter" },
+  today: string = todayInRowTimezone()
 ): {
   providers: RankedProvider[];
   costAnomaly: CostAnomalyProvider[] | undefined;
+  lagAllowed: { provider: string; costPercent: number }[] | undefined;
   benchmarkSource: "wise" | "frankfurter";
 } {
   const benchmarkSource = live.source ?? "frankfurter";
@@ -271,17 +311,23 @@ function rankRows(
     .map((p) => ({ ...p, rank: 0, benchmarkReference: true }));
 
   const costAnomaly: CostAnomalyProvider[] = ranked
-    .filter((p) => p.costPercent < 0)
+    .filter((p) => p.costPercent < 0 && !withinFixingLagAllowance(p, today))
     .sort((a, b) => a.costPercent - b.costPercent)
     .map((p) => ({
       provider: p.provider,
       costPercent: p.costPercent,
       dateChecked: p.dateChecked,
+      basis: p.basis,
     }));
+
+  const lagAllowed = ranked
+    .filter((p) => p.costPercent < 0 && withinFixingLagAllowance(p, today))
+    .map((p) => ({ provider: p.provider, costPercent: p.costPercent }));
 
   return {
     providers: [...ranked, ...references],
     costAnomaly: costAnomaly.length > 0 ? costAnomaly : undefined,
+    lagAllowed: lagAllowed.length > 0 ? lagAllowed : undefined,
     benchmarkSource,
   };
 }
@@ -383,7 +429,7 @@ export async function getCustomAmountRanking(
     });
   }
 
-  const { providers, costAnomaly, benchmarkSource } = rankRows(rows, live);
+  const { providers, costAnomaly, lagAllowed, benchmarkSource } = rankRows(rows, live);
   const nearestTier: Tier =
     Math.abs(amount - corridor.everydayAmount) <= Math.abs(amount - corridor.largeAmount)
       ? "Everyday"
@@ -398,6 +444,7 @@ export async function getCustomAmountRanking(
     rateStale: live.stale,
     rateAnomaly: live.anomaly,
     costAnomaly,
+    lagAllowed,
     custom: {
       amount,
       min,
@@ -499,6 +546,9 @@ export function getCorridorFreshness(
 export type CorridorTeaser = {
   cheapestProvider: string;
   costPercent: number;
+  // Cheaper-looking rows skipped because they read below mid-market, which
+  // no real provider does -- never headline those (see getCorridorTeaser).
+  underReview: number;
 } | null;
 
 // Best (lowest-cost) Everyday-tier provider for a corridor, for the
@@ -513,9 +563,17 @@ export async function getCorridorTeaser(corridor: Corridor): Promise<CorridorTea
       corridor.receiveCountry,
       "Everyday"
     );
-    const top = result.providers[0];
-    if (!top || top.benchmarkReference) return null;
-    return { cheapestProvider: top.provider, costPercent: top.costPercent };
+    // The card headlines the cheapest provider whose rate is credible: a
+    // row reading negative (better than mid-market) is a data problem, not
+    // a deal, so it is skipped -- and counted, so the card can say so.
+    const ranked = result.providers.filter((p) => !p.benchmarkReference);
+    const top = ranked.find((p) => p.costPercent >= 0);
+    if (!top) return null;
+    return {
+      cheapestProvider: top.provider,
+      costPercent: top.costPercent,
+      underReview: ranked.filter((p) => p.costPercent < 0).length,
+    };
   } catch {
     return null;
   }

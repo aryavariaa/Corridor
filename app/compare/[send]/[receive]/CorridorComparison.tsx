@@ -122,7 +122,7 @@ function RowBasisBadge({
       <span
         title={provider.source}
         className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider ${
-          tone === "onAccent" ? "text-accent-contrast" : "text-fresh"
+          tone === "onAccent" ? "text-accent-contrast" : "text-link"
         }`}
       >
         <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-current" />
@@ -131,6 +131,33 @@ function RowBasisBadge({
     );
   }
   return <RowFreshnessBadge dateChecked={provider.dateChecked} tone={tone} />;
+}
+
+// Banner copy for a custom amount. The preset wording ("stale data", "holding
+// off on the why-this-pick explanation") is wrong here: estimated rows are
+// extended from older verified amounts rather than checked at this amount,
+// and there is no explanation to hold off on.
+function customAnomalyMessage(
+  extrapolated: boolean,
+  anomalies: NonNullable<RankedProvidersResult["costAnomaly"]>
+): string {
+  const est = anomalies.filter((a) => a.basis === "estimated").map((a) => a.provider);
+  const live = anomalies.filter((a) => a.basis === "live").map((a) => a.provider);
+  const parts: string[] = [];
+  if (est.length > 0) {
+    parts.push(
+      `${est.join(" and ")} ${est.length === 1 ? "is" : "are"} an estimate that reads below the live mid-market rate. ` +
+        `That is most likely an artifact of estimating${extrapolated ? " beyond the two amounts we verified" : " between the two amounts we verified"}, ` +
+        `not a better deal, so don't rely on ${est.length === 1 ? "that row" : "those rows"}.`
+    );
+  }
+  if (live.length > 0) {
+    parts.push(
+      `${live.join(" and ")} ${live.length === 1 ? "is a live quote" : "are live quotes"} that read${live.length === 1 ? "s" : ""} below the reference rate, ` +
+        `which can lag the market by up to a day.`
+    );
+  }
+  return parts.join(" ");
 }
 
 export default function CorridorComparison({
@@ -559,8 +586,10 @@ export default function CorridorComparison({
               role="status"
               className="mb-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
             >
-              {costAnomalyExplanation ??
-                "One or more providers here currently show a cost below the live mid-market rate, which usually means that provider's own rate data is stale rather than a genuinely better deal. We're holding off on the \"why this pick\" explanation until it's re-verified."}
+              {result.custom
+                ? customAnomalyMessage(result.custom.extrapolated, result.costAnomaly)
+                : (costAnomalyExplanation ??
+                  "One or more providers here currently show a cost below the live mid-market rate, which usually means that provider's own rate data is stale rather than a genuinely better deal. We're holding off on the \"why this pick\" explanation until it's re-verified.")}
             </div>
           )}
           {result.custom && (
@@ -605,6 +634,16 @@ export default function CorridorComparison({
             {corridor.receiveCurrency} &middot; as of{" "}
             {new Date(result.asOf).toLocaleDateString("en-US", { timeZone: "UTC" })}
           </p>
+          {result.lagAllowed && result.lagAllowed.length > 0 && (
+            <p className="mt-1 text-xs text-text-dim">
+              {result.lagAllowed
+                .map((a) => `${a.provider} (${percent(a.costPercent)})`)
+                .join(", ")}{" "}
+              {result.lagAllowed.length === 1 ? "reads" : "read"} slightly below the
+              reference mid-market rate. For a quote taken today that is usually the
+              once-daily reference rate lagging the market, not a better deal.
+            </p>
+          )}
           {result.benchmark.wiseConfigured && (
             <p className="mt-1 text-xs text-text-dim">
               {result.benchmark.source === "wise"
