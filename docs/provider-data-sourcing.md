@@ -800,3 +800,15 @@ and the UI labels it:
   fact is exactly what this product avoids. Custom amounts show a note instead of an explanation.
 - Ranking, sorting and the cost-anomaly check run through one shared function (`rankRows`), so presets
   and custom amounts can't diverge.
+
+## 2026-09-23 — CA→ZA Remitly re-sourced; the residual negative is benchmark lag, not a stale row
+
+Remitly CA→ZA (both tiers) was re-quoted from remitly.com/ca/en/south-africa: standard rate 11.60
+(was 11.59), base fee CAD3.99, `(send − fee) × rate`. The row was not stale — the earlier quote was
+hours old and the new one moved by 0.09%. The Large tier still reads slightly negative against
+Frankfurter (−0.19%, was −0.11%) because Frankfurter's CAD→ZAR is its once-daily fixing, dated the
+previous day and 0.39% below the live market (Wise's live mid was 11.6077 vs Frankfurter 11.5621).
+Against Wise's live mid the same row is **+0.20%**. So a freshly sourced live quote can read marginally
+negative until Frankfurter publishes the next fixing (~16:00 CET); re-sourcing cannot fix that and
+should not be tried repeatedly. If it keeps recurring, the options are a small negative-cost tolerance
+or extending the (currently empty) Wise-benchmark set to ZAR — both are product decisions, not data fixes.
