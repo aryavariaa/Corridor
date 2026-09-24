@@ -955,3 +955,8 @@ understating it. Peer sweep clean; no anomaly banners.
 (CA->ZA Remitly Large, US->IN Remitly Large, US->MX Revolut both tiers). The US->MX card shows
 "1 rate under review" (fresh Revolut is the negative row); Wise's live MXN rate sat about 1.2% from the
 fixing at survey time, the known limitation of the 0.5% band.
+
+**GB->IN Ria (2026-09-23).** The last of the older manual rows outside the earlier passes (dated
+2026-09-07, Everyday tier only) was re-quoted: standard rate 127.159 INR (promo 129.4213), fee GBP1.50.
+The old row implied about 115.6, roughly 9% below the market, so it had been overstating Ria's cost
+badly rather than merely aging. It now sits alongside the other GB->IN providers.

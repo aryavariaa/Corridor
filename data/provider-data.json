@@ -738,9 +738,9 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 23119.35,
-      "dateChecked": "2026-09-07",
-      "source": "Ria Money Transfer"
+      "amountReceived": 25431.8,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/en-gb/send-money-to-india/ corridor widget -- standard rate 127.159 INR (standard rate vs. crossed-out first-transfer promo 129.4213); standard fee GBP1.50 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23 (the previous 2026-09-07 row implied ~115.6, about 9% below the market, and was replaced)."
     },
     {
       "sendCountry": "US",
