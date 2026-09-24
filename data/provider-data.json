@@ -218,9 +218,9 @@
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 18924.95,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
+      "amountReceived": 19054.56,
+      "dateChecked": "2026-09-23",
+      "source": "revolut.com/en-US/money-transfer widget (USD->INR) -- live rate 95.63146 / fee $0.75 at Everyday; fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -228,9 +228,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 18938,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
+      "amountReceived": 18767.96,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/us/en/india -- standard (non-promo) rate 95.75 disclosed on-page above the $6,000 promo cap ('Welcome rate' 96.28 applies only to the first $6,000); base fee $3.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -258,9 +258,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 18913.56,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
+      "amountReceived": 19080.58,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-us/send-money/send-money-to-india/ -- rate 95.4029, Direct Debit (ACH), fee $1.00 at Everyday (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -278,9 +278,9 @@
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 189180.49,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
+      "amountReceived": 190698.88,
+      "dateChecked": "2026-09-23",
+      "source": "revolut.com/en-US/money-transfer widget (USD->INR) -- live rate 95.73237 / fee $8.00 at Large; fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -288,9 +288,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 189380,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
+      "amountReceived": 191500.0,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/us/en/india -- standard (non-promo) rate 95.75 disclosed on-page above the $6,000 promo cap ('Welcome rate' 96.28 applies only to the first $6,000); base fee $0.0 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -318,9 +318,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 189135.6,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
+      "amountReceived": 190805.8,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-us/send-money/send-money-to-india/ -- rate 95.4029, Direct Debit (ACH), fee $0.00 at Large (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -458,9 +458,9 @@
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 3371.07,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
+      "amountReceived": 3476.72,
+      "dateChecked": "2026-09-23",
+      "source": "revolut.com/en-US/money-transfer widget (USD->MXN) -- live rate 17.44904 / fee $0.75 at Everyday; fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -468,9 +468,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 3280,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
+      "amountReceived": 3439.43,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/us/en/mexico -- standard (non-promo) rate 17.37 disclosed on-page above the $1,000 promo cap ('Welcome rate' 17.80 applies only to the first $1,000); base fee $1.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -498,9 +498,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 3357.2,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
+      "amountReceived": 3452.4,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-us/send-money/send-money-to-mexico/ -- rate 17.262, Direct Debit (ACH), fee $2.00 at Everyday (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -518,9 +518,9 @@
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 33670.87,
-      "dateChecked": "2026-09-01",
-      "source": "Revolut"
+      "amountReceived": 34805.86,
+      "dateChecked": "2026-09-23",
+      "source": "revolut.com/en-US/money-transfer widget (USD->MXN) -- live rate 17.47282 / fee $8.00 at Large; fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -528,9 +528,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 33620,
-      "dateChecked": "2026-09-01",
-      "source": "Remitly"
+      "amountReceived": 34705.43,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/us/en/mexico -- standard (non-promo) rate 17.37 disclosed on-page above the $1,000 promo cap ('Welcome rate' 17.80 applies only to the first $1,000); base fee $1.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -558,9 +558,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 33572,
-      "dateChecked": "2026-09-01",
-      "source": "XE"
+      "amountReceived": 34524.0,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-us/send-money/send-money-to-mexico/ -- rate 17.262, Direct Debit (ACH), fee $0.00 at Large (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -568,9 +568,9 @@
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 18815,
-      "dateChecked": "2026-09-07",
-      "source": "WorldRemit"
+      "amountReceived": 19092.08,
+      "dateChecked": "2026-09-23",
+      "source": "worldremit.com/en/india (USD origin) live quote, Bank Transfer -- rate 95.4604 INR, fee $0.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -578,9 +578,9 @@
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 188341,
-      "dateChecked": "2026-09-07",
-      "source": "WorldRemit"
+      "amountReceived": 191112.4,
+      "dateChecked": "2026-09-23",
+      "source": "worldremit.com/en/india (USD origin) live quote, Bank Transfer -- rate 95.5562 INR, fee $0.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -608,9 +608,9 @@
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 3304.2,
-      "dateChecked": "2026-09-07",
-      "source": "WorldRemit"
+      "amountReceived": 3428.66,
+      "dateChecked": "2026-09-23",
+      "source": "worldremit.com/en/mexico (USD origin) live quote, Bank Transfer -- rate 17.1433 MXN, fee $1.99 (both tiers, add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -618,9 +618,9 @@
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 33042.2,
-      "dateChecked": "2026-09-07",
-      "source": "WorldRemit"
+      "amountReceived": 34286.6,
+      "dateChecked": "2026-09-23",
+      "source": "worldremit.com/en/mexico (USD origin) live quote, Bank Transfer -- rate 17.1433 MXN, fee $1.99 (both tiers, add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -628,9 +628,9 @@
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 18323.74,
-      "dateChecked": "2026-09-07",
-      "source": "Paysend"
+      "amountReceived": 18987.28,
+      "dateChecked": "2026-09-23",
+      "source": "paysend.com/en-us/send-money/from-the-united-states-of-america-to-india -- rate 95.649 INR, flat fee $1.49 deducted before conversion (site shows it as included; arithmetic checked against its Recipient-gets read); no promo indicated; amountReceived = (sendAmount - fee) x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -638,9 +638,9 @@
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 188040.34,
-      "dateChecked": "2026-09-07",
-      "source": "Paysend"
+      "amountReceived": 191155.48,
+      "dateChecked": "2026-09-23",
+      "source": "paysend.com/en-us/send-money/from-the-united-states-of-america-to-india -- rate 95.649 INR, flat fee $1.49 deducted before conversion (site shows it as included; arithmetic checked against its Recipient-gets read); no promo indicated; amountReceived = (sendAmount - fee) x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -668,9 +668,9 @@
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 3327.25,
-      "dateChecked": "2026-09-07",
-      "source": "Paysend"
+      "amountReceived": 3448.8,
+      "dateChecked": "2026-09-23",
+      "source": "paysend.com/en-us/send-money/from-the-united-states-of-america-to-mexico -- rate 17.3298 MXN, flat fee $0.99 deducted before conversion (site shows it as included; arithmetic checked against its Recipient-gets read); no promo indicated; amountReceived = (sendAmount - fee) x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -678,9 +678,9 @@
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 33421.45,
-      "dateChecked": "2026-09-07",
-      "source": "Paysend"
+      "amountReceived": 34642.44,
+      "dateChecked": "2026-09-23",
+      "source": "paysend.com/en-us/send-money/from-the-united-states-of-america-to-mexico -- rate 17.3298 MXN, flat fee $0.99 deducted before conversion (site shows it as included; arithmetic checked against its Recipient-gets read); no promo indicated; amountReceived = (sendAmount - fee) x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -708,9 +708,9 @@
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 3368,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
+      "amountReceived": 3454.0,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com/us/en/corridor/mexico live quote -- standard (non-promo) rate 17.27 MXN shown struck-through beside the first-transfer promo rate (17.90 at $100); standard fee $3.00 at $100 (add-on). amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -718,9 +718,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 33680,
-      "dateChecked": "2026-09-07",
-      "source": "MoneyGram"
+      "amountReceived": 34540.0,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com/us/en/corridor/mexico live quote -- the promo badge still shows at $2,000 (promo 17.36, Recipient-gets 34,723.00 reflects the promo), so the standard rate 17.27 MXN struck-through beside it is used (displayed to 2 decimals); standard fee $3.99 (add-on). amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -728,9 +728,9 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 17282.03,
-      "dateChecked": "2026-09-07",
-      "source": "Ria Money Transfer"
+      "amountReceived": 19084.0,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/en-us/send-money-to-india/ corridor widget -- standard rate 95.42 INR (standard rate vs. crossed-out first-transfer promo 96.4333); standard fee $1.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -748,9 +748,9 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 3320,
-      "dateChecked": "2026-09-08",
-      "source": "Ria Money Transfer"
+      "amountReceived": 3420.0,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/en-us/send-money-to-mexico/ corridor widget -- standard rate 17.1 MXN (standard rate vs. crossed-out first-transfer promo 17.7718); standard fee $1.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -758,9 +758,9 @@
       "provider": "Ria",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 33440,
-      "dateChecked": "2026-09-08",
-      "source": "Ria Money Transfer"
+      "amountReceived": 34200.0,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/en-us/send-money-to-mexico/ corridor widget -- standard rate 17.1 MXN (standard rate vs. crossed-out first-transfer promo 17.7718); standard fee $1.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -768,9 +768,9 @@
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 18893.62,
-      "dateChecked": "2026-09-08",
-      "source": "MoneyGram"
+      "amountReceived": 19085.86,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com/us/en/corridor/india live quote -- standard (non-promo) rate 95.43 INR (95.4293 exact, from the $2,000 Recipient-gets read 190,858.60 where no promo badge shows) shown struck-through beside the first-transfer promo rate (96.55); standard fee $1.99 at $100 / $3.99 at $2,000 (add-on). amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -778,9 +778,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 188936.2,
-      "dateChecked": "2026-09-08",
-      "source": "MoneyGram"
+      "amountReceived": 190858.6,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com/us/en/corridor/india live quote -- at $2,000 the page shows the standard rate directly (95.4293 INR, Recipient-gets 190,858.60, 'Great rates, every time', no promo badge); standard fee $3.99 (add-on). Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -808,9 +808,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 18619.77,
-      "dateChecked": "2026-09-10",
-      "source": "xe.com/en-us/send-money/send-money-to-philippines/from-united-states/ - rate 62.0659, $0 fee (site's own fixed example was $1,000; this row computed at $300 using that confirmed standard rate)"
+      "amountReceived": 18634.68,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-us/send-money/send-money-to-philippines/from-united-states/ -- rate 62.1156, Direct Debit (ACH), fee $1.00 at Everyday (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -818,9 +818,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 186197.7,
-      "dateChecked": "2026-09-10",
-      "source": "xe.com/en-us/send-money/send-money-to-philippines/from-united-states/ - rate 62.0659, $0 fee"
+      "amountReceived": 186346.8,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-us/send-money/send-money-to-philippines/from-united-states/ -- rate 62.1156, Direct Debit (ACH), fee $0.00 at Large (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -828,9 +828,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 18750,
-      "dateChecked": "2026-09-10",
-      "source": "remitly.com/us/en/philippines - standard (non-promo) rate 62.50 PHP disclosed on-page for the portion of a transfer above the $1,000 promo cap ('Welcome rate' 64.28 applies only to first $1,000); $0 fee shown"
+      "amountReceived": 18681.0,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/us/en/philippines -- standard (non-promo) rate 62.27 disclosed on-page above the $1,000 promo cap ('Welcome rate' 64.41 applies only to the first $1,000); base fee $0 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -838,9 +838,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 187500,
-      "dateChecked": "2026-09-10",
-      "source": "remitly.com/us/en/philippines - standard rate 62.50 PHP, $0 fee"
+      "amountReceived": 186810.0,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/us/en/philippines -- standard (non-promo) rate 62.27 disclosed on-page above the $1,000 promo cap ('Welcome rate' 64.41 applies only to the first $1,000); base fee $0 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -1288,9 +1288,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 7686347.56,
-      "dateChecked": "2026-09-14",
-      "source": "remitly.com/us/en/vietnam -- standard (non-promo) rate 25792.18 VND disclosed on-page above the $700 promo cap ('Welcome rate' 26,050.10 applies only to first $700); base fee $1.99 shown (first-transfer fee discount excluded as promotional). amountReceived computed as (sendAmount - fee) * rate per this dataset's established Remitly convention (see EUR->BD row)."
+      "amountReceived": 7692544.05,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/us/en/vietnam -- standard (non-promo) rate 25813.04 disclosed on-page above the $700 promo cap ('Welcome rate' 25,942.11 applies only to the first $700); base fee $1.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -1298,9 +1298,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 77325213.56,
-      "dateChecked": "2026-09-14",
-      "source": "remitly.com/us/en/vietnam -- standard (non-promo) rate 25792.18 VND disclosed above the $700 promo cap; base fee $1.99. amountReceived computed as (sendAmount - fee) * rate."
+      "amountReceived": 77387752.05,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/us/en/vietnam -- standard (non-promo) rate 25813.04 disclosed on-page above the $700 promo cap ('Welcome rate' 25,942.11 applies only to the first $700); base fee $1.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -1328,9 +1328,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 7556100,
-      "dateChecked": "2026-09-14",
-      "source": "xoom.com live quote, Bank Account -- absent from the Wise Comparison API response for USD->VND, sourced directly from PayPal's own Xoom calculator instead. Real standard rate shown ('Best Xoom Rate', no first-transfer promo badge). Rate 25187.06 VND, fee $2.99."
+      "amountReceived": 7570200,
+      "dateChecked": "2026-09-23",
+      "source": "xoom.com/vietnam/send-money (PayPal's Xoom) live quote, Bank Deposit -- 'Best Xoom Rate' 1 USD = 25,234.1277 VND, no first-time promo shown; fee $2.99 via bank account (add-on); absent from the Wise Comparison API for USD->VND. Rate read at the page's default $200 (the amount field did not accept scripted input) and applied to both tiers, as the previous row did; Xoom rounds to the nearest 100 VND. amountReceived = sendAmount x rate. Re-sourced 2026-09-23. Medium confidence."
     },
     {
       "sendCountry": "US",
@@ -1338,9 +1338,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 75561200,
-      "dateChecked": "2026-09-14",
-      "source": "xoom.com live quote, Bank Account -- rate 25187.06 VND, fee $2.99 (flat, unchanged from Everyday tier)."
+      "amountReceived": 75702400,
+      "dateChecked": "2026-09-23",
+      "source": "xoom.com/vietnam/send-money (PayPal's Xoom) live quote, Bank Deposit -- 'Best Xoom Rate' 1 USD = 25,234.1277 VND, no first-time promo shown; fee $2.99 via bank account (add-on, flat, unchanged from Everyday); rate read at $200 and applied to both tiers; Xoom rounds to the nearest 100 VND. Re-sourced 2026-09-23. Medium confidence."
     },
     {
       "sendCountry": "US",
@@ -1348,9 +1348,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 7700700,
-      "dateChecked": "2026-09-14",
-      "source": "xe.com send-money product page, Direct Debit (ACH) -- rate 25669 VND, fee $4.00"
+      "amountReceived": 7718400,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-us/send-money/send-money-to-vietnam/ -- rate 25728, Direct Debit (ACH), fee $4.00 at Everyday (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -1358,9 +1358,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 77007000,
-      "dateChecked": "2026-09-14",
-      "source": "xe.com send-money product page, Direct Debit (ACH) -- rate 25669 VND, fee $0.00"
+      "amountReceived": 77184000,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-us/send-money/send-money-to-vietnam/ -- rate 25728, Direct Debit (ACH), fee $0.00 at Large (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -1388,9 +1388,9 @@
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 7706610,
-      "dateChecked": "2026-09-14",
-      "source": "moneygram.com live quote -- standard (non-promo) rate 25688.70 VND disclosed struck-through next to the highlighted first-transfer promo rate (26,168.79); this dataset's established convention is to use the standard, non-promo figure. amountReceived = sendAmount * standard rate, matching this dataset's existing MoneyGram US->IN row convention."
+      "amountReceived": 7734237.0,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com/us/en/corridor/vietnam live quote -- standard (non-promo) rate 25,780.79 VND shown struck-through beside the first-transfer promo rate (26,235.53); standard fee $1.99 (add-on). amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -1398,9 +1398,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 77066100,
-      "dateChecked": "2026-09-14",
-      "source": "moneygram.com live quote -- at $3,000 the page shows the standard rate directly (25688.70 VND, 'Great rates, every time', no promo badge), confirming the $300 standard-rate reading. amountReceived = sendAmount * rate."
+      "amountReceived": 77342370.3,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com/us/en/corridor/vietnam live quote -- at $3,000 the page shows the standard rate directly (25,780.79 VND, Recipient-gets 77,342,370.30, 'Great rates, every time', no promo badge); standard fee $1.99 (add-on). Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -1408,9 +1408,9 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 7710477,
-      "dateChecked": "2026-09-14",
-      "source": "riamoneytransfer.com live quote -- standard (non-promo) rate 25701.59 VND disclosed struck-through next to the first-transfer promo rate (26,135.955); standard fee $2.90 (promo fee $0). amountReceived = sendAmount * rate."
+      "amountReceived": 7734261.0,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/en-us/send-money-to-vietnam/ corridor widget -- standard rate 25780.87 VND (standard rate vs. crossed-out first-transfer promo 26,196.525); standard fee $0.90 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -1418,9 +1418,9 @@
       "provider": "Ria",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 77104770,
-      "dateChecked": "2026-09-14",
-      "source": "riamoneytransfer.com live quote -- rate unchanged at $3,000 (25701.59 VND), confirming the standard-rate reading; standard fee $2.90. amountReceived = sendAmount * rate."
+      "amountReceived": 77342610.0,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/en-us/send-money-to-vietnam/ corridor widget -- standard rate 25780.87 VND (standard rate vs. crossed-out first-transfer promo 26,196.525); standard fee $0.90 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "CA",

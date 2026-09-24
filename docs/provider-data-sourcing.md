@@ -917,3 +917,41 @@ with something unverified. Note it currently leads EUR->IN, on a 10+ day old quo
 
 **Still aging:** the US->IN, US->MX, US->PH, US->VN manual rows (now 15-23 days old) are the largest
 remaining staleness; they are comfortably positive so nothing flags, but they are the next candidates.
+
+## 2026-09-23 — Re-sourcing pass, part 2: the US corridors (41 rows)
+
+Re-quoted from each provider's own page, dated 2026-09-23: US->IN and US->MX (Revolut, Remitly, XE,
+WorldRemit, Paysend, Ria, MoneyGram), US->PH (XE, Remitly), US->VN (Remitly, XE, MoneyGram, Ria, PayPal
+via Xoom). These were 9-22 days old and drifting; costs moved from roughly +1% to +5% to +0.1% to +1.9%
+(e.g. Ria US->IN Everyday +9.7% -> +0.2%), i.e. the old rows were materially overstating cost, not
+understating it. Peer sweep clean; no anomaly banners.
+
+**Method notes**
+- Remitly US pages have wide promo caps ($6,000 India, $1,000 Mexico/Philippines, $700 Vietnam) and the
+  standard rate improves slightly with amount. India's standard rate (95.75) was read above the cap
+  ($6,100-$9,000, stable) and applied to both tiers, which is the documented approach but a small
+  approximation for the $200 tier. Fees follow `(send - base fee) x rate`: India $3.99 at Everyday and $0
+  at Large (waived), Mexico and Vietnam $1.99.
+- Paysend US deducts a flat fee before conversion (India $1.49, Mexico $0.99); the fee was assumed flat
+  across tiers, as on the AU corridors.
+- MoneyGram US->MX: the promo badge still shows at $2,000, so the struck-through standard rate (17.27,
+  displayed to 2 decimals) is used, not the promo-based Recipient-gets figure. India and Vietnam read the
+  standard rate directly at the Large amount.
+- XE US quotes are Direct Debit (ACH) with the usual $1-4 add-on fee below the free threshold.
+- Xoom US->VN (PayPal): plain "Best Xoom Rate" with no first-time promo, fee $2.99 via bank account.
+  The amount field would not accept scripted input, so the rate was read at the default $200 and applied
+  to both tiers (as the previous row did); medium confidence.
+
+**Not re-sourced (rows unchanged, still aging)**
+- **PayPal (Xoom) US->IN, dated 2026-09-01:** Xoom's India page shows only a first-time promo rate
+  ("First Time Rate") with no way to reveal the standard rate. This is now the oldest row on the site.
+- **Revolut US->VN and WorldRemit US->VN, dated 2026-09-14:** Revolut's US widget offers Vietnam only as a
+  USD payout (no VND), and WorldRemit's US->Vietnam page now defaults to a USD Cash Pickup. The stored
+  rows describe a VND payout these providers no longer show for a US sender, so they cannot be re-verified
+  and should be reviewed (or removed) rather than trusted.
+- **PayPal (Xoom) EUR->IN, dated 2026-09-14** (previous entry).
+
+**After the pass:** 0 corridor/tiers raise the anomaly banner; 4 show the same-day fixing-lag note
+(CA->ZA Remitly Large, US->IN Remitly Large, US->MX Revolut both tiers). The US->MX card shows
+"1 rate under review" (fresh Revolut is the negative row); Wise's live MXN rate sat about 1.2% from the
+fixing at survey time, the known limitation of the 0.5% band.
