@@ -864,3 +864,28 @@ correct live row at large amounts. That is a wider-band or Wise-benchmark decisi
 - **Custom-amount banner** reused stale-data wording. For custom amounts it now says an estimated row
   reading below mid-market is most likely an artifact of estimating (between or beyond the two verified
   amounts), and a live row may be the reference rate lagging.
+
+## 2026-09-23 — Open items and known limitation (logged, not urgent)
+
+**Next re-sourcing pass (not urgent).** These still read stale and keep the cost-anomaly banner or an
+old date; none was in the last pass's scope:
+- Rows dated 2026-09-10 (14 days): AU->IN XE (both tiers, -0.29%).
+- Rows dated 2026-09-22 that fell outside the same-day allowance and read -0.03% to -0.21%: GB->BD
+  Remitly (both tiers), Ria (both), MoneyGram Large; AU->VN Ria (both) and Remitly Large; AU->PH XE
+  Large; CA->PH XE Large; EUR->PH XE Large. (These 9 corridor/tier combinations show the banner.)
+- EUR->IN PayPal (Xoom), MoneyGram and Ria, all dated 2026-09-14: not negative, but they keep the
+  corridor's freshness badge at "checked within a month" and PayPal currently leads that corridor.
+- Also aging: the US->IN, US->MX, US->PH and US->VN manual rows (15-22 days old at last count).
+
+**Known, accepted limitation of the 0.5% band.** The allowance assumes a fixing-vs-market gap under
+0.5%. Measured 2026-09-24 00:27 UTC (worst point in the daily cycle), USD->MXN was 1.17% (Wise live
+17.568 vs fixing 17.3629), and 11 of 20 corridors exceeded 0.3%. On a corridor like that a correct live
+Wise/PayPal/Western Union quote at a large amount (where the fee is a small share of cost) can read
+below -0.5% and raise the banner even though the row is accurate. Not fixed on purpose: the options are a
+wider band (which would hide more real staleness), a per-corridor band, or benchmarking against Wise's
+live rate; each is a product decision. Recorded so it isn't rediscovered as a bug.
+
+**Convention: Xoom labelled "PayPal".** On corridors where the Wise API does not return PayPal, the
+"PayPal" row is a manual quote from Xoom (PayPal's remittance service): currently US->IN, US->VN and
+EUR->IN. Everywhere the API does return PayPal (GB->IN, US->MX, CA->PH, EUR->PH, AU->PH) the row is
+API-refreshed by the Lambda. So EUR->IN is not special; it is one of three Xoom-sourced corridors.
