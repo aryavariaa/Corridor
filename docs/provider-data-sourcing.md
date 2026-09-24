@@ -960,3 +960,11 @@ fixing at survey time, the known limitation of the 0.5% band.
 2026-09-07, Everyday tier only) was re-quoted: standard rate 127.159 INR (promo 129.4213), fee GBP1.50.
 The old row implied about 115.6, roughly 9% below the market, so it had been overstating Ria's cost
 badly rather than merely aging. It now sits alongside the other GB->IN providers.
+
+**Revolut US->VN removed (2026-09-23).** Both tiers (dated 2026-09-14, quoted a VND payout at 25,839.74)
+were deleted. Revolut's US widget no longer lists a VND recipient (searching "VND" finds nothing; Vietnam
+appears only as a USD payout) and its US Vietnam page 404s, so the row could not be re-verified and no
+longer described something the provider shows. It is recoverable from git history if a VND route
+returns. WorldRemit US->VN is kept for now: its US page quotes only a USD Cash Pickup, but its own copy
+says VND is available by receive method and that could not be ruled out; remove it if it is still
+unreproducible when it reaches ~30 days old (2026-10-14).

@@ -1265,26 +1265,6 @@
     {
       "sendCountry": "US",
       "receiveCountry": "VN",
-      "provider": "Revolut",
-      "tier": "Everyday",
-      "sendAmount": 300,
-      "amountReceived": 7713680,
-      "dateChecked": "2026-09-14",
-      "source": "revolut.com international-money-transfer widget (USD->VND) -- live rate 25839.74399, fee USD1.48"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "VN",
-      "provider": "Revolut",
-      "tier": "Large",
-      "sendAmount": 3000,
-      "amountReceived": 77087486,
-      "dateChecked": "2026-09-14",
-      "source": "revolut.com international-money-transfer widget (USD->VND) -- live rate 25877.22816, fee USD21.03"
-    },
-    {
-      "sendCountry": "US",
-      "receiveCountry": "VN",
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 300,
