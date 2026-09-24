@@ -889,3 +889,31 @@ live rate; each is a product decision. Recorded so it isn't rediscovered as a bu
 "PayPal" row is a manual quote from Xoom (PayPal's remittance service): currently US->IN, US->VN and
 EUR->IN. Everywhere the API does return PayPal (GB->IN, US->MX, CA->PH, EUR->PH, AU->PH) the row is
 API-refreshed by the Lambda. So EUR->IN is not special; it is one of three Xoom-sourced corridors.
+
+## 2026-09-23 — Re-sourcing pass (the "next pass" logged above)
+
+Re-quoted from each provider's own page, dated 2026-09-23, both tiers unless noted (20 rows):
+- **XE:** AU->IN (67.0682, was 68.0657), AU->PH (43.6672 / 43.7772), CA->PH (44.0848 / 44.1959),
+  EUR->PH (70.9236 / 71.1022; reached via the India page's currency + destination selectors). XE quotes
+  a slightly higher rate at the Large amount on the Philippines corridors.
+- **Remitly:** GB->BD both tiers (standard 163.00, welcome 165.44 on the first GBP100 only), AU->VN
+  Large (standard 18,175.36). **Convention note:** these rows previously treated Remitly's base fee as
+  "discounted to 0" (`send x rate`); they now use the documented `(send - base fee) x rate`
+  (GBP0.99 / AUD1.99), matching every other Remitly row, so their cost reads slightly higher than a
+  like-for-like re-quote of the old method would.
+- **Ria:** GB->BD (standard 163.11), AU->VN (single rate 18,242), EUR->IN (standard 105.86, was 107.11).
+- **MoneyGram:** GB->BD Large (163.2704), EUR->IN both tiers (107.1408; Everyday derived from the same
+  standard rate as the Large read).
+All 20 rows now read +0.35% to +3.3% against the fixing; peer sweep clean (no row beats the next best by
+more than 8%). After the pass no corridor/tier raises the anomaly banner (9 before), no directory card
+carries a "rates under review" flag, and one same-day row (CA->ZA Remitly Large, -0.18%) shows the
+fixing-lag note.
+
+**Not done: PayPal (Xoom) EUR->IN, still dated 2026-09-14.** Xoom's EUR locale is not reachable
+without an account (`/en-es/eur/` redirects to sign-in; the India sub-paths 404), and the public
+`xoom.com/india/send-money` page is USD-only with a "First Time Rate" promo and no way to reveal a
+standard rate, so nothing verifiable could be recorded. The row is left as it was rather than replaced
+with something unverified. Note it currently leads EUR->IN, on a 10+ day old quote.
+
+**Still aging:** the US->IN, US->MX, US->PH, US->VN manual rows (now 15-23 days old) are the largest
+remaining staleness; they are comfortably positive so nothing flags, but they are the next candidates.

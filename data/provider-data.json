@@ -978,9 +978,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 20419.71,
-      "dateChecked": "2026-09-10",
-      "source": "xe.com/en-au/send-money/send-money-to-india/from-australia/ - rate 68.0657, AUD0 fee"
+      "amountReceived": 20120.46,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-au/send-money/send-money-to-india/from-australia/ -- rate 67.0682 INR, fee AUD4.00 at Everyday (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "AU",
@@ -988,9 +988,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 204197.1,
-      "dateChecked": "2026-09-10",
-      "source": "xe.com/en-au/send-money/send-money-to-india/from-australia/ - rate 68.0657, AUD0 fee"
+      "amountReceived": 201204.6,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-au/send-money/send-money-to-india/from-australia/ -- rate 67.0682 INR, fee AUD0.00 at Large (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "AU",
@@ -1208,9 +1208,9 @@
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 21714,
-      "dateChecked": "2026-09-14",
-      "source": "moneygram.com (es/en locale) live quote -- standard (non-promo) rate 108.57 INR disclosed struck-through next to the highlighted first-transfer promo rate (111.98); this dataset's established convention is to use the standard, non-promo figure (see docs/provider-data-sourcing.md's 'Data quality correction' note on MoneyGram promo-rate contamination). amountReceived = sendAmount * standard rate, matching this dataset's existing MoneyGram US->IN row convention."
+      "amountReceived": 21428.16,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com (es/en locale) live quote -- standard (non-promo) rate 107.14 INR (107.1408 exact, from the EUR2,000 Recipient-gets read) disclosed struck-through next to the first-transfer promo rate (110.49); standard fee EUR1.99 (add-on). amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -1218,9 +1218,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 217140,
-      "dateChecked": "2026-09-14",
-      "source": "moneygram.com (es/en locale) live quote -- at EUR2,000 the page shows the standard rate directly (108.57 INR, no promo badge), confirming the EUR200 standard-rate reading. amountReceived = sendAmount * rate."
+      "amountReceived": 214281.6,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com (es/en locale) live quote -- at EUR2,000 the page shows the standard rate directly (107.1408 INR, Recipient-gets 214,281.60, no promo badge); standard fee EUR1.99 (add-on). Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -1228,9 +1228,9 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 21422,
-      "dateChecked": "2026-09-14",
-      "source": "riamoneytransfer.com (es-es locale) live quote -- standard (non-promo) rate 107.11 INR disclosed struck-through next to the first-transfer promo rate (107.8830); fee EUR0.00 (standard, not promo-only -- promo fee also EUR0.00). amountReceived = sendAmount * rate."
+      "amountReceived": 21172.0,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/es-es corridor widget -- standard rate 105.86, vs. crossed-out first-transfer promo 106.6239; standard fee EUR0.00 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -1238,9 +1238,9 @@
       "provider": "Ria",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 214220,
-      "dateChecked": "2026-09-14",
-      "source": "riamoneytransfer.com (es-es locale) live quote -- at EUR2,000 the page shows the standard rate directly (107.11 INR, no promo badge), confirming the EUR200 standard-rate reading. Fee EUR0.00. amountReceived = sendAmount * rate."
+      "amountReceived": 211720.0,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/es-es corridor widget -- standard rate 105.86, vs. crossed-out first-transfer promo 106.6239; standard fee EUR0.00 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "US",
@@ -1728,9 +1728,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 13314.84,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 44.3828 PHP, fee AUD5.00."
+      "amountReceived": 13100.16,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-au/send-money/send-money-to-philippines/from-australia/ -- rate 43.6672 PHP, fee AUD5.00 at Everyday (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "AU",
@@ -1738,9 +1738,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 133483.8,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 44.4946 PHP, fee AUD0.00."
+      "amountReceived": 131331.6,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-au/send-money/send-money-to-philippines/from-australia/ -- rate 43.7772 PHP, fee AUD0.00 at Large (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "AU",
@@ -1768,9 +1768,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 13342.41,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 44.4747 PHP, fee CAD5.00."
+      "amountReceived": 13225.44,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-ca/send-money/send-money-to-philippines/ -- rate 44.0848 PHP, fee CAD5.00 at Everyday (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "CA",
@@ -1778,9 +1778,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 133760.1,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 44.5867 PHP, fee CAD0.00."
+      "amountReceived": 132587.7,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com/en-ca/send-money/send-money-to-philippines/ -- rate 44.1959 PHP, fee CAD0.00 at Large (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "CA",
@@ -1828,9 +1828,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 21459.27,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 71.5309 PHP, fee EUR4.00."
+      "amountReceived": 21277.08,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com send-money product page, Wire Transfer (EUR->PHP) -- rate 70.9236 PHP, fee EUR4.00 at Everyday (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -1838,9 +1838,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 215133,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 71.711 PHP, fee EUR0.00."
+      "amountReceived": 213306.6,
+      "dateChecked": "2026-09-23",
+      "source": "xe.com send-money product page, Wire Transfer (EUR->PHP) -- rate 71.1022 PHP, fee EUR0.00 at Large (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -1988,9 +1988,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 49260,
-      "dateChecked": "2026-09-22",
-      "source": "remitly.com corridor page, standard rate 164.2 revealed above this corridor's promo cap (fee 0.99 GBP discounted to 0, medium confidence)."
+      "amountReceived": 48738.63,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/gb/en/bangladesh -- standard (non-promo) rate 163.0 disclosed on-page above the GBP100 promo cap ('Welcome rate' 165.44 applies only to the first GBP100); base fee GBP0.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -1998,9 +1998,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 2500,
-      "amountReceived": 410500,
-      "dateChecked": "2026-09-22",
-      "source": "remitly.com corridor page, standard rate 164.2 revealed above this corridor's promo cap (fee 0.99 GBP discounted to 0, medium confidence)."
+      "amountReceived": 407338.63,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/gb/en/bangladesh -- standard (non-promo) rate 163.0 disclosed on-page above the GBP100 promo cap ('Welcome rate' 165.44 applies only to the first GBP100); base fee GBP0.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -2028,9 +2028,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 55308600,
-      "dateChecked": "2026-09-22",
-      "source": "remitly.com corridor page, standard rate 18436.2 revealed above this corridor's promo cap (fee 1.99 AUD discounted to 0, medium confidence)."
+      "amountReceived": 54489911.03,
+      "dateChecked": "2026-09-23",
+      "source": "remitly.com/au/en/vietnam -- standard (non-promo) rate 18175.36 disclosed on-page above the AUD800 promo cap ('Welcome rate' 18,814.69 applies only to the first AUD800); base fee AUD1.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "CA",
@@ -2138,9 +2138,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2500,
-      "amountReceived": 410300,
-      "dateChecked": "2026-09-22",
-      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 164.12, fee 1.99 GBP discounted to 0."
+      "amountReceived": 408176.0,
+      "dateChecked": "2026-09-23",
+      "source": "moneygram.com/gb/en/corridor/bangladesh live quote -- standard rate (\"Great rates, every time\") 163.2704 BDT (Recipient-gets read directly at GBP2,500: 408,176.00; the same standard rate 163.27 shows struck-through beside the first-transfer promo 163.71 at small amounts); standard fee GBP1.99 (add-on). Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -2328,9 +2328,9 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 49212,
-      "dateChecked": "2026-09-22",
-      "source": "riamoneytransfer.com corridor widget -- rate 164.04 (standard rate vs. crossed-out first-transfer promo)."
+      "amountReceived": 48933.0,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/en-gb corridor widget -- standard rate 163.11, vs. crossed-out first-transfer promo 166.1061; standard fee GBP0.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "GB",
@@ -2338,9 +2338,9 @@
       "provider": "Ria",
       "tier": "Large",
       "sendAmount": 2500,
-      "amountReceived": 410100,
-      "dateChecked": "2026-09-22",
-      "source": "riamoneytransfer.com corridor widget -- rate 164.04 (standard rate vs. crossed-out first-transfer promo)."
+      "amountReceived": 407775.0,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/en-gb corridor widget -- standard rate 163.11, vs. crossed-out first-transfer promo 166.1061; standard fee GBP0.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "EUR",
@@ -2388,9 +2388,9 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 5524500,
-      "dateChecked": "2026-09-22",
-      "source": "riamoneytransfer.com corridor widget -- rate 18415 (no promo shown, single clean rate)."
+      "amountReceived": 5472600,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/en-au corridor widget --  rate 18242, no promo shown (single clean rate); standard fee AUD2.89 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "AU",
@@ -2398,9 +2398,9 @@
       "provider": "Ria",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 55245000,
-      "dateChecked": "2026-09-22",
-      "source": "riamoneytransfer.com corridor widget -- rate 18415 (no promo shown, single clean rate)."
+      "amountReceived": 54726000,
+      "dateChecked": "2026-09-23",
+      "source": "riamoneytransfer.com/en-au corridor widget --  rate 18242, no promo shown (single clean rate); standard fee AUD2.89 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
     },
     {
       "sendCountry": "CA",
