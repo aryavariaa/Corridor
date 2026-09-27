@@ -588,9 +588,9 @@
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 25431.16,
-      "dateChecked": "2026-09-23",
-      "source": "worldremit.com/en/india (UK origin) live quote, Bank Transfer -- rate 127.1558 INR, fee GBP1.69 at Everyday / GBP5.99 at Large (add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
+      "amountReceived": 25373.78,
+      "dateChecked": "2026-09-27",
+      "source": "worldremit.com/en/india (UK origin) live quote, Bank Transfer -- rate 126.8689 INR, fee 1.69 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "GB",
@@ -598,9 +598,9 @@
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 254311.6,
-      "dateChecked": "2026-09-23",
-      "source": "worldremit.com/en/india (UK origin) live quote, Bank Transfer -- rate 127.1558 INR, fee GBP1.69 at Everyday / GBP5.99 at Large (add-on). Re-sourced 2026-09-23; amountReceived = sendAmount x rate."
+      "amountReceived": 253737.8,
+      "dateChecked": "2026-09-27",
+      "source": "worldremit.com/en/india (UK origin) live quote, Bank Transfer -- rate 126.8689 INR, fee 5.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "US",
@@ -688,9 +688,9 @@
       "provider": "MoneyGram",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 25415.22,
-      "dateChecked": "2026-09-23",
-      "source": "moneygram.com/gb/en/corridor/india live quote -- standard (non-promo) rate 127.08 INR (127.0761 exact, from the EUR/GBP2,000 Recipient-gets read, where no promo badge shows) shown struck-through next to the first-transfer promo rate (128.49); standard fee GBP1.49 (add-on). Re-sourced 2026-09-23."
+      "amountReceived": 25371.0,
+      "dateChecked": "2026-09-27",
+      "source": "moneygram.com/gb/en/corridor/india live quote -- standard (non-promo) rate 126.86 INR (126.855 exact, from the GBP2,000 Recipient-gets read 253,710.00) shown struck-through beside the first-transfer promo rate (129.09); standard fee GBP1.49 (add-on). amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "GB",
@@ -698,9 +698,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 254152.2,
-      "dateChecked": "2026-09-23",
-      "source": "moneygram.com/gb/en/corridor/india live quote -- standard (non-promo) rate 127.08 INR (127.0761 exact, from the EUR/GBP2,000 Recipient-gets read, where no promo badge shows) shown struck-through next to the first-transfer promo rate (128.49); standard fee GBP1.49 (add-on). Re-sourced 2026-09-23."
+      "amountReceived": 253710.0,
+      "dateChecked": "2026-09-27",
+      "source": "moneygram.com/gb/en/corridor/india live quote -- at GBP2,000 the page shows the standard rate directly (126.855 INR, Recipient-gets 253,710.00, 'Great rates, every time', no promo badge); standard fee GBP1.49 (add-on). Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "US",
@@ -738,9 +738,9 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 25431.8,
-      "dateChecked": "2026-09-23",
-      "source": "riamoneytransfer.com/en-gb/send-money-to-india/ corridor widget -- standard rate 127.159 INR (standard rate vs. crossed-out first-transfer promo 129.4213); standard fee GBP1.50 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23 (the previous 2026-09-07 row implied ~115.6, about 9% below the market, and was replaced)."
+      "amountReceived": 25344.0,
+      "dateChecked": "2026-09-27",
+      "source": "riamoneytransfer.com/en-gb corridor widget -- standard rate 126.72, vs. crossed-out first-transfer promo 129.0228; standard fee GBP1.50 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "US",
@@ -998,9 +998,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 201953.33,
-      "dateChecked": "2026-09-23",
-      "source": "remitly.com/au/en/india - standard (non-promo) rate 67.34 INR disclosed on-page above the AUD3,000 promo cap ('Welcome rate' 68.42 applies only to first AUD3,000); base fee 0.99 AUD shown (a separate 'first transfer' fee discount was excluded as promotional). amountReceived = (sendAmount - fee) x rate. Re-sourced 2026-09-23 (was 68.31 on 2026-09-10)."
+      "amountReceived": 201023.64,
+      "dateChecked": "2026-09-27",
+      "source": "remitly.com/au/en/india -- standard (non-promo) rate 67.03 disclosed on-page above the promo cap (fee-adjusted 'Welcome rate' 68.10 applies only up to the cap); base fee 0.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -1148,9 +1148,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 21842,
-      "dateChecked": "2026-09-14",
-      "source": "xoom.com (en-es/eur locale) live quote, Bank Deposit -- absent from the Wise Comparison API response for EUR->INR (as with USD->INR elsewhere in this dataset), sourced directly from PayPal's own Xoom calculator instead. Real standard rate shown, no first-transfer promo badge. Rate 109.2076 INR, fee EUR1.99."
+      "amountReceived": 21568.36,
+      "dateChecked": "2026-09-27",
+      "source": "xoom.com/india/send-money?locale=es-ES&currency=EUR (PayPal's Xoom, EUR reachable without login via this query param + currency-selector combination, unlike the plain /en-es/eur/ locale path used previously) -- 'Mejor tarifa de Xoom' (Best Xoom Rate, not a first-time promo) 1 EUR = 107.8418 INR, EUR0.00 fee confirmed across every payment method (Bank Deposit, Debit/Credit Card, Cash Pickup) at the page's default EUR1,000. The amount field did not accept scripted or typed changes, so the rate was read at EUR1,000 and applied to both tiers, as the previous PayPal EUR->IN row did. amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "EUR",
@@ -1158,9 +1158,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 218634,
-      "dateChecked": "2026-09-14",
-      "source": "xoom.com (en-es/eur locale) live quote, Bank Deposit. Rate 109.3169 INR, fee EUR0.00 (fee waived at this amount)."
+      "amountReceived": 215683.6,
+      "dateChecked": "2026-09-27",
+      "source": "xoom.com/india/send-money?locale=es-ES&currency=EUR (PayPal's Xoom, EUR reachable without login via this query param + currency-selector combination, unlike the plain /en-es/eur/ locale path used previously) -- 'Mejor tarifa de Xoom' (Best Xoom Rate, not a first-time promo) 1 EUR = 107.8418 INR, EUR0.00 fee confirmed across every payment method (Bank Deposit, Debit/Credit Card, Cash Pickup) at the page's default EUR1,000. The amount field did not accept scripted or typed changes, so the rate was read at EUR1,000 and applied to both tiers, as the previous PayPal EUR->IN row did. amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "EUR",
@@ -1728,9 +1728,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 5504100,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 18347 VND, fee AUD5.00."
+      "amountReceived": 5420700,
+      "dateChecked": "2026-09-27",
+      "source": "xe.com/en-au/send-money/send-money-to-vietnam/ -- rate 18069 VND, fee 5.00 at Everyday (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -1738,9 +1738,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 55041000,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 18347 VND, fee AUD0.00."
+      "amountReceived": 54207000,
+      "dateChecked": "2026-09-27",
+      "source": "xe.com/en-au/send-money/send-money-to-vietnam/ -- rate 18069 VND, fee 0.00 at Large (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -1768,9 +1768,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 5515500,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 18385 VND, fee CAD5.00."
+      "amountReceived": 5455200,
+      "dateChecked": "2026-09-27",
+      "source": "xe.com/en-ca/send-money/send-money-to-vietnam/ -- rate 18184 VND, fee 0.00 at Everyday (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -1778,9 +1778,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 55155000,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 18385 VND, fee CAD0.00."
+      "amountReceived": 54552000,
+      "dateChecked": "2026-09-27",
+      "source": "xe.com/en-ca/send-money/send-money-to-vietnam/ -- rate 18184 VND, fee 0.00 at Large (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "GB",
@@ -1788,9 +1788,9 @@
       "provider": "XE",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 49021.08,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 163.4036 BDT, fee GBP3.00."
+      "amountReceived": 48615.54,
+      "dateChecked": "2026-09-27",
+      "source": "xe.com/en-gb/send-money/send-money-to-bangladesh/from-united-kingdom/ -- rate 162.0518 BDT, fee 3.00 at Everyday (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "GB",
@@ -1798,9 +1798,9 @@
       "provider": "XE",
       "tier": "Large",
       "sendAmount": 2500,
-      "amountReceived": 408509,
-      "dateChecked": "2026-09-22",
-      "source": "xe.com send-money product page, Wire Transfer -- rate 163.4036 BDT, fee GBP0.00 (2500 GBP, this corridor's Large tier)."
+      "amountReceived": 405129.5,
+      "dateChecked": "2026-09-27",
+      "source": "xe.com/en-gb/send-money/send-money-to-bangladesh/from-united-kingdom/ -- rate 162.0518 BDT, fee 0.00 at Large (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "EUR",
@@ -1848,9 +1848,9 @@
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 13267.25,
-      "dateChecked": "2026-09-22",
-      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+      "amountReceived": 12997.36,
+      "dateChecked": "2026-09-27",
+      "source": "revolut.com/money-transfer widget (CAD->PHP, CAD selected via currency search) -- live rate, fee CAD4.31 at Everyday deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -1858,9 +1858,9 @@
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 132727.01,
-      "dateChecked": "2026-09-22",
-      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+      "amountReceived": 129853.61,
+      "dateChecked": "2026-09-27",
+      "source": "revolut.com/money-transfer widget (CAD->PHP) -- live rate, fee CAD45.83 at Large deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -1868,9 +1868,9 @@
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 5497901,
-      "dateChecked": "2026-09-22",
-      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+      "amountReceived": 5392720,
+      "dateChecked": "2026-09-27",
+      "source": "revolut.com/money-transfer widget (CAD->VND, CAD selected via currency search) -- live rate, fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -1878,9 +1878,9 @@
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 55147602,
-      "dateChecked": "2026-09-22",
-      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+      "amountReceived": 54012593,
+      "dateChecked": "2026-09-27",
+      "source": "revolut.com/money-transfer widget (CAD->VND) -- live rate, fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -1888,9 +1888,9 @@
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 13258.49,
-      "dateChecked": "2026-09-22",
-      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+      "amountReceived": 12939.83,
+      "dateChecked": "2026-09-27",
+      "source": "revolut.com/en-AU/money-transfer widget (AUD->PHP) -- live rate, fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -1898,9 +1898,9 @@
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 132651.69,
-      "dateChecked": "2026-09-22",
-      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+      "amountReceived": 129180.17,
+      "dateChecked": "2026-09-27",
+      "source": "revolut.com/en-AU/money-transfer widget (AUD->PHP) -- live rate, fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -1908,9 +1908,9 @@
       "provider": "Revolut",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 5493416,
-      "dateChecked": "2026-09-22",
-      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+      "amountReceived": 5360724,
+      "dateChecked": "2026-09-27",
+      "source": "revolut.com/en-AU/money-transfer widget (AUD->VND) -- live rate, fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -1918,9 +1918,9 @@
       "provider": "Revolut",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 55106593,
-      "dateChecked": "2026-09-22",
-      "source": "revolut.com money-transfer widget, live standard-rate quote via bank transfer."
+      "amountReceived": 53732475,
+      "dateChecked": "2026-09-27",
+      "source": "revolut.com/en-AU/money-transfer widget (AUD->VND) -- live rate, fee deducted before conversion, Recipient-gets read directly. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "EUR",
@@ -1948,9 +1948,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 133260,
-      "dateChecked": "2026-09-22",
-      "source": "remitly.com corridor page, standard rate 44.42 revealed above this corridor's promo cap (zero fee, no ambiguity)."
+      "amountReceived": 131490.0,
+      "dateChecked": "2026-09-27",
+      "source": "remitly.com/ca/en/philippines -- standard (non-promo) rate 43.83 disclosed on-page above the promo cap (fee-adjusted 'Welcome rate' 44.62 applies only up to the cap); base fee 0 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -1958,9 +1958,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 55244520,
-      "dateChecked": "2026-09-22",
-      "source": "remitly.com corridor page, standard rate 18414.84 revealed above this corridor's promo cap (fee 1.99 CAD discounted to 0, medium confidence)."
+      "amountReceived": 54642959.44,
+      "dateChecked": "2026-09-27",
+      "source": "remitly.com/ca/en/vietnam -- standard (non-promo) rate 18226.41 disclosed on-page above the promo cap (fee-adjusted 'Welcome rate' 18,479.76 applies only up to the cap); base fee 1.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "GB",
@@ -1998,9 +1998,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 132900,
-      "dateChecked": "2026-09-22",
-      "source": "remitly.com corridor page, standard rate 44.3 revealed above this corridor's promo cap (zero fee, no ambiguity)."
+      "amountReceived": 130260.0,
+      "dateChecked": "2026-09-27",
+      "source": "remitly.com/au/en/philippines -- standard (non-promo) rate 43.42 disclosed on-page above the promo cap (fee-adjusted 'Welcome rate' 44.29 applies only up to the cap); base fee 0 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -2058,9 +2058,9 @@
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 21442.5,
-      "dateChecked": "2026-09-22",
-      "source": "worldremit.com live quote (Spain origin) -- rate 71.475, fee 1.99."
+      "amountReceived": 21206.58,
+      "dateChecked": "2026-09-27",
+      "source": "worldremit.com/en/philippines (Spain origin) live quote, Bank Transfer -- rate 70.6886 PHP, fee 1.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "EUR",
@@ -2068,9 +2068,9 @@
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 214425,
-      "dateChecked": "2026-09-22",
-      "source": "worldremit.com live quote -- rate 71.475, fee 1.99."
+      "amountReceived": 212065.8,
+      "dateChecked": "2026-09-27",
+      "source": "worldremit.com/en/philippines (Spain origin) live quote, Bank Transfer -- rate 70.6886 PHP, fee 1.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -2078,9 +2078,9 @@
       "provider": "WorldRemit",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 5466907.59,
-      "dateChecked": "2026-09-22",
-      "source": "worldremit.com live quote (Cash Pickup) -- rate 18223.0253, fee 1.99."
+      "amountReceived": 5390750.31,
+      "dateChecked": "2026-09-27",
+      "source": "worldremit.com/en/vietnam (Australia origin), Cash Pickup live quote, Bank Transfer -- rate 17969.1677 VND, fee 1.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -2088,9 +2088,9 @@
       "provider": "WorldRemit",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 54669075.9,
-      "dateChecked": "2026-09-22",
-      "source": "worldremit.com live quote -- rate 18223.0253, fee 1.99."
+      "amountReceived": 53907503.1,
+      "dateChecked": "2026-09-27",
+      "source": "worldremit.com/en/vietnam (Australia origin), Cash Pickup live quote, Bank Transfer -- rate 17969.1677 VND, fee 1.99 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -2098,9 +2098,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 133172.7,
-      "dateChecked": "2026-09-22",
-      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 44.39, fee 3.49 CAD discounted to 0."
+      "amountReceived": 131449.5,
+      "dateChecked": "2026-09-27",
+      "source": "moneygram.com/ca/en/corridor/philippines live quote (currency selector set to PHP) -- standard rate 43.82 PHP (Recipient-gets read directly at CAD3,000: 131,449.50, no promo badge), vs. first-transfer promo 44.90 at CAD100; standard fee CAD5.99 (add-on). Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -2108,9 +2108,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 55102830.9,
-      "dateChecked": "2026-09-22",
-      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 18367.61, fee 4.99 CAD discounted to 0."
+      "amountReceived": 54539713.8,
+      "dateChecked": "2026-09-27",
+      "source": "moneygram.com/ca/en/corridor/vietnam live quote (currency selector set to VND) -- standard rate 18,179.90 VND (Recipient-gets read directly at CAD3,000: 54,539,713.80, no promo badge), vs. first-transfer promo 18,341.08 at CAD100; standard fee CAD4.99 (add-on). Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "GB",
@@ -2118,9 +2118,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 2500,
-      "amountReceived": 408176,
-      "dateChecked": "2026-09-23",
-      "source": "moneygram.com/gb/en/corridor/bangladesh live quote -- standard rate (\"Great rates, every time\") 163.2704 BDT (Recipient-gets read directly at GBP2,500: 408,176.00; the same standard rate 163.27 shows struck-through beside the first-transfer promo 163.71 at small amounts); standard fee GBP1.99 (add-on). Re-sourced 2026-09-23."
+      "amountReceived": 406435.25,
+      "dateChecked": "2026-09-27",
+      "source": "moneygram.com/gb/en/corridor/bangladesh live quote -- standard rate ('Great rates, every time') 162.57 BDT (Recipient-gets read directly at GBP2,500: 406,435.25); standard fee GBP1.99 (add-on). Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "EUR",
@@ -2138,9 +2138,9 @@
       "provider": "MoneyGram",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 132449.1,
-      "dateChecked": "2026-09-22",
-      "source": "moneygram.com live quote, standard rate (\"Great rates, every time\") -- rate 44.15, fee 1.49 AUD discounted to 0."
+      "amountReceived": 130254.3,
+      "dateChecked": "2026-09-27",
+      "source": "moneygram.com/au/en/corridor/philippines live quote (currency selector set to PHP) -- standard rate 43.42 PHP (Recipient-gets read directly at AUD3,000: 130,254.30, no promo badge); standard fee AUD3.99 (add-on). Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -2148,9 +2148,9 @@
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 13314.12,
-      "dateChecked": "2026-09-22",
-      "source": "paysend.com corridor page, live quote -- rate 44.3804, fee 0.00 (flat, same both tiers)."
+      "amountReceived": 13219.56,
+      "dateChecked": "2026-09-27",
+      "source": "paysend.com/en-ca/send-money/from-canada-to-philippines -- rate 44.0652 PHP, flat $0 fee (both tiers), no promo indicated; amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -2158,9 +2158,9 @@
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 133141.2,
-      "dateChecked": "2026-09-22",
-      "source": "paysend.com corridor page, live quote -- rate 44.3804, fee 0.00 (flat, same both tiers)."
+      "amountReceived": 132195.6,
+      "dateChecked": "2026-09-27",
+      "source": "paysend.com/en-ca/send-money/from-canada-to-philippines -- rate 44.0652 PHP, flat $0 fee (both tiers), no promo indicated; amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -2168,9 +2168,9 @@
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 5522077.56,
-      "dateChecked": "2026-09-22",
-      "source": "paysend.com corridor page, live quote -- rate 18406.9252, fee 0.00 (flat, same both tiers)."
+      "amountReceived": 5481829.5,
+      "dateChecked": "2026-09-27",
+      "source": "paysend.com/en-ca/send-money/from-canada-to-vietnam -- rate 18272.765 VND, flat $0 fee (both tiers), no promo indicated; amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -2178,9 +2178,9 @@
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 55220775.6,
-      "dateChecked": "2026-09-22",
-      "source": "paysend.com corridor page, live quote -- rate 18406.9252, fee 0.00 (flat, same both tiers)."
+      "amountReceived": 54818295.0,
+      "dateChecked": "2026-09-27",
+      "source": "paysend.com/en-ca/send-money/from-canada-to-vietnam -- rate 18272.765 VND, flat $0 fee (both tiers), no promo indicated; amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "GB",
@@ -2188,9 +2188,9 @@
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 49065.09,
-      "dateChecked": "2026-09-22",
-      "source": "paysend.com corridor page, live quote -- rate 163.5503, fee 0.00 (flat, same both tiers)."
+      "amountReceived": 48675.09,
+      "dateChecked": "2026-09-27",
+      "source": "paysend.com/en-gb/send-money/from-united-kingdom-to-bangladesh -- rate 162.2503 BDT, flat $0 fee (both tiers), no promo indicated; amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "GB",
@@ -2198,9 +2198,9 @@
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 2500,
-      "amountReceived": 408875.75,
-      "dateChecked": "2026-09-22",
-      "source": "paysend.com corridor page, live quote -- rate 163.5503, fee 0.00 (flat, same both tiers)."
+      "amountReceived": 405625.75,
+      "dateChecked": "2026-09-27",
+      "source": "paysend.com/en-gb/send-money/from-united-kingdom-to-bangladesh -- rate 162.2503 BDT, flat $0 fee (both tiers), no promo indicated; amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "EUR",
@@ -2208,9 +2208,9 @@
       "provider": "Paysend",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 21431.46,
-      "dateChecked": "2026-09-22",
-      "source": "paysend.com corridor page, live quote -- rate 71.4382, fee 0.00 (flat, same both tiers)."
+      "amountReceived": 21268.47,
+      "dateChecked": "2026-09-27",
+      "source": "paysend.com/en-it/send-money/from-italy-to-philippines -- rate 70.8949 PHP, flat $0 fee (both tiers), no promo indicated; amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "EUR",
@@ -2218,9 +2218,9 @@
       "provider": "Paysend",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 214314.6,
-      "dateChecked": "2026-09-22",
-      "source": "paysend.com corridor page, live quote -- rate 71.4382, fee 0.00 (flat, same both tiers)."
+      "amountReceived": 212684.7,
+      "dateChecked": "2026-09-27",
+      "source": "paysend.com/en-it/send-money/from-italy-to-philippines -- rate 70.8949 PHP, flat $0 fee (both tiers), no promo indicated; amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -2348,9 +2348,9 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 13253.4,
-      "dateChecked": "2026-09-22",
-      "source": "riamoneytransfer.com corridor widget -- rate 44.178 (standard rate vs. crossed-out first-transfer promo)."
+      "amountReceived": 13005.0,
+      "dateChecked": "2026-09-27",
+      "source": "riamoneytransfer.com/en-au corridor widget -- standard rate 43.35, vs. crossed-out first-transfer promo 45.2201; standard fee AUD2.89 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -2358,9 +2358,9 @@
       "provider": "Ria",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 132534,
-      "dateChecked": "2026-09-22",
-      "source": "riamoneytransfer.com corridor widget -- rate 44.178 (standard rate vs. crossed-out first-transfer promo)."
+      "amountReceived": 130050.0,
+      "dateChecked": "2026-09-27",
+      "source": "riamoneytransfer.com/en-au corridor widget -- standard rate 43.35, vs. crossed-out first-transfer promo 45.2201; standard fee AUD2.89 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -2368,9 +2368,9 @@
       "provider": "Ria",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 5472600,
-      "dateChecked": "2026-09-23",
-      "source": "riamoneytransfer.com/en-au corridor widget --  rate 18242, no promo shown (single clean rate); standard fee AUD2.89 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
+      "amountReceived": 5459400,
+      "dateChecked": "2026-09-27",
+      "source": "riamoneytransfer.com/en-au corridor widget -- rate 18198, no promo shown (single clean rate); standard fee AUD2.89 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -2378,9 +2378,9 @@
       "provider": "Ria",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 54726000,
-      "dateChecked": "2026-09-23",
-      "source": "riamoneytransfer.com/en-au corridor widget --  rate 18242, no promo shown (single clean rate); standard fee AUD2.89 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-23."
+      "amountReceived": 54594000,
+      "dateChecked": "2026-09-27",
+      "source": "riamoneytransfer.com/en-au corridor widget -- rate 18198, no promo shown (single clean rate); standard fee AUD2.89 (add-on); amountReceived = sendAmount x rate. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -2668,9 +2668,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 3433.72,
-      "dateChecked": "2026-09-23",
-      "source": "remitly.com/ca/en/south-africa -- standard (non-promo) rate 11.60 ZAR disclosed on-page above the CAD500 promo cap ('Welcome rate' 12.11 applies only to first CAD500); base fee CAD3.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate. Re-sourced 2026-09-23 (was 11.59 earlier the same day)."
+      "amountReceived": 3350.83,
+      "dateChecked": "2026-09-27",
+      "source": "remitly.com/ca/en/south-africa -- standard (non-promo) rate 11.32 disclosed on-page above the promo cap (fee-adjusted 'Welcome rate' 11.81 applies only up to the cap); base fee 3.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",
@@ -2678,9 +2678,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 34753.72,
-      "dateChecked": "2026-09-23",
-      "source": "remitly.com/ca/en/south-africa -- standard (non-promo) rate 11.60 ZAR disclosed on-page above the CAD500 promo cap ('Welcome rate' 12.11 applies only to first CAD500); base fee CAD3.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate. Re-sourced 2026-09-23 (was 11.59 earlier the same day)."
+      "amountReceived": 33914.83,
+      "dateChecked": "2026-09-27",
+      "source": "remitly.com/ca/en/south-africa -- standard (non-promo) rate 11.32 disclosed on-page above the promo cap (fee-adjusted 'Welcome rate' 11.81 applies only up to the cap); base fee 3.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "GB",
@@ -2728,9 +2728,9 @@
       "provider": "Remitly",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 3372.55,
-      "dateChecked": "2026-09-23",
-      "source": "remitly.com/au/en/south-africa -- standard (non-promo) rate 11.51 ZAR disclosed on-page above the AUD500 promo cap ('Welcome rate' 11.91 applies only to first AUD500); base fee AUD6.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate. Sourced 2026-09-23."
+      "amountReceived": 3316.87,
+      "dateChecked": "2026-09-27",
+      "source": "remitly.com/au/en/south-africa -- standard (non-promo) rate 11.32 disclosed on-page above the promo cap (fee-adjusted 'Welcome rate' 11.72 applies only up to the cap); base fee 6.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "AU",
@@ -2738,9 +2738,9 @@
       "provider": "Remitly",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 34449.55,
-      "dateChecked": "2026-09-23",
-      "source": "remitly.com/au/en/south-africa -- standard (non-promo) rate 11.51 ZAR disclosed on-page above the AUD500 promo cap ('Welcome rate' 11.91 applies only to first AUD500); base fee AUD6.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate. Sourced 2026-09-23."
+      "amountReceived": 33880.87,
+      "dateChecked": "2026-09-27",
+      "source": "remitly.com/au/en/south-africa -- standard (non-promo) rate 11.32 disclosed on-page above the promo cap (fee-adjusted 'Welcome rate' 11.72 applies only up to the cap); base fee 6.99 shown (first-transfer fee discount excluded as promo-only). amountReceived = (sendAmount - fee) x rate per documented Remitly convention. Re-sourced 2026-09-27."
     },
     {
       "sendCountry": "CA",

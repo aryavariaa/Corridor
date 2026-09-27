@@ -909,11 +909,24 @@ more than 8%). After the pass no corridor/tier raises the anomaly banner (9 befo
 carries a "rates under review" flag, and one same-day row (CA->ZA Remitly Large, -0.18%) shows the
 fixing-lag note.
 
-**Not done: PayPal (Xoom) EUR->IN, still dated 2026-09-14.** Xoom's EUR locale is not reachable
-without an account (`/en-es/eur/` redirects to sign-in; the India sub-paths 404), and the public
-`xoom.com/india/send-money` page is USD-only with a "First Time Rate" promo and no way to reveal a
-standard rate, so nothing verifiable could be recorded. The row is left as it was rather than replaced
-with something unverified. Note it currently leads EUR->IN, on a 10+ day old quote.
+**PayPal (Xoom) EUR->IN — re-sourced 2026-09-27, and a ranking-scope note.** Xoom's EUR locale was
+unreachable in every prior attempt (`/en-es/eur/` redirects to sign-in; the India sub-paths 404). It
+turned out to be reachable a different way: `xoom.com/india/send-money?locale=es-ES&currency=EUR` lets
+the currency selector switch to EUR without logging in. At EUR1,000 it showed "Mejor tarifa de Xoom"
+(Best Xoom Rate, not a first-time promo) at 107.8418 INR with EUR0.00 fee on every payment method
+(Bank Deposit, Debit/Credit Card, Cash Pickup). The amount field would not accept scripted or typed
+input, so the rate was read at EUR1,000 and applied to both tiers, as the prior row did.
+
+Before this was re-sourced, a user check of the live site found the EUR->IN directory card correctly
+headlining XE (0.2%) with PayPal shown under "1 rate under review" -- confirmed this was the negative-
+exclusion logic working as designed (PayPal's cost was -0.03%, so `getCorridorTeaser` skipped it),
+not a coincidence of XE happening to be cheaper. On the corridor detail page itself, PayPal still ranked
+#1 in the table at -0.0% cost with the cost-anomaly staleness banner -- **this is intentional and out of
+scope for that fix**: the negative-exclusion logic (`getCorridorTeaser`, homepage cards only) was never
+meant to touch `getRankedProviders`/the detail-page table, which still ranks every row including negative
+ones and relies on the anomaly banner, not exclusion, to flag them. No bug here. Now that the row is
+re-sourced and positive, this is moot for EUR->IN specifically, but the same detail-page/homepage split
+applies to any future negative reading and should not be "fixed" without a separate decision to do so.
 
 **Still aging:** the US->IN, US->MX, US->PH, US->VN manual rows (now 15-23 days old) are the largest
 remaining staleness; they are comfortably positive so nothing flags, but they are the next candidates.
@@ -945,10 +958,20 @@ understating it. Peer sweep clean; no anomaly banners.
 **Not re-sourced (rows unchanged, still aging)**
 - **PayPal (Xoom) US->IN, dated 2026-09-01:** Xoom's India page shows only a first-time promo rate
   ("First Time Rate") with no way to reveal the standard rate. This is now the oldest row on the site.
-- **Revolut US->VN and WorldRemit US->VN, dated 2026-09-14:** Revolut's US widget offers Vietnam only as a
-  USD payout (no VND), and WorldRemit's US->Vietnam page now defaults to a USD Cash Pickup. The stored
-  rows describe a VND payout these providers no longer show for a US sender, so they cannot be re-verified
-  and should be reviewed (or removed) rather than trusted.
+- **Revolut US->VN, dated 2026-09-14:** Revolut's US widget offers Vietnam only as a USD payout (no
+  VND). The stored row described a VND payout the provider no longer shows for a US sender, so it could
+  not be re-verified; removed 2026-09-23 (see below).
+- **WorldRemit US->VN, dated 2026-09-14 — correction (2026-09-27):** a prior note here said this "now
+  defaults to a USD Cash Pickup" and should be reviewed or removed. That was wrong, and the error was
+  mine: I was testing worldremit.com directly to see whether the rate could be re-verified, and the
+  receive-method I happened to test (the page's default) showed a USD payout. I never checked what the
+  stored row itself renders on Corridor's own page. It has rendered a VND amount the whole time (this row
+  was never touched or re-sourced) -- confirmed 2026-09-27 against a user report that /compare/US/VN
+  shows WorldRemit at a VND amount and 1.4% cost, which matches this row's stored data and math exactly
+  (7,671,150 VND / $300 = 25,570.5, vs. that day's live USD->VND fixing). Nothing was fixed here between
+  09-23 and 09-27; the row was simply mischaracterized in the note above. It is still 13 days old as of
+  2026-09-27, not currently flagged (its cost is positive), and the same review-by-2026-10-14 plan still
+  applies if it can't be re-verified by then.
 - **PayPal (Xoom) EUR->IN, dated 2026-09-14** (previous entry).
 
 **After the pass:** 0 corridor/tiers raise the anomaly banner; 4 show the same-day fixing-lag note
@@ -968,3 +991,60 @@ longer described something the provider shows. It is recoverable from git histor
 returns. WorldRemit US->VN is kept for now: its US page quotes only a USD Cash Pickup, but its own copy
 says VND is available by receive method and that could not be ruled out; remove it if it is still
 unreproducible when it reaches ~30 days old (2026-10-14).
+
+## 2026-09-27 — Re-sourcing pass 3, and the staleness cadence question
+
+A user's independent live-site check three days after pass 2 found the anomaly-note count had gone
+from 1 corridor to 8 (roughly half the directory), and flagged two inaccuracies in this doc's
+"still open" notes (WorldRemit US->VN and PayPal EUR->IN -- both corrected above; neither was a code
+issue, both were errors in how this doc described prior findings).
+
+**Re-sourced (dated 2026-09-27, from each provider's own page, both tiers unless noted): 49 rows.**
+- XE: CA->VN, GB->BD, AU->VN.
+- Paysend: CA->PH, CA->VN, EUR->PH, GB->BD.
+- Remitly: CA->PH (Large), CA->VN (Large), CA->ZA, AU->IN (Large), AU->PH (Large), AU->ZA.
+- Revolut: CA->PH, CA->VN (no dedicated `/en-CA/` calculator, but the generic `revolut.com/money-transfer`
+  widget's send-currency search accepts CAD even without a country-specific page -- same technique as the
+  earlier CA->ZA exclusion note, except it turns out CAD *is* selectable there, just not as a bank-provided
+  bank-transfer default); AU->PH, AU->VN via the `/en-AU/` page.
+- Ria: GB->IN, AU->PH, AU->VN.
+- WorldRemit: EUR->PH, GB->IN, AU->VN (confirmed each read against the correct origin country).
+- MoneyGram: CA->PH, CA->VN, GB->BD, GB->IN, AU->PH. Several of these default to a receive currency other
+  than the corridor's (USD/AUD instead of PHP/VND) -- the page has a hidden native `<select>` behind its
+  custom currency picker; setting that select's value directly (native setter + `input`/`change` events)
+  switches it reliably where clicking the visible picker did not.
+- PayPal (Xoom) EUR->IN: see the correction above.
+
+Peer sweep clean (0 rows beat their peer cluster by >8%). Every corridor/tier now reads positive; 0
+anomaly banners, 0 same-day lag notes, 0 directory cards flagged.
+
+**Not touched, per the brief:** Wise, PayPal (where Lambda-managed), and Western Union -- these are
+refreshed by the Lambda on its own schedule and were not the source of any of the flags in this pass.
+
+**What actually triggers "under review": there is no explicit staleness threshold.** The cost-anomaly
+check (`lib/corridors.ts`) doesn't look at a row's age directly -- it only checks whether
+`costPercent < 0` right now (with the 0.5% same-day exemption from the tolerance work). A row goes
+negative when the *live mid-market rate has moved past the margin the row was quoted with*, which is a
+function of (a) how old the quote is and (b) how much the currency pair has moved since, not a fixed
+day-count. That's why the flag count went from 1 to 8 in three days: nothing about the code changed:
+FX markets kept moving, thin-margin rows (many are 0.1-0.3% below their peers even when fresh) crossed
+zero first, and the 0.5% same-day exemption stopped applying the moment each row turned one day old.
+
+**Recommendation on cadence: manual, roughly weekly, is the right call for now -- don't build a
+scheduled job for this.** Reasoning:
+- The volume is bounded and known: 7 manually-sourced providers x up to 20 corridors x 2 tiers is at
+  most 280 rows, and in practice each pass only touches the ones that actually drifted negative (this
+  pass was 49; the prior one was 47; both were a similar few hours of browser-driven sourcing).
+- A scheduled job doesn't remove the human step here the way the Lambda does for Wise/PayPal/WU. Those
+  three have a real, documented API this pipeline can call unattended and a peer-outlier guard that can
+  reject a bad read automatically. The 7 manual providers have no such API by definition -- "automating"
+  their re-sourcing would mean automating the same browser-scraping this pass just did by hand, against
+  sites with no stability contract (see this pass's MoneyGram currency-selector workaround, or the
+  recurring promo-cap/receive-currency quirks throughout this doc). That's a scraper to build and
+  maintain against providers who owe it nothing, for a payoff of saving a few hours every week or two --
+  a worse trade than it looks at first, and exactly the kind of "automate what's actually verifiable, not
+  what's convenient" tradeoff this project's own case study argues for elsewhere.
+- What *would* be worth adding, cheaply: a periodic reminder (a calendar hold, a cron that just emails
+  "check the homepage for under-review counts," nothing that touches data) on roughly a 7-10 day cadence,
+  since that's the interval at which the count climbed from 1 to 8 this time. That closes the actual gap
+  (nobody was watching) without building infrastructure the provider landscape doesn't support.
