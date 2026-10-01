@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { FRESHNESS_DOT_CLASS, type DirectoryEntry, type Freshness } from "@/lib/corridors";
-import { countryFlag } from "@/lib/flags";
+import { CountryFlag } from "@/lib/flags";
 
 // Directory sections group by send currency, not geography -- a corridor
 // like USD->GBP never had an obvious "continent," and every corridor
@@ -61,10 +61,10 @@ function CorridorCard({
       className={`flex flex-col gap-2 p-4 transition-colors hover:bg-accent-tint/20 ${className}`}
     >
       <span className="font-heading text-base font-semibold">
-        <span aria-hidden="true">{countryFlag(corridor.sendCountry)}</span>{" "}
+        <CountryFlag code={corridor.sendCountry} className="mr-1.5 align-[-0.1em]" />
         {corridor.sendCountryName}
         <span className="mx-1.5 text-text-faint">→</span>
-        <span aria-hidden="true">{countryFlag(corridor.receiveCountry)}</span>{" "}
+        <CountryFlag code={corridor.receiveCountry} className="mr-1.5 align-[-0.1em]" />
         {corridor.receiveCountryName}
       </span>
       <span className="text-xs text-text-dim">
@@ -196,7 +196,7 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
             <option value="">Anywhere</option>
             {sendOptions.map((c) => (
               <option key={c.code} value={c.code}>
-                {countryFlag(c.code)} {c.name}
+                {c.name}
               </option>
             ))}
           </select>
@@ -218,7 +218,7 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
             <option value="">Anywhere</option>
             {receiveOptions.map((c) => (
               <option key={c.code} value={c.code}>
-                {countryFlag(c.code)} {c.name}
+                {c.name}
               </option>
             ))}
           </select>

@@ -32,7 +32,7 @@ export async function GET(request: Request) {
   }
 
   const amount = Number(amountParam);
-  const { min, max } = customAmountRange(corridor);
+  const { min, max } = customAmountRange();
   if (!Number.isFinite(amount) || amount <= 0) {
     return Response.json({ error: "amount must be a positive number", min, max }, { status: 400 });
   }

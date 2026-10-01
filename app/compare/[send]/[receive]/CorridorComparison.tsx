@@ -11,7 +11,6 @@ import {
   type Freshness,
   type RankedProvider,
   type RankedProvidersResult,
-  type Tier,
 } from "@/lib/corridors";
 import {
   trackCorridorViewed,
@@ -22,7 +21,7 @@ import {
 } from "@/lib/analytics";
 import { trackAiInsightShown, trackAnomalyExplanationShown } from "@/lib/plausible";
 import { money, percent, rate } from "@/lib/format";
-import { countryFlag } from "@/lib/flags";
+import { CountryFlag } from "@/lib/flags";
 
 // Omits the parenthetical when the name and currency are already the same
 // string -- true for Eurozone corridors, where sendCountryName is "EUR"
@@ -32,8 +31,19 @@ function sendSideLabel(name: string, currency: string): string {
   return name === currency ? name : `${name} (${currency})`;
 }
 
-function corridorLabel(c: Corridor): string {
-  return `${countryFlag(c.sendCountry)} ${sendSideLabel(c.sendCountryName, c.sendCurrency)} → ${countryFlag(c.receiveCountry)} ${c.receiveCountryName} (${c.receiveCurrency})`;
+// JSX, not a plain string, because the flag is a real element (a CSS
+// background-image span from flag-icons, not an emoji character) -- see
+// lib/flags.tsx.
+function CorridorLabel({ corridor: c }: { corridor: Corridor }) {
+  return (
+    <>
+      <CountryFlag code={c.sendCountry} className="mr-1.5 align-[-0.1em]" />
+      {sendSideLabel(c.sendCountryName, c.sendCurrency)}
+      {" → "}
+      <CountryFlag code={c.receiveCountry} className="mr-1.5 align-[-0.1em]" />
+      {c.receiveCountryName} ({c.receiveCurrency})
+    </>
+  );
 }
 
 // timeZone: "UTC" is load-bearing, not cosmetic. dateChecked/asOf are
@@ -54,10 +64,6 @@ function shortDate(iso: string): string {
     day: "numeric",
     timeZone: "UTC",
   });
-}
-
-function tierAmount(c: Corridor, tier: Tier): number {
-  return tier === "Everyday" ? c.everydayAmount : c.largeAmount;
 }
 
 // The normal --fresh/--aging/--stale dot colors (FRESHNESS_DOT_CLASS) are
@@ -135,6 +141,16 @@ function RowBasisBadge({
 }
 
 // Banner copy for a custom amount. The preset wording ("stale data", "holding
+// Natural-language join for a short provider-name list (at most 3 today --
+// Wise/PayPal/Western Union). Used instead of hardcoding which providers are
+// "the live ones" in prose, since that set is now corridor-specific (see
+// liveCapableProviders in lib/corridors.ts).
+function joinNames(names: string[]): string {
+  if (names.length <= 1) return names[0] ?? "";
+  if (names.length === 2) return `${names[0]} and ${names[1]}`;
+  return `${names.slice(0, -1).join(", ")}, and ${names[names.length - 1]}`;
+}
+
 // off on the why-this-pick explanation") is wrong here: estimated rows are
 // extended from older verified amounts rather than checked at this amount,
 // and there is no explanation to hold off on.
@@ -176,21 +192,20 @@ export default function CorridorComparison({
 }) {
   const id = corridorId(corridor);
 
-  const [tier, setTier] = useState<Tier>(initialResult.tier);
   const [result, setResult] = useState<RankedProvidersResult>(initialResult);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortField>("cost_asc");
 
-  // Custom amount. `mode` says which of the two the current `result` is:
-  // a verified preset tier, or a live/estimated custom amount. The preset
-  // path (handleTierChange, /api/compare) is unchanged and stays fully
-  // static/verified.
-  const [mode, setMode] = useState<"tier" | "custom">("tier");
-  const [customText, setCustomText] = useState("");
+  // The amount input is now the only way to get a quote -- no more preset
+  // tier buttons to switch `result` between. `result` starts as the page's
+  // server-rendered default (the Everyday amount, fully verified, computed
+  // in page.tsx) and only changes when the user edits the amount below.
+  // `tier` itself never changes post-mount anymore, so it's a plain value,
+  // not state.
+  const tier = initialResult.tier;
+  const [customText, setCustomText] = useState(String(corridor.everydayAmount));
   const [customMessage, setCustomMessage] = useState<string | null>(null);
   const [customLoading, setCustomLoading] = useState(false);
-  const customRange = useMemo(() => customAmountRange(corridor), [corridor]);
+  const customRange = customAmountRange();
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const customAbort = useRef<AbortController | null>(null);
 
@@ -226,11 +241,11 @@ export default function CorridorComparison({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [anomalyExplanation, costAnomalyExplanation]);
 
-  // Fires once for the page's initial (server-rendered) tier on mount --
-  // this component fully remounts on every corridor navigation, so an
-  // empty dependency array is the right "once per corridor view" trigger.
-  // Tier switches fire their own Corridor Viewed from handleTierChange
-  // below instead of re-running this effect.
+  // Fires once for the page's initial (server-rendered) default amount on
+  // mount -- this component fully remounts on every corridor navigation, so
+  // an empty dependency array is the right "once per corridor view"
+  // trigger. runCustom fires its own Corridor Viewed for amount changes
+  // instead of re-running this effect.
   useEffect(() => {
     trackCorridorViewed({
       corridorId: id,
@@ -289,7 +304,6 @@ export default function CorridorComparison({
   function handleCustomChange(text: string) {
     setCustomText(text);
     cancelPendingCustom();
-    setError(null);
 
     const cleaned = text.replace(/[,\s]/g, "");
     if (cleaned === "") {
@@ -326,11 +340,10 @@ export default function CorridorComparison({
       const json = await res.json();
       if (!res.ok) throw new Error(json?.error ?? `Request failed (${res.status})`);
       setResult(json as RankedProvidersResult);
-      setMode("custom");
       setSortBy("cost_asc");
-      // AI narration is only offered on the verified preset amounts (see
-      // the note rendered in the hero card), so clear any left over from a
-      // preset view rather than leave it describing a different amount.
+      // AI narration is only offered for the default amount shown on load
+      // (see the note rendered in the hero card), so clear any left over
+      // from that view rather than leave it describing a different amount.
       setInsight(null);
       setAnomalyExplanation(null);
       setCostAnomalyExplanation(null);
@@ -347,69 +360,6 @@ export default function CorridorComparison({
       if (controller.signal.aborted) return; // superseded by a newer amount
       setCustomLoading(false);
       setCustomMessage(err instanceof Error ? err.message : "Something went wrong");
-    }
-  }
-
-  async function handleTierChange(next: Tier) {
-    if ((next === tier && mode === "tier") || loading) return;
-    cancelPendingCustom();
-    setCustomText("");
-    setCustomMessage(null);
-    setLoading(true);
-    setError(null);
-    try {
-      const query =
-        `sendCountry=${encodeURIComponent(corridor.sendCountry)}` +
-        `&receiveCountry=${encodeURIComponent(corridor.receiveCountry)}` +
-        `&tier=${encodeURIComponent(next)}`;
-
-      const res = await fetch(`/api/compare?${query}`);
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json?.error ?? `Request failed (${res.status})`);
-      }
-      setResult(json as RankedProvidersResult);
-      setTier(next);
-      setMode("tier");
-      setSortBy("cost_asc");
-      trackCorridorViewed({
-        corridorId: id,
-        sendCountry: corridor.sendCountryName,
-        receiveCountry: corridor.receiveCountryName,
-        sendCurrency: corridor.sendCurrency,
-        receiveCurrency: corridor.receiveCurrency,
-        tier: next,
-      });
-
-      // Fire-and-forget relative to the ranking update above: the AI
-      // narration is a nice-to-have layered on top, never a blocker. A
-      // slow LLM call or a missing ANTHROPIC_API_KEY just leaves these
-      // null rather than delaying or failing the tier switch itself.
-      setInsight(null);
-      setAnomalyExplanation(null);
-      setCostAnomalyExplanation(null);
-      fetch(`/api/insight?${query}`)
-        .then((r) => (r.ok ? r.json() : null))
-        .then(
-          (
-            json2: {
-              insight?: string | null;
-              anomalyExplanation?: string | null;
-              costAnomalyExplanation?: string | null;
-            } | null
-          ) => {
-            setInsight(json2?.insight ?? null);
-            setAnomalyExplanation(json2?.anomalyExplanation ?? null);
-            setCostAnomalyExplanation(json2?.costAnomalyExplanation ?? null);
-          }
-        )
-        .catch(() => {
-          // Already null from the reset above -- nothing more to do.
-        });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-    } finally {
-      setLoading(false);
     }
   }
 
@@ -463,7 +413,7 @@ export default function CorridorComparison({
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-12">
       <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight">
-        {corridorLabel(corridor)}
+        <CorridorLabel corridor={corridor} />
       </h1>
       <p className="mt-2 text-sm text-text-dim">
         Ranks providers by how much of the live mid-market value survives fees
@@ -475,94 +425,40 @@ export default function CorridorComparison({
         </Link>
       </p>
 
-      <div className="mt-8 space-y-1.5">
-        <span className="block text-xs font-bold uppercase tracking-widest text-text-dim">
-          Verified amounts
-        </span>
-        <div className="flex gap-2">
-          {(["Everyday", "Large"] as Tier[]).map((t) => {
-            const active = mode === "tier" && t === tier;
-            const amountLabel = money(
-              corridor.sendCurrency,
-              tierAmount(corridor, t),
-              0
-            );
-            return (
-              <button
-                key={t}
-                type="button"
-                onClick={() => handleTierChange(t)}
-                disabled={loading}
-                aria-pressed={active}
-                className={`flex-1 rounded-md border px-3 py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
-                  active
-                    ? "border-accent bg-accent text-accent-contrast"
-                    : "border-card-border bg-card text-text hover:bg-accent-tint/20"
-                }`}
-              >
-                <span className="font-medium">{t}</span>
-                <span className={active ? "opacity-80" : "text-text-dim"}>
-                  {" · "}
-                  {amountLabel}
-                </span>
-              </button>
-            );
-          })}
+      <div className="mt-8">
+        <label
+          htmlFor="custom-amount"
+          className="block text-xs font-bold uppercase tracking-widest text-text-dim"
+        >
+          Amount
+        </label>
+        <div className="mt-1.5 flex items-center gap-2">
+          <span className="text-sm text-text-dim">{corridor.sendCurrency}</span>
+          <input
+            id="custom-amount"
+            type="text"
+            inputMode="numeric"
+            autoComplete="off"
+            value={customText}
+            onChange={(e) => handleCustomChange(e.target.value)}
+            placeholder={`${customRange.min.toLocaleString("en-US")} – ${customRange.max.toLocaleString("en-US")}`}
+            aria-invalid={customMessage !== null}
+            aria-describedby="custom-amount-help"
+            className="w-44 rounded-md border border-card-border bg-card px-3 py-2 text-sm tabular-nums outline-none focus:border-link"
+          />
+          {customLoading && <span className="text-xs text-text-dim">Updating…</span>}
         </div>
-
-        <div className="pt-3">
-          <label
-            htmlFor="custom-amount"
-            className="block text-xs font-bold uppercase tracking-widest text-text-dim"
-          >
-            Or enter your own amount
-          </label>
-          <div className="mt-1.5 flex items-center gap-2">
-            <span className="text-sm text-text-dim">{corridor.sendCurrency}</span>
-            <input
-              id="custom-amount"
-              type="text"
-              inputMode="numeric"
-              autoComplete="off"
-              value={customText}
-              onChange={(e) => handleCustomChange(e.target.value)}
-              placeholder={`${customRange.min.toLocaleString("en-US")} – ${customRange.max.toLocaleString("en-US")}`}
-              aria-invalid={customMessage !== null}
-              aria-describedby="custom-amount-help"
-              className={`w-44 rounded-md border bg-card px-3 py-2 text-sm tabular-nums outline-none focus:border-link ${
-                mode === "custom" ? "border-accent" : "border-card-border"
-              }`}
-            />
-            {customLoading && <span className="text-xs text-text-dim">Updating…</span>}
-          </div>
-          <p
-            id="custom-amount-help"
-            role={customMessage ? "alert" : undefined}
-            className={`mt-1.5 text-xs ${customMessage ? "text-red-700 dark:text-red-300" : "text-text-dim"}`}
-          >
-            {customMessage ??
-              `Between ${money(corridor.sendCurrency, customRange.min, 0)} and ${money(corridor.sendCurrency, customRange.max, 0)}. Wise, PayPal and Western Union are quoted live at your amount; other providers are estimated from the two amounts we verified.`}
-          </p>
-        </div>
+        <p
+          id="custom-amount-help"
+          role={customMessage ? "alert" : undefined}
+          className={`mt-1.5 text-xs ${customMessage ? "text-red-700 dark:text-red-300" : "text-text-dim"}`}
+        >
+          {customMessage ??
+            `Between ${money(corridor.sendCurrency, customRange.min, 0)} and ${money(corridor.sendCurrency, customRange.max, 0)}. Wise, PayPal and Western Union are quoted live at your amount wherever this corridor supports it; every other provider is estimated from the two amounts we verified.`}
+        </p>
       </div>
 
-      {error && (
-        <div
-          role="alert"
-          className="mt-6 rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
-        >
-          {error}
-        </div>
-      )}
-
-      {loading && (
-        <p className="mt-6 text-sm text-text-dim">
-          Fetching live rate and ranking providers…
-        </p>
-      )}
-
-      {!loading && (
-        <section className="mt-8">
+      <section className="mt-8">
           {result.rateStale && (
             <div
               role="status"
@@ -603,9 +499,11 @@ export default function CorridorComparison({
                   Custom amount: {money(corridor.sendCurrency, result.custom.amount, 0)}.
                 </span>{" "}
                 {result.custom.liveStatus === "live" &&
-                  "Wise, PayPal and Western Union are live quotes for this exact amount. "}
+                  `${joinNames(result.custom.liveCapableProviders)} ${
+                    result.custom.liveCapableProviders.length === 1 ? "is a live quote" : "are live quotes"
+                  } for this exact amount. `}
                 {result.custom.liveStatus === "partial" &&
-                  "Some of Wise, PayPal and Western Union are live quotes for this amount; the rest fell back to estimates. "}
+                  `Some of ${joinNames(result.custom.liveCapableProviders)} are live quotes for this amount; the rest fell back to estimates. `}
                 {result.custom.liveStatus === "unavailable" &&
                   "Live quotes aren't available right now, so every row below is an estimate. "}
                 Rows tagged{" "}
@@ -693,8 +591,8 @@ export default function CorridorComparison({
                   className="mt-3 border-t pt-3 text-xs text-accent-tint"
                   style={{ borderColor: "var(--hero-divider)" }}
                 >
-                  The AI explanation is only available for the verified preset
-                  amounts.
+                  The AI explanation is only available for the amount shown by
+                  default, not amounts you enter.
                 </p>
               )}
               {insight && (
@@ -818,7 +716,7 @@ export default function CorridorComparison({
 
           <div className="mt-6 rounded-lg border border-card-border bg-card p-5">
             <h3 className="text-sm font-semibold">
-              Get rate alerts for {corridorLabel(corridor)}
+              Get rate alerts for <CorridorLabel corridor={corridor} />
             </h3>
             <p className="mt-1 text-sm text-text-dim">
               We&rsquo;ll email you when the cheapest provider or the live
@@ -886,8 +784,7 @@ export default function CorridorComparison({
               </p>
             )}
           </div>
-        </section>
-      )}
+      </section>
 
       <footer className="mt-12 border-t border-card-border pt-6 text-sm text-text-dim">
         <Link href="/methodology" className="text-link hover:underline">

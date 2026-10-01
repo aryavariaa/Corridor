@@ -75,22 +75,24 @@ export default function MethodologyPage() {
 
         <section className="space-y-2">
           <h2 className="font-heading text-lg font-semibold">
-            Verified amounts vs. your own amount
+            How your amount is priced
           </h2>
           <p className="text-sm leading-6 text-text-dim">
-            The two preset tiers (a small &ldquo;everyday&rdquo; send and a
-            larger &ldquo;big&rdquo; send) are the amounts we actually
-            verify: every provider&rsquo;s number there was checked against its
-            own quote, and is dated. You can also enter your own amount, and
-            what you see is labeled by how much we know. Wise, PayPal and
-            Western Union are quoted live at exactly your amount. Every other
-            provider has no live source, so its number is a straight-line
-            estimate between the two amounts we verified and is tagged
-            &ldquo;Estimated&rdquo;; a provider with only one verified amount
-            is left out rather than guessed at. Custom amounts are limited to
-            half the everyday amount up to three times the big amount, because
-            beyond that fees stop scaling predictably. The AI explanation is
-            only offered on the verified presets.
+            You enter the amount you actually want to send, between $100 and
+            $10,000 (fees stop scaling predictably outside that range, so we
+            don&rsquo;t show a number rather than guess). Wise, PayPal and
+            Western Union are quoted live at exactly your amount wherever a
+            corridor actually sources that provider from a live feed — a
+            handful of corridors source one of the three manually instead
+            (the page says which, if any, for the corridor you&rsquo;re on).
+            Every provider without a live source for arbitrary amounts is
+            priced from two reference amounts we check directly against its
+            own quote and date — your number is a straight-line estimate
+            between those two, tagged &ldquo;Estimated&rdquo;; a provider with
+            only one reference amount is left out rather than guessed at. The
+            page loads with a default amount already priced this way, and the
+            AI explanation is only offered for that default — it isn&rsquo;t
+            regenerated for every amount you type.
           </p>
         </section>
 

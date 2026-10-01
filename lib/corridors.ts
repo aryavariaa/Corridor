@@ -28,6 +28,15 @@ export type Tier = "Everyday" | "Large";
 // re-enabled one at a time rather than all together.
 const ENABLED_PROVIDERS = new Set(["Wise", "PayPal", "Western Union"]);
 
+// The exact prefix scripts/lib/refresh-core.mjs (the daily refresh) and the
+// one-off corridor-seeding scripts both write at the start of a row's
+// `source` string when that row's data genuinely came from the Wise
+// Comparison API -- used in getCustomAmountRanking below to tell an
+// actually-live row apart from a manually-sourced one (e.g. a Eurozone
+// PayPal/Xoom row) for a provider name that's usually API-backed. Must stay
+// byte-identical to the prefix those scripts use.
+const WISE_LIVE_SOURCE_PREFIX = "wise.com live comparison API";
+
 // A corridor is identified by its send/receive country pair, not by an
 // arbitrary index. "Does this pair have any data" is answered by whether a
 // ProviderRate row exists for it, not by membership in a separately
@@ -98,6 +107,14 @@ export type CustomAmountInfo = {
   // "live": every live-capable provider got a live quote; "partial": some
   // fell back to estimates; "unavailable": the live call failed entirely.
   liveStatus: "live" | "partial" | "unavailable";
+  // Which providers are actually live-capable FOR THIS CORRIDOR -- not a
+  // fixed "Wise/PayPal/Western Union" list, since a provider's own verified
+  // rows might show it's manually sourced here even though it's API-backed
+  // elsewhere (every Eurozone corridor's PayPal row, for one -- see
+  // getCustomAmountRanking). The UI names these explicitly rather than
+  // hardcoding all three, so the message can't claim a provider is "live"
+  // when this corridor never queries it that way.
+  liveCapableProviders: string[];
   // Providers left out because only one verified amount is on file, so
   // there is no line to interpolate along -- listed rather than invented.
   notEstimated: string[];
@@ -352,12 +369,24 @@ function rankRows(
   };
 }
 
-// Custom-amount bounds. Fee structures (fixed minimums, markup caps) stop
-// being roughly linear well outside the verified amounts, so estimates aren't
-// defensible past these limits: from half the Everyday tier (so the Everyday
-// amount itself stays selectable) up to 3x the Large tier.
-export function customAmountRange(c: Pick<Corridor, "everydayAmount" | "largeAmount">) {
-  return { min: Math.ceil(c.everydayAmount * 0.5), max: c.largeAmount * 3 };
+// Custom-amount bounds -- fixed, not derived per corridor. Every corridor's
+// send currency is one of USD/GBP/EUR/AUD/CAD (see lib/fx.ts), which are
+// all within roughly 2x of each other in value, so one global range is
+// reasonable across every corridor rather than a currency-specific one.
+// $100 stays close to the smallest amount this app has ever verified
+// (the lowest Everyday tier was 200 in its own currency; half of that was
+// the old per-corridor floor), and $10,000 is a round ceiling above every
+// previous corridor's max (the old formula topped out at 6,000-9,000)
+// without stretching into amounts where fee structures stop being roughly
+// linear (fixed minimums, markup caps, business/wire-transfer pricing).
+// 2026-10-01: replaces the old everydayAmount/largeAmount-derived formula,
+// which no longer has presets to anchor to now that the tier buttons are
+// gone -- see docs/provider-data-sourcing.md.
+export const CUSTOM_AMOUNT_MIN = 100;
+export const CUSTOM_AMOUNT_MAX = 10000;
+
+export function customAmountRange() {
+  return { min: CUSTOM_AMOUNT_MIN, max: CUSTOM_AMOUNT_MAX };
 }
 
 export class CustomAmountRangeError extends Error {
@@ -384,14 +413,14 @@ export async function getCustomAmountRanking(
   // Whole currency units only: bounds the number of distinct cache keys a
   // client can force on the upstream API.
   const amount = Math.round(requestedAmount);
-  const { min, max } = customAmountRange(corridor);
+  const { min, max } = customAmountRange();
   if (!Number.isFinite(amount) || amount < min || amount > max) {
     throw new CustomAmountRangeError(min, max);
   }
 
   const [live, liveQuotes] = await Promise.all([
     getMidMarketRate(corridor.sendCurrency as SupportedCurrency, corridor.receiveCurrency),
-    fetchLiveQuotes(corridor.sendCurrency, corridor.receiveCurrency, amount),
+    fetchLiveQuotes(corridor.sendCurrency, corridor.receiveCurrency, amount, corridor.receiveCountry),
   ]);
 
   const corridorRows = providerRates.filter(
@@ -405,12 +434,40 @@ export async function getCustomAmountRanking(
 
   const rows: UnscoredRow[] = [];
   const notEstimated: string[] = [];
+  const liveCapableProviders: string[] = [];
   let liveCapable = 0;
   let liveGot = 0;
 
   for (const provider of providerNames) {
-    const isLiveProvider = LIVE_PROVIDERS.includes(provider);
-    if (isLiveProvider) liveCapable++;
+    const lo = corridorRows.find((r) => r.provider === provider && r.tier === "Everyday");
+    const hi = corridorRows.find((r) => r.provider === provider && r.tier === "Large");
+
+    // A provider only gets a fresh live quote if its OWN verified rows for
+    // THIS corridor actually came from the Wise API -- not just because its
+    // name is generally one of the three API-backed providers. PayPal is
+    // live for most corridors, but every one of the 8 Eurozone corridors'
+    // PayPal row (including Germany's, where Wise's API does return a
+    // quote) is deliberately sourced from Xoom instead, at a different and
+    // better rate (see docs/provider-data-sourcing.md, 2026-10-01). Querying
+    // Wise live for those would silently show the wrong number for exactly
+    // the providers this file is supposed to label "estimated" from the
+    // verified data instead. Checking the row's own `source` prefix ties
+    // this to how the row actually got its data, so it can't drift out of
+    // sync the way a separately-maintained provider-name or currency check
+    // could -- the same reasoning behind MANUAL_OVERRIDE in
+    // scripts/lib/refresh-core.mjs, applied here to a read path instead of
+    // a write path. The prefix itself must stay in sync with the one used
+    // there and by the corridor-seeding scripts.
+    const isLiveProvider =
+      LIVE_PROVIDERS.includes(provider) &&
+      Boolean(
+        lo?.source.startsWith(WISE_LIVE_SOURCE_PREFIX) ||
+          hi?.source.startsWith(WISE_LIVE_SOURCE_PREFIX)
+      );
+    if (isLiveProvider) {
+      liveCapable++;
+      liveCapableProviders.push(provider);
+    }
 
     const liveAmount = isLiveProvider ? liveQuotes?.get(provider) : undefined;
     if (liveAmount !== undefined) {
@@ -426,8 +483,6 @@ export async function getCustomAmountRanking(
       continue;
     }
 
-    const lo = corridorRows.find((r) => r.provider === provider && r.tier === "Everyday");
-    const hi = corridorRows.find((r) => r.provider === provider && r.tier === "Large");
     if (!lo || !hi || lo.sendAmount === hi.sendAmount) {
       notEstimated.push(provider);
       continue;
@@ -480,6 +535,7 @@ export async function getCustomAmountRanking(
           : liveGot < liveCapable
             ? "partial"
             : "live",
+      liveCapableProviders,
       notEstimated,
     },
     benchmark: {

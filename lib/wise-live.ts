@@ -34,14 +34,23 @@ function pickQuote(quotes: WiseQuote[], sendCurrency: string): WiseQuote | null 
 
 // provider name -> amount the recipient gets (fees included), for whichever
 // of LIVE_PROVIDERS the API returned a usable quote for at this amount.
+//
+// targetCountry matters whenever more than one country shares a currency --
+// the same issue fixed in scripts/lib/refresh-core.mjs (2026-10-01):
+// omitting it for a currency like EUR doesn't return some blended quote, it
+// silently returns Germany's, no matter which Eurozone corridor the caller
+// actually asked about. This is a separate code path from the daily
+// refresh (that one writes data/provider-data.json; this one answers a
+// live request), so it needed the same fix made independently here.
 export async function fetchLiveQuotes(
   sendCurrency: string,
   receiveCurrency: string,
-  amount: number
+  amount: number,
+  targetCountry: string
 ): Promise<Map<string, number> | null> {
   try {
     const res = await fetch(
-      `https://api.wise.com/v3/comparisons/?sourceCurrency=${sendCurrency}&targetCurrency=${receiveCurrency}&sendAmount=${amount}`,
+      `https://api.wise.com/v3/comparisons/?sourceCurrency=${sendCurrency}&targetCurrency=${receiveCurrency}&sendAmount=${amount}&targetCountry=${targetCountry}`,
       { next: { revalidate: CACHE_SECONDS }, signal: AbortSignal.timeout(TIMEOUT_MS) }
     );
     if (!res.ok) throw new Error(`Wise comparison request failed: ${res.status}`);

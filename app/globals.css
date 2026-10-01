@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* SVG country flags (lib/flags.tsx) -- replaces emoji flags, which Windows
+   Chrome renders as plain two-letter text instead of a picture (no emoji
+   flag glyphs in Windows' font stack; confirmed by screenshot, not a bug
+   in this app). CSS background-image on a <span class="fi fi-xx">, not an
+   <img>, but still a real bundled SVG file load -- not font-dependent. */
+@import "flag-icons/css/flag-icons.min.css";
+
 /* Retargets Tailwind's dark: variant from its default prefers-color-scheme
    media query onto the toggle-driven [data-theme="dark"] attribute (see
    app/ThemeToggle.tsx and app/layout.tsx's theme-init script). This is

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { corridorId, findCorridor, getRankedProviders, listCorridors } from "@/lib/corridors";
 import { getPickExplainer, getAnomalyExplanation, getCostAnomalyExplanation } from "@/lib/ai";
-import { countryFlag } from "@/lib/flags";
+import { CountryFlag } from "@/lib/flags";
 import CorridorComparison from "./CorridorComparison";
 
 // Only the pairs in data/provider-data.json's corridors[] exist as pages.
@@ -84,8 +84,10 @@ export default async function ComparePage({
           ← Back to corridor picker
         </Link>
         <h1 className="font-heading mt-4 text-2xl font-bold tracking-tight">
-          {countryFlag(corridor.sendCountry)} {corridor.sendCountryName} to{" "}
-          {countryFlag(corridor.receiveCountry)} {corridor.receiveCountryName}
+          <CountryFlag code={corridor.sendCountry} className="mr-1.5 align-[-0.1em]" />
+          {corridor.sendCountryName} to{" "}
+          <CountryFlag code={corridor.receiveCountry} className="mr-1.5 align-[-0.1em]" />
+          {corridor.receiveCountryName}
         </h1>
         <div
           role="alert"
