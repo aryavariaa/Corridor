@@ -9,6 +9,25 @@ import { fetchLiveQuotes, LIVE_PROVIDERS } from "@/lib/wise-live";
 
 export type Tier = "Everyday" | "Large";
 
+// 2026-10 reliability pass: the 7 manually-sourced providers (XE, Remitly,
+// Revolut, Ria, WorldRemit, MoneyGram, Paysend) are temporarily hidden from
+// every ranking, directory card, and freshness badge -- reliability over
+// provider count while trustworthy live sourcing gets found for them one at
+// a time. This is a display toggle, not a data change: their rows, the
+// manual-sourcing docs, and the peer-outlier/same-day-lag guard logic are
+// all untouched and still being written by every prior pass's process --
+// re-enabling a provider is flipping its name back into this set (plus
+// re-sourcing its current data so it isn't showing month-old numbers the
+// moment it reappears), not rebuilding anything.
+//
+// Deliberately NOT the same thing as LIVE_PROVIDERS in lib/wise-live.ts:
+// that constant means "the Wise Comparison API returns a live quote for
+// this provider," a technical fact that doesn't change with this toggle.
+// This constant means "show this provider in the UI at all," a product
+// decision that's expected to diverge from LIVE_PROVIDERS as providers are
+// re-enabled one at a time rather than all together.
+const ENABLED_PROVIDERS = new Set(["Wise", "PayPal", "Western Union"]);
+
 // A corridor is identified by its send/receive country pair, not by an
 // arbitrary index. "Does this pair have any data" is answered by whether a
 // ProviderRate row exists for it, not by membership in a separately
@@ -245,7 +264,8 @@ export async function getRankedProviders(
     (r) =>
       r.sendCountry === sendCountry &&
       r.receiveCountry === receiveCountry &&
-      r.tier === tier
+      r.tier === tier &&
+      ENABLED_PROVIDERS.has(r.provider)
   );
 
   const { providers, costAnomaly, lagAllowed, benchmarkSource } = rankRows(
@@ -375,7 +395,10 @@ export async function getCustomAmountRanking(
   ]);
 
   const corridorRows = providerRates.filter(
-    (r) => r.sendCountry === sendCountry && r.receiveCountry === receiveCountry
+    (r) =>
+      r.sendCountry === sendCountry &&
+      r.receiveCountry === receiveCountry &&
+      ENABLED_PROVIDERS.has(r.provider)
   );
   const providerNames = Array.from(new Set(corridorRows.map((r) => r.provider)));
   const today = new Date().toISOString().slice(0, 10);
@@ -528,10 +551,14 @@ export type CorridorFreshness = {
 export function getCorridorFreshness(
   corridor: Pick<Corridor, "sendCountry" | "receiveCountry">
 ): CorridorFreshness | null {
+  // Only enabled providers count toward the badge: a hidden provider's
+  // staleness shouldn't make a corridor look stale when nothing stale is
+  // actually visible anywhere else on the page.
   const rows = providerRates.filter(
     (r) =>
       r.sendCountry === corridor.sendCountry &&
-      r.receiveCountry === corridor.receiveCountry
+      r.receiveCountry === corridor.receiveCountry &&
+      ENABLED_PROVIDERS.has(r.provider)
   );
   if (rows.length === 0) return null;
 
