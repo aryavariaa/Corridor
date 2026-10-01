@@ -24,6 +24,22 @@ export const TARGET_PROVIDERS = ["Wise", "PayPal", "Western Union"];
 // docs/provider-data-sourcing.md.
 export const EUR_SOURCE_COUNTRY_PREFERENCE = ["ES", "IT", "DE", "FR", "EE"];
 
+// Corridor+provider rows that are deliberately sourced manually even though
+// the Wise API also happens to return a quote for that provider -- the
+// refresh pipeline must leave these alone exactly as if the API had
+// returned nothing, not treat "the API has an answer" as license to use it.
+//
+// Currently exactly one entry: EUR->DE PayPal. Of the 8 Eurozone corridors
+// added 2026-10-01, Germany is the only one where Wise's API returns a
+// PayPal quote at all -- but it's a worse rate than PayPal's own Xoom
+// quote, and every other Eurozone corridor's PayPal row is Xoom-manual
+// (Wise's API returns none for them). Germany is kept Xoom-manual too, for
+// consistency and because it's the better rate -- see
+// docs/provider-data-sourcing.md. Without this entry, an unmodified refresh
+// would silently overwrite that choice back to Wise's PayPal quote the
+// next time anyone runs scripts/refresh-wise-rows.mjs or the Lambda fires.
+export const MANUAL_OVERRIDE = new Set(["EUR|DE|PayPal"]);
+
 // The guard, as actually implemented: a fetched value whose implied rate
 // beats the best *peer* in the same corridor+tier by more than 8% is
 // treated as probably-bad data and refused unless forced (the same signal
@@ -45,9 +61,18 @@ export async function fetchWiseComparison(
   sourceCurrency,
   targetCurrency,
   sendAmount,
+  targetCountry,
   fetchImpl = fetch
 ) {
-  const url = `https://api.wise.com/v3/comparisons/?sourceCurrency=${sourceCurrency}&targetCurrency=${targetCurrency}&sendAmount=${sendAmount}`;
+  // targetCountry matters whenever more than one country shares a currency.
+  // Confirmed 2026-10-01: omitting it for targetCurrency=EUR doesn't return
+  // some currency-wide blend -- it silently returns Germany's quote, for
+  // every Eurozone country alike. Without this param, every EUR-receiving
+  // corridor added after Germany (France, Spain, Italy, ...) would refresh
+  // to Germany's rate forever. Verified harmless for the existing
+  // one-country currencies (e.g. INR/IN): identical response with or
+  // without it.
+  const url = `https://api.wise.com/v3/comparisons/?sourceCurrency=${sourceCurrency}&targetCurrency=${targetCurrency}&sendAmount=${sendAmount}&targetCountry=${targetCountry}`;
   const res = await fetchImpl(url);
   if (!res.ok) {
     throw new Error(`Wise API ${res.status} for ${url}`);
@@ -110,6 +135,7 @@ export async function computeRefresh(
           corridor.sendCurrency,
           corridor.receiveCurrency,
           amount,
+          corridor.receiveCountry,
           fetchImpl
         );
       } catch (err) {
@@ -126,6 +152,11 @@ export async function computeRefresh(
             r.tier === tier
         );
         if (!row) continue; // this corridor+tier doesn't offer this provider -- never invent one
+
+        if (MANUAL_OVERRIDE.has(`${corridor.sendCountry}|${corridor.receiveCountry}|${providerName}`)) {
+          skippedNotFound.push({ corridor: key, tier, provider: providerName, reason: "manual_override" });
+          continue;
+        }
 
         const entry = apiData.providers?.find((p) => p.name === providerName);
         if (!entry) {
@@ -177,7 +208,8 @@ export async function computeRefresh(
             dateChecked: today,
             source:
               `wise.com live comparison API (sourceCurrency=${corridor.sendCurrency}, ` +
-              `targetCurrency=${corridor.receiveCurrency}, sendAmount=${amount}` +
+              `targetCurrency=${corridor.receiveCurrency}, sendAmount=${amount}, ` +
+              `targetCountry=${corridor.receiveCountry}` +
               `${quote.sourceCountry ? `, sourceCountry=${quote.sourceCountry}` : ""}) -- ` +
               `rate ${quote.rate}, fee ${quote.fee} ${corridor.sendCurrency}. ` +
               `Auto-refreshed by scripts/refresh-wise-rows.mjs.`,

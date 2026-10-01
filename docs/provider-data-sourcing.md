@@ -1048,3 +1048,103 @@ scheduled job for this.** Reasoning:
   "check the homepage for under-review counts," nothing that touches data) on roughly a 7-10 day cadence,
   since that's the interval at which the count climbed from 1 to 8 this time. That closes the actual gap
   (nobody was watching) without building infrastructure the provider landscape doesn't support.
+
+## 2026-10-01 — Corridor expansion: 12 currency-pair corridors + 8 Eurozone countries; 6 corridors removed
+
+Scope: add corridors the earlier feasibility pass confirmed as real 3/3 (Wise + PayPal + Western
+Union) comparisons, and remove the corridors that the 2026-10-01 provider-toggle (`ENABLED_PROVIDERS` in
+`lib/corridors.ts`) left showing only one provider -- the "a comparison with one entry isn't one" rule
+applied to existing corridors, not just prospective ones.
+
+**12 new direct currency-pair corridors**, all 3 providers live via the Wise Comparison API (no manual
+rows, same as every pre-existing API-backed corridor): every ordered pair among USD/GBP/AUD/CAD receiving
+into the matching single-currency country -- US->GB, US->AU, US->CA, GB->AU, GB->CA, GB->US, AU->GB,
+AU->CA, AU->US, CA->GB, CA->AU, CA->US. Tier amounts follow the existing split by send currency: USD/GBP
+senders at 200/2000, AUD/CAD senders at 300/3000 -- the same scaling the US/GB/EUR-vs-AU/CA split for
+India already uses in this file, not a new convention.
+
+**32 new Eurozone corridors**: Germany, France, Spain, Italy, Netherlands, Portugal, Austria, Ireland,
+each receiving from USD, GBP, AUD, and CAD (8 countries x 4 send currencies). Wise and Western Union are
+live via the API for all 32. **PayPal is manually sourced for all 32, including Germany** -- see the new
+convention note below, this is a deliberate exception to "if the API returns it, let it auto-refresh."
+
+**Architecture fix required first: `targetCountry` was never passed to the Wise API.**
+`scripts/lib/refresh-core.mjs`'s `fetchWiseComparison` only ever sent `sourceCurrency`/`targetCurrency`/
+`sendAmount` -- never `targetCountry`. That was invisible until now because every existing corridor's
+receive currency maps to exactly one country (INR -> India, PHP -> Philippines, etc.), so there was never
+an ambiguity for the API to resolve one way or the other. Confirmed by direct testing: querying
+`targetCurrency=EUR` with no `targetCountry` doesn't return some Eurozone-wide blended quote -- it
+silently returns **Germany's** quote, no matter which Eurozone corridor is actually being refreshed.
+Left unfixed, the very first scheduled Lambda run after these 8 Eurozone countries went live would have
+quietly overwritten France's, Spain's, Italy's, Netherlands', Portugal's, Austria's, and Ireland's
+Wise/Western Union rows with Germany's numbers -- a silent, self-inflicted version of exactly the kind of
+mix-up this doc exists to catch. Fixed: `fetchWiseComparison` and `computeRefresh` now thread
+`corridor.receiveCountry` through as `targetCountry` on every call, for every corridor, not just the new
+ones. Verified harmless for existing corridors (identical API response with or without it, checked on
+US->IN) and confirmed it correctly disambiguates all 8 Eurozone countries (Western Union's fee/rate
+genuinely differ by country -- see the Xoom note below for the cross-country numbers). All 18 existing
+`aws/test/handler.test.mjs` tests still pass unchanged after this fix.
+
+**New convention: Xoom-manual PayPal now also covers a case where the Wise API *does* return PayPal.**
+Of these 8 Eurozone countries, Wise's API only returns a PayPal quote for Germany (confirmed independently
+two ways: the public `api.wise.com/v3/comparisons` endpoint and `wise.com/gateway/v4/comparisons`, the
+richer endpoint the live wise.com site itself calls, which lists every country each provider actually
+covers -- PayPal: Germany only; Western Union: all 8). Rather than let Germany be the one Eurozone
+corridor where PayPal is API-refreshed while its 7 siblings are Xoom-manual (a split that would be its own
+source of future confusion), Germany's PayPal row is **also** sourced from Xoom -- which happens to be a
+better rate anyway (Xoom: 1 USD = 0.8576 EUR, $0 fee; Wise's feed for the same corridor: 0.8436, $4.99
+fee). Because the Wise API *does* have an answer for `EUR->DE PayPal`, the refresh pipeline needed an
+explicit instruction not to use it: `scripts/lib/refresh-core.mjs` now has a `MANUAL_OVERRIDE` set
+(currently exactly one entry, `"EUR|DE|PayPal"`) that `computeRefresh` checks before fetching, skipping it
+exactly like "provider not in this response." Without this, the next unmodified refresh run would have
+silently reverted Germany's PayPal row back to Wise's worse quote. The other 7 countries need no such
+override -- Wise's API returns nothing for them, so the existing "row exists but provider absent from
+response" skip already protects them.
+
+**Xoom's rate, confirmed flat across all 8 countries, captured per send currency (2026-10-01, by
+intercepting the live page's own `wapi/guest-app/remittance` request at xoom.com/<country>/send-money,
+switching the page's own currency selector -- no login, no API replay):**
+- USD: 1 USD = 0.8576 EUR, $0 fee
+- GBP: 1 GBP = 1.1335 EUR, £0 fee
+- AUD: 1 AUD = 0.6117 EUR, A$0 fee
+- CAD: 1 CAD = 0.6064 EUR, C$0 fee
+
+Confirmed identical across France, Spain, Italy, Netherlands, Portugal, Austria, Ireland, and Germany for
+each currency -- this really is one flat Eurozone rate on Xoom's side, not 8 independently-verified
+numbers. (Western Union, by contrast, genuinely does vary by country on the same corridor -- e.g. USD
+sending $1,000: Germany fee $0.99/rate 0.8742, Spain fee $1.99/rate 0.8698, France fee $0.99/rate 0.8831.
+Don't assume Wise/WU rows can be copied across these 8 countries the way the PayPal row can.)
+
+This Xoom quote is **not safely callable outside a real browser session** -- replaying the same POST
+request with matching parameters returns a generic 400 rejection, and digging further into why was out of
+scope (not something to reverse-engineer around). Treat these 32 PayPal rows exactly like the existing
+Xoom-manual rows (US->IN, US->VN, EUR->IN): periodic manual re-check, never Lambda automation. Because the
+rate reads as one flat number across all 8 countries rather than a per-country figure, a re-check pass
+likely only needs to verify it once per send currency, not 8 times -- but don't assume it never moves;
+verify it each time rather than assuming today's number is still current.
+
+**6 corridors removed** (full deletion -- there is no soft-hide mechanism for corridors in this codebase,
+only for providers via `ENABLED_PROVIDERS`; recoverable from git history if live 3-provider data ever
+exists for them again): AU->IN, CA->IN, EUR->BD, EUR->ZA, GB->PK, US->PH. These were the 6 of the original
+20 that had only Wise live among the 3 API-backed providers (no PayPal or Western Union row ever existed
+for them) -- after the provider-toggle hid the 7 manually-sourced providers, each one degraded to a single
+visible provider, the same "one entry isn't a comparison" problem flagged for prospective new corridors
+applied retroactively.
+
+**Verification**: `tsc --noEmit` and `eslint` clean; `next build` generated all 58 static corridor pages
+(20 - 6 + 12 + 32); removed corridors 404, new corridors 200. Full sweep of all 44 new corridors x both
+tiers via `/api/compare`: every one returns exactly Wise/PayPal/Western Union, no leaks, no gaps, no row
+beating its peer cluster by more than the 8% guard threshold. 25 Large-tier rows across the new corridors
+read a hair negative (all within the existing 0.5% `COST_ANOMALY_TOLERANCE`, all dated today) -- these
+render as the existing, intentional "reads slightly below mid-market, likely the reference rate lagging
+the market" note, not an anomaly banner, confirmed on `/compare/US/DE` Large tier. The homepage directory
+never shows this at all for these rows regardless, since `getCorridorTeaser` only ever evaluates the
+Everyday tier, and every new corridor's Everyday-tier teaser is clean. Final corridor count: 58. Final
+provider-rate row count: 506.
+
+**Side note, not acted on**: `getCorridorTeaser` (the homepage card's `underReview` count) checks raw
+`costPercent < 0` without the `withinFixingLagAllowance` tolerance that `rankRows`'s `costAnomaly`/
+`lagAllowed` split uses elsewhere. It never fires today because the teaser only evaluates the Everyday
+tier and no new Everyday-tier row is negative -- but it's a latent inconsistency between the homepage and
+the detailed corridor page that predates this pass and wasn't introduced by it. Worth a look if an
+Everyday-tier row ever lags the benchmark by a hair on a fresh same-day quote; out of scope here.
