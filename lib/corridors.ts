@@ -490,29 +490,9 @@ export async function getCustomAmountRanking(
   };
 }
 
-// --- Directory support (send-region grouping, freshness, cheapest teaser) ---
+// --- Directory support (freshness, cheapest teaser) ---
 // Added for the home-page directory redesign -- corridors[] itself is
 // unchanged; everything below derives from it or from providerRates.
-
-export type Region = "North America" | "Europe" | "Gulf" | "Asia-Pacific" | "Other";
-
-// Manual map, not a geo library -- only a handful of send countries exist
-// today (see getAvailableSendCountries), and a new one added without a
-// region entry here falls into "Other" rather than crashing (same
-// fail-open philosophy as dynamicParams defaulting true elsewhere).
-const SEND_REGIONS: Record<string, Region> = {
-  US: "North America",
-  CA: "North America",
-  GB: "Europe",
-  // Eurozone corridors are keyed by currency ("EUR"), not by member
-  // country -- see the Corridor.sendCountry comment above.
-  EUR: "Europe",
-  AU: "Asia-Pacific",
-};
-
-export function getSendRegion(sendCountry: string): Region {
-  return SEND_REGIONS[sendCountry] ?? "Other";
-}
 
 export type Freshness = "fresh" | "aging" | "stale";
 
@@ -608,22 +588,23 @@ export async function getCorridorTeaser(corridor: Corridor): Promise<CorridorTea
 
 export type DirectoryEntry = {
   corridor: Corridor;
-  region: Region;
   freshness: CorridorFreshness | null;
   teaser: CorridorTeaser;
 };
 
-// All corridors, grouped for the home-page directory. Teasers are fetched
-// concurrently (Promise.all) rather than one-by-one -- with 12+ corridors
-// sharing a handful of send currencies, Next's fetch cache/ISR window
-// (lib/fx.ts's revalidate: 3600) means most of these resolve from cache
-// rather than hitting the network independently.
+// All corridors for the home-page directory, grouped client-side by
+// corridor.sendCurrency (see app/HomeDirectory.tsx) -- every corridor
+// already carries a sendCurrency, so there's no separate grouping field to
+// derive or keep in sync here. Teasers are fetched concurrently
+// (Promise.all) rather than one-by-one -- with 12+ corridors sharing a
+// handful of send currencies, Next's fetch cache/ISR window (lib/fx.ts's
+// revalidate: 3600) means most of these resolve from cache rather than
+// hitting the network independently.
 export async function getDirectoryEntries(): Promise<DirectoryEntry[]> {
   const all = listCorridors();
   const teasers = await Promise.all(all.map((c) => getCorridorTeaser(c)));
   return all.map((c, i) => ({
     corridor: c,
-    region: getSendRegion(c.sendCountry),
     freshness: getCorridorFreshness(c),
     teaser: teasers[i],
   }));

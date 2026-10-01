@@ -22,6 +22,7 @@ import {
 } from "@/lib/analytics";
 import { trackAiInsightShown, trackAnomalyExplanationShown } from "@/lib/plausible";
 import { money, percent, rate } from "@/lib/format";
+import { countryFlag } from "@/lib/flags";
 
 // Omits the parenthetical when the name and currency are already the same
 // string -- true for Eurozone corridors, where sendCountryName is "EUR"
@@ -32,7 +33,7 @@ function sendSideLabel(name: string, currency: string): string {
 }
 
 function corridorLabel(c: Corridor): string {
-  return `${sendSideLabel(c.sendCountryName, c.sendCurrency)} → ${c.receiveCountryName} (${c.receiveCurrency})`;
+  return `${countryFlag(c.sendCountry)} ${sendSideLabel(c.sendCountryName, c.sendCurrency)} → ${countryFlag(c.receiveCountry)} ${c.receiveCountryName} (${c.receiveCurrency})`;
 }
 
 // timeZone: "UTC" is load-bearing, not cosmetic. dateChecked/asOf are

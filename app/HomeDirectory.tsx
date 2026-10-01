@@ -2,15 +2,15 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { FRESHNESS_DOT_CLASS, type DirectoryEntry, type Freshness, type Region } from "@/lib/corridors";
+import { FRESHNESS_DOT_CLASS, type DirectoryEntry, type Freshness } from "@/lib/corridors";
+import { countryFlag } from "@/lib/flags";
 
-const REGION_ORDER: Region[] = [
-  "North America",
-  "Europe",
-  "Gulf",
-  "Asia-Pacific",
-  "Other",
-];
+// Directory sections group by send currency, not geography -- a corridor
+// like USD->GBP never had an obvious "continent," and every corridor
+// already carries a sendCurrency, so there's no separate field to derive.
+// A currency with no corridors (e.g. none left after a filter) is simply
+// absent from `grouped` below, not rendered as an empty section.
+const SEND_CURRENCY_ORDER = ["USD", "GBP", "AUD", "EUR", "CAD"];
 
 const FRESHNESS_LABEL: Record<Freshness, string> = {
   fresh: "Checked within a week",
@@ -61,8 +61,10 @@ function CorridorCard({
       className={`flex flex-col gap-2 p-4 transition-colors hover:bg-accent-tint/20 ${className}`}
     >
       <span className="font-heading text-base font-semibold">
+        <span aria-hidden="true">{countryFlag(corridor.sendCountry)}</span>{" "}
         {corridor.sendCountryName}
         <span className="mx-1.5 text-text-faint">→</span>
+        <span aria-hidden="true">{countryFlag(corridor.receiveCountry)}</span>{" "}
         {corridor.receiveCountryName}
       </span>
       <span className="text-xs text-text-dim">
@@ -143,22 +145,22 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
   }, [entries, sendCountry, receiveCountry]);
 
   const grouped = useMemo(() => {
-    const byRegion = new Map<Region, DirectoryEntry[]>();
+    const byCurrency = new Map<string, DirectoryEntry[]>();
     for (const e of filtered) {
-      const list = byRegion.get(e.region) ?? [];
+      const list = byCurrency.get(e.corridor.sendCurrency) ?? [];
       list.push(e);
-      byRegion.set(e.region, list);
+      byCurrency.set(e.corridor.sendCurrency, list);
     }
-    for (const list of byRegion.values()) {
+    for (const list of byCurrency.values()) {
       list.sort((a, b) =>
         `${a.corridor.sendCountryName}${a.corridor.receiveCountryName}`.localeCompare(
           `${b.corridor.sendCountryName}${b.corridor.receiveCountryName}`
         )
       );
     }
-    return REGION_ORDER.filter((r) => byRegion.has(r)).map((region) => ({
-      region,
-      entries: byRegion.get(region)!,
+    return SEND_CURRENCY_ORDER.filter((c) => byCurrency.has(c)).map((sendCurrency) => ({
+      sendCurrency,
+      entries: byCurrency.get(sendCurrency)!,
     }));
   }, [filtered]);
 
@@ -194,7 +196,7 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
             <option value="">Anywhere</option>
             {sendOptions.map((c) => (
               <option key={c.code} value={c.code}>
-                {c.name}
+                {countryFlag(c.code)} {c.name}
               </option>
             ))}
           </select>
@@ -216,7 +218,7 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
             <option value="">Anywhere</option>
             {receiveOptions.map((c) => (
               <option key={c.code} value={c.code}>
-                {c.name}
+                {countryFlag(c.code)} {c.name}
               </option>
             ))}
           </select>
@@ -242,13 +244,13 @@ export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }
             No corridors match that combination yet.
           </p>
         )}
-        {grouped.map(({ region, entries: regionEntries }) => (
-          <section key={region}>
+        {grouped.map(({ sendCurrency, entries: currencyEntries }) => (
+          <section key={sendCurrency}>
             <h2 className="text-sm font-bold uppercase tracking-widest text-text-dim">
-              {region === "Other" ? "Other" : `From ${region}`}
+              From {sendCurrency}
             </h2>
             <div className="mt-4 grid grid-cols-1 rounded-lg border border-card-border bg-card sm:grid-cols-2">
-              {regionEntries.map((entry, i) => (
+              {currencyEntries.map((entry, i) => (
                 <CorridorCard
                   key={`${entry.corridor.sendCountry}-${entry.corridor.receiveCountry}`}
                   entry={entry}
