@@ -140,6 +140,46 @@ function RowBasisBadge({
   return <RowFreshnessBadge dateChecked={provider.dateChecked} tone={tone} />;
 }
 
+// Outbound link to the provider's own transfer page. Deliberately plain text
+// with a small "opens elsewhere" arrow, not a button: Corridor doesn't handle
+// the transfer, so this must never read as the primary action of the row.
+// "Go to" (not "Send with") and no wording about the quote keep it from
+// implying the page is live or that Corridor is processing anything.
+function ProviderLink({
+  provider,
+  tone = "default",
+}: {
+  provider: RankedProvider;
+  tone?: "default" | "onAccent";
+}) {
+  if (!provider.transferUrl) return null;
+  return (
+    <a
+      href={provider.transferUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`inline-flex items-center gap-1 whitespace-nowrap text-xs font-medium underline-offset-2 hover:underline focus-visible:underline ${
+        tone === "onAccent" ? "text-accent-contrast" : "text-link"
+      }`}
+    >
+      Go to {provider.provider}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 12 12"
+        className="h-2.5 w-2.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M4.5 2.5h5v5M9.5 2.5l-7 7" />
+      </svg>
+      <span className="sr-only"> (opens {provider.provider}&rsquo;s site in a new tab)</span>
+    </a>
+  );
+}
+
 // Banner copy for a custom amount. The preset wording ("stale data", "holding
 // Natural-language join for a short provider-name list (at most 3 today --
 // Wise/PayPal/Western Union). Used instead of hardcoding which providers are
@@ -583,8 +623,9 @@ export default function CorridorComparison({
                   <div className="mt-1 text-xs text-accent-tint">cost vs. mid-market</div>
                 </div>
               </div>
-              <div className="mt-3 text-xs text-accent-tint">
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-xs text-accent-tint">
                 <RowBasisBadge provider={heroProvider} tone="onAccent" />
+                <ProviderLink provider={heroProvider} tone="onAccent" />
               </div>
               {result.custom && (
                 <p
@@ -685,6 +726,11 @@ export default function CorridorComparison({
                               Benchmark reference &middot; not ranked
                             </span>
                           )}
+                          {p.transferUrl && (
+                            <div className="mt-0.5 font-sans">
+                              <ProviderLink provider={p} />
+                            </div>
+                          )}
                         </td>
                         <td className="px-4 py-2 text-right tabular-nums">
                           {money(corridor.receiveCurrency, p.amountReceived)}
@@ -712,6 +758,15 @@ export default function CorridorComparison({
                 </table>
               </div>
             </>
+          )}
+
+          {heroProvider && (
+            <p className="mt-2 text-xs text-text-dim">
+              &ldquo;Go to&rdquo; links open the provider&rsquo;s own site in a
+              new tab. Corridor doesn&rsquo;t process transfers, and the rate
+              and fees you&rsquo;re offered there may differ from the quote
+              shown here.
+            </p>
           )}
 
           <div className="mt-6 rounded-lg border border-card-border bg-card p-5">

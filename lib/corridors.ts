@@ -6,6 +6,7 @@ import {
   type SupportedCurrency,
 } from "@/lib/fx";
 import { fetchLiveQuotes, LIVE_PROVIDERS } from "@/lib/wise-live";
+import { providerTransferUrl } from "@/lib/provider-links";
 
 export type Tier = "Everyday" | "Large";
 
@@ -90,6 +91,12 @@ export type RankedProvider = {
   basis: RowBasis;
   dateChecked: string;
   source: string;
+  // The provider's own transfer-start page for this corridor (and, where
+  // their URL accepts it, this amount), for the "Go to <provider>" link. A
+  // plain outbound link, independent of `basis`/`dateChecked`: it says
+  // nothing about how fresh the quote beside it is. null = no verified URL.
+  // Set by withTransferUrls() after ranking, not by rankRows().
+  transferUrl?: string | null;
 };
 
 export type RowBasis = "verified" | "live" | "estimated";
@@ -311,11 +318,37 @@ export async function getRankedProviders(
       source: benchmarkSource,
       wiseConfigured: usesWiseBenchmark(corridor.receiveCurrency),
     },
-    providers,
+    providers: withTransferUrls(providers, corridor),
   };
 }
 
-type UnscoredRow = Omit<RankedProvider, "costPercent" | "rank" | "benchmarkReference">;
+// Attaches each provider's outbound transfer link. The PayPal-via-Xoom check
+// reads the corridor's stored data row, not the ranked row's `source`: on a
+// custom amount that string is rewritten ("Estimated, not checked...", "wise.com
+// live comparison API...") and no longer says where the data came from.
+function withTransferUrls(providers: RankedProvider[], corridor: Corridor): RankedProvider[] {
+  return providers.map((p) => {
+    const row = providerRates.find(
+      (r) =>
+        r.sendCountry === corridor.sendCountry &&
+        r.receiveCountry === corridor.receiveCountry &&
+        r.provider === p.provider
+    );
+    return {
+      ...p,
+      transferUrl: providerTransferUrl({
+        provider: p.provider,
+        sendCountry: corridor.sendCountry,
+        receiveCountry: corridor.receiveCountry,
+        receiveCurrency: corridor.receiveCurrency,
+        amount: p.sendAmount,
+        source: row?.source,
+      }),
+    };
+  });
+}
+
+type UnscoredRow = Omit<RankedProvider, "costPercent" | "rank" | "benchmarkReference" | "transferUrl">;
 
 // The one place rows get scored, ranked, and checked for anomalies -- used
 // by both the preset tiers and custom amounts so the two can never rank
@@ -542,7 +575,7 @@ export async function getCustomAmountRanking(
       source: benchmarkSource,
       wiseConfigured: usesWiseBenchmark(corridor.receiveCurrency),
     },
-    providers,
+    providers: withTransferUrls(providers, corridor),
   };
 }
 

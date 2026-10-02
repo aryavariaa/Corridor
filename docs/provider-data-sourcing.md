@@ -1183,3 +1183,29 @@ corridors changed. Deployed-Lambda dry-run after: 266 proposed / 70 skipped, 0 G
 - A new override or guard needs a test that fails when it is broken, not only one that passes when it works.
 - After adding corridors whose receive currency is shared by several countries, dry-run the refresh and look at
   the per-country values before the next scheduled run.
+
+## Outbound "Go to <provider>" links (2026-10-02)
+
+Every provider row (and the "Cheapest right now" card) carries a plain link to that provider's own site, opened
+in a new tab (`target="_blank" rel="noopener noreferrer"`). Corridor does not handle transfers, there is no
+redirect through our backend, and the link says nothing about the freshness of the quote beside it (it appears on
+verified, live and estimated rows alike).
+
+- **Where the URLs come from:** `lib/provider-links.ts`, one builder per provider. Deep-linked to the corridor
+  where the provider's URL scheme supports it (Wise, Remitly, XE, Revolut, Ria, WorldRemit, Xoom, and Paysend for
+  GB/CA/AU senders); Western Union also takes the compared amount. MoneyGram, Paysend (US/Eurozone senders) and
+  PayPal's own pages are the sender country's general send-money page, because their corridor URLs don't work
+  (MoneyGram redirects unknown paths home; Paysend serves a "United Kingdom to China" 200 page for anything it
+  doesn't recognise).
+- **PayPal rows sourced from Xoom** (the 32 Eurozone-receive corridors, EUR->IN and US->VN; US->IN is PayPal-sourced, so it links to PayPal) link to the matching
+  `xoom.com/<country>/send-money` page, because that is where the quote can be reproduced. The Xoom check reads the
+  stored data row's `source`, not the ranked row's (which is rewritten on custom amounts).
+- **Eurozone senders** (`sendCountry` = `EUR`) use Ireland's English-language site for every provider, since the
+  Eurozone has no single sender country.
+- **Known soft spots:** Revolut has no Canadian site (`/en-CA/` is a 404), so Canadian senders get the unprefixed
+  page, which is Revolut's destination page with the UK as the sender. PayPal Ireland has no international-transfer
+  page, so the one EUR->PH PayPal row links to PayPal Ireland's send-money page.
+- **Re-verifying:** `node scripts/check-provider-links.mjs` builds every link the data can produce and fetches it,
+  failing on non-200s and on deep links whose page title doesn't name the destination. Providers that bot-block
+  plain HTTP (Revolut, Ria) or render client-side (Western Union) come back `UNCHECKED` and need a browser pass.
+  Re-run it after adding a corridor or provider, and when a provider redesigns its site.
