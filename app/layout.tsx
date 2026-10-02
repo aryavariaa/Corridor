@@ -83,17 +83,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader />
         {children}
         {/* Self-hosted Plausible CE (analytics.aryavaria.com), not plausible.io.
-            Cookieless, so no consent banner is needed. The queue stub below
-            lets lib/plausible.ts's custom events fire before the script has
-            finished loading -- the script drains window.plausible.q on load. */}
-        <Script id="plausible-queue" strategy="afterInteractive">
-          {`window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}`}
-        </Script>
+            Per-site script for corridor-red.vercel.app. Cookieless, so no
+            consent banner is needed. The init stub queues lib/plausible.ts's
+            custom events until the script has loaded. */}
         <Script
-          src="https://analytics.aryavaria.com/js/script.js"
-          data-domain="corridor-red.vercel.app"
+          src="https://analytics.aryavaria.com/js/pa-79IhktTzb7rHL6in8Yx-K.js"
           strategy="afterInteractive"
         />
+        <Script id="plausible-init" strategy="afterInteractive">
+          {`window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`}
+        </Script>
         <Analytics />
       </body>
     </html>
