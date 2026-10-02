@@ -29,16 +29,28 @@ export const EUR_SOURCE_COUNTRY_PREFERENCE = ["ES", "IT", "DE", "FR", "EE"];
 // refresh pipeline must leave these alone exactly as if the API had
 // returned nothing, not treat "the API has an answer" as license to use it.
 //
-// Currently exactly one entry: EUR->DE PayPal. Of the 8 Eurozone corridors
-// added 2026-10-01, Germany is the only one where Wise's API returns a
-// PayPal quote at all -- but it's a worse rate than PayPal's own Xoom
-// quote, and every other Eurozone corridor's PayPal row is Xoom-manual
+// Keys are "sendCountry|receiveCountry|provider" -- the same shape as the
+// check in computeRefresh. Four entries: PayPal into Germany from each of the
+// four send countries (US/GB/AU/CA). (The first version of this set used
+// "EUR|DE|PayPal", which matches no corridor -- EUR is a send country only
+// for corridors like EUR->IN -- so the override silently did nothing until
+// aws/test/handler.test.mjs started exercising it. 2026-10-02.)
+//
+// Of the Eurozone corridors added 2026-10-01, Germany is the only one where
+// Wise's API returns a PayPal quote at all -- but it's a worse rate than
+// PayPal's own Xoom quote, and every other Eurozone corridor's PayPal row is
+// Xoom-manual
 // (Wise's API returns none for them). Germany is kept Xoom-manual too, for
 // consistency and because it's the better rate -- see
 // docs/provider-data-sourcing.md. Without this entry, an unmodified refresh
 // would silently overwrite that choice back to Wise's PayPal quote the
 // next time anyone runs scripts/refresh-wise-rows.mjs or the Lambda fires.
-export const MANUAL_OVERRIDE = new Set(["EUR|DE|PayPal"]);
+export const MANUAL_OVERRIDE = new Set([
+  "US|DE|PayPal",
+  "GB|DE|PayPal",
+  "AU|DE|PayPal",
+  "CA|DE|PayPal",
+]);
 
 // The guard, as actually implemented: a fetched value whose implied rate
 // beats the best *peer* in the same corridor+tier by more than 8% is

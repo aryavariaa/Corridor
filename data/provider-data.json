@@ -3728,9 +3728,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 170.97,
+      "amountReceived": 171.02,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200) -- rate 0.888415, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=DE) -- rate 0.888691, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -3738,9 +3738,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 174.96,
+      "amountReceived": 174.34,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=DE, sourceCountry=US) -- rate 0.8760499504, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -3748,9 +3748,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 165.16,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 171.52,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/germany/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -3758,9 +3758,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1765.48,
+      "amountReceived": 1766.03,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000) -- rate 0.888415, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=DE) -- rate 0.888691, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -3768,9 +3768,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1757.48,
+      "amountReceived": 1751.23,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=DE, sourceCountry=US) -- rate 0.8760499504, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -3778,9 +3778,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1689.59,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1715.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/germany/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -3788,9 +3788,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 233.4,
+      "amountReceived": 233.93,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200) -- rate 1.17392, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=DE) -- rate 1.17661, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -3798,9 +3798,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 226.13,
+      "amountReceived": 228.15,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1420342742, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=DE, sourceCountry=GB) -- rate 1.1522146027, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -3808,9 +3808,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 221.07,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 226.7,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/germany/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -3818,9 +3818,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2339.51,
+      "amountReceived": 2344.87,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000) -- rate 1.17392, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=DE) -- rate 1.17661, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -3828,9 +3828,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2300.3,
+      "amountReceived": 2300.98,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1518733473, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=DE, sourceCountry=GB) -- rate 1.1522146027, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -3838,9 +3838,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2240.87,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 2267,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/germany/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -3848,9 +3848,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 183.83,
+      "amountReceived": 184.39,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300) -- rate 0.616338, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=DE) -- rate 0.618218, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -3858,9 +3858,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 180.99,
+      "amountReceived": 182.3,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.6052930306, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=DE, sourceCountry=AU) -- rate 0.6096772303, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -3868,9 +3868,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 172.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 183.51,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/germany/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -3878,9 +3878,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1842.8,
+      "amountReceived": 1848.42,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000) -- rate 0.616338, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=DE) -- rate 0.618218, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -3888,9 +3888,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1821.12,
+      "amountReceived": 1833.75,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.6074438167, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=DE, sourceCountry=AU) -- rate 0.611654339, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -3898,9 +3898,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1758.55,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1835.1,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/germany/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -3908,9 +3908,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 185.51,
+      "amountReceived": 185.07,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300) -- rate 0.62505, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=DE) -- rate 0.623577, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -3918,9 +3918,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 181.39,
+      "amountReceived": 181.47,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=DE, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -3928,9 +3928,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 176.47,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 181.92,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/germany/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -3938,9 +3938,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1865.58,
+      "amountReceived": 1861.18,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000) -- rate 0.62505, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=DE) -- rate 0.623577, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -3948,9 +3948,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1824.84,
+      "amountReceived": 1825.57,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=DE, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -3958,9 +3958,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1780.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1819.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/germany/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -3968,9 +3968,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 170.97,
+      "amountReceived": 171.02,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200) -- rate 0.888415, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=FR) -- rate 0.888691, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -3978,9 +3978,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 174.96,
+      "amountReceived": 176.11,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=FR, sourceCountry=US) -- rate 0.884953507, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -3988,9 +3988,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 165.16,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 171.52,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/france/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -3998,9 +3998,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1765.48,
+      "amountReceived": 1766.03,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000) -- rate 0.888415, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=FR) -- rate 0.888691, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4008,9 +4008,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1757.48,
+      "amountReceived": 1769.03,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=FR, sourceCountry=US) -- rate 0.884953507, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4018,9 +4018,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1689.59,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1715.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/france/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -4028,9 +4028,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 233.4,
+      "amountReceived": 233.93,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200) -- rate 1.17392, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=FR) -- rate 1.17661, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4038,9 +4038,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 226.13,
+      "amountReceived": 228.24,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1420342742, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=FR, sourceCountry=GB) -- rate 1.1526842468, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4048,9 +4048,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 221.07,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 226.7,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/france/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -4058,9 +4058,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2339.51,
+      "amountReceived": 2344.87,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000) -- rate 1.17392, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=FR) -- rate 1.17661, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4068,9 +4068,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2300.3,
+      "amountReceived": 2301.92,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1518733473, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=FR, sourceCountry=GB) -- rate 1.1526842468, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4078,9 +4078,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2240.87,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 2267,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/france/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -4088,9 +4088,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 183.83,
+      "amountReceived": 184.39,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300) -- rate 0.616338, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=FR) -- rate 0.618218, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4098,9 +4098,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 180.99,
+      "amountReceived": 181.97,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.6052930306, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=FR, sourceCountry=AU) -- rate 0.6085651691, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4108,9 +4108,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 172.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 183.51,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/france/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -4118,9 +4118,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1842.8,
+      "amountReceived": 1848.42,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000) -- rate 0.616338, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=FR) -- rate 0.618218, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4128,9 +4128,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1821.12,
+      "amountReceived": 1834.12,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.6074438167, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=FR, sourceCountry=AU) -- rate 0.6117778458, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4138,9 +4138,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1758.55,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1835.1,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/france/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -4148,9 +4148,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 185.51,
+      "amountReceived": 185.07,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300) -- rate 0.62505, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=FR) -- rate 0.623577, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4158,9 +4158,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 181.39,
+      "amountReceived": 182.82,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=FR, sourceCountry=CA) -- rate 0.6114223796, fee 0.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4168,9 +4168,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 176.47,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 181.92,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/france/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -4178,9 +4178,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1865.58,
+      "amountReceived": 1861.18,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000) -- rate 0.62505, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=FR) -- rate 0.623577, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4188,9 +4188,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1824.84,
+      "amountReceived": 1833.66,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=FR, sourceCountry=CA) -- rate 0.6114223796, fee 0.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4198,9 +4198,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1780.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1819.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/france/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -4208,9 +4208,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 170.97,
+      "amountReceived": 171.02,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200) -- rate 0.888415, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=ES) -- rate 0.888691, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4218,9 +4218,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 174.96,
+      "amountReceived": 172.58,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=ES, sourceCountry=US) -- rate 0.871548152, fee 1.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4228,9 +4228,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 165.16,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 171.52,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/spain/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -4238,9 +4238,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1765.48,
+      "amountReceived": 1766.03,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000) -- rate 0.888415, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=ES) -- rate 0.888691, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4248,9 +4248,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1757.48,
+      "amountReceived": 1742.23,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=ES, sourceCountry=US) -- rate 0.871548152, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4258,9 +4258,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1689.59,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1715.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/spain/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -4268,9 +4268,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 233.4,
+      "amountReceived": 233.93,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200) -- rate 1.17392, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=ES) -- rate 1.17661, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4278,9 +4278,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 226.13,
+      "amountReceived": 229.87,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1420342742, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=ES, sourceCountry=GB) -- rate 1.1609042687, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4288,9 +4288,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 221.07,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 226.7,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/spain/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -4298,9 +4298,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2339.51,
+      "amountReceived": 2344.87,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000) -- rate 1.17392, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=ES) -- rate 1.17661, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4308,9 +4308,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2300.3,
+      "amountReceived": 2318.34,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1518733473, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=ES, sourceCountry=GB) -- rate 1.1609042687, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4318,9 +4318,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2240.87,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 2267,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/spain/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -4328,9 +4328,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 183.83,
+      "amountReceived": 184.39,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300) -- rate 0.616338, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=ES) -- rate 0.618218, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4338,9 +4338,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 180.99,
+      "amountReceived": 182.06,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.6052930306, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=ES, sourceCountry=AU) -- rate 0.6088740861, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4348,9 +4348,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 172.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 183.51,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/spain/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -4358,9 +4358,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1842.8,
+      "amountReceived": 1848.42,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000) -- rate 0.616338, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=ES) -- rate 0.618218, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4368,9 +4368,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1821.12,
+      "amountReceived": 1830.97,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.6074438167, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=ES, sourceCountry=AU) -- rate 0.6107275881, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4378,9 +4378,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1758.55,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1835.1,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/spain/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -4388,9 +4388,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 185.51,
+      "amountReceived": 185.07,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300) -- rate 0.62505, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=ES) -- rate 0.623577, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4398,9 +4398,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 181.39,
+      "amountReceived": 181.47,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=ES, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4408,9 +4408,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 176.47,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 181.92,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/spain/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -4418,9 +4418,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1865.58,
+      "amountReceived": 1861.18,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000) -- rate 0.62505, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=ES) -- rate 0.623577, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4428,9 +4428,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1824.84,
+      "amountReceived": 1825.57,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=ES, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4438,9 +4438,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1780.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1819.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/spain/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -4448,9 +4448,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 170.97,
+      "amountReceived": 171.02,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200) -- rate 0.888415, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=IT) -- rate 0.888691, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4458,9 +4458,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 174.96,
+      "amountReceived": 174.16,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=IT, sourceCountry=US) -- rate 0.8751495907, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4468,9 +4468,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 165.16,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 171.52,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/italy/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -4478,9 +4478,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1765.48,
+      "amountReceived": 1766.03,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000) -- rate 0.888415, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=IT) -- rate 0.888691, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4488,9 +4488,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1757.48,
+      "amountReceived": 1749.43,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=IT, sourceCountry=US) -- rate 0.8751495907, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4498,9 +4498,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1689.59,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1715.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/italy/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -4508,9 +4508,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 233.4,
+      "amountReceived": 233.93,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200) -- rate 1.17392, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=IT) -- rate 1.17661, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4518,9 +4518,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 226.13,
+      "amountReceived": 229.87,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1420342742, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=IT, sourceCountry=GB) -- rate 1.1609042687, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4528,9 +4528,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 221.07,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 226.7,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/italy/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -4538,9 +4538,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2339.51,
+      "amountReceived": 2344.87,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000) -- rate 1.17392, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=IT) -- rate 1.17661, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4548,9 +4548,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2300.3,
+      "amountReceived": 2318.34,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1518733473, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=IT, sourceCountry=GB) -- rate 1.1609042687, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4558,9 +4558,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2240.87,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 2267,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/italy/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -4568,9 +4568,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 183.83,
+      "amountReceived": 184.39,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300) -- rate 0.616338, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=IT) -- rate 0.618218, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4578,9 +4578,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 180.99,
+      "amountReceived": 182.43,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.6052930306, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=IT, sourceCountry=AU) -- rate 0.6101097541, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4588,9 +4588,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 172.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 183.51,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/italy/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -4598,9 +4598,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1842.8,
+      "amountReceived": 1848.42,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000) -- rate 0.616338, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=IT) -- rate 0.618218, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4608,9 +4608,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1821.12,
+      "amountReceived": 1835.6,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.6074438167, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=IT, sourceCountry=AU) -- rate 0.612272173, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4618,9 +4618,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1758.55,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1835.1,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/italy/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -4628,9 +4628,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 185.51,
+      "amountReceived": 185.07,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300) -- rate 0.62505, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=IT) -- rate 0.623577, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4638,9 +4638,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 181.39,
+      "amountReceived": 181.47,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=IT, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4648,9 +4648,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 176.47,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 181.92,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/italy/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -4658,9 +4658,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1865.58,
+      "amountReceived": 1861.18,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000) -- rate 0.62505, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=IT) -- rate 0.623577, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4668,9 +4668,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1824.84,
+      "amountReceived": 1825.57,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=IT, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4678,9 +4678,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1780.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1819.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/italy/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -4688,9 +4688,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 170.97,
+      "amountReceived": 171.02,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200) -- rate 0.888415, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=NL) -- rate 0.888691, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4698,9 +4698,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 174.96,
+      "amountReceived": 174.68,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=NL, sourceCountry=US) -- rate 0.8777506297, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4708,9 +4708,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 165.16,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 171.52,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/netherlands/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -4718,9 +4718,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1765.48,
+      "amountReceived": 1766.03,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000) -- rate 0.888415, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=NL) -- rate 0.888691, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4728,9 +4728,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1757.48,
+      "amountReceived": 1765.43,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=NL, sourceCountry=US) -- rate 0.8831527877, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4738,9 +4738,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1689.59,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1715.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/netherlands/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -4748,9 +4748,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 233.4,
+      "amountReceived": 233.93,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200) -- rate 1.17392, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=NL) -- rate 1.17661, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4758,9 +4758,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 226.13,
+      "amountReceived": 228.66,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1420342742, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=NL, sourceCountry=GB) -- rate 1.1547979953, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4768,9 +4768,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 221.07,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 226.7,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/netherlands/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -4778,9 +4778,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2339.51,
+      "amountReceived": 2344.87,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000) -- rate 1.17392, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=NL) -- rate 1.17661, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4788,9 +4788,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2300.3,
+      "amountReceived": 2306.14,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1518733473, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=NL, sourceCountry=GB) -- rate 1.1547979953, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4798,9 +4798,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2240.87,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 2267,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/netherlands/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -4808,9 +4808,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 183.83,
+      "amountReceived": 184.39,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300) -- rate 0.616338, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=NL) -- rate 0.618218, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4818,9 +4818,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 180.99,
+      "amountReceived": 181.97,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.6052930306, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=NL, sourceCountry=AU) -- rate 0.6085651691, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4828,9 +4828,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 172.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 183.51,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/netherlands/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -4838,9 +4838,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1842.8,
+      "amountReceived": 1848.42,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000) -- rate 0.616338, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=NL) -- rate 0.618218, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4848,9 +4848,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1821.12,
+      "amountReceived": 1830.97,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.6074438167, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=NL, sourceCountry=AU) -- rate 0.6107275881, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -4858,9 +4858,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1758.55,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1835.1,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/netherlands/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -4868,9 +4868,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 185.51,
+      "amountReceived": 185.07,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300) -- rate 0.62505, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=NL) -- rate 0.623577, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4878,9 +4878,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 181.39,
+      "amountReceived": 181.09,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=NL, sourceCountry=CA) -- rate 0.6076789946, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4888,9 +4888,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 176.47,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 181.92,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/netherlands/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -4898,9 +4898,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1865.58,
+      "amountReceived": 1861.18,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000) -- rate 0.62505, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=NL) -- rate 0.623577, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4908,9 +4908,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1824.84,
+      "amountReceived": 1821.83,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=NL, sourceCountry=CA) -- rate 0.6076789946, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -4918,9 +4918,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1780.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1819.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/netherlands/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -4928,9 +4928,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 170.97,
+      "amountReceived": 171.02,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200) -- rate 0.888415, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=PT) -- rate 0.888691, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4938,9 +4938,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 174.96,
+      "amountReceived": 174.34,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=PT, sourceCountry=US) -- rate 0.8760499504, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4948,9 +4948,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 165.16,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 171.52,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/portugal/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -4958,9 +4958,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1765.48,
+      "amountReceived": 1766.03,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000) -- rate 0.888415, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=PT) -- rate 0.888691, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4968,9 +4968,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1757.48,
+      "amountReceived": 1751.23,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=PT, sourceCountry=US) -- rate 0.8760499504, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -4978,9 +4978,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1689.59,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1715.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/portugal/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -4988,9 +4988,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 233.4,
+      "amountReceived": 233.93,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200) -- rate 1.17392, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=PT) -- rate 1.17661, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -4998,9 +4998,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 226.13,
+      "amountReceived": 229.87,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1420342742, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=PT, sourceCountry=GB) -- rate 1.1609042687, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -5008,9 +5008,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 221.07,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 226.7,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/portugal/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -5018,9 +5018,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2339.51,
+      "amountReceived": 2344.87,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000) -- rate 1.17392, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=PT) -- rate 1.17661, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -5028,9 +5028,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2300.3,
+      "amountReceived": 2319.5,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1518733473, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=PT, sourceCountry=GB) -- rate 1.1609042687, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -5038,9 +5038,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2240.87,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 2267,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/portugal/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -5048,9 +5048,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 183.83,
+      "amountReceived": 184.39,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300) -- rate 0.616338, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=PT) -- rate 0.618218, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5058,9 +5058,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 180.99,
+      "amountReceived": 181.69,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.6052930306, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=PT, sourceCountry=AU) -- rate 0.6076384182, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5068,9 +5068,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 172.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 183.51,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/portugal/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -5078,9 +5078,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1842.8,
+      "amountReceived": 1848.42,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000) -- rate 0.616338, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=PT) -- rate 0.618218, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5088,9 +5088,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1821.12,
+      "amountReceived": 1825.41,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.6074438167, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=PT, sourceCountry=AU) -- rate 0.6088740861, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5098,9 +5098,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1758.55,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1835.1,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/portugal/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -5108,9 +5108,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 185.51,
+      "amountReceived": 185.07,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300) -- rate 0.62505, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=PT) -- rate 0.623577, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5118,9 +5118,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 181.39,
+      "amountReceived": 181.47,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=PT, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5128,9 +5128,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 176.47,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 181.92,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/portugal/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -5138,9 +5138,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1865.58,
+      "amountReceived": 1861.18,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000) -- rate 0.62505, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=PT) -- rate 0.623577, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5148,9 +5148,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1824.84,
+      "amountReceived": 1825.57,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=PT, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5158,9 +5158,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1780.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1819.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/portugal/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -5168,9 +5168,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 170.97,
+      "amountReceived": 171.02,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200) -- rate 0.888415, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=AT) -- rate 0.888691, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -5178,9 +5178,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 174.96,
+      "amountReceived": 174.68,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=AT, sourceCountry=US) -- rate 0.8777506297, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -5188,9 +5188,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 165.16,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 171.52,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/austria/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -5198,9 +5198,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1765.48,
+      "amountReceived": 1766.03,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000) -- rate 0.888415, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=AT) -- rate 0.888691, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -5208,9 +5208,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1757.48,
+      "amountReceived": 1754.63,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=AT, sourceCountry=US) -- rate 0.8777506297, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -5218,9 +5218,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1689.59,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1715.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/austria/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -5228,9 +5228,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 233.4,
+      "amountReceived": 233.93,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200) -- rate 1.17392, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=AT) -- rate 1.17661, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -5238,9 +5238,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 226.13,
+      "amountReceived": 231.78,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1420342742, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=AT, sourceCountry=GB) -- rate 1.1589080063, fee 0 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -5248,9 +5248,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 221.07,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 226.7,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/austria/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -5258,9 +5258,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2339.51,
+      "amountReceived": 2344.87,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000) -- rate 1.17392, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=AT) -- rate 1.17661, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -5268,9 +5268,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2300.3,
+      "amountReceived": 2317.82,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1518733473, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=AT, sourceCountry=GB) -- rate 1.1589080063, fee 0 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -5278,9 +5278,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2240.87,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 2267,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/austria/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -5288,9 +5288,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 183.83,
+      "amountReceived": 184.39,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300) -- rate 0.616338, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=AT) -- rate 0.618218, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5298,9 +5298,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 180.99,
+      "amountReceived": 182.15,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.6052930306, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=AT, sourceCountry=AU) -- rate 0.6091830031, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5308,9 +5308,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 172.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 183.51,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/austria/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -5318,9 +5318,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1842.8,
+      "amountReceived": 1848.42,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000) -- rate 0.616338, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=AT) -- rate 0.618218, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5328,9 +5328,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1821.12,
+      "amountReceived": 1830.04,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.6074438167, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=AT, sourceCountry=AU) -- rate 0.6104186711, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5338,9 +5338,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1758.55,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1835.1,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/austria/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -5348,9 +5348,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 185.51,
+      "amountReceived": 185.07,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300) -- rate 0.62505, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=AT) -- rate 0.623577, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5358,9 +5358,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 181.39,
+      "amountReceived": 181.47,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=AT, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5368,9 +5368,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 176.47,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 181.92,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/austria/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -5378,9 +5378,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1865.58,
+      "amountReceived": 1861.18,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000) -- rate 0.62505, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=AT) -- rate 0.623577, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5388,9 +5388,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1824.84,
+      "amountReceived": 1825.57,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=AT, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5398,9 +5398,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1780.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1819.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/austria/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -5408,9 +5408,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 170.97,
+      "amountReceived": 171.02,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200) -- rate 0.888415, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=IE) -- rate 0.888691, fee 7.56 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -5418,9 +5418,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 174.96,
+      "amountReceived": 175.22,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, targetCountry=IE, sourceCountry=US) -- rate 0.8804517087, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -5428,9 +5428,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 165.16,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=200, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 171.52,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/ireland/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "US",
@@ -5438,9 +5438,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1765.48,
+      "amountReceived": 1766.03,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000) -- rate 0.888415, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=IE) -- rate 0.888691, fee 12.77 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -5448,9 +5448,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1757.48,
+      "amountReceived": 1771.23,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8791739116, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, targetCountry=IE, sourceCountry=US) -- rate 0.8860539466, fee 0.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "US",
@@ -5458,9 +5458,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 1689.59,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=USD, targetCurrency=EUR, sendAmount=2000, sourceCountry=US) -- rate 0.8469088592, fee 4.99 USD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1715.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/ireland/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 USD = 0.8576 EUR, USD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -5468,9 +5468,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 233.4,
+      "amountReceived": 233.93,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200) -- rate 1.17392, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=IE) -- rate 1.17661, fee 1.18 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -5478,9 +5478,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 226.13,
+      "amountReceived": 228.8,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1420342742, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, targetCountry=IE, sourceCountry=GB) -- rate 1.1555026114, fee 1.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -5488,9 +5488,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 200,
-      "amountReceived": 221.07,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=200, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 226.7,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/ireland/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "GB",
@@ -5498,9 +5498,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2339.51,
+      "amountReceived": 2344.87,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000) -- rate 1.17392, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=IE) -- rate 1.17661, fee 7.1 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -5508,9 +5508,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2300.3,
+      "amountReceived": 2307.55,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1518733473, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, targetCountry=IE, sourceCountry=GB) -- rate 1.1555026114, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "GB",
@@ -5518,9 +5518,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 2000,
-      "amountReceived": 2240.87,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=GBP, targetCurrency=EUR, sendAmount=2000, sourceCountry=GB) -- rate 1.1221137989, fee 2.99 GBP. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 2267,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/ireland/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 GBP = 1.1335 EUR, GBP0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -5528,9 +5528,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 183.83,
+      "amountReceived": 184.39,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300) -- rate 0.616338, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=IE) -- rate 0.618218, fee 1.74 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5538,9 +5538,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 180.99,
+      "amountReceived": 182.48,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.6052930306, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, targetCountry=IE, sourceCountry=AU) -- rate 0.6102950643, fee 0.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5548,9 +5548,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 172.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=300, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 183.51,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/ireland/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "AU",
@@ -5558,9 +5558,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1842.8,
+      "amountReceived": 1848.42,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000) -- rate 0.616338, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=IE) -- rate 0.618218, fee 10.08 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5568,9 +5568,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1821.12,
+      "amountReceived": 1835.6,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.6074438167, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, targetCountry=IE, sourceCountry=AU) -- rate 0.612272173, fee 1.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "AU",
@@ -5578,9 +5578,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1758.55,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=AUD, targetCurrency=EUR, sendAmount=3000, sourceCountry=AU) -- rate 0.5873561441, fee 5.99 AUD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1835.1,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/ireland/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 AUD = 0.6117 EUR, AUD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -5588,9 +5588,9 @@
       "provider": "Wise",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 185.51,
+      "amountReceived": 185.07,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300) -- rate 0.62505, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=IE) -- rate 0.623577, fee 3.21 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5598,9 +5598,9 @@
       "provider": "Western Union",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 181.39,
+      "amountReceived": 181.47,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, targetCountry=IE, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5608,9 +5608,9 @@
       "provider": "PayPal",
       "tier": "Everyday",
       "sendAmount": 300,
-      "amountReceived": 176.47,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=300, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 181.92,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/ireland/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     },
     {
       "sendCountry": "CA",
@@ -5618,9 +5618,9 @@
       "provider": "Wise",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1865.58,
+      "amountReceived": 1861.18,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000) -- rate 0.62505, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=IE) -- rate 0.623577, fee 15.31 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5628,9 +5628,9 @@
       "provider": "Western Union",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1824.84,
+      "amountReceived": 1825.57,
       "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.608683058, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, targetCountry=IE, sourceCountry=CA) -- rate 0.6089267229, fee 1.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
     },
     {
       "sendCountry": "CA",
@@ -5638,9 +5638,9 @@
       "provider": "PayPal",
       "tier": "Large",
       "sendAmount": 3000,
-      "amountReceived": 1780.69,
-      "dateChecked": "2026-10-02",
-      "source": "wise.com live comparison API (sourceCurrency=CAD, targetCurrency=EUR, sendAmount=3000, sourceCountry=CA) -- rate 0.5941559474, fee 2.99 CAD. Auto-refreshed by scripts/refresh-wise-rows.mjs."
+      "amountReceived": 1819.2,
+      "dateChecked": "2026-10-01",
+      "source": "xoom.com/ireland/send-money (PayPal's Xoom; currency switched via the page's own Sending-currency selector, no login) -- 'Best Xoom Rate' 1 CAD = 0.6064 EUR, CAD0.00 fee (bank deposit; confirmed via the page's own guest-app/remittance network request, same rate at both the EUR1,000 default and re-checked amounts). Confirmed via Wise's own live gateway (wise.com/gateway/v4/comparisons) that this same rate/fee is identical across all 8 Eurozone countries added in this pass (DE/FR/ES/IT/NL/PT/AT/IE) for this send currency -- this is a single flat Eurozone rate, not independently verified per country beyond that cross-check. Manually sourced (see docs/provider-data-sourcing.md, 2026-10-01) because this request is not safely callable outside a real browser session (a direct POST replay of the same request returns a generic 400 rejection) -- treat like the other Xoom-manual PayPal rows (US->IN, US->VN, EUR->IN): periodic manual re-check, not Lambda automation. amountReceived = sendAmount x rate (fee is 0)."
     }
   ]
 }

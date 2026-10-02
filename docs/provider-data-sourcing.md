@@ -1095,7 +1095,9 @@ source of future confusion), Germany's PayPal row is **also** sourced from Xoom 
 better rate anyway (Xoom: 1 USD = 0.8576 EUR, $0 fee; Wise's feed for the same corridor: 0.8436, $4.99
 fee). Because the Wise API *does* have an answer for `EUR->DE PayPal`, the refresh pipeline needed an
 explicit instruction not to use it: `scripts/lib/refresh-core.mjs` now has a `MANUAL_OVERRIDE` set
-(currently exactly one entry, `"EUR|DE|PayPal"`) that `computeRefresh` checks before fetching, skipping it
+(four entries, `"US|DE|PayPal"`, `"GB|DE|PayPal"`, `"AU|DE|PayPal"`, `"CA|DE|PayPal"` -- keys are
+`send|receive|provider`; the first version used `"EUR|DE|PayPal"`, which matched nothing, see the 2026-10-02
+incident below) that `computeRefresh` checks before fetching, skipping it
 exactly like "provider not in this response." Without this, the next unmodified refresh run would have
 silently reverted Germany's PayPal row back to Wise's worse quote. The other 7 countries need no such
 override -- Wise's API returns nothing for them, so the existing "row exists but provider absent from
@@ -1148,3 +1150,36 @@ provider-rate row count: 506.
 tier and no new Everyday-tier row is negative -- but it's a latent inconsistency between the homepage and
 the detailed corridor page that predates this pass and wasn't introduced by it. Worth a look if an
 Everyday-tier row ever lags the benchmark by a hair on a fresh same-day quote; out of scope here.
+
+## 2026-10-02 -- Incident: stale Lambda overwrote every Eurozone corridor; override key matched nothing
+
+**What happened.** The 2026-10-01 Eurozone expansion depended on two fixes to `scripts/lib/refresh-core.mjs`
+(pass `targetCountry`; the Germany-PayPal `MANUAL_OVERRIDE`). The fixes were committed and tested, but **the
+deployed Lambda was never redeployed** -- it was still the 2026-09-21 build. Its 2026-10-02 06:17 UTC run
+(commit `73e9907`, 330 rows, `blocked: 0`) fetched EUR quotes without a country, which silently means
+Germany, and wrote them into all 32 Eurozone-receive corridors:
+- 168 of 168 non-Germany Eurozone Wise/Western Union/PayPal rows became identical to Germany's values;
+- all 64 Eurozone PayPal rows lost their Xoom source and took Wise's (worse) PayPal quote.
+Neither guard fired: each individual change was under the 8% thresholds. Custom-amount quotes were partly right
+(the live-quote path was already fixed and deployed on Vercel) but PayPal was estimated from the corrupted
+stored rows. The 12 currency-pair and 14 older corridors were unaffected (one country per receive currency).
+
+**A second bug found while repairing.** The first `MANUAL_OVERRIDE` entry was `"EUR|DE|PayPal"`. Keys are
+`send|receive|provider` and no Eurozone-receive corridor has `EUR` as its send country, so the override matched
+nothing and would have kept overwriting Germany's PayPal. The tests never exercised a Eurozone-receive corridor.
+Found by a dry-run that proposed `US->DE PayPal 165.16 -> 165.2`. Fixed (four real keys) and covered by three new
+tests in `aws/test/handler.test.mjs`; confirmed each new test fails if the broken key is put back.
+
+**Repair (2026-10-02).** Lambda redeployed twice (first with the code fix, then with the corrected override; same
+six stack parameters, change set checked to modify only the function's `Code`). Eurozone PayPal rows restored
+verbatim from `4c613fc` (Xoom, **dated 2026-10-01** -- not re-sourced today, so they age on the normal manual
+cadence); Wise/Western Union for the 32 corridors re-fetched per country through the same shared code
+(`computeRefresh`, peer guard on, 0 blocked, 0 errors); a check confirmed nothing outside the Eurozone-receive
+corridors changed. Deployed-Lambda dry-run after: 266 proposed / 70 skipped, 0 Germany PayPal proposals.
+
+**Rules this adds.**
+- Any change to `scripts/lib/refresh-core.mjs` (or the handler) is **not live until the Lambda is redeployed**;
+  see "Redeploying after a code change" in `docs/aws-automation.md`.
+- A new override or guard needs a test that fails when it is broken, not only one that passes when it works.
+- After adding corridors whose receive currency is shared by several countries, dry-run the refresh and look at
+  the per-country values before the next scheduled run.

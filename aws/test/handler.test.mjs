@@ -310,3 +310,70 @@ test("the GitHub token never appears in any log line", async () => {
 test("missing config fails fast with a clear error", async () => {
   await assert.rejects(run({}, {}, { env: {}, fetchImpl: () => { throw new Error("no network expected"); } }), /Missing required environment variable/);
 });
+
+// ---------- regression tests for the 2026-10-02 Eurozone incident ----------
+// The deployed Lambda was stale and, separately, the first MANUAL_OVERRIDE key
+// ("EUR|DE|PayPal") matched no corridor. Both slipped through because nothing
+// here exercised a Eurozone-receive corridor.
+
+function eurozoneFixture() {
+  const sends = [["US", "United States", "USD"], ["GB", "United Kingdom", "GBP"], ["AU", "Australia", "AUD"], ["CA", "Canada", "CAD"]];
+  const corridors = sends.map(([c, n, cur]) => corridor(c, n, cur, "DE", "Germany", "EUR"));
+  const providerRates = [];
+  for (const [c] of sends) {
+    for (const tier of ["Everyday", "Large"]) {
+      const amt = tier === "Everyday" ? 200 : 2000;
+      for (const [provider, implied] of [["Wise", 0.88], ["PayPal", 0.84]]) {
+        providerRates.push({
+          sendCountry: c, receiveCountry: "DE", provider, tier, sendAmount: amt,
+          amountReceived: Math.round(implied * amt * 100) / 100, dateChecked: "2026-10-01",
+          source: provider === "PayPal" ? "xoom.com/germany/send-money (manual)" : "wise.com live comparison API (seed)",
+        });
+      }
+    }
+  }
+  return { corridors, providerRates };
+}
+
+test("MANUAL_OVERRIDE: Germany's PayPal is left alone from every send country, even though the API returns a PayPal quote", async () => {
+  const { computeRefresh } = await import("../.build/refresh-core.mjs");
+  const data = eurozoneFixture();
+  const fetchImpl = async (url) => {
+    const amt = Number(new URL(url).searchParams.get("sendAmount"));
+    return Response.json({ providers: [
+      { name: "Wise", quotes: [{ rate: 0.89, fee: 1, receivedAmount: Math.round(0.89 * amt * 100) / 100 }] },
+      { name: "PayPal", quotes: [{ rate: 0.8, fee: 5, receivedAmount: Math.round(0.8 * amt * 100) / 100 }] },
+    ] });
+  };
+  const out = await computeRefresh(data, { fetchImpl, today: "2026-10-02" });
+  assert.equal(out.changes.filter((c) => c.row.provider === "PayPal").length, 0, "no PayPal row may be refreshed");
+  assert.equal(out.changes.filter((c) => c.row.provider === "Wise").length, 8, "Wise rows still refresh normally");
+  const skipped = out.skippedNotFound.filter((s) => s.reason === "manual_override");
+  assert.equal(skipped.length, 8, "all 4 send countries x 2 tiers are skipped as manual_override");
+});
+
+test("override is scoped: PayPal in a non-Germany corridor still refreshes normally", async () => {
+  const { computeRefresh } = await import("../.build/refresh-core.mjs");
+  const data = makeData(); // US->IN and EUR->IN with PayPal rows
+  const fetchImpl = async (url) => {
+    const amt = Number(new URL(url).searchParams.get("sendAmount"));
+    return Response.json({ providers: [{ name: "PayPal", quotes: [{ rate: 94.9, fee: 1, receivedAmount: Math.round(94.9 * amt * 100) / 100 }] }] });
+  };
+  const out = await computeRefresh(data, { fetchImpl, today: "2026-10-02" });
+  assert.ok(out.changes.some((c) => c.row.provider === "PayPal" && c.row.receiveCountry === "IN"));
+});
+
+test("every Wise fetch passes targetCountry = the corridor's receive country (EUR otherwise silently means Germany)", async () => {
+  const { computeRefresh } = await import("../.build/refresh-core.mjs");
+  const data = eurozoneFixture();
+  data.corridors.push(corridor("US", "United States", "USD", "FR", "France", "EUR"));
+  for (const tier of ["Everyday", "Large"]) {
+    data.providerRates.push({ sendCountry: "US", receiveCountry: "FR", provider: "Wise", tier, sendAmount: tier === "Everyday" ? 200 : 2000, amountReceived: tier === "Everyday" ? 176 : 1760, dateChecked: "2026-10-01", source: "wise.com live comparison API (seed)" });
+  }
+  const urls = [];
+  const fetchImpl = async (url) => { urls.push(String(url)); return Response.json({ providers: [] }); };
+  await computeRefresh(data, { fetchImpl, today: "2026-10-02" });
+  assert.ok(urls.length >= 10, "fetched every corridor+tier");
+  assert.ok(urls.every((u) => new URL(u).searchParams.get("targetCountry")), "no fetch may omit targetCountry");
+  assert.ok(urls.some((u) => new URL(u).searchParams.get("targetCountry") === "FR"), "France is queried as FR, not defaulted to DE");
+});

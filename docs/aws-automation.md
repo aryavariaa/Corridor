@@ -98,12 +98,38 @@ To stop automation: `aws events disable-rule` on the schedule, set `EnableCommit
 
 ## Operating notes
 
-- **Local proof.** `npm run aws:test` (18 tests: guard boundaries, dry-run, no-force, 409 retry, integrity check, secret handling, partial failures) plus a replay of recorded real Wise responses against the production data file, which produced a file byte-identical to the CLI's.
+- **Local proof.** `npm run aws:test` (21 tests: guard boundaries, dry-run, no-force, 409 retry, integrity check, secret handling, partial failures) plus a replay of recorded real Wise responses against the production data file, which produced a file byte-identical to the CLI's.
 - **First automated commit** will also rewrite about 14 unchanged rows from `21842.0` to `21842` (JSON float normalization by `JSON.stringify`). Values are equal; only text differs.
 - **Branch protection.** If `main` requires pull requests or reviews, the PAT cannot push and the Lambda will fail with a 403/422 (alarm fires). Either exempt the token or leave protection off for this branch.
 - **Local clones** must `git pull --rebase` before their next push, since the bot now commits to `main`.
 - **Token expiry** will surface as an `errors` alarm (GitHub 401). Rotate with `aws secretsmanager put-secret-value`.
 - **Overlap.** Concurrency is not reserved (a fresh AWS account's limit makes that fail); the sha-based PUT is what prevents two runs clobbering each other.
+
+## Redeploying after a code change
+
+The Lambda runs the **deployed** copy of `scripts/lib/refresh-core.mjs` and `aws/refresh-lambda/handler.mjs`.
+Committing a change to either does nothing to the scheduled run until you redeploy (2026-10-02: a committed fix
+sat undeployed for a day while the old code overwrote data; see `docs/provider-data-sourcing.md`).
+
+1. `npm run aws:test` -- rebuilds `aws/.build` and runs the tests.
+2. Preview, do not execute. **Pass every current stack parameter**, or SAM falls back to template defaults
+   (e.g. `EnableCommits` would silently become `false`). Read them with
+   `aws cloudformation describe-stacks --stack-name corridor-rate-refresh --query 'Stacks[0].Parameters'`.
+   A value containing spaces must be wrapped in literal quotes or SAM splits it
+   (`ScheduleExpression` once became `"cron(17"`); check the `Parameter overrides` line in the output:
+
+       sam deploy --profile corridor --template-file aws/template.yaml --stack-name corridor-rate-refresh \
+         --s3-bucket corridor-rate-refresh-artifacts-<account>-us-west-2 --region us-west-2 --capabilities CAPABILITY_IAM \
+         --no-execute-changeset --no-confirm-changeset \
+         --parameter-overrides GitHubRepo=... GitHubBranch=main GitHubTokenSecretName=corridor/github-token \
+         EnableCommits=true 'ScheduleExpression="cron(17 6 * * ? *)"' AlertEmail=...
+
+3. `aws cloudformation describe-change-set` the result: the only **DirectModification** should be
+   `RefreshFunction` / `Code`. The rule's `Targets` and permission's `SourceArn` show as "Dynamic" only because
+   they reference the function's ARN; that is not a real change while the function isn't replaced.
+4. `aws cloudformation execute-change-set`, wait, then confirm the parameters are unchanged.
+5. Prove the deployed code: invoke with `{"dryRun":true}` and compare `proposed` / `providerNotInApiResponse`
+   to what the change should cause; run `node scripts/refresh-wise-rows.mjs` (same core) to see per-row detail.
 
 ## Verified 2026-09-21
 
