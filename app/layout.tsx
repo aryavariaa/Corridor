@@ -82,13 +82,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <SiteHeader />
         {children}
+        {/* Self-hosted Plausible CE (analytics.aryavaria.com), not plausible.io.
+            Cookieless, so no consent banner is needed. The queue stub below
+            lets lib/plausible.ts's custom events fire before the script has
+            finished loading -- the script drains window.plausible.q on load. */}
+        <Script id="plausible-queue" strategy="afterInteractive">
+          {`window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}`}
+        </Script>
         <Script
-          src="https://plausible.io/js/pa-PCtf4L39GKoollvleHIhH.js"
+          src="https://analytics.aryavaria.com/js/script.js"
+          data-domain="corridor-red.vercel.app"
           strategy="afterInteractive"
         />
-        <Script id="plausible-init" strategy="afterInteractive">
-          {`window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`}
-        </Script>
         <Analytics />
       </body>
     </html>
