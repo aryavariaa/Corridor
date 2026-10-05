@@ -1209,3 +1209,47 @@ verified, live and estimated rows alike).
   failing on non-200s and on deep links whose page title doesn't name the destination. Providers that bot-block
   plain HTTP (Revolut, Ria) or render client-side (Western Union) come back `UNCHECKED` and need a browser pass.
   Re-run it after adding a corridor or provider, and when a provider redesigns its site.
+
+## Hand-sourced PayPal sanity check (2026-10-05)
+
+**Why it exists.** Xoom's public guest calculator tags every quote `FIRST_TIME_RATE`, so a hand-entered PayPal row
+can be a first-time promotional quote without anyone noticing. The 2026-10-04 audit found two such suspects among
+the 35 hand-sourced PayPal corridors: **US->IN at 0.23%** below mid-market (dated 2026-09-01, source just
+`Paypal (Xoom)`) and **all eight AU->Eurozone corridors at 0.34%** (dated 2026-10-01). Every other row sits at
+1.2-3.2%, and Xoom's real-world cost is 1.2-4.9% (World Bank RPW, Q3 2025).
+
+**The rule.** For each hand-sourced PayPal row (provider PayPal, `source` not the Wise comparison API), compute
+
+    spread = 1 - (amountReceived / sendAmount) / mid-market(row.dateChecked)      # fees included
+
+using Frankfurter's mid for the row's own date, and **flag anything under 1%**. A spread that thin is almost
+certainly a promotional quote caught by accident, not a legitimate rate.
+
+**Required step.** After hand-entering or re-sourcing ANY PayPal row, run:
+
+    npm run check:paypal-spread
+
+It exits 0 when every row passes, 1 when a row is flagged, 2 when a row couldn't be checked (no mid available).
+Don't commit a flagged row unless you have re-sourced it from a standard-rate quote (logged-in or
+returning-customer) -- or, if the thin spread is real and you can show it, add an entry to
+`data/paypal-spread-allowlist.json` with `sendCountry`, `receiveCountry`, `dateChecked`, `verifiedOn` and `reason`.
+An entry only applies to that exact `dateChecked`: re-sourcing the row ends the exemption and needs a fresh one.
+The check is not part of the Lambda (the refresh job never touches these rows) and there is no CI in this repo, so
+it is a manual gate. Logic: `scripts/lib/spread-check.mjs`; offline tests: `npm run test:spread-check`.
+
+**What it does not prove.** It only catches quotes that are too good to be true. A row above 1% is not thereby
+verified as a standard rate. The mid is Frankfurter's daily reference rate, not Xoom's intraday rate, so expect
+~0.3% of noise either way (the 1% threshold leaves margin for that). Both rows and mid are daily snapshots.
+
+**Audit of the AU->Eurozone rows (2026-10-05).** The 16 rows (8 countries x 2 tiers) are one observation copied
+across the eight countries, not eight independent ones: a single `1 AUD = 0.6117 EUR`, AUD 0.00 fee, which the
+source note says was cross-checked as identical across the eight countries. That is **0.34%** below the 2026-10-01
+mid, and 0.50-0.52% against the 2026-09-30 and 2026-10-02 mids, so it fails the 1% test under any nearby date. The
+same page and the same "Best Xoom Rate" label give 2.34% for CAD, 2.84% for USD and 3.15% for GBP. One independent
+third-party data point (SendMoneyCompare, 2026-10-05, provenance unverified) has Xoom AUD->EUR at 0.6145 with a
+13.29 AUD fee on 1,000 AUD, about 1.9% all-in against that day's mid. Verdict: the AU rows are very likely a
+first-time quote with the fee waived, same as US->IN. They have NOT been changed; they need a standard-rate
+re-source. US->IN is also unchanged pending a real logged-in rate.
+
+**Current state:** `npm run check:paypal-spread` flags 9 corridors (US->IN and the 8 AU->Eurozone) and exits 1
+until they are re-sourced. That is the intended result, not a bug.
