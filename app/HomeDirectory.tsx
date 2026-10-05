@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { FRESHNESS_DOT_CLASS, type DirectoryEntry, type Freshness } from "@/lib/corridors";
+import type { DirectoryEntry } from "@/lib/corridors";
 import { CountryFlag } from "@/lib/flags";
 
 // Directory sections group by send currency, not geography -- a corridor
@@ -11,12 +11,6 @@ import { CountryFlag } from "@/lib/flags";
 // A currency with no corridors (e.g. none left after a filter) is simply
 // absent from `grouped` below, not rendered as an empty section.
 const SEND_CURRENCY_ORDER = ["USD", "GBP", "AUD", "EUR", "CAD"];
-
-const FRESHNESS_LABEL: Record<Freshness, string> = {
-  fresh: "Checked within a week",
-  aging: "Checked within a month",
-  stale: "Data over a month old",
-};
 
 function percent(fraction: number): string {
   return `${(fraction * 100).toFixed(1)}%`;
@@ -34,19 +28,6 @@ function directoryCellBorder(i: number): string {
   return `${top} ${right} border-card-border`.trim();
 }
 
-function FreshnessBadge({ freshness }: { freshness: DirectoryEntry["freshness"] }) {
-  if (!freshness) return null;
-  return (
-    <span className="inline-flex items-center gap-1.5 text-xs text-text-dim">
-      <span
-        aria-hidden="true"
-        className={`h-1.5 w-1.5 rounded-full ${FRESHNESS_DOT_CLASS[freshness.level]}`}
-      />
-      {FRESHNESS_LABEL[freshness.level]}
-    </span>
-  );
-}
-
 function CorridorCard({
   entry,
   className = "",
@@ -54,7 +35,7 @@ function CorridorCard({
   entry: DirectoryEntry;
   className?: string;
 }) {
-  const { corridor, freshness, teaser } = entry;
+  const { corridor, teaser } = entry;
   return (
     <Link
       href={`/compare/${corridor.sendCountry}/${corridor.receiveCountry}`}
@@ -90,7 +71,6 @@ function CorridorCard({
           <span className="text-text-faint">Live rate unavailable right now</span>
         )}
       </span>
-      <FreshnessBadge freshness={freshness} />
     </Link>
   );
 }
