@@ -95,8 +95,17 @@ export type RankedProvider = {
   // their URL accepts it, this amount), for the "Go to <provider>" link. A
   // plain outbound link, independent of `basis`/`dateChecked`: it says
   // nothing about how fresh the quote beside it is. null = no verified URL.
-  // Set by withTransferUrls() after ranking, not by rankRows().
+  // Set by withRowMetadata() after ranking, not by rankRows().
   transferUrl?: string | null;
+  // True only when this corridor's stored row for the provider is rewritten
+  // daily by the refresh job (its `source` is the Wise comparison API), so a
+  // check date adds nothing and the UI drops it. False for every hand-sourced
+  // row -- all of PayPal's Xoom/"Paypal" rows, and every provider the API
+  // doesn't cover -- where the date is the only visible staleness signal and
+  // must stay. Defaults to "show the date" if unset. Set by
+  // withRowMetadata(), from the stored row, not the ranked row (whose
+  // `source` is rewritten on custom amounts).
+  autoRefreshed?: boolean;
 };
 
 export type RowBasis = "verified" | "live" | "estimated";
@@ -318,15 +327,16 @@ export async function getRankedProviders(
       source: benchmarkSource,
       wiseConfigured: usesWiseBenchmark(corridor.receiveCurrency),
     },
-    providers: withTransferUrls(providers, corridor),
+    providers: withRowMetadata(providers, corridor),
   };
 }
 
-// Attaches each provider's outbound transfer link. The PayPal-via-Xoom check
+// Attaches each provider's outbound transfer link and whether its stored row
+// is auto-refreshed. The PayPal-via-Xoom check
 // reads the corridor's stored data row, not the ranked row's `source`: on a
 // custom amount that string is rewritten ("Estimated, not checked...", "wise.com
 // live comparison API...") and no longer says where the data came from.
-function withTransferUrls(providers: RankedProvider[], corridor: Corridor): RankedProvider[] {
+function withRowMetadata(providers: RankedProvider[], corridor: Corridor): RankedProvider[] {
   return providers.map((p) => {
     const row = providerRates.find(
       (r) =>
@@ -344,11 +354,15 @@ function withTransferUrls(providers: RankedProvider[], corridor: Corridor): Rank
         amount: p.sendAmount,
         source: row?.source,
       }),
+      autoRefreshed: Boolean(row?.source.startsWith(WISE_LIVE_SOURCE_PREFIX)),
     };
   });
 }
 
-type UnscoredRow = Omit<RankedProvider, "costPercent" | "rank" | "benchmarkReference" | "transferUrl">;
+type UnscoredRow = Omit<
+  RankedProvider,
+  "costPercent" | "rank" | "benchmarkReference" | "transferUrl" | "autoRefreshed"
+>;
 
 // The one place rows get scored, ranked, and checked for anomalies -- used
 // by both the preset tiers and custom amounts so the two can never rank
@@ -575,7 +589,7 @@ export async function getCustomAmountRanking(
       source: benchmarkSource,
       wiseConfigured: usesWiseBenchmark(corridor.receiveCurrency),
     },
-    providers: withTransferUrls(providers, corridor),
+    providers: withRowMetadata(providers, corridor),
   };
 }
 

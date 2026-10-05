@@ -140,17 +140,53 @@ function RowBasisBadge({
   return <RowFreshnessBadge dateChecked={provider.dateChecked} tone={tone} />;
 }
 
-// Outbound link to the provider's own transfer page. Deliberately plain text
-// with a small "opens elsewhere" arrow, not a button: Corridor doesn't handle
-// the transfer, so this must never read as the primary action of the row.
-// "Go to" (not "Send with") and no wording about the quote keep it from
-// implying the page is live or that Corridor is processing anything.
-function ProviderLink({
+// What sits under a provider's name / beside the hero button: the basis badge
+// ("Live quote" / "Estimated"), plus the check date ONLY for rows that are not
+// rewritten daily by the refresh job (RankedProvider.autoRefreshed). For
+// those -- all hand-sourced PayPal (Xoom) rows, and any provider the Wise API
+// doesn't cover -- the date is the only visible sign of how old the number
+// is, so it stays. For API-refreshed rows it carries no information and is
+// dropped; a verified, auto-refreshed row therefore shows nothing here.
+function RowStatus({
   provider,
   tone = "default",
 }: {
   provider: RankedProvider;
   tone?: "default" | "onAccent";
+}) {
+  const showDate = !provider.autoRefreshed;
+  if (provider.basis === "verified") {
+    return showDate ? <RowFreshnessBadge dateChecked={provider.dateChecked} tone={tone} /> : null;
+  }
+  return (
+    <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
+      <RowBasisBadge provider={provider} tone={tone} />
+      {showDate && (
+        <span className="inline-flex items-center gap-1 text-xs">
+          <span className="sr-only">Checked</span>
+          <RowFreshnessBadge dateChecked={provider.dateChecked} tone={tone} />
+        </span>
+      )}
+    </span>
+  );
+}
+
+// Outbound button to the provider's own transfer page. Outlined, small and
+// in the link colour -- a real button, but a secondary one: Corridor doesn't
+// handle the transfer, so it must never read as the primary action of the
+// row. "Go to" (not "Send with") and no wording about the quote keep it from
+// implying the page is live or that Corridor is processing anything.
+function ProviderButton({
+  provider,
+  tone = "default",
+  compact = false,
+}: {
+  provider: RankedProvider;
+  tone?: "default" | "onAccent";
+  // Table rows: below the sm breakpoint the label shortens to "Visit" so the
+  // Site column fits a phone without horizontal scrolling. The accessible
+  // name always carries the provider's name.
+  compact?: boolean;
 }) {
   if (!provider.transferUrl) return null;
   return (
@@ -158,11 +194,21 @@ function ProviderLink({
       href={provider.transferUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex items-center gap-1 whitespace-nowrap text-xs font-medium underline-offset-2 hover:underline focus-visible:underline ${
-        tone === "onAccent" ? "text-accent-contrast" : "text-link"
+      className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border px-2.5 py-1.5 text-xs sm:px-3 font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current ${
+        tone === "onAccent"
+          ? "border-accent-contrast/50 text-accent-contrast hover:bg-accent-contrast/10"
+          : "border-link/50 text-link hover:bg-link/10"
       }`}
     >
-      Go to {provider.provider}
+      {compact ? (
+        <>
+          <span aria-hidden="true" className="sm:hidden">Visit</span>
+          <span aria-hidden="true" className="hidden sm:inline">Go to {provider.provider}</span>
+          <span className="sr-only">Go to {provider.provider}</span>
+        </>
+      ) : (
+        <>Go to {provider.provider}</>
+      )}
       <svg
         aria-hidden="true"
         viewBox="0 0 12 12"
@@ -623,9 +669,9 @@ export default function CorridorComparison({
                   <div className="mt-1 text-xs text-accent-tint">cost vs. mid-market</div>
                 </div>
               </div>
-              <div className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-xs text-accent-tint">
-                <RowBasisBadge provider={heroProvider} tone="onAccent" />
-                <ProviderLink provider={heroProvider} tone="onAccent" />
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-xs text-accent-tint">
+                <RowStatus provider={heroProvider} tone="onAccent" />
+                <ProviderButton provider={heroProvider} tone="onAccent" />
               </div>
               {result.custom && (
                 <p
@@ -689,25 +735,27 @@ export default function CorridorComparison({
                   approach; this pass deliberately moves away from it). */}
               <div className="mt-2 overflow-x-auto rounded-lg border border-card-border bg-card">
                 <table className="w-full text-sm">
-                  <thead className="bg-card-border/40 text-left text-xs font-bold uppercase tracking-widest text-text-dim">
+                  <thead className="bg-card-border/40 text-left text-xs font-bold uppercase tracking-wider text-text-dim sm:tracking-widest">
                     <tr>
-                      <th className="px-4 py-2 font-bold">Rank</th>
-                      <th className="px-4 py-2 font-bold">Provider</th>
-                      <th className="px-4 py-2 font-bold text-right">
-                        Amount received ({corridor.receiveCurrency})
+                      <th className="px-1.5 py-2 sm:px-4 font-bold">
+                        <span aria-hidden="true" className="sm:hidden">#</span>
+                        <span className="sr-only sm:not-sr-only">Rank</span>
                       </th>
-                      <th className="px-4 py-2 font-bold text-right">
+                      <th className="px-1.5 py-2 sm:px-4 font-bold">Provider</th>
+                      <th className="px-1.5 py-2 sm:px-4 font-bold text-right">
+                        Amount <span className="hidden sm:inline">received </span>(
+                        {corridor.receiveCurrency})
+                      </th>
+                      <th className="px-1.5 py-2 sm:px-4 font-bold text-right">
                         Cost %
                       </th>
-                      <th className="px-4 py-2 font-bold text-right">
-                        {result.custom ? "Basis" : "Updated"}
-                      </th>
+                      <th className="px-1.5 py-2 sm:px-4 font-bold text-right">Site</th>
                     </tr>
                   </thead>
                   <tbody className="text-text-dim">
                     {restSorted.map((p) => (
                       <tr key={p.provider} className="border-t border-card-border">
-                        <td className="px-4 py-2 tabular-nums">
+                        <td className="px-1.5 py-2 sm:px-4 tabular-nums">
                           {p.benchmarkReference ? (
                             <span
                               title="Wise's mid-market rate is this corridor's benchmark, so Wise is shown as the reference rather than ranked."
@@ -719,23 +767,21 @@ export default function CorridorComparison({
                             p.rank
                           )}
                         </td>
-                        <td className="px-4 py-2 font-heading font-medium text-text">
+                        <td className="px-1.5 py-2 sm:px-4 font-heading font-medium text-text">
                           {p.provider}
                           {p.benchmarkReference && (
                             <span className="ml-2 text-xs font-normal text-text-dim">
                               Benchmark reference &middot; not ranked
                             </span>
                           )}
-                          {p.transferUrl && (
-                            <div className="mt-0.5 font-sans">
-                              <ProviderLink provider={p} />
-                            </div>
-                          )}
+                          <div className="mt-0.5 font-sans text-xs font-normal text-text-dim empty:hidden">
+                            <RowStatus provider={p} />
+                          </div>
                         </td>
-                        <td className="px-4 py-2 text-right tabular-nums">
+                        <td className="px-1.5 py-2 sm:px-4 text-right tabular-nums">
                           {money(corridor.receiveCurrency, p.amountReceived)}
                         </td>
-                        <td className="px-4 py-2 text-right tabular-nums font-medium text-cost">
+                        <td className="px-1.5 py-2 sm:px-4 text-right tabular-nums font-medium text-cost">
                           {p.benchmarkReference ? (
                             <span
                               title="Cost is measured against this provider's own mid-market rate, so it isn't comparable."
@@ -747,10 +793,8 @@ export default function CorridorComparison({
                             percent(p.costPercent)
                           )}
                         </td>
-                        <td className="px-4 py-2 text-right text-xs">
-                          <span className="inline-flex justify-end">
-                            <RowBasisBadge provider={p} />
-                          </span>
+                        <td className="px-1.5 py-2 sm:px-4 text-right">
+                          <ProviderButton provider={p} compact />
                         </td>
                       </tr>
                     ))}
@@ -762,7 +806,7 @@ export default function CorridorComparison({
 
           {heroProvider && (
             <p className="mt-2 text-xs text-text-dim">
-              &ldquo;Go to&rdquo; links open the provider&rsquo;s own site in a
+              &ldquo;Go to&rdquo; buttons open the provider&rsquo;s own site in a
               new tab. Corridor doesn&rsquo;t process transfers, and the rate
               and fees you&rsquo;re offered there may differ from the quote
               shown here.
