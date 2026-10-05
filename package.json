@@ -9,7 +9,8 @@
     "lint": "eslint",
     "refresh:wise": "node scripts/refresh-wise-rows.mjs",
     "aws:build": "sh aws/build.sh",
-    "aws:test": "sh aws/build.sh && node --test aws/test/handler.test.mjs"
+    "aws:test": "sh aws/build.sh && node --test aws/test/handler.test.mjs",
+    "test:rate-history": "node --test lib/rate-history.test.mjs"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.45.8",

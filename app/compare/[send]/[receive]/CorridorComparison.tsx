@@ -22,6 +22,7 @@ import {
 import { trackAiInsightShown, trackAnomalyExplanationShown } from "@/lib/plausible";
 import { money, percent, rate } from "@/lib/format";
 import { CountryFlag } from "@/lib/flags";
+import RateTrendChart from "./RateTrendChart";
 
 // Omits the parenthetical when the name and currency are already the same
 // string -- true for Eurozone corridors, where sendCountryName is "EUR"
@@ -812,6 +813,12 @@ export default function CorridorComparison({
               shown here.
             </p>
           )}
+
+          <RateTrendChart
+            key={`${corridor.sendCurrency}-${corridor.receiveCurrency}`}
+            sendCurrency={corridor.sendCurrency}
+            receiveCurrency={corridor.receiveCurrency}
+          />
 
           <div className="mt-6 rounded-lg border border-card-border bg-card p-5">
             <h3 className="text-sm font-semibold">
