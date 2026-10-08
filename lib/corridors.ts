@@ -246,6 +246,23 @@ const providerRates = providerData.providerRates as ProviderRate[];
 
 export { corridorId } from "@/lib/corridor-id";
 
+// The enabled providers that have data for a corridor, in a stable order. The
+// head-to-head pages are generated from this, so a pair only exists where both
+// providers genuinely have a row.
+export function getCorridorProviders(sendCountry: string, receiveCountry: string): string[] {
+  const names = new Set<string>();
+  for (const r of providerRates) {
+    if (
+      r.sendCountry === sendCountry &&
+      r.receiveCountry === receiveCountry &&
+      ENABLED_PROVIDERS.has(r.provider)
+    ) {
+      names.add(r.provider);
+    }
+  }
+  return [...names].sort();
+}
+
 export function listCorridors(): Corridor[] {
   return corridors;
 }

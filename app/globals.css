@@ -95,44 +95,47 @@ body {
     var(--mint);
 }
 
-/* Buttons. Primary = lime fill with forest text, the one loud element on a
-   screen. Secondary = outlined, quiet. Both are real buttons/links with a
-   visible focus ring. */
-.btn-primary,
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  border-radius: 9999px;
-  font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-  transition:
-    background-color 0.15s ease,
-    box-shadow 0.15s ease,
-    transform 0.05s ease;
+@layer components {
+  /* Buttons. Primary = lime fill with forest text, the one loud element on a
+     screen. Secondary = outlined, quiet. Both are real buttons/links with a
+     visible focus ring. */
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    transition:
+      background-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.05s ease;
+  }
+  .btn-primary {
+    background: var(--lime);
+    color: var(--forest);
+    padding: 0.75rem 1.25rem;
+  }
+  .btn-primary:hover {
+    background: var(--lime-hover);
+  }
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--forest);
+    border: 1.5px solid var(--forest);
+    padding: 0.6rem 1.1rem;
+  }
+  .btn-secondary:hover {
+    background: var(--mint);
+  }
 }
-.btn-primary {
-  background: var(--lime);
-  color: var(--forest);
-  padding: 0.75rem 1.25rem;
-}
-.btn-primary:hover {
-  background: var(--lime-hover);
-}
-.btn-primary:active {
-  transform: scale(0.98);
-}
-.btn-secondary {
-  background: transparent;
-  color: var(--forest);
-  border: 1.5px solid var(--forest);
-  padding: 0.6rem 1.1rem;
-}
-.btn-secondary:hover {
-  background: var(--mint);
-}
+
 .btn-primary:focus-visible,
 .btn-secondary:focus-visible,
 a:focus-visible,

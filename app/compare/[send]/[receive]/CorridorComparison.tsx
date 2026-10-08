@@ -279,6 +279,10 @@ function Comparison({
           </ul>
         )}
 
+        {!loading && ranked.length >= 2 && (
+          <p className="mt-3 text-sm text-text-dim">Tick two providers to compare them head to head.</p>
+        )}
+
         <p className="mt-4 text-xs text-text-dim">
           Send buttons open the provider&rsquo;s own site in a new tab. Corridor doesn&rsquo;t process transfers, and
           the rate and fees you&rsquo;re offered there may differ from what&rsquo;s shown here.{" "}

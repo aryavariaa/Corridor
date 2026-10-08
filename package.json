@@ -15,7 +15,8 @@
     "test:spread-check": "node --test scripts/lib/spread-check.test.mjs",
     "test:row-breakdown": "node --test lib/row-breakdown.test.mjs",
     "test:amount": "node --test lib/amount.test.mjs",
-    "test:provider-slug": "node --test lib/provider-slug.test.mjs"
+    "test:provider-slug": "node --test lib/provider-slug.test.mjs",
+    "test:versus": "node --test lib/versus.test.mjs"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.45.8",
