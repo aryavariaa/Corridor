@@ -12,7 +12,8 @@
     "aws:test": "sh aws/build.sh && node --test aws/test/handler.test.mjs",
     "test:rate-history": "node --test lib/rate-history.test.mjs",
     "check:paypal-spread": "node scripts/check-paypal-spread.mjs",
-    "test:spread-check": "node --test scripts/lib/spread-check.test.mjs"
+    "test:spread-check": "node --test scripts/lib/spread-check.test.mjs",
+    "test:row-breakdown": "node --test lib/row-breakdown.test.mjs"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.45.8",

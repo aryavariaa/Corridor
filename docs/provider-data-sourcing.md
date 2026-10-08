@@ -1253,3 +1253,25 @@ re-source. US->IN is also unchanged pending a real logged-in rate.
 
 **Current state:** `npm run check:paypal-spread` flags 9 corridors (US->IN and the 8 AU->Eurozone) and exits 1
 until they are re-sourced. That is the intended result, not a bug.
+
+## Fee, rate and delivery fields on rows (2026-10-07)
+
+Rows may carry four optional fields describing the same quote as `amountReceived`: `rate` (the provider's
+exchange rate, receive per 1 send), `fee` (in the send currency), and `deliveryMinMinutes` / `deliveryMaxMinutes`
+(the window the provider states). They feed the "recipient gets / fee / rate / delivery" rows on the corridor
+page. Rules:
+
+- **API-backed rows** get them from the Wise comparison API on every refresh (`quoteBreakdown` in
+  `scripts/lib/refresh-core.mjs`). The keys are always written, undefined when the API doesn't give them, so a field
+  the API stops providing is *removed*, never left stale beside a fresh amount. The API gives fee and rate for all
+  three providers, but a delivery time **only for Wise**; Western Union and PayPal have none, so none is stored.
+- **Hand-sourced PayPal (Xoom) rows** carry `rate`/`fee` only where the row's source note states them explicitly
+  (`1 AUD = 0.6117 EUR`, `AUD0.00 fee`) and they reproduce `amountReceived`. US->IN's legacy `Paypal (Xoom)` row
+  states neither, so it has neither. Nothing is estimated.
+- **Display guard.** `consistentBreakdown` (`lib/row-breakdown.ts`) shows fee and rate only when
+  `(sendAmount - fee) * rate` is within 1% of `amountReceived`; otherwise the UI says "see provider" instead of
+  showing a number that contradicts the amount beside it. Estimated rows never show them.
+- **The Lambda must be redeployed** for the daily run to keep these fields current (the handler's integrity check
+  now allows them; see "Redeploying after a code change" in `docs/aws-automation.md`). Until it is, a daily run on
+  the old code refreshes amounts but leaves the fields as they were; the display guard then hides any whose
+  amount has drifted by more than 1%.

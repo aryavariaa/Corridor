@@ -7,6 +7,7 @@ import {
 } from "@/lib/fx";
 import { fetchLiveQuotes, LIVE_PROVIDERS } from "@/lib/wise-live";
 import { providerTransferUrl } from "@/lib/provider-links";
+import { consistentBreakdown } from "@/lib/row-breakdown";
 
 export type Tier = "Everyday" | "Large";
 
@@ -70,6 +71,15 @@ export type ProviderRate = {
   amountReceived: number;
   dateChecked: string;
   source: string;
+  // Optional detail from the same quote as amountReceived: the provider's
+  // exchange rate (receive per 1 send), its fee in the send currency, and the
+  // delivery window it states, in minutes. Written by the refresh job for the
+  // API-backed rows; absent where the source doesn't give it. Never shown
+  // unless consistentBreakdown() confirms it reproduces amountReceived.
+  rate?: number;
+  fee?: number;
+  deliveryMinMinutes?: number;
+  deliveryMaxMinutes?: number;
 };
 
 export type RankedProvider = {
@@ -106,6 +116,12 @@ export type RankedProvider = {
   // withRowMetadata(), from the stored row, not the ranked row (whose
   // `source` is rewritten on custom amounts).
   autoRefreshed?: boolean;
+  // See ProviderRate. Undefined = not known for this row (e.g. an estimate, or
+  // a hand-sourced rate); the UI says "see provider" rather than guessing.
+  rate?: number;
+  fee?: number;
+  deliveryMinMinutes?: number;
+  deliveryMaxMinutes?: number;
 };
 
 export type RowBasis = "verified" | "live" | "estimated";
@@ -309,6 +325,7 @@ export async function getRankedProviders(
       basis: "verified" as const,
       dateChecked: r.dateChecked,
       source: r.source,
+      ...consistentBreakdown(r),
     })),
     live
   );
@@ -516,13 +533,14 @@ export async function getCustomAmountRanking(
       liveCapableProviders.push(provider);
     }
 
-    const liveAmount = isLiveProvider ? liveQuotes?.get(provider) : undefined;
-    if (liveAmount !== undefined) {
+    const liveQuote = isLiveProvider ? liveQuotes?.get(provider) : undefined;
+    if (liveQuote !== undefined) {
       liveGot++;
       rows.push({
         provider,
         sendAmount: amount,
-        amountReceived: liveAmount,
+        amountReceived: liveQuote.receivedAmount,
+        ...consistentBreakdown({ sendAmount: amount, amountReceived: liveQuote.receivedAmount, ...liveQuote }),
         basis: "live",
         dateChecked: today,
         source: `wise.com live comparison API, queried at ${amount} ${corridor.sendCurrency} -> ${corridor.receiveCurrency} just now.`,

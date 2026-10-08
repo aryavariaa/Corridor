@@ -14,7 +14,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { run, partitionChanges, verifyIntegrity, MAX_CHANGE_FROM_CURRENT } from "../.build/handler.mjs";
-import { serializeData } from "../.build/refresh-core.mjs";
+import { serializeData, parseIsoDurationMinutes, quoteBreakdown } from "../.build/refresh-core.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const TOKEN = "ghp_TEST_TOKEN_MUST_NEVER_APPEAR_IN_LOGS";
@@ -60,7 +60,7 @@ function makeData() {
 // Fake Wise: returns Wise + Western Union always, PayPal never (it is often
 // absent from the real API too). `drift` nudges every implied rate;
 // `override(pair, provider, amount)` can return a custom receivedAmount.
-function makeWise({ drift = 1.003, override = () => undefined, status = 200 } = {}) {
+function makeWise({ drift = 1.003, override = () => undefined, status = 200, delivery = false, omitBreakdown = false } = {}) {
   return (url) => {
     const u = new URL(url);
     const src = u.searchParams.get("sourceCurrency");
@@ -70,7 +70,16 @@ function makeWise({ drift = 1.003, override = () => undefined, status = 200 } = 
     const mk = (name, sourceCountry) => {
       const o = override(key, name, amt);
       const base = BASE_IMPLIED[key][name] * drift;
-      return { sourceCountry, rate: base, fee: 1.99, receivedAmount: o === undefined ? Math.round(base * amt * 100) / 100 : o };
+      const received = o === undefined ? Math.round(base * amt * 100) / 100 : o;
+      if (omitBreakdown) return { sourceCountry, receivedAmount: received };
+      const q = { sourceCountry, rate: base, fee: 1.99, receivedAmount: received };
+      // Like the real API: only Wise states a delivery time; Western Union's is null.
+      if (delivery) {
+        q.deliveryEstimation = name === "Wise"
+          ? { duration: { min: "PT11H9M3.81S", max: "P1D" }, durationType: "CALENDAR", providerGivesEstimate: true }
+          : { duration: null, durationType: null, providerGivesEstimate: true };
+      }
+      return q;
     };
     const wu = src === "EUR"
       ? [{ ...mk("Western Union", "IT"), receivedAmount: 1 }, mk("Western Union", "ES")] // core must pick ES
@@ -377,3 +386,66 @@ test("every Wise fetch passes targetCountry = the corridor's receive country (EU
   assert.ok(urls.every((u) => new URL(u).searchParams.get("targetCountry")), "no fetch may omit targetCountry");
   assert.ok(urls.some((u) => new URL(u).searchParams.get("targetCountry") === "FR"), "France is queried as FR, not defaulted to DE");
 });
+
+
+// ---------- fee / rate / delivery fields (2026-10-07) ----------
+
+test("a refresh writes the quote's fee and rate beside the amount, and Wise's delivery window", async () => {
+  const gh = makeGithub(makeData());
+  await run({}, {}, makeDeps({ github: gh, wise: makeWise({ delivery: true }) }));
+  const after = JSON.parse(gh.state.text);
+  const find = (provider, send = "US") =>
+    after.providerRates.find((r) => r.provider === provider && r.sendCountry === send && r.tier === "Everyday");
+
+  const wise = find("Wise");
+  assert.equal(wise.fee, 1.99);
+  assert.equal(wise.rate, 95.0 * 1.003);
+  assert.equal(wise.deliveryMinMinutes, 669);
+  assert.equal(wise.deliveryMaxMinutes, 1440);
+
+  const wu = find("Western Union");
+  assert.equal(wu.fee, 1.99);
+  assert.ok(wu.rate > 0);
+  assert.ok(!("deliveryMinMinutes" in wu) && !("deliveryMaxMinutes" in wu), "no delivery estimate from the API => no field, not a made-up one");
+});
+
+test("a field the API stops providing is removed, not left stale beside today's amount", async () => {
+  const data = makeData();
+  for (const r of data.providerRates.filter((x) => x.provider === "Wise")) {
+    Object.assign(r, { fee: 9.99, rate: 1, deliveryMinMinutes: 5, deliveryMaxMinutes: 10 });
+  }
+  const gh = makeGithub(data);
+  await run({}, {}, makeDeps({ github: gh, wise: makeWise({ omitBreakdown: true }) }));
+  const after = JSON.parse(gh.state.text);
+  for (const r of after.providerRates.filter((x) => x.provider === "Wise")) {
+    for (const k of ["fee", "rate", "deliveryMinMinutes", "deliveryMaxMinutes"]) {
+      assert.ok(!(k in r), `${rowLabelForTest(r)} still carries stale ${k}`);
+    }
+    assert.equal(r.dateChecked, TODAY, "the amount itself did refresh");
+  }
+});
+
+test("the integrity check allows the breakdown fields to move, and still refuses any other field", () => {
+  const before = makeData();
+  const after = JSON.parse(JSON.stringify(before));
+  Object.assign(after.providerRates[0], { fee: 1.99, rate: 95, deliveryMinMinutes: 1, deliveryMaxMinutes: 2 });
+  assert.doesNotThrow(() => verifyIntegrity(before, after));
+  after.providerRates[1].provider = "Somebody Else";
+  assert.throws(() => verifyIntegrity(before, after), /immutable field "provider"/);
+});
+
+test("parseIsoDurationMinutes reads Wise's ISO-8601 durations and refuses anything else", () => {
+  assert.equal(parseIsoDurationMinutes("PT11H9M3.810098236S"), 669);
+  assert.equal(parseIsoDurationMinutes("PT30M"), 30);
+  assert.equal(parseIsoDurationMinutes("P1D"), 1440);
+  assert.equal(parseIsoDurationMinutes("P1DT2H"), 1560);
+  for (const bad of ["bad", "", "PT", "P", null, undefined, 42]) assert.equal(parseIsoDurationMinutes(bad), null);
+});
+
+test("quoteBreakdown rejects nonsense numbers instead of storing them", () => {
+  assert.deepEqual(quoteBreakdown({ fee: -1, rate: 0 }), { fee: undefined, rate: undefined, deliveryMinMinutes: undefined, deliveryMaxMinutes: undefined });
+  assert.equal(quoteBreakdown({ fee: 0, rate: 96 }).fee, 0, "a genuine zero fee is kept");
+  assert.equal(quoteBreakdown({ fee: "9", rate: "96" }).rate, undefined, "strings are not numbers");
+});
+
+function rowLabelForTest(r) { return `${r.sendCountry}->${r.receiveCountry} ${r.provider} ${r.tier}`; }

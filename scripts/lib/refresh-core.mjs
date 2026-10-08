@@ -65,6 +65,34 @@ export const MANUAL_OVERRIDE = new Set([
 // unattended runs.
 export const OUTLIER_BEAT_THRESHOLD = 1.08;
 
+// ISO-8601 duration ("PT11H9M3.81S", "P1DT2H") -> whole minutes, or null when it
+// can't be read. Wise's comparison API reports delivery estimates this way.
+export function parseIsoDurationMinutes(iso) {
+  if (typeof iso !== "string") return null;
+  const m = iso.match(/^P(?:(\d+(?:\.\d+)?)D)?(?:T(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?)?$/);
+  if (!m || m.slice(1).every((x) => x === undefined)) return null;
+  const [d, h, mi, sec] = m.slice(1).map((x) => (x === undefined ? 0 : Number(x)));
+  return Math.round(d * 1440 + h * 60 + mi + sec / 60);
+}
+
+// What a quote tells us beyond the received amount, as row fields. Each key is
+// always present (undefined when the API didn't give it) so that applying it
+// over an existing row OVERWRITES a stale value instead of leaving last
+// week's fee beside today's amount; serializeData drops undefined keys.
+export function quoteBreakdown(quote) {
+  const fee = typeof quote.fee === "number" && Number.isFinite(quote.fee) && quote.fee >= 0 ? quote.fee : undefined;
+  const rate = typeof quote.rate === "number" && Number.isFinite(quote.rate) && quote.rate > 0 ? quote.rate : undefined;
+  const dur = quote.deliveryEstimation?.duration;
+  const min = parseIsoDurationMinutes(dur?.min);
+  const max = parseIsoDurationMinutes(dur?.max);
+  return {
+    fee,
+    rate,
+    deliveryMinMinutes: min ?? undefined,
+    deliveryMaxMinutes: max ?? undefined,
+  };
+}
+
 export function impliedRate(row) {
   return row.amountReceived / row.sendAmount;
 }
@@ -218,6 +246,7 @@ export async function computeRefresh(
             sendAmount: amount,
             amountReceived: newAmountReceived,
             dateChecked: today,
+            ...quoteBreakdown(quote),
             source:
               `wise.com live comparison API (sourceCurrency=${corridor.sendCurrency}, ` +
               `targetCurrency=${corridor.receiveCurrency}, sendAmount=${amount}, ` +

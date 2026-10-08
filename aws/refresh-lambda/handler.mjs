@@ -35,7 +35,18 @@ import { computeRefresh, applyChanges, serializeData } from "./refresh-core.mjs"
 export const MAX_CHANGE_FROM_CURRENT = 0.08;
 
 // The only fields a refresh is allowed to modify on an existing row.
-const MUTABLE_ROW_FIELDS = new Set(["sendAmount", "amountReceived", "dateChecked", "source"]);
+// rate/fee/deliveryMinMinutes/deliveryMaxMinutes describe the same quote the
+// amount came from (see quoteBreakdown in refresh-core.mjs), so they move with it.
+const MUTABLE_ROW_FIELDS = new Set([
+  "sendAmount",
+  "amountReceived",
+  "dateChecked",
+  "source",
+  "rate",
+  "fee",
+  "deliveryMinMinutes",
+  "deliveryMaxMinutes",
+]);
 
 const COMMITTER = {
   name: "corridor-rate-refresh",
