@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AMOUNT_MAX, AMOUNT_MIN } from "@/lib/amount";
 
 export const metadata = {
   title: "How Corridor works",
@@ -100,14 +101,18 @@ export default function MethodologyPage() {
 
         <Section id="estimates" title="How your amount is priced">
           <p>
-            You can enter any amount from 100 to 10,000 in the sending currency. Fees stop scaling
-            predictably outside that range, so we show no number rather than guess. Wise, Western
-            Union and PayPal are quoted live for exactly your amount wherever the feed carries them.
+            You can enter any amount from {AMOUNT_MIN.toLocaleString("en-US")} to{" "}
+            {AMOUNT_MAX.toLocaleString("en-US")} in the sending currency. Wise, Western Union and PayPal
+            are quoted live for exactly your amount wherever the feed carries them. Not every provider
+            quotes every amount: PayPal drops out of the feed above roughly 10,000, and Western Union on
+            some corridors above roughly 25,000. A provider with no quote at your amount is left out and
+            named on the page, never filled in with a guess.
           </p>
           <p>
             Where a provider isn&rsquo;t in the feed for a corridor (a hand-entered PayPal rate), we
             draw a straight line between the two amounts we verified and tag the result{" "}
-            <em>Estimated</em>. It&rsquo;s a reasonable read, not a checked quote, and a provider
+            <em>Estimated</em>. It&rsquo;s a reasonable read, not a checked quote. It only runs
+            between half the lower verified amount and five times the higher one, and a provider
             with only one verified amount is left out rather than guessed at.
           </p>
         </Section>

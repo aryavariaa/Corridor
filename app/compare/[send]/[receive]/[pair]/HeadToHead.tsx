@@ -10,6 +10,7 @@ import { money, percent, rate as formatRate } from "@/lib/format";
 import { pairSlug } from "@/lib/provider-slug";
 import { formatDelivery } from "@/lib/row-breakdown";
 import { verdict, type Verdict } from "@/lib/versus";
+import { withArticle } from "@/lib/geo";
 import { useCorridorResult } from "../useCorridorResult";
 
 export type OtherCorridor = {
@@ -29,7 +30,7 @@ type Props = {
   others: OtherCorridor[];
 };
 
-const sendName = (c: Corridor) => (c.sendCountryName === "EUR" ? "the Eurozone" : c.sendCountryName);
+const sendName = (c: Corridor) => withArticle(c.sendCountryName);
 
 function Notice({ children }: { children: React.ReactNode }) {
   return (

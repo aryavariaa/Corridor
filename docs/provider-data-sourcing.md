@@ -1286,3 +1286,23 @@ page. Rules:
   `refresh-core.mjs` or the handler needs the same redeploy ("Redeploying after a code change" in
   `docs/aws-automation.md`). If a run ever happens on older code, it refreshes amounts but leaves these fields as
   they were; the display guard then hides any whose amount has drifted by more than 1%.
+
+## 2026-10-08: custom-amount range, and no estimates where the feed said no
+
+**Range is now $10 to $50,000** (was $100 to $10,000), set from probing the Wise comparison feed on USD/GBP/AUD/CAD
+corridors rather than from provider limits. At $1 the feed returns none of Wise, PayPal or Western Union for USD or AUD
+sends; from $10 up it does. At $50,000 Wise still quotes everywhere, but PayPal drops out above roughly $10,000 and Western
+Union on some corridors above roughly $25,000. (An earlier draft justified $50,000 as the Western Union and PayPal
+personal-transfer limit. The feed contradicts that, so the comment was rewritten to say what was measured.)
+
+**Rule change in `getCustomAmountRanking`.**
+- A live-capable provider that the feed *answered without* is left out and named on the page ("has no quote at this
+  amount"), not estimated. Drawing a line from the two verified amounts would invent a quote the provider never made.
+  Estimates fill in for live providers only when the live call itself failed.
+- Estimated rows (hand-sourced providers, e.g. Xoom PayPal; or live providers while the feed is down) are only drawn
+  between 0.5x the lower and 5x the higher verified amount (`ESTIMATE_BELOW` / `ESTIMATE_ABOVE`). Outside that, left out.
+- `liveStatus` is now `live` or `unavailable`; `partial` no longer exists.
+
+**Homepage example** ("send $200 ... X delivers ...") is computed at render time by `app/page.tsx` from the US->IN
+Everyday rows (`lib/home-example.ts`), regenerated hourly. Rows labelled "Under review" are excluded, and nothing is shown
+if fewer than two rows remain or the top is a tie. It was briefly hardcoded; do not reintroduce literal figures there.

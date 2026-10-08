@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { corridorId, findCorridor, getRankedProviders, listCorridors } from "@/lib/corridors";
 import { getPickExplainer, getAnomalyExplanation, getCostAnomalyExplanation } from "@/lib/ai";
 import { CountryFlag } from "@/lib/flags";
+import { withArticle } from "@/lib/geo";
 import CorridorComparison from "./CorridorComparison";
 
 // Only the pairs in data/provider-data.json's corridors[] exist as pages.
@@ -44,7 +45,7 @@ export async function generateMetadata({
     };
   }
 
-  const from = corridor.sendCountryName === "EUR" ? "the Eurozone" : corridor.sendCountryName;
+  const from = withArticle(corridor.sendCountryName);
   const title = `${from} to ${corridor.receiveCountryName}: compare real transfer costs`;
   const description = `Compare ${from} to ${corridor.receiveCountryName} remittance providers by what actually lands after fees and exchange-rate markup, ranked cheapest first.`;
 
@@ -86,7 +87,7 @@ export default async function ComparePage({
         </Link>
         <h1 className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-heading text-3xl font-extrabold tracking-[-0.04em] text-brand sm:text-5xl">
           <CountryFlag code={corridor.sendCountry} className="rounded-[3px]" />
-          {corridor.sendCountryName === "EUR" ? "the Eurozone" : corridor.sendCountryName} to
+          {withArticle(corridor.sendCountryName)} to
           <CountryFlag code={corridor.receiveCountry} className="rounded-[3px]" />
           {corridor.receiveCountryName}
         </h1>

@@ -10,6 +10,7 @@ import {
 import { allPairs, POPULAR_CORRIDORS, verdict } from "@/lib/versus";
 import { pairSlug, parsePairSlug, providerFromSlug } from "@/lib/provider-slug";
 import HeadToHead, { type OtherCorridor } from "./HeadToHead";
+import { withArticle } from "@/lib/geo";
 
 // One page per (corridor, pair of providers that both have data there). Every
 // other combination, including a pair that exists on a different corridor, is
@@ -43,7 +44,7 @@ function resolve({ send, receive, pair }: PageParams) {
   return { corridor, names, a, b };
 }
 
-const fromName = (c: Corridor) => (c.sendCountryName === "EUR" ? "the Eurozone" : c.sendCountryName);
+const fromName = (c: Corridor) => withArticle(c.sendCountryName);
 
 export async function generateMetadata({ params }: { params: Promise<PageParams> }): Promise<Metadata> {
   const found = resolve(await params);

@@ -4,12 +4,15 @@
 // can be unit-tested directly (lib/amount.test.mjs).
 //
 // The range is flat, not per corridor: every send currency is one of
-// USD/GBP/EUR/AUD/CAD, close enough in value that one range fits them all,
-// and outside it fees stop scaling predictably, so we show no number rather
-// than guess.
+// USD/GBP/EUR/AUD/CAD, close enough in value that one range fits them all.
+// $10 is the lowest amount the live feed quotes the enabled providers at (at
+// $1 it returns none for USD or AUD sends). $50,000 is where Wise's quote still
+// exists on every corridor probed; PayPal and some Western Union quotes drop
+// out well before it, and those rows are then left out rather than estimated.
+// Details: lib/corridors.ts (CUSTOM_AMOUNT_MIN / getCustomAmountRanking).
 
-export const AMOUNT_MIN = 100;
-export const AMOUNT_MAX = 10000;
+export const AMOUNT_MIN = 10;
+export const AMOUNT_MAX = 50000;
 
 // The query parameter that carries the amount from the homepage to a corridor
 // page and back ("/compare/US/IN?amount=500").

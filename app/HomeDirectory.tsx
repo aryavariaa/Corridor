@@ -4,13 +4,34 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useId, useMemo, useState } from "react";
 import { AMOUNT_PARAM, amountQuery, parseAmount } from "@/lib/amount";
+import { money } from "@/lib/format";
 import type { Corridor } from "@/lib/corridors";
 import { CountryFlag } from "@/lib/flags";
+import { inProse, withArticle } from "@/lib/geo";
 
 // Directory sections group by send currency, not geography: every corridor
 // already carries a sendCurrency, so there's no separate field to derive. A
 // currency with no corridors (e.g. none left after a filter) is simply absent
 // from `grouped`, not rendered as an empty section.
+// The worked example under the headline, computed server-side in app/page.tsx
+// from stored data (see lib/home-example.ts). Absent when it can't be.
+export type HomeExampleData = {
+  sendCountry: string;
+  receiveCountry: string;
+  sendCurrency: string;
+  receiveCurrency: string;
+  sendCountryName: string;
+  receiveCountryName: string;
+  sendAmount: number;
+  best: { provider: string; amountReceived: number };
+  others: { provider: string; amountReceived: number }[];
+};
+
+// "X, Y or Z": the rows that lost, in the order they ranked.
+function orList(items: string[]): string {
+  return items.length < 2 ? (items[0] ?? "") : `${items.slice(0, -1).join(", ")} or ${items[items.length - 1]}`;
+}
+
 const SEND_CURRENCY_ORDER = ["USD", "GBP", "AUD", "EUR", "CAD"];
 
 const fieldLabel = "block text-xs font-semibold uppercase tracking-wider text-text-dim";
@@ -35,7 +56,7 @@ function CorridorCard({ corridor, query }: { corridor: Corridor; query: string }
           {corridor.receiveCountryName}
         </span>
         <span className="block truncate text-xs text-text-dim">
-          from {corridor.sendCountryName === corridor.sendCurrency ? "the Eurozone" : corridor.sendCountryName}{" "}
+          from {withArticle(corridor.sendCountryName)}{" "}
           · {corridor.sendCurrency} → {corridor.receiveCurrency}
         </span>
       </span>
@@ -51,7 +72,15 @@ function CorridorCard({ corridor, query }: { corridor: Corridor; query: string }
 
 // `urlAmount` is whatever "?amount=" the page was opened with (the corridor
 // page's "Change amount" link sends people back with it), or null.
-function Home({ corridors, urlAmount }: { corridors: Corridor[]; urlAmount: string | null }) {
+function Home({
+  corridors,
+  urlAmount,
+  example,
+}: {
+  corridors: Corridor[];
+  urlAmount: string | null;
+  example: HomeExampleData | null;
+}) {
   const router = useRouter();
   const formId = useId();
   const [sendCountry, setSendCountry] = useState("");
@@ -158,6 +187,7 @@ function Home({ corridors, urlAmount }: { corridors: Corridor[]; urlAmount: stri
             </span>
             Live mid-market rates
           </p>
+          <p className="mt-2 text-sm text-text-dim">Refreshed daily at 06:17 UTC.</p>
 
           <h1 className="mt-5 max-w-3xl font-heading text-[2.6rem] font-extrabold leading-[0.98] tracking-[-0.045em] text-brand sm:text-6xl lg:text-7xl">
             Compare real remittance costs across {corridors.length} corridors
@@ -166,6 +196,27 @@ function Home({ corridors, urlAmount }: { corridors: Corridor[]; urlAmount: stri
             See what actually lands after fees and exchange-rate markup, ranked against the live
             mid-market rate.
           </p>
+          {example && (
+            <p className="mt-3 max-w-xl text-sm text-text-dim">
+              For example: send {money(example.sendCurrency, example.sendAmount, 0)} from{" "}
+              {inProse(example.sendCountryName)} to {inProse(example.receiveCountryName)} right now and{" "}
+              {example.best.provider} delivers {money(example.receiveCurrency, example.best.amountReceived)}, more
+              than{" "}
+              {orList(
+                example.others.map(
+                  (o) => `${o.provider}\u2019s ${money(example.receiveCurrency, o.amountReceived)}`
+                )
+              )}
+              .{" "}
+              <Link
+                href={`/compare/${example.sendCountry}/${example.receiveCountry}`}
+                className="font-semibold text-link underline underline-offset-4"
+              >
+                See it compared
+              </Link>
+              .
+            </p>
+          )}
 
           <form
             onSubmit={handleSubmit}
@@ -255,7 +306,9 @@ function Home({ corridors, urlAmount }: { corridors: Corridor[]; urlAmount: stri
             >
               {amountError ??
                 formMessage ??
-                "Optional. Leave the amount blank for a typical one. It carries through to every corridor you open."}
+                (selected
+                  ? `Optional. Leave blank for a typical ${money(selected.sendCurrency, selected.everydayAmount, 0)}. It carries through to every corridor you open.`
+                  : "Optional. Leave the amount blank for a typical one (it varies by corridor). It carries through to every corridor you open.")}
             </p>
           </form>
         </div>
@@ -312,15 +365,21 @@ function Home({ corridors, urlAmount }: { corridors: Corridor[]; urlAmount: stri
 // static HTML still contains the whole page (headline, form, every corridor)
 // instead of a blank shell; once hydrated, the real instance picks up
 // "?amount=" if the visitor arrived with one.
-function HomeWithUrlAmount({ corridors }: { corridors: Corridor[] }) {
+function HomeWithUrlAmount({ corridors, example }: { corridors: Corridor[]; example: HomeExampleData | null }) {
   const params = useSearchParams();
-  return <Home corridors={corridors} urlAmount={params.get(AMOUNT_PARAM)} />;
+  return <Home corridors={corridors} urlAmount={params.get(AMOUNT_PARAM)} example={example} />;
 }
 
-export default function HomeDirectory({ corridors }: { corridors: Corridor[] }) {
+export default function HomeDirectory({
+  corridors,
+  example,
+}: {
+  corridors: Corridor[];
+  example: HomeExampleData | null;
+}) {
   return (
-    <Suspense fallback={<Home corridors={corridors} urlAmount={null} />}>
-      <HomeWithUrlAmount corridors={corridors} />
+    <Suspense fallback={<Home corridors={corridors} urlAmount={null} example={example} />}>
+      <HomeWithUrlAmount corridors={corridors} example={example} />
     </Suspense>
   );
 }

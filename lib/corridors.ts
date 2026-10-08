@@ -145,9 +145,10 @@ export type CustomAmountInfo = {
   // True when `amount` lies outside `anchors`, so estimates extend the
   // line beyond the verified span rather than interpolating within it.
   extrapolated: boolean;
-  // "live": every live-capable provider got a live quote; "partial": some
-  // fell back to estimates; "unavailable": the live call failed entirely.
-  liveStatus: "live" | "partial" | "unavailable";
+  // "live": the live feed answered (a live-capable provider it didn't quote at
+  // this amount is in `notEstimated`, not estimated); "unavailable": the live
+  // call failed entirely, or no provider here is live-capable.
+  liveStatus: "live" | "unavailable";
   // Which providers are actually live-capable FOR THIS CORRIDOR -- not a
   // fixed "Wise/PayPal/Western Union" list, since a provider's own verified
   // rows might show it's manually sourced here even though it's API-backed
@@ -156,8 +157,9 @@ export type CustomAmountInfo = {
   // hardcoding all three, so the message can't claim a provider is "live"
   // when this corridor never queries it that way.
   liveCapableProviders: string[];
-  // Providers left out because only one verified amount is on file, so
-  // there is no line to interpolate along -- listed rather than invented.
+  // Providers with no row at this amount, listed rather than invented: the live
+  // feed answered without a quote for them, only one verified amount is on file,
+  // or the amount is too far from the verified ones to estimate from.
   notEstimated: string[];
 };
 
@@ -457,15 +459,24 @@ function rankRows(
 // send currency is one of USD/GBP/EUR/AUD/CAD (see lib/fx.ts), which are
 // all within roughly 2x of each other in value, so one global range is
 // reasonable across every corridor rather than a currency-specific one.
-// $100 stays close to the smallest amount this app has ever verified
-// (the lowest Everyday tier was 200 in its own currency; half of that was
-// the old per-corridor floor), and $10,000 is a round ceiling above every
-// previous corridor's max (the old formula topped out at 6,000-9,000)
-// without stretching into amounts where fee structures stop being roughly
-// linear (fixed minimums, markup caps, business/wire-transfer pricing).
+// $10 floor and $50,000 ceiling, set from what the live feed actually returns
+// (probed 2026-10-08 across USD/GBP/AUD/CAD corridors): at $1 no enabled
+// provider is quoted for USD or AUD sends, from $10 up they are; at $50,000
+// Wise still quotes everywhere, while PayPal drops out above about $10,000
+// and Western Union on some corridors above about $25,000. A provider with no
+// quote at an amount is left out, not estimated, so the page may show fewer
+// providers at the extremes. See getCustomAmountRanking.
 // 2026-10-01: replaces the old everydayAmount/largeAmount-derived formula,
 // which no longer has presets to anchor to now that the tier buttons are
 // gone -- see docs/provider-data-sourcing.md.
+// 2026-10-08: widened from $100-$10,000 to $10-$50,000.
+// An estimated row (a hand-sourced provider, or a live one while the live
+// call is down) is only drawn within this multiple of its two verified
+// amounts: from half the lower to five times the higher (200 and 2,000 give
+// 100 to 10,000, the range this app used before it widened). Outside, the row
+// is left out rather than extrapolated.
+export const ESTIMATE_BELOW = 0.5;
+export const ESTIMATE_ABOVE = 5;
 export const CUSTOM_AMOUNT_MIN = AMOUNT_MIN;
 export const CUSTOM_AMOUNT_MAX = AMOUNT_MAX;
 
@@ -520,7 +531,6 @@ export async function getCustomAmountRanking(
   const notEstimated: string[] = [];
   const liveCapableProviders: string[] = [];
   let liveCapable = 0;
-  let liveGot = 0;
 
   for (const provider of providerNames) {
     const lo = corridorRows.find((r) => r.provider === provider && r.tier === "Everyday");
@@ -555,7 +565,6 @@ export async function getCustomAmountRanking(
 
     const liveQuote = isLiveProvider ? liveQuotes?.get(provider) : undefined;
     if (liveQuote !== undefined) {
-      liveGot++;
       rows.push({
         provider,
         sendAmount: amount,
@@ -568,7 +577,24 @@ export async function getCustomAmountRanking(
       continue;
     }
 
+    // The live feed answered but gave no quote for this provider at this
+    // amount: it doesn't offer one (PayPal drops out above ~$10,000, Western
+    // Union on some corridors above ~$25,000; at $1 nobody quotes). Drawing a
+    // line from the two verified amounts to fill that gap would invent a quote
+    // the provider never made, so the row is left out. Estimates stand in only
+    // when the live call itself failed (liveQuotes === null).
+    if (isLiveProvider && liveQuotes) {
+      notEstimated.push(provider);
+      continue;
+    }
+
     if (!lo || !hi || lo.sendAmount === hi.sendAmount) {
+      notEstimated.push(provider);
+      continue;
+    }
+    // Estimates only stay near the two verified amounts. Far outside them a
+    // fixed fee or a tiered limit makes the straight line meaningless.
+    if (amount < lo.sendAmount * ESTIMATE_BELOW || amount > hi.sendAmount * ESTIMATE_ABOVE) {
       notEstimated.push(provider);
       continue;
     }
@@ -614,12 +640,7 @@ export async function getCustomAmountRanking(
       max,
       anchors: [corridor.everydayAmount, corridor.largeAmount],
       extrapolated: amount < corridor.everydayAmount || amount > corridor.largeAmount,
-      liveStatus:
-        liveCapable === 0 || liveGot === 0
-          ? "unavailable"
-          : liveGot < liveCapable
-            ? "partial"
-            : "live",
+      liveStatus: liveCapable === 0 || !liveQuotes ? "unavailable" : "live",
       liveCapableProviders,
       notEstimated,
     },

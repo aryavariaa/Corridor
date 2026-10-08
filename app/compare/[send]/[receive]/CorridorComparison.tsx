@@ -11,16 +11,11 @@ import { trackAiInsightShown, trackAnomalyExplanationShown } from "@/lib/plausib
 import { money, rate } from "@/lib/format";
 import { CountryFlag } from "@/lib/flags";
 import { pairSlug } from "@/lib/provider-slug";
+import { withArticle } from "@/lib/geo";
 import ProviderRow from "./ProviderRow";
 import RateAlertForm from "./RateAlertForm";
 import RateTrendChart from "./RateTrendChart";
 import { useCorridorResult } from "./useCorridorResult";
-
-// Omits the parenthetical when the name and currency are already the same
-// string -- true for Eurozone corridors, where sendCountryName is "EUR".
-function sendSideName(name: string): string {
-  return name === "EUR" ? "the Eurozone" : name;
-}
 
 // timeZone: "UTC" is load-bearing, not cosmetic: asOf is a UTC-effective
 // date, and without a pinned zone the server render and the visitor's browser
@@ -163,7 +158,7 @@ function Comparison({
 
       <h1 className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-heading text-3xl font-extrabold leading-tight tracking-[-0.04em] text-brand sm:text-5xl">
         <CountryFlag code={corridor.sendCountry} className="rounded-[3px]" />
-        <span>{sendSideName(corridor.sendCountryName)}</span>
+        <span>{withArticle(corridor.sendCountryName)}</span>
         <span aria-hidden="true" className="text-text-faint">
           →
         </span>
@@ -229,13 +224,18 @@ function Comparison({
             within the allowance for a reference rate that is published once a day.
           </Notice>
         )}
+        {result.custom && result.custom.notEstimated.length > 0 && providers.length > 0 && (
+          <Notice tone="info">
+            {result.custom.notEstimated.join(" and ")} {result.custom.notEstimated.length === 1 ? "has" : "have"} no
+            quote at this amount, so {result.custom.notEstimated.length === 1 ? "it isn't" : "they aren't"} shown
+            rather than guessed.
+          </Notice>
+        )}
         {result.custom && (anyEstimated || result.custom.liveStatus !== "live") && (
           <Notice tone="info">
             {result.custom.liveStatus === "unavailable"
               ? "Live quotes aren't available right now, so every row is an estimate. "
-              : result.custom.liveStatus === "partial"
-                ? "Some live quotes failed, so those rows fell back to estimates. "
-                : ""}
+              : ""}
             {anyEstimated && "Rows tagged Estimated weren't checked at this exact amount. "}
             <Link href="/methodology#estimates" className="font-semibold text-link underline underline-offset-4">
               How estimates work
@@ -259,7 +259,9 @@ function Comparison({
           </ul>
         ) : providers.length === 0 ? (
           <p className="mt-6 rounded-2xl border border-card-border bg-white px-4 py-3 text-sm text-text-dim">
-            No provider data available for this corridor yet.
+            {result.custom
+              ? "No provider has a quote at this amount. Try a different amount."
+              : "No provider data available for this corridor yet."}
           </p>
         ) : (
           <ul className="mt-7 space-y-5">

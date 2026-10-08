@@ -32,7 +32,7 @@
     },
     {
       "sendCountry": "EUR",
-      "sendCountryName": "EUR",
+      "sendCountryName": "Eurozone",
       "sendCurrency": "EUR",
       "receiveCountry": "IN",
       "receiveCountryName": "India",
@@ -102,7 +102,7 @@
     },
     {
       "sendCountry": "EUR",
-      "sendCountryName": "EUR",
+      "sendCountryName": "Eurozone",
       "sendCurrency": "EUR",
       "receiveCountry": "PH",
       "receiveCountryName": "Philippines",
