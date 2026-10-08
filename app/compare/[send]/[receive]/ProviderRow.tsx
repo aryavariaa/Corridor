@@ -72,6 +72,14 @@ function Basis({ p }: { p: RankedProvider }) {
           Estimated
         </span>
       )}
+      {p.underReview && (
+        <span
+          title="This quote looks unusually cheap for PayPal and is being confirmed"
+          className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-900"
+        >
+          Under review
+        </span>
+      )}
       {!p.autoRefreshed && (
         <span
           title={new Date(p.dateChecked).toLocaleDateString("en-US", { timeZone: "UTC" })}
@@ -100,6 +108,9 @@ function sourceNote(p: RankedProvider): string {
   const via = p.transferUrl?.includes("xoom.com") ? " from Xoom, PayPal's money transfer service" : " from the provider's own site";
   return `Entered by hand${via} on ${shortDate(p.dateChecked)}. Hand-sourced rows aren't refreshed automatically, which is why the date is shown.`;
 }
+
+const UNDER_REVIEW_NOTE =
+  "Under review: this quote is cheaper than PayPal's pricing usually is, which can mean it was a first-time promotional rate rather than the standard one. We're confirming it, so check PayPal's own quote before you send.";
 
 export default function ProviderRow({
   provider: p,
@@ -153,6 +164,9 @@ export default function ProviderRow({
           </div>
           {p.benchmarkReference && (
             <p className="mt-1 text-xs text-text-dim">Benchmark reference, not ranked</p>
+          )}
+          {p.underReview && (
+            <p className="mt-1 text-xs text-amber-900">Cheaper than PayPal usually is. Check PayPal&rsquo;s own quote.</p>
           )}
           <div className="mt-3">
             <p className="text-[0.7rem] font-semibold uppercase tracking-wider text-text-faint">Recipient gets</p>
@@ -298,6 +312,7 @@ export default function ProviderRow({
               </div>
             </dl>
             <p className="mt-3 border-t border-card-border pt-3 text-sm text-text-dim">{sourceNote(p)}</p>
+            {p.underReview && <p className="mt-2 text-sm font-medium text-amber-900">{UNDER_REVIEW_NOTE}</p>}
           </div>
         )}
       </div>

@@ -70,6 +70,7 @@ function Compared({
   const v = rowA && rowB ? verdict(rowA, rowB) : null;
 
   const anomalous = (result.costAnomaly ?? []).filter((x) => x.provider === a || x.provider === b);
+  const underReviewed = [rowA, rowB].filter((r): r is RankedProvider => Boolean(r?.underReview));
   const anyEstimated = rowA?.basis === "estimated" || rowB?.basis === "estimated";
 
   function swap(which: "a" | "b", next: string) {
@@ -196,6 +197,13 @@ function Compared({
               means that provider&rsquo;s data is stale rather than a better deal. Treat this result with care.
             </Notice>
           )}
+          {underReviewed.length > 0 && (
+            <Notice>
+              {underReviewed.map((x) => x.provider).join(" and ")}&rsquo;s quote is under review: it is cheaper than
+              that provider&rsquo;s pricing usually is and may be a first-time promotional rate. Check their own quote
+              before you send.
+            </Notice>
+          )}
           {anyEstimated && (
             <Notice>
               One of these is an estimate, not a quote checked at this exact amount.{" "}
@@ -263,6 +271,7 @@ function Compared({
                 <Row label="Quote">
                   {[rowA, rowB].map((p) => (
                     <span key={p.provider} className="text-text-dim">
+                      {p.underReview ? "Under review. " : ""}
                       {p.basis === "live"
                         ? "Live quote"
                         : p.basis === "estimated"

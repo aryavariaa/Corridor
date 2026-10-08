@@ -5,6 +5,7 @@ import {
   API_SOURCE_PREFIX,
   auditRows,
   impliedSpread,
+  flaggedWithoutLabel,
   isHandSourcedPayPal,
   midOnOrBefore,
   validateAllowlist,
@@ -86,4 +87,16 @@ test("validateAllowlist requires a reason and verification date", () => {
   assert.throws(() => validateAllowlist([{ sendCountry: "US", receiveCountry: "IN", dateChecked: "2026-09-01" }]));
   assert.throws(() => validateAllowlist([{ sendCountry: "US", receiveCountry: "IN", dateChecked: "2026-09-01", verifiedOn: "2026-10-05", reason: " " }]));
   assert.throws(() => validateAllowlist({}));
+});
+
+test("flaggedWithoutLabel: only flagged rows lacking an exact-date under-review entry", () => {
+  const results = [
+    { sendCountry: "US", receiveCountry: "IN", dateChecked: "2026-09-01", status: "flagged" },
+    { sendCountry: "AU", receiveCountry: "DE", dateChecked: "2026-10-01", status: "flagged" },
+    { sendCountry: "CA", receiveCountry: "DE", dateChecked: "2026-10-01", status: "ok" },
+  ];
+  const entry = { sendCountry: "US", receiveCountry: "IN", provider: "PayPal", dateChecked: "2026-09-01" };
+  assert.deepEqual(flaggedWithoutLabel(results, [entry]).map((r) => r.receiveCountry), ["DE"]);
+  // a re-sourced row (new date) is no longer covered by the old entry
+  assert.equal(flaggedWithoutLabel(results, [{ ...entry, dateChecked: "2026-08-01" }]).length, 2);
 });

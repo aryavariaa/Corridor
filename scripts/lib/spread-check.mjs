@@ -108,3 +108,22 @@ export function auditRows({ rows, corridors, midSeries, allowlist = [], minSprea
   }
   return results;
 }
+
+// Flagged corridors that the site is NOT yet labelling "Under review". Matches
+// data/under-review.json entries by corridor, provider and exact dateChecked,
+// like lib/under-review.ts. A flagged row with no entry shows its thin quote to
+// visitors with no caveat, so the check script reports these.
+export function flaggedWithoutLabel(results, underReview) {
+  return results
+    .filter((r) => r.status === "flagged")
+    .filter(
+      (r) =>
+        !underReview.some(
+          (e) =>
+            e.sendCountry === r.sendCountry &&
+            e.receiveCountry === r.receiveCountry &&
+            e.provider === "PayPal" &&
+            e.dateChecked === r.dateChecked
+        )
+    );
+}

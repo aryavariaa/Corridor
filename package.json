@@ -16,7 +16,8 @@
     "test:row-breakdown": "node --test lib/row-breakdown.test.mjs",
     "test:amount": "node --test lib/amount.test.mjs",
     "test:provider-slug": "node --test lib/provider-slug.test.mjs",
-    "test:versus": "node --test lib/versus.test.mjs"
+    "test:versus": "node --test lib/versus.test.mjs",
+    "test:under-review": "node --experimental-strip-types --test lib/under-review.test.mjs"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.45.8",

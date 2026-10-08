@@ -1,0 +1,65 @@
+[
+  {
+    "sendCountry": "US",
+    "receiveCountry": "IN",
+    "provider": "PayPal",
+    "dateChecked": "2026-09-01",
+    "reason": "Implied cost is 0.23% below mid-market on the 2026-09-01 quote, far thinner than PayPal's other corridors (1.2-3.2%). Likely a first-time promotional quote. Awaiting a logged-in standard rate."
+  },
+  {
+    "sendCountry": "AU",
+    "receiveCountry": "DE",
+    "provider": "PayPal",
+    "dateChecked": "2026-10-01",
+    "reason": "Implied cost is 0.34% below mid-market on the 2026-10-01 quote, far thinner than PayPal's other corridors (1.2-3.2%). Likely a first-time promotional quote. Awaiting a standard-rate quote."
+  },
+  {
+    "sendCountry": "AU",
+    "receiveCountry": "FR",
+    "provider": "PayPal",
+    "dateChecked": "2026-10-01",
+    "reason": "Implied cost is 0.34% below mid-market on the 2026-10-01 quote, far thinner than PayPal's other corridors (1.2-3.2%). Likely a first-time promotional quote. Awaiting a standard-rate quote."
+  },
+  {
+    "sendCountry": "AU",
+    "receiveCountry": "ES",
+    "provider": "PayPal",
+    "dateChecked": "2026-10-01",
+    "reason": "Implied cost is 0.34% below mid-market on the 2026-10-01 quote, far thinner than PayPal's other corridors (1.2-3.2%). Likely a first-time promotional quote. Awaiting a standard-rate quote."
+  },
+  {
+    "sendCountry": "AU",
+    "receiveCountry": "IT",
+    "provider": "PayPal",
+    "dateChecked": "2026-10-01",
+    "reason": "Implied cost is 0.34% below mid-market on the 2026-10-01 quote, far thinner than PayPal's other corridors (1.2-3.2%). Likely a first-time promotional quote. Awaiting a standard-rate quote."
+  },
+  {
+    "sendCountry": "AU",
+    "receiveCountry": "NL",
+    "provider": "PayPal",
+    "dateChecked": "2026-10-01",
+    "reason": "Implied cost is 0.34% below mid-market on the 2026-10-01 quote, far thinner than PayPal's other corridors (1.2-3.2%). Likely a first-time promotional quote. Awaiting a standard-rate quote."
+  },
+  {
+    "sendCountry": "AU",
+    "receiveCountry": "PT",
+    "provider": "PayPal",
+    "dateChecked": "2026-10-01",
+    "reason": "Implied cost is 0.34% below mid-market on the 2026-10-01 quote, far thinner than PayPal's other corridors (1.2-3.2%). Likely a first-time promotional quote. Awaiting a standard-rate quote."
+  },
+  {
+    "sendCountry": "AU",
+    "receiveCountry": "AT",
+    "provider": "PayPal",
+    "dateChecked": "2026-10-01",
+    "reason": "Implied cost is 0.34% below mid-market on the 2026-10-01 quote, far thinner than PayPal's other corridors (1.2-3.2%). Likely a first-time promotional quote. Awaiting a standard-rate quote."
+  },
+  {
+    "sendCountry": "AU",
+    "receiveCountry": "IE",
+    "provider": "PayPal",
+    "dateChecked": "2026-10-01",
+    "reason": "Implied cost is 0.34% below mid-market on the 2026-10-01 quote, far thinner than PayPal's other corridors (1.2-3.2%). Likely a first-time promotional quote. Awaiting a standard-rate quote."
+  }
+]

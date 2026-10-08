@@ -15,12 +15,14 @@
 import { readFileSync, existsSync } from "node:fs";
 import {
   auditRows,
+  flaggedWithoutLabel,
   isHandSourcedPayPal,
   MIN_PLAUSIBLE_SPREAD,
   validateAllowlist,
 } from "./lib/spread-check.mjs";
 
 const DATA = new URL("../data/provider-data.json", import.meta.url);
+const UNDER_REVIEW = new URL("../data/under-review.json", import.meta.url);
 const ALLOWLIST = new URL("../data/paypal-spread-allowlist.json", import.meta.url);
 const DAY_MS = 86_400_000;
 
@@ -99,6 +101,14 @@ if (flagged.length) {
     "A flagged row is almost certainly a first-time promotional quote. Re-source it from a standard-rate\n" +
       "(logged-in or returning-customer) quote; only allowlist it in data/paypal-spread-allowlist.json with the\n" +
       "reason and date you verified it."
+  );
+}
+const underReview = existsSync(UNDER_REVIEW) ? JSON.parse(readFileSync(UNDER_REVIEW, "utf8")) : [];
+const unlabelled = [...new Set(flaggedWithoutLabel(results, underReview).map((r) => `${r.sendCountry}->${r.receiveCountry}`))];
+if (unlabelled.length) {
+  console.log(
+    `\nNot labelled "Under review" on the site: ${unlabelled.join(", ")}. Add an entry per corridor to\n` +
+      "data/under-review.json (corridor, provider, dateChecked, reason) until the row is re-sourced."
   );
 }
 process.exit(flagged.length ? 1 : unchecked.length ? 2 : 0);

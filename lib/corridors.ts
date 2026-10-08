@@ -1,4 +1,5 @@
 import providerData from "@/data/provider-data.json";
+import underReviewData from "@/data/under-review.json";
 import {
   getMidMarketRate,
   usesWiseBenchmark,
@@ -10,6 +11,7 @@ import { providerTransferUrl } from "@/lib/provider-links";
 import { consistentBreakdown } from "@/lib/row-breakdown";
 import { AMOUNT_MAX, AMOUNT_MIN } from "@/lib/amount";
 import { corridorId } from "@/lib/corridor-id";
+import { findUnderReview, type UnderReviewEntry } from "@/lib/under-review";
 
 export type Tier = "Everyday" | "Large";
 
@@ -118,6 +120,11 @@ export type RankedProvider = {
   // withRowMetadata(), from the stored row, not the ranked row (whose
   // `source` is rewritten on custom amounts).
   autoRefreshed?: boolean;
+  // True when this row's quote is flagged by the PayPal spread check and not
+  // yet re-sourced (data/under-review.json, lib/under-review.ts). The UI shows
+  // an "Under review" label; the number itself is unchanged. Set by
+  // withRowMetadata().
+  underReview?: boolean;
   // See ProviderRate. Undefined = not known for this row (e.g. an estimate, or
   // a hand-sourced rate); the UI says "see provider" rather than guessing.
   rate?: number;
@@ -363,6 +370,8 @@ export async function getRankedProviders(
 // reads the corridor's stored data row, not the ranked row's `source`: on a
 // custom amount that string is rewritten ("Estimated, not checked...", "wise.com
 // live comparison API...") and no longer says where the data came from.
+const underReviewEntries = underReviewData as UnderReviewEntry[];
+
 function withRowMetadata(providers: RankedProvider[], corridor: Corridor): RankedProvider[] {
   return providers.map((p) => {
     const row = providerRates.find(
@@ -382,13 +391,14 @@ function withRowMetadata(providers: RankedProvider[], corridor: Corridor): Ranke
         source: row?.source,
       }),
       autoRefreshed: Boolean(row?.source.startsWith(WISE_LIVE_SOURCE_PREFIX)),
+      underReview: Boolean(row && findUnderReview(underReviewEntries, row)),
     };
   });
 }
 
 type UnscoredRow = Omit<
   RankedProvider,
-  "costPercent" | "rank" | "benchmarkReference" | "transferUrl" | "autoRefreshed"
+  "costPercent" | "rank" | "benchmarkReference" | "transferUrl" | "autoRefreshed" | "underReview"
 >;
 
 // The one place rows get scored, ranked, and checked for anomalies -- used

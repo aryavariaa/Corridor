@@ -1237,6 +1237,16 @@ An entry only applies to that exact `dateChecked`: re-sourcing the row ends the 
 The check is not part of the Lambda (the refresh job never touches these rows) and there is no CI in this repo, so
 it is a manual gate. Logic: `scripts/lib/spread-check.mjs`; offline tests: `npm run test:spread-check`.
 
+**"Under review" label.** A flagged row stays in the data exactly as entered (we don't correct it without a real
+logged-in rate), but the site marks it so visitors aren't shown a probable promotional quote with no caveat: an
+"Under review" badge and note on the corridor page row, and a notice plus "Under review." in the Quote row on the
+head-to-head page. Which rows get it is `data/under-review.json` (corridor, provider, `dateChecked`, `reason`;
+logic in `lib/under-review.ts`). Like the allowlist, an entry only applies to that exact `dateChecked`, so
+re-sourcing the row removes the label by itself. `npm run check:paypal-spread` prints any flagged corridor that has
+no entry; `npm run test:under-review` fails if an entry no longer matches a real row. As of 2026-10-09 the label is on
+US->IN and the eight AU->Eurozone corridors. When a row is re-sourced, also delete its entry. Labelled rows are still
+ranked normally (US->IN PayPal currently ranks second, not Best value).
+
 **What it does not prove.** It only catches quotes that are too good to be true. A row above 1% is not thereby
 verified as a standard rate. The mid is Frankfurter's daily reference rate, not Xoom's intraday rate, so expect
 ~0.3% of noise either way (the 1% threshold leaves margin for that). Both rows and mid are daily snapshots.
