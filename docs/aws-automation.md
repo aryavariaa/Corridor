@@ -138,3 +138,13 @@ The full pipeline was tested for real on 2026-09-21:
 1. Dry run (`{"dryRun": true}`) in AWS: 34 rows proposed, 0 blocked, 0 fetch errors. Wise accepted requests from Lambda, and the results matched a local CLI dry run.
 2. With `EnableCommits=true`, one invocation of `{}` committed `8026d4a` (`corridor-rate-refresh`, 34 rows) to `main`. Only `sendAmount`, `amountReceived`, `dateChecked` and `source` changed, and the largest implied-rate move was 1.62%.
 3. Vercel deployed that commit, and the live site (corridor-red.vercel.app, US to India) showed the new Wise figure and `dateChecked` of 2026-09-21.
+
+## Redeployed 2026-10-08 (fee, rate and delivery fields)
+
+Followed "Redeploying after a code change" exactly. `npm run aws:test` 26/26; all six stack parameters passed
+explicitly and confirmed in the `Parameter overrides` line (including the quoted `ScheduleExpression`); the change
+set's only `DirectModification` was `RefreshFunction` / `Code` (replacement `False`, so the ARN is unchanged);
+executed, `UPDATE_COMPLETE`, parameters re-read and unchanged. Proof of the deployed code: the downloaded bundle is
+byte-identical to `aws/.build` and to `scripts/lib/refresh-core.mjs`, and a `{"dryRun":true}` invocation returned
+`committed:false`, 266 rows applied, 0 blocked, 0 fetch errors, 70 provider-not-in-API skips (the same counts as
+before the change, so behavior is unchanged beyond the new fields).

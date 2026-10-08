@@ -1271,7 +1271,8 @@ page. Rules:
 - **Display guard.** `consistentBreakdown` (`lib/row-breakdown.ts`) shows fee and rate only when
   `(sendAmount - fee) * rate` is within 1% of `amountReceived`; otherwise the UI says "see provider" instead of
   showing a number that contradicts the amount beside it. Estimated rows never show them.
-- **The Lambda must be redeployed** for the daily run to keep these fields current (the handler's integrity check
-  now allows them; see "Redeploying after a code change" in `docs/aws-automation.md`). Until it is, a daily run on
-  the old code refreshes amounts but leaves the fields as they were; the display guard then hides any whose
-  amount has drifted by more than 1%.
+- **The Lambda was redeployed 2026-10-08** (code hash `6AQ60j/kD2ydYxo8dMRdrVTUFnv8zra62eWajKxhW/w=`; the handler's
+  integrity check now allows these fields) so the daily run keeps them current. Any future change to
+  `refresh-core.mjs` or the handler needs the same redeploy ("Redeploying after a code change" in
+  `docs/aws-automation.md`). If a run ever happens on older code, it refreshes amounts but leaves these fields as
+  they were; the display guard then hides any whose amount has drifted by more than 1%.
