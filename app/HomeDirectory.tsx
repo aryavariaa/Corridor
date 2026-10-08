@@ -1,252 +1,326 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import type { DirectoryEntry } from "@/lib/corridors";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useId, useMemo, useState } from "react";
+import { AMOUNT_PARAM, amountQuery, parseAmount } from "@/lib/amount";
+import type { Corridor } from "@/lib/corridors";
 import { CountryFlag } from "@/lib/flags";
 
-// Directory sections group by send currency, not geography -- a corridor
-// like USD->GBP never had an obvious "continent," and every corridor
-// already carries a sendCurrency, so there's no separate field to derive.
-// A currency with no corridors (e.g. none left after a filter) is simply
-// absent from `grouped` below, not rendered as an empty section.
+// Directory sections group by send currency, not geography: every corridor
+// already carries a sendCurrency, so there's no separate field to derive. A
+// currency with no corridors (e.g. none left after a filter) is simply absent
+// from `grouped`, not rendered as an empty section.
 const SEND_CURRENCY_ORDER = ["USD", "GBP", "AUD", "EUR", "CAD"];
 
-function percent(fraction: number): string {
-  return `${(fraction * 100).toFixed(1)}%`;
-}
+const fieldLabel = "block text-xs font-semibold uppercase tracking-wider text-text-dim";
+const fieldControl =
+  "mt-1.5 w-full rounded-xl border border-card-border bg-white px-3.5 py-3 text-base text-text";
 
-// Deterministic hairline-divider borders for a 2-column (1-column on
-// mobile) grid, purely a function of index -- see the design-pass notes
-// in the commit for why this specific formula (only index 1 needs a
-// responsive override; every other index either always or never gets a
-// top border at both breakpoints, so there's never a conflicting pair of
-// sm: utilities fighting over the same edge).
-function directoryCellBorder(i: number): string {
-  const top = i === 0 ? "" : i === 1 ? "border-t sm:border-t-0" : "border-t";
-  const right = i % 2 === 0 ? "sm:border-r" : "";
-  return `${top} ${right} border-card-border`.trim();
-}
-
-function CorridorCard({
-  entry,
-  className = "",
-}: {
-  entry: DirectoryEntry;
-  className?: string;
-}) {
-  const { corridor, teaser } = entry;
+function CorridorCard({ corridor, query }: { corridor: Corridor; query: string }) {
   return (
     <Link
-      href={`/compare/${corridor.sendCountry}/${corridor.receiveCountry}`}
-      className={`flex flex-col gap-2 p-4 transition-colors hover:bg-accent-tint/20 ${className}`}
+      href={`/compare/${corridor.sendCountry}/${corridor.receiveCountry}${query}`}
+      className="group flex items-center justify-between gap-3 rounded-2xl border border-card-border bg-white px-4 py-3.5 transition hover:border-brand hover:shadow-[0_6px_20px_-8px_rgba(22,51,0,0.35)]"
     >
-      <span className="font-heading text-base font-semibold">
-        <CountryFlag code={corridor.sendCountry} className="mr-1.5 align-[-0.1em]" />
-        {corridor.sendCountryName}
-        <span className="mx-1.5 text-text-faint">→</span>
-        <CountryFlag code={corridor.receiveCountry} className="mr-1.5 align-[-0.1em]" />
-        {corridor.receiveCountryName}
+      <span className="min-w-0">
+        <span className="flex items-center gap-2">
+          <CountryFlag code={corridor.sendCountry} className="shrink-0 rounded-[2px]" />
+          <span className="text-text-faint" aria-hidden="true">
+            →
+          </span>
+          <CountryFlag code={corridor.receiveCountry} className="shrink-0 rounded-[2px]" />
+        </span>
+        <span className="mt-1.5 block truncate font-heading text-[1.05rem] font-bold text-brand">
+          {corridor.receiveCountryName}
+        </span>
+        <span className="block truncate text-xs text-text-dim">
+          from {corridor.sendCountryName === corridor.sendCurrency ? "the Eurozone" : corridor.sendCountryName}{" "}
+          · {corridor.sendCurrency} → {corridor.receiveCurrency}
+        </span>
       </span>
-      <span className="text-xs text-text-dim">
-        {corridor.sendCurrency} → {corridor.receiveCurrency}
-      </span>
-      <span className="text-sm">
-        {teaser ? (
-          <>
-            From <span className="font-medium">{teaser.cheapestProvider}</span>{" "}
-            <span className="font-medium text-cost">{percent(teaser.costPercent)} cost</span>
-            {teaser.underReview > 0 && (
-              <span
-                className="mt-0.5 block text-xs text-amber-700 dark:text-amber-300"
-                title="A cheaper-looking rate reads below the live mid-market rate, which real providers don't offer, so it's excluded here until it's re-verified."
-              >
-                {teaser.underReview === 1
-                  ? "1 rate under review"
-                  : `${teaser.underReview} rates under review`}
-              </span>
-            )}
-          </>
-        ) : (
-          <span className="text-text-faint">Live rate unavailable right now</span>
-        )}
+      <span
+        aria-hidden="true"
+        className="text-xl text-text-faint transition group-hover:translate-x-0.5 group-hover:text-brand"
+      >
+        ›
       </span>
     </Link>
   );
 }
 
-export default function HomeDirectory({ entries }: { entries: DirectoryEntry[] }) {
+// `urlAmount` is whatever "?amount=" the page was opened with (the corridor
+// page's "Change amount" link sends people back with it), or null.
+function Home({ corridors, urlAmount }: { corridors: Corridor[]; urlAmount: string | null }) {
+  const router = useRouter();
+  const formId = useId();
   const [sendCountry, setSendCountry] = useState("");
   const [receiveCountry, setReceiveCountry] = useState("");
+  // null = "the visitor hasn't typed", so the URL's amount is shown. Derived
+  // rather than copied into state by an effect.
+  const [typed, setTyped] = useState<string | null>(null);
+  const [formMessage, setFormMessage] = useState<string | null>(null);
+  const amountText = typed ?? urlAmount ?? "";
 
   const sendOptions = useMemo(() => {
     const seen = new Map<string, string>();
-    for (const e of entries) {
-      if (!seen.has(e.corridor.sendCountry)) {
-        seen.set(e.corridor.sendCountry, e.corridor.sendCountryName);
-      }
+    for (const c of corridors) {
+      if (!seen.has(c.sendCountry)) seen.set(c.sendCountry, c.sendCountryName);
     }
     return Array.from(seen, ([code, name]) => ({ code, name })).sort((a, b) =>
       a.name.localeCompare(b.name)
     );
-  }, [entries]);
+  }, [corridors]);
 
   const receiveOptions = useMemo(() => {
     const seen = new Map<string, string>();
-    for (const e of entries) {
-      if (sendCountry && e.corridor.sendCountry !== sendCountry) continue;
-      if (!seen.has(e.corridor.receiveCountry)) {
-        seen.set(e.corridor.receiveCountry, e.corridor.receiveCountryName);
-      }
+    for (const c of corridors) {
+      if (sendCountry && c.sendCountry !== sendCountry) continue;
+      if (!seen.has(c.receiveCountry)) seen.set(c.receiveCountry, c.receiveCountryName);
     }
     return Array.from(seen, ([code, name]) => ({ code, name })).sort((a, b) =>
       a.name.localeCompare(b.name)
     );
-  }, [entries, sendCountry]);
+  }, [corridors, sendCountry]);
+
+  const selected = corridors.find(
+    (c) => c.sendCountry === sendCountry && c.receiveCountry === receiveCountry
+  );
+  // The unit shown beside the amount: the chosen corridor's (or send
+  // country's) currency, else nothing.
+  const sendCurrency =
+    selected?.sendCurrency ?? corridors.find((c) => c.sendCountry === sendCountry)?.sendCurrency ?? null;
+
+  const parsed = parseAmount(amountText, sendCurrency ?? "USD");
+  const amountError = !parsed.ok && !parsed.empty ? parsed.message : null;
+  const query = amountQuery(parsed.ok ? parsed.value : null);
 
   function handleSendChange(code: string) {
     setSendCountry(code);
+    setFormMessage(null);
     // The previously selected receive country might not pair with the new
-    // send country -- clear it rather than leaving a stale/invalid filter.
-    if (code) {
-      const stillValid = entries.some(
-        (e) => e.corridor.sendCountry === code && e.corridor.receiveCountry === receiveCountry
-      );
-      if (!stillValid) setReceiveCountry("");
+    // send country: clear it rather than leave a stale/invalid selection.
+    if (code && !corridors.some((c) => c.sendCountry === code && c.receiveCountry === receiveCountry)) {
+      setReceiveCountry("");
     }
   }
 
-  const filtered = useMemo(() => {
-    return entries.filter((e) => {
-      if (sendCountry && e.corridor.sendCountry !== sendCountry) return false;
-      if (receiveCountry && e.corridor.receiveCountry !== receiveCountry) return false;
-      return true;
-    });
-  }, [entries, sendCountry, receiveCountry]);
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (amountError) return;
+    if (!selected) {
+      setFormMessage("Choose where you're sending from and to, or pick a corridor below.");
+      return;
+    }
+    router.push(`/compare/${selected.sendCountry}/${selected.receiveCountry}${query}`);
+  }
+
+  const filtered = useMemo(
+    () =>
+      corridors.filter(
+        (c) =>
+          (!sendCountry || c.sendCountry === sendCountry) &&
+          (!receiveCountry || c.receiveCountry === receiveCountry)
+      ),
+    [corridors, sendCountry, receiveCountry]
+  );
 
   const grouped = useMemo(() => {
-    const byCurrency = new Map<string, DirectoryEntry[]>();
-    for (const e of filtered) {
-      const list = byCurrency.get(e.corridor.sendCurrency) ?? [];
-      list.push(e);
-      byCurrency.set(e.corridor.sendCurrency, list);
+    const byCurrency = new Map<string, Corridor[]>();
+    for (const c of filtered) {
+      const list = byCurrency.get(c.sendCurrency) ?? [];
+      list.push(c);
+      byCurrency.set(c.sendCurrency, list);
     }
     for (const list of byCurrency.values()) {
       list.sort((a, b) =>
-        `${a.corridor.sendCountryName}${a.corridor.receiveCountryName}`.localeCompare(
-          `${b.corridor.sendCountryName}${b.corridor.receiveCountryName}`
+        `${a.sendCountryName}${a.receiveCountryName}`.localeCompare(
+          `${b.sendCountryName}${b.receiveCountryName}`
         )
       );
     }
-    return SEND_CURRENCY_ORDER.filter((c) => byCurrency.has(c)).map((sendCurrency) => ({
-      sendCurrency,
-      entries: byCurrency.get(sendCurrency)!,
+    return SEND_CURRENCY_ORDER.filter((c) => byCurrency.has(c)).map((currency) => ({
+      sendCurrency: currency,
+      corridors: byCurrency.get(currency)!,
     }));
   }, [filtered]);
 
   const hasFilter = Boolean(sendCountry || receiveCountry);
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-16">
-      <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight">Corridor</h1>
-      <p className="mt-3 text-sm text-text-dim">
-        Ranks providers by how much of the live mid-market value survives fees
-        and FX margin. Cheapest first.
-      </p>
-      <p className="mt-2 text-sm">
-        <Link href="/methodology" className="text-link hover:underline">
-          How we calculate this
-        </Link>
-      </p>
-
-      <div className="mt-10 flex flex-col gap-3 rounded-lg border border-card-border bg-card p-4 sm:flex-row sm:items-end sm:gap-4">
-        <div className="flex-1 space-y-1.5">
-          <label
-            htmlFor="send-country"
-            className="block text-xs font-medium text-text-dim"
-          >
-            Sending from
-          </label>
-          <select
-            id="send-country"
-            value={sendCountry}
-            onChange={(e) => handleSendChange(e.target.value)}
-            className="w-full rounded-md border border-card-border bg-card px-3 py-1.5 text-sm outline-none focus:border-link"
-          >
-            <option value="">Anywhere</option>
-            {sendOptions.map((c) => (
-              <option key={c.code} value={c.code}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex-1 space-y-1.5">
-          <label
-            htmlFor="receive-country"
-            className="block text-xs font-medium text-text-dim"
-          >
-            Sending to
-          </label>
-          <select
-            id="receive-country"
-            value={receiveCountry}
-            onChange={(e) => setReceiveCountry(e.target.value)}
-            className="w-full rounded-md border border-card-border bg-card px-3 py-1.5 text-sm outline-none focus:border-link"
-          >
-            <option value="">Anywhere</option>
-            {receiveOptions.map((c) => (
-              <option key={c.code} value={c.code}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {hasFilter && (
-          <button
-            type="button"
-            onClick={() => {
-              setSendCountry("");
-              setReceiveCountry("");
-            }}
-            className="text-sm text-text-dim hover:text-text hover:underline sm:pb-2"
-          >
-            Clear filters
-          </button>
-        )}
-      </div>
-
-      <div className="mt-12 space-y-12">
-        {grouped.length === 0 && (
-          <p className="text-sm text-text-dim">
-            No corridors match that combination yet.
+    <main>
+      <section className="hero-wash">
+        <div className="mx-auto w-full max-w-5xl px-6 pb-14 pt-12 sm:pb-20 sm:pt-16">
+          <p className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3.5 py-1.5 text-sm font-semibold text-brand shadow-sm ring-1 ring-brand/10">
+            <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime opacity-75 motion-reduce:hidden" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand" />
+            </span>
+            Live mid-market rates
           </p>
-        )}
-        {grouped.map(({ sendCurrency, entries: currencyEntries }) => (
-          <section key={sendCurrency}>
-            <h2 className="text-sm font-bold uppercase tracking-widest text-text-dim">
-              From {sendCurrency}
-            </h2>
-            <div className="mt-4 grid grid-cols-1 rounded-lg border border-card-border bg-card sm:grid-cols-2">
-              {currencyEntries.map((entry, i) => (
-                <CorridorCard
-                  key={`${entry.corridor.sendCountry}-${entry.corridor.receiveCountry}`}
-                  entry={entry}
-                  className={directoryCellBorder(i)}
-                />
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
 
-      <footer className="mt-16 border-t border-card-border pt-6 text-sm text-text-dim">
-        <Link href="/methodology" className="text-link hover:underline">
-          How we calculate this
-        </Link>
-      </footer>
+          <h1 className="mt-5 max-w-3xl font-heading text-[2.6rem] font-extrabold leading-[0.98] tracking-[-0.045em] text-brand sm:text-6xl lg:text-7xl">
+            Compare real remittance costs across {corridors.length} corridors
+          </h1>
+          <p className="mt-5 max-w-xl text-lg leading-snug text-text-dim">
+            See what actually lands after fees and exchange-rate markup, ranked against the live
+            mid-market rate.
+          </p>
+
+          <form
+            onSubmit={handleSubmit}
+            noValidate
+            className="mt-9 rounded-3xl bg-white p-4 shadow-[0_18px_50px_-18px_rgba(22,51,0,0.35)] ring-1 ring-brand/10 sm:p-5"
+          >
+            <div className="grid gap-3 sm:grid-cols-[1fr_1fr_0.8fr_auto] sm:items-end">
+              <div>
+                <label htmlFor={`${formId}-from`} className={fieldLabel}>
+                  Sending from
+                </label>
+                <select
+                  id={`${formId}-from`}
+                  value={sendCountry}
+                  onChange={(e) => handleSendChange(e.target.value)}
+                  className={fieldControl}
+                >
+                  <option value="">Anywhere</option>
+                  {sendOptions.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor={`${formId}-to`} className={fieldLabel}>
+                  Sending to
+                </label>
+                <select
+                  id={`${formId}-to`}
+                  value={receiveCountry}
+                  onChange={(e) => {
+                    setReceiveCountry(e.target.value);
+                    setFormMessage(null);
+                  }}
+                  className={fieldControl}
+                >
+                  <option value="">Anywhere</option>
+                  {receiveOptions.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor={`${formId}-amount`} className={fieldLabel}>
+                  You send
+                </label>
+                <div className="relative">
+                  <input
+                    id={`${formId}-amount`}
+                    name={AMOUNT_PARAM}
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    value={amountText}
+                    onChange={(e) => {
+                      setTyped(e.target.value);
+                      setFormMessage(null);
+                    }}
+                    placeholder="Typical amount"
+                    aria-invalid={amountError !== null}
+                    aria-describedby={`${formId}-amount-help`}
+                    className={`${fieldControl} pr-14 tabular-nums`}
+                  />
+                  {sendCurrency && (
+                    <span className="pointer-events-none absolute inset-y-0 right-3.5 top-1.5 flex items-center text-sm font-semibold text-text-dim">
+                      {sendCurrency}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <button type="submit" className="btn-primary h-[3.1rem] px-7 text-base">
+                Compare
+              </button>
+            </div>
+
+            <p
+              id={`${formId}-amount-help`}
+              role={amountError || formMessage ? "alert" : undefined}
+              className={`mt-3 min-h-5 text-sm ${amountError || formMessage ? "text-red-700" : "text-text-dim"}`}
+            >
+              {amountError ??
+                formMessage ??
+                "Optional. Leave the amount blank for a typical one. It carries through to every corridor you open."}
+            </p>
+          </form>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-5xl px-6 pb-20 pt-12">
+        <div className="flex items-end justify-between gap-4">
+          <h2 className="font-heading text-2xl font-extrabold tracking-[-0.03em] text-brand sm:text-3xl">
+            {hasFilter ? "Matching corridors" : "All corridors"}
+          </h2>
+          {hasFilter && (
+            <button
+              type="button"
+              onClick={() => {
+                setSendCountry("");
+                setReceiveCountry("");
+                setFormMessage(null);
+              }}
+              className="rounded-full px-3 py-1.5 text-sm font-semibold text-link underline underline-offset-4 hover:bg-mint"
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
+
+        <div className="mt-8 space-y-10">
+          {grouped.length === 0 && (
+            <p className="text-sm text-text-dim">No corridors match that combination yet.</p>
+          )}
+          {grouped.map(({ sendCurrency: currency, corridors: list }) => (
+            <div key={currency}>
+              <h3 className="text-sm font-bold uppercase tracking-widest text-text-dim">
+                Sending {currency}
+              </h3>
+              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {list.map((c) => (
+                  <CorridorCard key={`${c.sendCountry}-${c.receiveCountry}`} corridor={c} query={query} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-14 border-t border-card-border pt-6 text-sm text-text-dim">
+          Corridor compares quotes. It doesn&rsquo;t move money.
+        </p>
+      </section>
     </main>
+  );
+}
+
+// useSearchParams needs a Suspense boundary around anything statically
+// rendered. The fallback is the SAME page rendered without a URL amount, so the
+// static HTML still contains the whole page (headline, form, every corridor)
+// instead of a blank shell; once hydrated, the real instance picks up
+// "?amount=" if the visitor arrived with one.
+function HomeWithUrlAmount({ corridors }: { corridors: Corridor[] }) {
+  const params = useSearchParams();
+  return <Home corridors={corridors} urlAmount={params.get(AMOUNT_PARAM)} />;
+}
+
+export default function HomeDirectory({ corridors }: { corridors: Corridor[] }) {
+  return (
+    <Suspense fallback={<Home corridors={corridors} urlAmount={null} />}>
+      <HomeWithUrlAmount corridors={corridors} />
+    </Suspense>
   );
 }

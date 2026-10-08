@@ -8,6 +8,7 @@ import {
 import { fetchLiveQuotes, LIVE_PROVIDERS } from "@/lib/wise-live";
 import { providerTransferUrl } from "@/lib/provider-links";
 import { consistentBreakdown } from "@/lib/row-breakdown";
+import { AMOUNT_MAX, AMOUNT_MIN } from "@/lib/amount";
 
 export type Tier = "Everyday" | "Large";
 
@@ -446,8 +447,8 @@ function rankRows(
 // 2026-10-01: replaces the old everydayAmount/largeAmount-derived formula,
 // which no longer has presets to anchor to now that the tier buttons are
 // gone -- see docs/provider-data-sourcing.md.
-export const CUSTOM_AMOUNT_MIN = 100;
-export const CUSTOM_AMOUNT_MAX = 10000;
+export const CUSTOM_AMOUNT_MIN = AMOUNT_MIN;
+export const CUSTOM_AMOUNT_MAX = AMOUNT_MAX;
 
 export function customAmountRange() {
   return { min: CUSTOM_AMOUNT_MIN, max: CUSTOM_AMOUNT_MAX };
@@ -611,9 +612,7 @@ export async function getCustomAmountRanking(
   };
 }
 
-// --- Directory support (cheapest teaser) ---
-// Added for the home-page directory redesign -- corridors[] itself is
-// unchanged; everything below derives from it or from providerRates.
+// --- Freshness helpers (the corridor page's per-row dates) ---
 
 export type Freshness = "fresh" | "aging" | "stale";
 
@@ -639,61 +638,3 @@ export const FRESHNESS_DOT_CLASS: Record<Freshness, string> = {
   aging: "bg-aging",
   stale: "bg-stale",
 };
-
-export type CorridorTeaser = {
-  cheapestProvider: string;
-  costPercent: number;
-  // Cheaper-looking rows skipped because they read below mid-market, which
-  // no real provider does -- never headline those (see getCorridorTeaser).
-  underReview: number;
-} | null;
-
-// Best (lowest-cost) Everyday-tier provider for a corridor, for the
-// directory card teaser. Network-backed (live FX rate) like
-// getRankedProviders itself -- wrapped so one corridor's FX fetch failing
-// (e.g. a cold instance with no cached fallback yet, see lib/fx.ts) shows
-// that one card without a teaser rather than failing the whole directory.
-export async function getCorridorTeaser(corridor: Corridor): Promise<CorridorTeaser> {
-  try {
-    const result = await getRankedProviders(
-      corridor.sendCountry,
-      corridor.receiveCountry,
-      "Everyday"
-    );
-    // The card headlines the cheapest provider whose rate is credible: a
-    // row reading negative (better than mid-market) is a data problem, not
-    // a deal, so it is skipped -- and counted, so the card can say so.
-    const ranked = result.providers.filter((p) => !p.benchmarkReference);
-    const top = ranked.find((p) => p.costPercent >= 0);
-    if (!top) return null;
-    return {
-      cheapestProvider: top.provider,
-      costPercent: top.costPercent,
-      underReview: ranked.filter((p) => p.costPercent < 0).length,
-    };
-  } catch {
-    return null;
-  }
-}
-
-export type DirectoryEntry = {
-  corridor: Corridor;
-  teaser: CorridorTeaser;
-};
-
-// All corridors for the home-page directory, grouped client-side by
-// corridor.sendCurrency (see app/HomeDirectory.tsx) -- every corridor
-// already carries a sendCurrency, so there's no separate grouping field to
-// derive or keep in sync here. Teasers are fetched concurrently
-// (Promise.all) rather than one-by-one -- with 12+ corridors sharing a
-// handful of send currencies, Next's fetch cache/ISR window (lib/fx.ts's
-// revalidate: 3600) means most of these resolve from cache rather than
-// hitting the network independently.
-export async function getDirectoryEntries(): Promise<DirectoryEntry[]> {
-  const all = listCorridors();
-  const teasers = await Promise.all(all.map((c) => getCorridorTeaser(c)));
-  return all.map((c, i) => ({
-    corridor: c,
-    teaser: teasers[i],
-  }));
-}
