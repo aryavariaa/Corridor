@@ -113,11 +113,11 @@ export default function RateTrendChart({
   return (
     <section
       aria-labelledby={`${gradientId}-title`}
-      className="mt-6 rounded-lg border border-card-border bg-card p-5"
+      className="mt-10 rounded-3xl border border-card-border bg-white p-5 sm:p-7"
     >
-      <h3 id={`${gradientId}-title`} className="text-sm font-semibold">
+      <h2 id={`${gradientId}-title`} className="font-heading text-xl font-extrabold tracking-[-0.03em] text-brand sm:text-2xl">
         Mid-market exchange rate
-      </h3>
+      </h2>
 
       {state.status === "error" && (
         <p role="status" className="mt-2 text-sm text-text-dim">
@@ -135,7 +135,7 @@ export default function RateTrendChart({
 
       {state.status === "ready" && latest && (
         <>
-          <p className="font-heading mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">
+          <p className="font-heading mt-3 text-3xl font-extrabold tracking-[-0.03em] text-text sm:text-4xl">
             1 {sendCurrency} = {formatRate(latest.rate)} {receiveCurrency}
           </p>
           {change && (
@@ -144,7 +144,7 @@ export default function RateTrendChart({
                 change.pct > 0
                   ? "text-cost"
                   : change.pct < 0
-                    ? "text-red-600 dark:text-red-400"
+                    ? "text-red-700"
                     : "text-text-dim"
               }`}
             >
@@ -170,8 +170,8 @@ export default function RateTrendChart({
                   }}
                   className={`rounded-md px-2.5 py-1 text-xs font-bold tracking-wide transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current ${
                     range === d
-                      ? "bg-link/15 text-link"
-                      : "text-text-dim hover:bg-card-border/50 hover:text-text"
+                      ? "bg-mint text-brand"
+                      : "text-text-dim hover:bg-soft hover:text-text"
                   }`}
                 >
                   {d}D
@@ -192,7 +192,7 @@ export default function RateTrendChart({
                 height={H}
                 role="img"
                 aria-label={`Line chart of the ${sendCurrency} to ${receiveCurrency} mid-market rate, ${dayLabel(visible[0].date)} to ${dayLabel(visible[visible.length - 1].date)}. Started at ${formatRate(visible[0].rate)}, ended at ${formatRate(visible[visible.length - 1].rate)}, low ${formatRate(chart.lo)}, high ${formatRate(chart.hi)}.`}
-                className="mt-2 block w-full touch-pan-y text-link"
+                className="mt-2 block w-full touch-pan-y text-brand"
                 onPointerMove={(e) => {
                   const box = e.currentTarget.getBoundingClientRect();
                   const px = ((e.clientX - box.left) / box.width) * W;

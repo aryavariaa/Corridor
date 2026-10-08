@@ -1,124 +1,155 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "How we calculate cost",
+  title: "How Corridor works",
   description:
-    "The methodology behind Corridor's Total Cost % — formula, data sources, and rate-integrity rules.",
+    "How Corridor measures the real cost of sending money: the formula, where each number comes from, what Live means, and the checks that keep promotional rates out.",
 };
+
+function Section({
+  id,
+  title,
+  children,
+}: {
+  id?: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={id} className="scroll-mt-6 space-y-3">
+      <h2 className="font-heading text-xl font-extrabold tracking-[-0.03em] text-brand sm:text-2xl">{title}</h2>
+      <div className="space-y-3 text-base leading-7 text-text-dim">{children}</div>
+    </section>
+  );
+}
 
 export default function MethodologyPage() {
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-12">
-      <Link
-        href="/"
-        className="text-sm text-link hover:underline"
-      >
-        ← Back to comparison
+    <main className="mx-auto w-full max-w-2xl px-6 pb-20 pt-10">
+      <Link href="/" className="inline-flex items-center gap-1 text-sm font-semibold text-link hover:underline">
+        <span aria-hidden="true">←</span> All corridors
       </Link>
 
-      <h1 className="font-heading mt-6 text-3xl sm:text-4xl font-bold tracking-tight">
-        How we calculate cost
+      <h1 className="mt-5 font-heading text-4xl font-extrabold leading-[1.02] tracking-[-0.045em] text-brand sm:text-5xl">
+        How Corridor works
       </h1>
+      <p className="mt-4 text-lg leading-snug text-text-dim">
+        One question, answered the same way for every provider: of the money you send, how much
+        actually arrives?
+      </p>
 
-      <div className="mt-8 space-y-8">
-        <section className="space-y-2">
-          <h2 className="font-heading text-lg font-semibold">What &ldquo;Total Cost %&rdquo; means</h2>
-          <p className="text-sm leading-6 text-text-dim">
-            The percentage of your money that fees and exchange-rate markup eat,
-            compared to the true mid-market rate — the rate banks trade at with
-            each other, the same one you&rsquo;d see on Google or xe.com.
-            It&rsquo;s not what any single provider &ldquo;charges&rdquo; in
-            isolation; it&rsquo;s the honest total gap between what you send and
-            what actually lands.
+      <div className="mt-10 space-y-10">
+        <Section title="What “total cost” means">
+          <p>
+            The share of your money that fees and exchange-rate markup take, measured against the
+            true mid-market rate: the rate banks trade at with each other, the one you see on
+            Google or xe.com. It isn&rsquo;t what a provider says it charges. It&rsquo;s the whole gap
+            between what you send and what lands.
           </p>
-        </section>
+          <p className="rounded-2xl bg-mint px-4 py-3 font-semibold text-brand">
+            Total cost % = 1 − (amount received ÷ amount you&rsquo;d receive at the mid-market rate,
+            with no fees)
+          </p>
+          <p>
+            It&rsquo;s the same method the World Bank&rsquo;s Remittance Prices Worldwide database
+            uses, so it&rsquo;s a standard, not something invented to flatter any provider.
+          </p>
+        </Section>
 
-        <section className="space-y-2">
-          <h2 className="font-heading text-lg font-semibold">The formula</h2>
-          <p className="text-sm leading-6 text-text-dim">
-            Total Cost % = 1 − (amount actually received ÷ amount you&rsquo;d
-            receive at the true mid-market rate, with no fees).
+        <Section title="Where the numbers come from">
+          <p>
+            <strong className="text-text">The mid-market rate</strong> comes from Frankfurter, a free
+            service that publishes official central-bank rates. It is fetched live and cached for up
+            to an hour. The rate chart on each corridor page uses the same source.
           </p>
-          <p className="text-sm leading-6 text-text-dim">
-            This is the same methodology the World Bank&rsquo;s Remittance Prices
-            Worldwide database uses — it&rsquo;s a standard, not something we
-            invented to make the numbers look a certain way.
+          <p>
+            <strong className="text-text">Wise, Western Union and PayPal</strong> are the three
+            providers Corridor ranks, because they&rsquo;re the three that a real, public feed backs.
+            Their quotes come from Wise&rsquo;s public comparison feed, refreshed automatically every
+            day, and queried live for the exact amount you enter. Corridors where PayPal isn&rsquo;t in
+            that feed use PayPal&rsquo;s own rate, entered by hand from Xoom (its money transfer
+            service), and those rows show the date they were checked, because that date is the only
+            sign of how old the number is.
           </p>
-        </section>
+          <p>
+            Other providers aren&rsquo;t shown. We&rsquo;d rather list three you can trust than
+            ten we&rsquo;re guessing at; each comes back once we have a source we trust for it.
+          </p>
+        </Section>
 
-        <section className="space-y-2">
-          <h2 className="font-heading text-lg font-semibold">Where the numbers come from</h2>
-          <p className="text-sm leading-6 text-text-dim">
-            The mid-market exchange rate is pulled live, at the moment you
-            search. Provider fees and markup are checked by hand, directly from
-            each provider&rsquo;s own calculator, about once a week — that data
-            isn&rsquo;t available through any public API, and building scrapers
-            for six providers wasn&rsquo;t worth the tradeoff against a number
-            that only needs to be a few days fresh. Every row shows the date it
-            was last checked.
+        <Section title="What “Live” means">
+          <p>
+            The Live badge means the benchmark is live: the mid-market rate each quote is measured
+            against was fetched just now. It does not mean every provider quote was fetched this
+            second. Each row says which kind it is: a <em>Live quote</em> was fetched for your exact
+            amount just now; a row with no tag was refreshed in the daily run; a row with a date was
+            entered by hand on that date.
           </p>
-        </section>
+        </Section>
 
-        <section className="space-y-2">
-          <h2 className="font-heading text-lg font-semibold">A note on rate integrity</h2>
-          <p className="text-sm leading-6 text-text-dim">
-            Several providers show a better &ldquo;first-time&rdquo; or
-            &ldquo;welcome&rdquo; rate to new customers — a one-time promotional
-            number, not what you&rsquo;d actually get on your second transfer or
-            your tenth. We deliberately exclude those and use each
-            provider&rsquo;s standard, repeat-customer rate. If a comparison tool
-            used promotional rates, it would systematically favor whichever
-            provider has the most aggressive new-user marketing, not whichever
-            provider is actually cheapest to use.
+        <Section title="Fee, rate and delivery">
+          <p>
+            Where a quote states its fee and exchange rate, we show them, but only when they
+            reproduce the amount beside them (send amount minus fee, times rate, matches what
+            arrives). If they don&rsquo;t, or the quote doesn&rsquo;t state them, the row says
+            &ldquo;See provider&rdquo; rather than showing a number that contradicts the headline.
+            Delivery time is shown only where a provider states one in the feed we use; right now
+            that&rsquo;s Wise. We don&rsquo;t estimate delivery times.
           </p>
-        </section>
+        </Section>
 
-        <section className="space-y-2">
-          <h2 className="font-heading text-lg font-semibold">
-            How your amount is priced
-          </h2>
-          <p className="text-sm leading-6 text-text-dim">
-            You enter the amount you actually want to send, between $100 and
-            $10,000 (fees stop scaling predictably outside that range, so we
-            don&rsquo;t show a number rather than guess). Wise, PayPal and
-            Western Union are quoted live at exactly your amount wherever a
-            corridor actually sources that provider from a live feed — a
-            handful of corridors source one of the three manually instead
-            (the page says which, if any, for the corridor you&rsquo;re on).
-            Every provider without a live source for arbitrary amounts is
-            priced from two reference amounts we check directly against its
-            own quote and date — your number is a straight-line estimate
-            between those two, tagged &ldquo;Estimated&rdquo;; a provider with
-            only one reference amount is left out rather than guessed at. The
-            page loads with a default amount already priced this way, and the
-            AI explanation is only offered for that default — it isn&rsquo;t
-            regenerated for every amount you type.
+        <Section id="estimates" title="How your amount is priced">
+          <p>
+            You can enter any amount from 100 to 10,000 in the sending currency. Fees stop scaling
+            predictably outside that range, so we show no number rather than guess. Wise, Western
+            Union and PayPal are quoted live for exactly your amount wherever the feed carries them.
           </p>
-        </section>
+          <p>
+            Where a provider isn&rsquo;t in the feed for a corridor (a hand-entered PayPal rate), we
+            draw a straight line between the two amounts we verified and tag the result{" "}
+            <em>Estimated</em>. It&rsquo;s a reasonable read, not a checked quote, and a provider
+            with only one verified amount is left out rather than guessed at.
+          </p>
+        </Section>
 
-        <section className="space-y-2">
-          <h2 className="font-heading text-lg font-semibold">
-            When a cost reads below zero
-          </h2>
-          <p className="text-sm leading-6 text-text-dim">
-            No provider genuinely beats the mid-market rate, so a negative cost
-            means something is off. Sometimes a provider&rsquo;s stored quote has
-            gone stale. Sometimes it is only timing: our reference rate is
-            published once a day, so a quote taken today can read a few tenths of
-            a percent below a reference that is hours behind the market. We give
-            that second case a small allowance (0.5%) only for live quotes and
-            quotes verified today; anything older that reads negative is flagged
-            as possibly stale, and a card never headlines a negative rate.
+        <Section title="Promotional rates are kept out">
+          <p>
+            Many providers show a better &ldquo;first-time&rdquo; rate to new customers: a one-off
+            promotion, not what you&rsquo;d get on your second transfer or your tenth. A comparison
+            that used those would favor whoever markets hardest, not whoever is cheapest to use, so
+            we use standard rates only.
           </p>
-        </section>
+          <p>
+            Because that kind of quote is easy to capture by accident, every hand-entered PayPal rate
+            is checked against the mid-market rate for the day it was recorded. Any whose total cost is
+            under 1% is flagged as a likely promotional quote and held for re-sourcing instead of
+            being trusted, because real PayPal and Xoom costs run well above that.
+          </p>
+        </Section>
+
+        <Section title="When a cost reads below zero">
+          <p>
+            No provider genuinely beats the mid-market rate, so a negative cost means something is
+            off. Sometimes a stored quote has gone stale. Sometimes it&rsquo;s only timing: the
+            reference rate is published once a day, so a quote taken today can read a few tenths of a
+            percent below a reference that is hours behind the market. We allow 0.5% for that, only
+            for live quotes and quotes verified today. Anything older that reads negative is flagged
+            as possibly stale.
+          </p>
+        </Section>
+
+        <Section title="What Corridor doesn’t do">
+          <p>
+            Corridor compares quotes. It doesn&rsquo;t move money. The Send buttons open the
+            provider&rsquo;s own site in a new tab, and the rate and fees you&rsquo;re offered there
+            may differ from what&rsquo;s shown here.
+          </p>
+        </Section>
       </div>
 
-      <div className="mt-10 border-t border-card-border pt-6">
-        <Link
-          href="/"
-          className="text-sm text-link hover:underline"
-        >
-          ← Back to comparison
+      <div className="mt-12 border-t border-card-border pt-6">
+        <Link href="/" className="btn-primary">
+          Compare a corridor
         </Link>
       </div>
     </main>

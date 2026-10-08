@@ -1,246 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  corridorId,
-  customAmountRange,
-  freshnessLevelFor,
-  FRESHNESS_DOT_CLASS,
-  type Corridor,
-  type Freshness,
-  type RankedProvider,
-  type RankedProvidersResult,
-} from "@/lib/corridors";
-import {
-  trackCorridorViewed,
-  trackSignupStarted,
-  trackCorridorSorted,
-  getDeviceId,
-  type SortField,
-} from "@/lib/analytics";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { AMOUNT_PARAM, amountQuery } from "@/lib/amount";
+import { corridorId } from "@/lib/corridor-id";
+import type { Corridor, RankedProvidersResult } from "@/lib/corridors";
+import { trackCorridorViewed } from "@/lib/analytics";
 import { trackAiInsightShown, trackAnomalyExplanationShown } from "@/lib/plausible";
-import { money, percent, rate } from "@/lib/format";
+import { money, rate } from "@/lib/format";
 import { CountryFlag } from "@/lib/flags";
+import { pairSlug } from "@/lib/provider-slug";
+import ProviderRow from "./ProviderRow";
+import RateAlertForm from "./RateAlertForm";
 import RateTrendChart from "./RateTrendChart";
+import { useCorridorResult } from "./useCorridorResult";
 
 // Omits the parenthetical when the name and currency are already the same
-// string -- true for Eurozone corridors, where sendCountryName is "EUR"
-// (see lib/corridors.ts). Without this, those corridors would read
-// "EUR (EUR) -> ..." instead of just "EUR -> ...".
-function sendSideLabel(name: string, currency: string): string {
-  return name === currency ? name : `${name} (${currency})`;
+// string -- true for Eurozone corridors, where sendCountryName is "EUR".
+function sendSideName(name: string): string {
+  return name === "EUR" ? "the Eurozone" : name;
 }
 
-// JSX, not a plain string, because the flag is a real element (a CSS
-// background-image span from flag-icons, not an emoji character) -- see
-// lib/flags.tsx.
-function CorridorLabel({ corridor: c }: { corridor: Corridor }) {
-  return (
-    <>
-      <CountryFlag code={c.sendCountry} className="mr-1.5 align-[-0.1em]" />
-      {sendSideLabel(c.sendCountryName, c.sendCurrency)}
-      {" → "}
-      <CountryFlag code={c.receiveCountry} className="mr-1.5 align-[-0.1em]" />
-      {c.receiveCountryName} ({c.receiveCurrency})
-    </>
-  );
-}
-
-// timeZone: "UTC" is load-bearing, not cosmetic. dateChecked/asOf are
-// date-only or UTC-effective values (see lib/corridors.ts/lib/fx.ts), and
-// this app statically prerenders these pages (generateStaticParams +
-// ISR). Without a pinned timeZone, toLocaleDateString renders in
-// whatever timezone the *runtime* happens to be in -- Vercel's build/SSR
-// environment (UTC) vs. a visitor's browser (their local zone) -- so the
-// same ISO string can format to two different calendar dates one day
-// apart, producing a text mismatch between the server-rendered HTML and
-// the client's hydration render. That's a real, reproduced hydration
-// failure (React error #418), not a hypothetical: confirmed by building
-// under TZ=UTC and hydrating in a Pacific-time browser, where e.g.
-// "2026-08-31" rendered "Aug 31" server-side and "Aug 30" client-side.
+// timeZone: "UTC" is load-bearing, not cosmetic: asOf is a UTC-effective
+// date, and without a pinned zone the server render and the visitor's browser
+// can format it to different days (a real React hydration failure on this
+// site before).
 function shortDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  });
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 }
 
-// The normal --fresh/--aging/--stale dot colors (FRESHNESS_DOT_CLASS) are
-// tuned against --card/--bg -- inside the solid --accent hero panel they
-// measure as low as 1.0:1 (aging, effectively invisible), since neither
-// this brief's token list nor brief-7's covered "freshness dot sitting on
-// a solid brand-color fill." tone="onAccent" swaps in increasing opacity
-// steps of --accent-contrast instead, the same color already used for
-// emphasized text on that panel, confirmed to contrast well against both
-// themes' --accent.
-const ON_ACCENT_DOT_CLASS: Record<Freshness, string> = {
-  fresh: "bg-accent-contrast/40",
-  aging: "bg-accent-contrast/70",
-  stale: "bg-accent-contrast",
-};
-
-function RowFreshnessBadge({
-  dateChecked,
-  tone = "default",
-}: {
-  dateChecked: string;
-  tone?: "default" | "onAccent";
-}) {
-  const level = freshnessLevelFor(dateChecked);
-  const dotClass = tone === "onAccent" ? ON_ACCENT_DOT_CLASS[level] : FRESHNESS_DOT_CLASS[level];
-  return (
-    <span
-      className="inline-flex items-center gap-1.5 tabular-nums"
-      title={new Date(dateChecked).toLocaleDateString("en-US", { timeZone: "UTC" })}
-    >
-      <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${dotClass}`} />
-      {shortDate(dateChecked)}
-    </span>
-  );
-}
-
-// What backs a row's number, shown where verified rows show their check
-// date. "Estimated" must read as visibly different from a checked/live row --
-// it is interpolated from two verified amounts, never checked at this one.
-function RowBasisBadge({
-  provider,
-  tone = "default",
-}: {
-  provider: RankedProvider;
-  tone?: "default" | "onAccent";
-}) {
-  if (provider.basis === "estimated") {
-    return (
-      <span
-        title={provider.source}
-        className={`inline-flex items-center rounded border border-dashed px-1.5 py-0.5 text-xs font-bold uppercase tracking-wider ${
-          tone === "onAccent"
-            ? "border-accent-contrast/60 text-accent-contrast"
-            : "border-amber-500 text-amber-700 dark:text-amber-300"
-        }`}
-      >
-        Estimated
-      </span>
-    );
-  }
-  if (provider.basis === "live") {
-    return (
-      <span
-        title={provider.source}
-        className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider ${
-          tone === "onAccent" ? "text-accent-contrast" : "text-link"
-        }`}
-      >
-        <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-current" />
-        Live quote
-      </span>
-    );
-  }
-  return <RowFreshnessBadge dateChecked={provider.dateChecked} tone={tone} />;
-}
-
-// What sits under a provider's name / beside the hero button: the basis badge
-// ("Live quote" / "Estimated"), plus the check date ONLY for rows that are not
-// rewritten daily by the refresh job (RankedProvider.autoRefreshed). For
-// those -- all hand-sourced PayPal (Xoom) rows, and any provider the Wise API
-// doesn't cover -- the date is the only visible sign of how old the number
-// is, so it stays. For API-refreshed rows it carries no information and is
-// dropped; a verified, auto-refreshed row therefore shows nothing here.
-function RowStatus({
-  provider,
-  tone = "default",
-}: {
-  provider: RankedProvider;
-  tone?: "default" | "onAccent";
-}) {
-  const showDate = !provider.autoRefreshed;
-  if (provider.basis === "verified") {
-    return showDate ? <RowFreshnessBadge dateChecked={provider.dateChecked} tone={tone} /> : null;
-  }
-  return (
-    <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
-      <RowBasisBadge provider={provider} tone={tone} />
-      {showDate && (
-        <span className="inline-flex items-center gap-1 text-xs">
-          <span className="sr-only">Checked</span>
-          <RowFreshnessBadge dateChecked={provider.dateChecked} tone={tone} />
-        </span>
-      )}
-    </span>
-  );
-}
-
-// Outbound button to the provider's own transfer page. Outlined, small and
-// in the link colour -- a real button, but a secondary one: Corridor doesn't
-// handle the transfer, so it must never read as the primary action of the
-// row. "Go to" (not "Send with") and no wording about the quote keep it from
-// implying the page is live or that Corridor is processing anything.
-function ProviderButton({
-  provider,
-  tone = "default",
-  compact = false,
-}: {
-  provider: RankedProvider;
-  tone?: "default" | "onAccent";
-  // Table rows: below the sm breakpoint the label shortens to "Visit" so the
-  // Site column fits a phone without horizontal scrolling. The accessible
-  // name always carries the provider's name.
-  compact?: boolean;
-}) {
-  if (!provider.transferUrl) return null;
-  return (
-    <a
-      href={provider.transferUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border px-2.5 py-1.5 text-xs sm:px-3 font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current ${
-        tone === "onAccent"
-          ? "border-accent-contrast/50 text-accent-contrast hover:bg-accent-contrast/10"
-          : "border-link/50 text-link hover:bg-link/10"
-      }`}
-    >
-      {compact ? (
-        <>
-          <span aria-hidden="true" className="sm:hidden">Visit</span>
-          <span aria-hidden="true" className="hidden sm:inline">Go to {provider.provider}</span>
-          <span className="sr-only">Go to {provider.provider}</span>
-        </>
-      ) : (
-        <>Go to {provider.provider}</>
-      )}
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 12 12"
-        className="h-2.5 w-2.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M4.5 2.5h5v5M9.5 2.5l-7 7" />
-      </svg>
-      <span className="sr-only"> (opens {provider.provider}&rsquo;s site in a new tab)</span>
-    </a>
-  );
-}
-
-// Banner copy for a custom amount. The preset wording ("stale data", "holding
-// Natural-language join for a short provider-name list (at most 3 today --
-// Wise/PayPal/Western Union). Used instead of hardcoding which providers are
-// "the live ones" in prose, since that set is now corridor-specific (see
-// liveCapableProviders in lib/corridors.ts).
-function joinNames(names: string[]): string {
-  if (names.length <= 1) return names[0] ?? "";
-  if (names.length === 2) return `${names[0]} and ${names[1]}`;
-  return `${names.slice(0, -1).join(", ")}, and ${names[names.length - 1]}`;
-}
-
-// off on the why-this-pick explanation") is wrong here: estimated rows are
-// extended from older verified amounts rather than checked at this amount,
-// and there is no explanation to hold off on.
+// Wording for the amber banner when a row reads below the live mid-market
+// rate on a custom amount. Estimated rows and live quotes need different
+// explanations: an estimate that lands below the benchmark is an artifact of
+// estimating, while a live quote can simply be ahead of a reference rate that
+// is only published once a day.
 function customAnomalyMessage(
   extrapolated: boolean,
   anomalies: NonNullable<RankedProvidersResult["costAnomaly"]>
@@ -264,639 +58,281 @@ function customAnomalyMessage(
   return parts.join(" ");
 }
 
-export default function CorridorComparison({
-  corridor,
-  initialResult,
-  initialInsight,
-  initialAnomalyExplanation,
-  initialCostAnomalyExplanation,
-}: {
+function Notice({ children, tone = "warn" }: { children: React.ReactNode; tone?: "warn" | "info" }) {
+  return (
+    <div
+      role="status"
+      className={`mt-3 rounded-2xl px-4 py-3 text-sm ${
+        tone === "warn" ? "border border-amber-300 bg-amber-50 text-amber-900" : "bg-soft text-text-dim"
+      }`}
+    >
+      {children}
+    </div>
+  );
+}
+
+function RowSkeleton() {
+  return (
+    <li aria-hidden="true" className="animate-pulse rounded-2xl border border-card-border bg-white p-5">
+      <div className="h-6 w-32 rounded bg-card-border/70" />
+      <div className="mt-4 h-9 w-48 rounded bg-card-border/70" />
+      <div className="mt-4 h-4 w-64 rounded bg-card-border/50" />
+    </li>
+  );
+}
+
+type Props = {
   corridor: Corridor;
   initialResult: RankedProvidersResult;
   initialInsight: string | null;
   initialAnomalyExplanation: string | null;
   initialCostAnomalyExplanation: string | null;
-}) {
+};
+
+function Comparison({
+  corridor,
+  initialResult,
+  initialInsight,
+  initialAnomalyExplanation,
+  initialCostAnomalyExplanation,
+  urlAmount,
+}: Props & { urlAmount: string | null }) {
   const id = corridorId(corridor);
+  const { amount, isDefault, result, loading, error } = useCorridorResult(corridor, initialResult, urlAmount);
+  const { sendCurrency, receiveCurrency } = corridor;
 
-  const [result, setResult] = useState<RankedProvidersResult>(initialResult);
-  const [sortBy, setSortBy] = useState<SortField>("cost_asc");
-
-  // The amount input is now the only way to get a quote -- no more preset
-  // tier buttons to switch `result` between. `result` starts as the page's
-  // server-rendered default (the Everyday amount, fully verified, computed
-  // in page.tsx) and only changes when the user edits the amount below.
-  // `tier` itself never changes post-mount anymore, so it's a plain value,
-  // not state.
-  const tier = initialResult.tier;
-  const [customText, setCustomText] = useState(String(corridor.everydayAmount));
-  const [customMessage, setCustomMessage] = useState<string | null>(null);
-  const [customLoading, setCustomLoading] = useState(false);
-  const customRange = customAmountRange();
-  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const customAbort = useRef<AbortController | null>(null);
-
-  // AI Rate Insights: both narrations are LLM-generated from numbers
-  // already computed above (see lib/ai.ts) and both render always-visible
-  // rather than behind an expand click, so a change in either fires a
-  // page-level "shown" event below, not an "expanded" one. Fetched
-  // alongside /api/compare on every tier switch, but never blocks it --
-  // a slow or failed insight/anomaly call just leaves these null.
-  const [insight, setInsight] = useState<string | null>(initialInsight);
-  const [anomalyExplanation, setAnomalyExplanation] = useState<string | null>(
-    initialAnomalyExplanation
-  );
-  // Distinct from anomalyExplanation above: that one covers a rejected
-  // FX-rate fetch (result.rateAnomaly); this one covers one or more
-  // providers showing an impossible negative cost against a perfectly
-  // fresh live rate (result.costAnomaly) -- see lib/ai.ts's
-  // getCostAnomalyExplanation. getPickExplainer already refuses to run
-  // when this applies, so `insight` is null whenever this is set.
-  const [costAnomalyExplanation, setCostAnomalyExplanation] = useState<
-    string | null
-  >(initialCostAnomalyExplanation);
+  // The AI narration is generated for the default amount only (it is built
+  // server-side from the default ranking), so it is shown only then.
+  const insight = isDefault && !error ? initialInsight : null;
+  const anomalyExplanation = isDefault ? initialAnomalyExplanation : null;
+  const costAnomalyExplanation = isDefault ? initialCostAnomalyExplanation : null;
 
   useEffect(() => {
-    if (insight) trackAiInsightShown({ corridorId: id, tier });
+    if (insight) trackAiInsightShown({ corridorId: id, tier: initialResult.tier });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [insight]);
 
   useEffect(() => {
     if (anomalyExplanation || costAnomalyExplanation) {
-      trackAnomalyExplanationShown({ corridorId: id, tier });
+      trackAnomalyExplanationShown({ corridorId: id, tier: initialResult.tier });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [anomalyExplanation, costAnomalyExplanation]);
 
-  // Fires once for the page's initial (server-rendered) default amount on
-  // mount -- this component fully remounts on every corridor navigation, so
-  // an empty dependency array is the right "once per corridor view"
-  // trigger. runCustom fires its own Corridor Viewed for amount changes
-  // instead of re-running this effect.
+  // One "Corridor Viewed" per amount actually shown (not while it is loading).
   useEffect(() => {
+    if (loading) return;
     trackCorridorViewed({
       corridorId: id,
       sendCountry: corridor.sendCountryName,
       receiveCountry: corridor.receiveCountryName,
-      sendCurrency: corridor.sendCurrency,
-      receiveCurrency: corridor.receiveCurrency,
-      tier: initialResult.tier,
+      sendCurrency,
+      receiveCurrency,
+      tier: isDefault ? initialResult.tier : "Custom",
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [amount, loading, isDefault]);
 
-  // Rank 1 (the cheapest provider) is pulled out into its own hero card
-  // below, always -- regardless of how the table underneath is sorted --
-  // so "cheapest first" stays visually true even when the table itself is
-  // sorted A-Z or worst-first. Everything else renders in the table.
-  const heroProvider: RankedProvider | undefined = result.providers.find(
-    (p) => p.rank === 1
-  );
-
-  const restSorted = useMemo(() => {
-    const rest = result.providers.filter((p) => p.rank !== 1 && !p.benchmarkReference);
-    const references = result.providers.filter((p) => p.benchmarkReference);
-    let sorted: RankedProvider[];
-    switch (sortBy) {
-      case "cost_desc":
-        sorted = [...rest].sort((a, b) => b.costPercent - a.costPercent);
-        break;
-      case "provider_az":
-        sorted = [...rest].sort((a, b) => a.provider.localeCompare(b.provider));
-        break;
-      case "cost_asc":
-      default:
-        sorted = [...rest].sort((a, b) => a.costPercent - b.costPercent);
-    }
-    // Benchmark reference rows stay pinned last whatever the sort.
-    return [...sorted, ...references];
-  }, [result, sortBy]);
-  const rankedOtherCount = restSorted.filter((p) => !p.benchmarkReference).length;
-
-  function handleSortChange(next: SortField) {
-    setSortBy(next);
-    trackCorridorSorted({ corridorId: id, sortField: next });
+  // Up to two providers picked for a head-to-head.
+  const [picked, setPicked] = useState<string[]>([]);
+  function togglePick(provider: string) {
+    setPicked((cur) =>
+      cur.includes(provider) ? cur.filter((p) => p !== provider) : cur.length < 2 ? [...cur, provider] : cur
+    );
   }
 
-  function cancelPendingCustom() {
-    if (debounceTimer.current) clearTimeout(debounceTimer.current);
-    customAbort.current?.abort();
-    setCustomLoading(false);
-  }
+  const providers = result.providers;
+  const ranked = providers.filter((p) => !p.benchmarkReference);
+  const bestProvider = providers.find((p) => p.rank === 1)?.provider;
+  const query = amountQuery(isDefault && !urlAmount ? null : amount);
+  const pairHref =
+    picked.length === 2 && pairSlug(picked[0], picked[1])
+      ? `/compare/${corridor.sendCountry}/${corridor.receiveCountry}/${pairSlug(picked[0], picked[1])}${query}`
+      : null;
 
-  useEffect(() => cancelPendingCustom, []);
-
-  // Validates locally first (out-of-range amounts never reach the API), then
-  // debounces so typing doesn't fire a request per keystroke.
-  function handleCustomChange(text: string) {
-    setCustomText(text);
-    cancelPendingCustom();
-
-    const cleaned = text.replace(/[,\s]/g, "");
-    if (cleaned === "") {
-      setCustomMessage(null);
-      return;
-    }
-    const value = Number(cleaned);
-    if (!Number.isFinite(value) || value <= 0) {
-      setCustomMessage("Enter a positive number.");
-      return;
-    }
-    const { min, max } = customRange;
-    if (value < min || value > max) {
-      setCustomMessage(
-        `Enter an amount between ${money(corridor.sendCurrency, min, 0)} and ${money(corridor.sendCurrency, max, 0)}. ` +
-          `Outside that range fees stop scaling predictably, so we don't show a number rather than guess.`
-      );
-      return;
-    }
-    setCustomMessage(null);
-    debounceTimer.current = setTimeout(() => runCustom(Math.round(value)), 600);
-  }
-
-  async function runCustom(amount: number) {
-    const controller = new AbortController();
-    customAbort.current = controller;
-    setCustomLoading(true);
-    try {
-      const res = await fetch(
-        `/api/custom-amount?sendCountry=${encodeURIComponent(corridor.sendCountry)}` +
-          `&receiveCountry=${encodeURIComponent(corridor.receiveCountry)}&amount=${amount}`,
-        { signal: controller.signal }
-      );
-      const json = await res.json();
-      if (!res.ok) throw new Error(json?.error ?? `Request failed (${res.status})`);
-      setResult(json as RankedProvidersResult);
-      setSortBy("cost_asc");
-      // AI narration is only offered for the default amount shown on load
-      // (see the note rendered in the hero card), so clear any left over
-      // from that view rather than leave it describing a different amount.
-      setInsight(null);
-      setAnomalyExplanation(null);
-      setCostAnomalyExplanation(null);
-      trackCorridorViewed({
-        corridorId: id,
-        sendCountry: corridor.sendCountryName,
-        receiveCountry: corridor.receiveCountryName,
-        sendCurrency: corridor.sendCurrency,
-        receiveCurrency: corridor.receiveCurrency,
-        tier: "Custom",
-      });
-      setCustomLoading(false);
-    } catch (err) {
-      if (controller.signal.aborted) return; // superseded by a newer amount
-      setCustomLoading(false);
-      setCustomMessage(err instanceof Error ? err.message : "Something went wrong");
-    }
-  }
-
-  const [subscribeEmail, setSubscribeEmail] = useState("");
-  const [honeypot, setHoneypot] = useState("");
-  // Guards "Rate Alert Signup Started" so it fires once per corridor view,
-  // on the first genuine focus of the email field, rather than once per
-  // focus/blur cycle.
-  const [signupStartTracked, setSignupStartTracked] = useState(false);
-  const [subscribeStatus, setSubscribeStatus] = useState<
-    "idle" | "submitting" | "success" | "error"
-  >("idle");
-  const [subscribeError, setSubscribeError] = useState<string | null>(null);
-
-  async function handleSubscribe(e: React.FormEvent) {
-    e.preventDefault();
-    setSubscribeStatus("submitting");
-    setSubscribeError(null);
-    // Rate Alert Signup Completed/Failed fire server-side only (see
-    // app/api/subscribe/route.ts) after a real Buttondown outcome, so a bot
-    // or a client-only failure can't record a fake conversion. We still
-    // hand the server this browser's Amplitude device_id so that
-    // server-fired event attaches to the same funnel timeline as Corridor
-    // Viewed / Signup Started above. See docs/amplitude-tracking-plan.md.
-    try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: subscribeEmail,
-          sendCountry: corridor.sendCountry,
-          receiveCountry: corridor.receiveCountry,
-          company: honeypot,
-          deviceId: getDeviceId(),
-        }),
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json?.error ?? `Request failed (${res.status})`);
-      }
-      setSubscribeStatus("success");
-      setSubscribeEmail("");
-    } catch (err) {
-      setSubscribeStatus("error");
-      setSubscribeError(
-        err instanceof Error ? err.message : "Something went wrong"
-      );
-    }
-  }
+  const anyEstimated = providers.some((p) => p.basis === "estimated");
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-12">
-      <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight">
-        <CorridorLabel corridor={corridor} />
+    <main className="mx-auto w-full max-w-4xl px-6 pb-24 pt-8 sm:pt-10">
+      <Link
+        href={`/${query}`}
+        className="inline-flex items-center gap-1 rounded-full py-1 pr-3 text-sm font-semibold text-link hover:underline"
+      >
+        <span aria-hidden="true">←</span> All corridors
+      </Link>
+
+      <h1 className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-heading text-3xl font-extrabold leading-tight tracking-[-0.04em] text-brand sm:text-5xl">
+        <CountryFlag code={corridor.sendCountry} className="rounded-[3px]" />
+        <span>{sendSideName(corridor.sendCountryName)}</span>
+        <span aria-hidden="true" className="text-text-faint">
+          →
+        </span>
+        <CountryFlag code={corridor.receiveCountry} className="rounded-[3px]" />
+        <span>{corridor.receiveCountryName}</span>
       </h1>
-      <p className="mt-2 text-sm text-text-dim">
-        Ranks providers by how much of the live mid-market value survives fees
-        and FX margin. Cheapest first.
-      </p>
-      <p className="mt-2 text-sm">
-        <Link href="/methodology" className="text-link hover:underline">
-          How we calculate this
+
+      <p className="mt-3 text-base text-text-dim">
+        {isDefault && !urlAmount ? "A typical" : "Sending"}{" "}
+        <strong className="font-bold text-text">{money(sendCurrency, amount, 0)}</strong>
+        {" · "}
+        <Link href={`/${query}`} className="font-semibold text-link underline underline-offset-4">
+          {isDefault && !urlAmount ? "Set your own amount" : "Change amount"}
         </Link>
       </p>
 
-      <div className="mt-8">
-        <label
-          htmlFor="custom-amount"
-          className="block text-xs font-bold uppercase tracking-widest text-text-dim"
-        >
-          Amount
-        </label>
-        <div className="mt-1.5 flex items-center gap-2">
-          <span className="text-sm text-text-dim">{corridor.sendCurrency}</span>
-          <input
-            id="custom-amount"
-            type="text"
-            inputMode="numeric"
-            autoComplete="off"
-            value={customText}
-            onChange={(e) => handleCustomChange(e.target.value)}
-            placeholder={`${customRange.min.toLocaleString("en-US")} – ${customRange.max.toLocaleString("en-US")}`}
-            aria-invalid={customMessage !== null}
-            aria-describedby="custom-amount-help"
-            className="w-44 rounded-md border border-card-border bg-card px-3 py-2 text-sm tabular-nums outline-none focus:border-link"
-          />
-          {customLoading && <span className="text-xs text-text-dim">Updating…</span>}
-        </div>
-        <p
-          id="custom-amount-help"
-          role={customMessage ? "alert" : undefined}
-          className={`mt-1.5 text-xs ${customMessage ? "text-red-700 dark:text-red-300" : "text-text-dim"}`}
-        >
-          {customMessage ??
-            `Between ${money(corridor.sendCurrency, customRange.min, 0)} and ${money(corridor.sendCurrency, customRange.max, 0)}. Wise, PayPal and Western Union are quoted live at your amount wherever this corridor supports it; every other provider is estimated from the two amounts we verified.`}
-        </p>
-      </div>
-
-      <section className="mt-8">
-          {result.rateStale && (
-            <div
-              role="status"
-              className="mb-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
-            >
-              {/* AI-generated only when a real rejected reading is behind
-                  the staleness (see lib/ai.ts's getAnomalyExplanation) --
-                  otherwise this is a plain upstream fetch failure and the
-                  generic message below still applies. */}
-              {anomalyExplanation ??
-                "We couldn't reach the live rate feed just now, so this is the last rate we successfully fetched, not a live one."}
-            </div>
-          )}
-          {/* Independent of rateStale above: the live FX rate can be
-              perfectly fresh while a provider's own manually-sourced row
-              has simply gone stale against it (see lib/corridors.ts's
-              costAnomaly). Only one of these two banners shows at once --
-              a rejected rate fetch is the more fundamental problem, so it
-              takes priority when both happen to apply. */}
-          {!result.rateStale && result.costAnomaly && result.costAnomaly.length > 0 && (
-            <div
-              role="status"
-              className="mb-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
-            >
-              {result.custom
-                ? customAnomalyMessage(result.custom.extrapolated, result.costAnomaly)
-                : (costAnomalyExplanation ??
-                  "One or more providers here currently show a cost below the live mid-market rate, which usually means that provider's own rate data is stale rather than a genuinely better deal. We're holding off on the \"why this pick\" explanation until it's re-verified.")}
-            </div>
-          )}
-          {result.custom && (
-            <div
-              role="status"
-              className="mb-3 rounded-md border border-card-border bg-card px-4 py-2.5 text-sm text-text-dim"
-            >
-              <p>
-                <span className="font-medium text-text">
-                  Custom amount: {money(corridor.sendCurrency, result.custom.amount, 0)}.
-                </span>{" "}
-                {result.custom.liveStatus === "live" &&
-                  `${joinNames(result.custom.liveCapableProviders)} ${
-                    result.custom.liveCapableProviders.length === 1 ? "is a live quote" : "are live quotes"
-                  } for this exact amount. `}
-                {result.custom.liveStatus === "partial" &&
-                  `Some of ${joinNames(result.custom.liveCapableProviders)} are live quotes for this amount; the rest fell back to estimates. `}
-                {result.custom.liveStatus === "unavailable" &&
-                  "Live quotes aren't available right now, so every row below is an estimate. "}
-                Rows tagged{" "}
-                <span className="rounded border border-dashed border-amber-500 px-1 py-0.5 text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300">
-                  Estimated
-                </span>{" "}
-                were not checked at this amount: they&rsquo;re {result.custom.extrapolated
-                  ? "extended beyond"
-                  : "interpolated between"}{" "}
-                the {money(corridor.sendCurrency, result.custom.anchors[0], 0)} and{" "}
-                {money(corridor.sendCurrency, result.custom.anchors[1], 0)} amounts we verified.
-                {result.custom.extrapolated &&
-                  " This amount is outside those two, so treat estimates as rougher."}
-              </p>
-              {result.custom.notEstimated.length > 0 && (
-                <p className="mt-1.5">
-                  Not shown, because only one verified amount is on file so there is
-                  nothing to estimate from: {result.custom.notEstimated.join(", ")}.
-                </p>
-              )}
-            </div>
-          )}
-          <p className="text-xs text-text-dim">
-            {result.rateStale ? "Last known rate" : "Live rate"} 1{" "}
-            {corridor.sendCurrency} ={" "}
-            {rate(result.liveRate)}{" "}
-            {corridor.receiveCurrency} &middot; as of{" "}
-            {new Date(result.asOf).toLocaleDateString("en-US", { timeZone: "UTC" })}
-          </p>
-          {result.lagAllowed && result.lagAllowed.length > 0 && (
-            <p className="mt-1 text-xs text-text-dim">
-              {result.lagAllowed
-                .map((a) => `${a.provider} (${percent(a.costPercent)})`)
-                .join(", ")}{" "}
-              {result.lagAllowed.length === 1 ? "reads" : "read"} slightly below the
-              reference mid-market rate. For a quote taken today that is usually the
-              once-daily reference rate lagging the market, not a better deal.
-            </p>
-          )}
-          {result.benchmark.wiseConfigured && (
-            <p className="mt-1 text-xs text-text-dim">
-              {result.benchmark.source === "wise"
-                ? `Note on ${corridor.receiveCurrency}: the official ${corridor.receiveCurrency} reference rate published by central-bank sources sits a few percent below the rate providers actually trade at, which would make almost every provider look like it beats the market. For this corridor, "mid-market" is Wise's own mid-market rate, and Wise is shown as the benchmark reference rather than ranked. ${corridor.receiveCurrency} has no single agreed mid-market rate, so a provider can occasionally land marginally under the benchmark.`
-                : `Note on ${corridor.receiveCurrency}: Wise's mid-market rate is unavailable right now, so this page is falling back to the official reference rate. That rate sits a few percent below the rate providers actually trade at, so costs shown here may look unusually low or negative.`}
-            </p>
-          )}
-
-          {heroProvider ? (
-            // Solid accent-filled panel, deliberate departure from the
-            // brief-7 tinted-border-card treatment: the top pick is now a
-            // block of pure --accent, not a wash of it. cost% keeps using
-            // --cost (not --accent-contrast) even against this fill --
-            // the brief is explicit --cost must stay visually distinct
-            // from --accent everywhere, this panel included, and #2dd4a0/
-            // #0f7a4f still read clearly against both themes' accent fill.
-            <div className="mt-4 rounded-[14px] bg-accent p-6 sm:p-7">
-              <span className="text-xs font-bold uppercase tracking-widest text-accent-tint">
-                Cheapest right now
-                {heroProvider?.basis === "estimated" ? " (estimated)" : ""}
-              </span>
-              <div className="mt-3 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
-                <div>
-                  <div className="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight text-accent-contrast">
-                    {heroProvider.provider}
-                  </div>
-                  <div className="mt-1 text-sm text-accent-tint">
-                    You receive{" "}
-                    <span className="font-medium text-accent-contrast">
-                      {money(corridor.receiveCurrency, heroProvider.amountReceived)}
-                    </span>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="font-heading text-[38px] font-extrabold leading-none tabular-nums text-cost">
-                    {percent(heroProvider.costPercent)}
-                  </div>
-                  <div className="mt-1 text-xs text-accent-tint">cost vs. mid-market</div>
-                </div>
-              </div>
-              <div className="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-xs text-accent-tint">
-                <RowStatus provider={heroProvider} tone="onAccent" />
-                <ProviderButton provider={heroProvider} tone="onAccent" />
-              </div>
-              {result.custom && (
-                <p
-                  className="mt-3 border-t pt-3 text-xs text-accent-tint"
-                  style={{ borderColor: "var(--hero-divider)" }}
-                >
-                  The AI explanation is only available for the amount shown by
-                  default, not amounts you enter.
-                </p>
-              )}
-              {insight && (
-                <p
-                  className="mt-3 border-t pt-3 text-sm text-accent-tint"
-                  style={{ borderColor: "var(--hero-divider)" }}
-                >
-                  <span className="font-bold text-accent-contrast">
-                    Why {heroProvider.provider} wins:{" "}
-                  </span>
-                  {insight}
-                </p>
-              )}
-            </div>
+      <section aria-labelledby="providers-heading" className="mt-8" aria-busy={loading}>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+          <h2 id="providers-heading" className="font-heading text-xl font-extrabold tracking-[-0.03em] text-brand sm:text-2xl">
+            {providers.length} {providers.length === 1 ? "provider" : "providers"}
+          </h2>
+          {result.rateStale ? (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-400 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-900">
+              Rate delayed
+            </span>
           ) : (
-            <p className="mt-4 rounded-md border border-card-border bg-card px-4 py-3 text-sm text-text-dim">
-              No provider data available for this tier yet.
-            </p>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-lime px-2.5 py-1 text-xs font-extrabold text-brand">
+              <span className="relative flex h-2 w-2" aria-hidden="true">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-40 motion-reduce:hidden" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
+              </span>
+              Live
+            </span>
           )}
+          <span className="text-sm text-text-dim">
+            Mid-market 1 {sendCurrency} = {rate(result.liveRate)} {receiveCurrency}, {shortDate(result.asOf)}
+          </span>
+        </div>
 
-          {restSorted.length > 0 && (
-            <>
-              <div className="mt-6 flex items-center justify-between gap-2">
-                <span className="text-xs font-bold uppercase tracking-widest text-text-dim">
-                  Other providers ({rankedOtherCount})
-                </span>
-                <div className="flex items-center gap-2">
-                  <label
-                    htmlFor="sort-by"
-                    className="text-sm text-text-dim"
-                  >
-                    Sort by
-                  </label>
-                  <select
-                    id="sort-by"
-                    value={sortBy}
-                    onChange={(e) =>
-                      handleSortChange(e.target.value as SortField)
-                    }
-                    className="rounded-md border border-card-border bg-card px-2.5 py-1.5 text-sm outline-none focus:border-link"
-                  >
-                    <option value="cost_asc">Cost % (low to high)</option>
-                    <option value="cost_desc">Cost % (high to low)</option>
-                    <option value="provider_az">Provider (A–Z)</option>
-                  </select>
-                </div>
-              </div>
+        {error && (
+          <Notice>
+            We couldn&rsquo;t price {money(sendCurrency, error.requested, 0)} just now, so this shows a typical{" "}
+            {money(sendCurrency, amount, 0)} instead.
+          </Notice>
+        )}
+        {result.rateStale && (
+          <Notice>
+            {anomalyExplanation ??
+              "We couldn't reach the live rate feed just now, so this uses the last rate we fetched, not a live one."}
+          </Notice>
+        )}
+        {!result.rateStale && result.costAnomaly && result.costAnomaly.length > 0 && (
+          <Notice>
+            {result.custom
+              ? customAnomalyMessage(result.custom.extrapolated, result.costAnomaly)
+              : (costAnomalyExplanation ??
+                "One or more rows read below the live mid-market rate, which usually means that provider's data is stale rather than a better deal. We're not explaining the top pick until it's re-verified.")}
+          </Notice>
+        )}
+        {result.lagAllowed && result.lagAllowed.length > 0 && (
+          <Notice tone="info">
+            {result.lagAllowed.map((l) => l.provider).join(" and ")} reads slightly below mid-market. That is
+            within the allowance for a reference rate that is published once a day.
+          </Notice>
+        )}
+        {result.custom && (anyEstimated || result.custom.liveStatus !== "live") && (
+          <Notice tone="info">
+            {result.custom.liveStatus === "unavailable"
+              ? "Live quotes aren't available right now, so every row is an estimate. "
+              : result.custom.liveStatus === "partial"
+                ? "Some live quotes failed, so those rows fell back to estimates. "
+                : ""}
+            {anyEstimated && "Rows tagged Estimated weren't checked at this exact amount. "}
+            <Link href="/methodology#estimates" className="font-semibold text-link underline underline-offset-4">
+              How estimates work
+            </Link>
+          </Notice>
+        )}
 
-              {/* Dense, grid-lined container per this brief's item 5 --
-                  one bordered box, hairline top-border dividers between
-                  rows, no shadow and no per-row background/rounding
-                  (that per-row "floating card" look was brief-7's
-                  approach; this pass deliberately moves away from it). */}
-              <div className="mt-2 overflow-x-auto rounded-lg border border-card-border bg-card">
-                <table className="w-full text-sm">
-                  <thead className="bg-card-border/40 text-left text-xs font-bold uppercase tracking-wider text-text-dim sm:tracking-widest">
-                    <tr>
-                      <th className="px-1.5 py-2 sm:px-4 font-bold">
-                        <span aria-hidden="true" className="sm:hidden">#</span>
-                        <span className="sr-only sm:not-sr-only">Rank</span>
-                      </th>
-                      <th className="px-1.5 py-2 sm:px-4 font-bold">Provider</th>
-                      <th className="px-1.5 py-2 sm:px-4 font-bold text-right">
-                        Amount <span className="hidden sm:inline">received </span>(
-                        {corridor.receiveCurrency})
-                      </th>
-                      <th className="px-1.5 py-2 sm:px-4 font-bold text-right">
-                        Cost %
-                      </th>
-                      <th className="px-1.5 py-2 sm:px-4 font-bold text-right">Site</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-text-dim">
-                    {restSorted.map((p) => (
-                      <tr key={p.provider} className="border-t border-card-border">
-                        <td className="px-1.5 py-2 sm:px-4 tabular-nums">
-                          {p.benchmarkReference ? (
-                            <span
-                              title="Wise's mid-market rate is this corridor's benchmark, so Wise is shown as the reference rather than ranked."
-                              className="rounded border border-card-border px-1.5 py-0.5 text-xs font-bold uppercase tracking-wider text-text-dim"
-                            >
-                              Ref
-                            </span>
-                          ) : (
-                            p.rank
-                          )}
-                        </td>
-                        <td className="px-1.5 py-2 sm:px-4 font-heading font-medium text-text">
-                          {p.provider}
-                          {p.benchmarkReference && (
-                            <span className="ml-2 text-xs font-normal text-text-dim">
-                              Benchmark reference &middot; not ranked
-                            </span>
-                          )}
-                          <div className="mt-0.5 font-sans text-xs font-normal text-text-dim empty:hidden">
-                            <RowStatus provider={p} />
-                          </div>
-                        </td>
-                        <td className="px-1.5 py-2 sm:px-4 text-right tabular-nums">
-                          {money(corridor.receiveCurrency, p.amountReceived)}
-                        </td>
-                        <td className="px-1.5 py-2 sm:px-4 text-right tabular-nums font-medium text-cost">
-                          {p.benchmarkReference ? (
-                            <span
-                              title="Cost is measured against this provider's own mid-market rate, so it isn't comparable."
-                              className="text-text-dim"
-                            >
-                              &mdash;
-                            </span>
-                          ) : (
-                            percent(p.costPercent)
-                          )}
-                        </td>
-                        <td className="px-1.5 py-2 sm:px-4 text-right">
-                          <ProviderButton provider={p} compact />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          )}
-
-          {heroProvider && (
-            <p className="mt-2 text-xs text-text-dim">
-              &ldquo;Go to&rdquo; buttons open the provider&rsquo;s own site in a
-              new tab. Corridor doesn&rsquo;t process transfers, and the rate
-              and fees you&rsquo;re offered there may differ from the quote
-              shown here.
-            </p>
-          )}
-
-          <RateTrendChart
-            key={`${corridor.sendCurrency}-${corridor.receiveCurrency}`}
-            sendCurrency={corridor.sendCurrency}
-            receiveCurrency={corridor.receiveCurrency}
-          />
-
-          <div className="mt-6 rounded-lg border border-card-border bg-card p-5">
-            <h3 className="text-sm font-semibold">
-              Get rate alerts for <CorridorLabel corridor={corridor} />
-            </h3>
-            <p className="mt-1 text-sm text-text-dim">
-              We&rsquo;ll email you when the cheapest provider or the live
-              rate for this corridor moves.
-            </p>
-            <form
-              onSubmit={handleSubscribe}
-              className="mt-3 flex flex-col gap-2 sm:flex-row"
-            >
-              <label htmlFor="subscribe-email" className="sr-only">
-                Email address
-              </label>
-              {/* Honeypot: hidden from real users, invisible to screen
-                  readers. Bots that fill every field trip it server-side. */}
-              <input
-                type="text"
-                name="company"
-                value={honeypot}
-                onChange={(e) => setHoneypot(e.target.value)}
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                className="hidden"
-              />
-              <input
-                id="subscribe-email"
-                type="email"
-                required
-                placeholder="you@example.com"
-                value={subscribeEmail}
-                onChange={(e) => setSubscribeEmail(e.target.value)}
-                onFocus={() => {
-                  // Real users only; the honeypot field is unreachable by
-                  // tab/click (tabIndex=-1, aria-hidden) so a genuine focus
-                  // event here can't come from the same bots that trip it.
-                  if (!signupStartTracked) {
-                    trackSignupStarted({ corridorId: id });
-                    setSignupStartTracked(true);
-                  }
-                }}
-                disabled={subscribeStatus === "submitting"}
-                className="w-full flex-1 rounded-md border border-card-border bg-card px-3 py-2 text-sm outline-none focus:border-link disabled:opacity-60"
-              />
-              <button
-                type="submit"
-                disabled={subscribeStatus === "submitting"}
-                className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-accent-contrast hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {subscribeStatus === "submitting"
-                  ? "Subscribing…"
-                  : "Notify me"}
-              </button>
-            </form>
-            {subscribeStatus === "success" && (
-              <p className="mt-2 text-sm text-green-700 dark:text-green-400">
-                You&rsquo;re subscribed — check your inbox to confirm.
-              </p>
-            )}
-            {subscribeStatus === "error" && subscribeError && (
-              <p
-                role="alert"
-                className="mt-2 text-sm text-red-700 dark:text-red-400"
-              >
-                {subscribeError}
-              </p>
-            )}
+        {insight && bestProvider && (
+          <div className="mt-4 rounded-2xl bg-mint px-4 py-3.5 text-sm text-brand sm:px-5">
+            <span className="font-extrabold">Why {bestProvider} wins: </span>
+            <span className="text-text">{insight}</span>
           </div>
+        )}
+
+        {loading ? (
+          <ul className="mt-6 space-y-5" role="status" aria-live="polite">
+            <li className="sr-only">Getting quotes for {money(sendCurrency, amount, 0)}…</li>
+            <RowSkeleton />
+            <RowSkeleton />
+            <RowSkeleton />
+          </ul>
+        ) : providers.length === 0 ? (
+          <p className="mt-6 rounded-2xl border border-card-border bg-white px-4 py-3 text-sm text-text-dim">
+            No provider data available for this corridor yet.
+          </p>
+        ) : (
+          <ul className="mt-7 space-y-5">
+            {providers.map((p) => (
+              <ProviderRow
+                key={p.provider}
+                provider={p}
+                corridor={corridor}
+                best={p.rank === 1}
+                midRate={result.liveRate}
+                showCompare={ranked.length >= 2}
+                selected={picked.includes(p.provider)}
+                selectDisabled={picked.length >= 2}
+                onToggleCompare={togglePick}
+              />
+            ))}
+          </ul>
+        )}
+
+        <p className="mt-4 text-xs text-text-dim">
+          Send buttons open the provider&rsquo;s own site in a new tab. Corridor doesn&rsquo;t process transfers, and
+          the rate and fees you&rsquo;re offered there may differ from what&rsquo;s shown here.{" "}
+          <Link href="/methodology" className="font-semibold text-link underline underline-offset-4">
+            How the numbers work
+          </Link>
+        </p>
       </section>
 
-      <footer className="mt-12 border-t border-card-border pt-6 text-sm text-text-dim">
-        <Link href="/methodology" className="text-link hover:underline">
-          How we calculate this
-        </Link>
-      </footer>
+      <RateTrendChart
+        key={`${sendCurrency}-${receiveCurrency}`}
+        sendCurrency={sendCurrency}
+        receiveCurrency={receiveCurrency}
+      />
+
+      <RateAlertForm corridor={corridor} />
+
+      {picked.length > 0 && (
+        <div
+          role="region"
+          aria-label="Compare two providers"
+          className="fixed inset-x-4 bottom-4 z-20 mx-auto flex max-w-md items-center justify-between gap-3 rounded-full bg-brand px-5 py-3 text-white shadow-[0_14px_40px_-10px_rgba(22,51,0,0.7)]"
+        >
+          <span className="min-w-0 truncate text-sm font-semibold">
+            {picked.length === 1 ? `${picked[0]} selected. Pick one more.` : `${picked[0]} vs ${picked[1]}`}
+          </span>
+          {pairHref ? (
+            <Link href={pairHref} className="btn-primary shrink-0 px-4 py-2 text-sm">
+              Compare
+            </Link>
+          ) : (
+            <button type="button" onClick={() => setPicked([])} className="shrink-0 text-sm font-semibold underline">
+              Clear
+            </button>
+          )}
+        </div>
+      )}
     </main>
+  );
+}
+
+// useSearchParams needs a Suspense boundary around anything statically
+// rendered. The fallback is the SAME page rendered without a URL amount, so
+// the static HTML contains the full default comparison (not a blank shell);
+// once hydrated, the real instance picks up "?amount=" if there is one.
+function WithUrlAmount(props: Props) {
+  const params = useSearchParams();
+  return <Comparison {...props} urlAmount={params.get(AMOUNT_PARAM)} />;
+}
+
+export default function CorridorComparison(props: Props) {
+  return (
+    <Suspense fallback={<Comparison {...props} urlAmount={null} />}>
+      <WithUrlAmount {...props} />
+    </Suspense>
   );
 }

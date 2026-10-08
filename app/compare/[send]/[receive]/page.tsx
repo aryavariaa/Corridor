@@ -39,13 +39,14 @@ export async function generateMetadata({
 
   if (!corridor) {
     return {
-      title: "Corridor not available — Corridor",
+      title: "Corridor not available",
       robots: { index: false, follow: false },
     };
   }
 
-  const title = `${corridor.sendCountryName} to ${corridor.receiveCountryName} — Compare remittance providers`;
-  const description = `Compare ${corridor.sendCountryName} to ${corridor.receiveCountryName} remittance providers by what you actually receive after fees and FX margin, ranked cheapest first.`;
+  const from = corridor.sendCountryName === "EUR" ? "the Eurozone" : corridor.sendCountryName;
+  const title = `${from} to ${corridor.receiveCountryName}: compare real transfer costs`;
+  const description = `Compare ${from} to ${corridor.receiveCountryName} remittance providers by what actually lands after fees and exchange-rate markup, ranked cheapest first.`;
 
   return {
     title,
@@ -79,22 +80,21 @@ export default async function ComparePage({
     initialResult = await getRankedProviders(send, receive, "Everyday");
   } catch {
     return (
-      <main className="mx-auto w-full max-w-3xl px-6 py-12">
-        <Link href="/" className="text-sm text-link hover:underline">
-          ← Back to corridor picker
+      <main className="mx-auto w-full max-w-4xl px-6 py-12">
+        <Link href="/" className="inline-flex items-center gap-1 text-sm font-semibold text-link hover:underline">
+          <span aria-hidden="true">←</span> All corridors
         </Link>
-        <h1 className="font-heading mt-4 text-2xl font-bold tracking-tight">
-          <CountryFlag code={corridor.sendCountry} className="mr-1.5 align-[-0.1em]" />
-          {corridor.sendCountryName} to{" "}
-          <CountryFlag code={corridor.receiveCountry} className="mr-1.5 align-[-0.1em]" />
+        <h1 className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-heading text-3xl font-extrabold tracking-[-0.04em] text-brand sm:text-5xl">
+          <CountryFlag code={corridor.sendCountry} className="rounded-[3px]" />
+          {corridor.sendCountryName === "EUR" ? "the Eurozone" : corridor.sendCountryName} to
+          <CountryFlag code={corridor.receiveCountry} className="rounded-[3px]" />
           {corridor.receiveCountryName}
         </h1>
         <div
           role="alert"
-          className="mt-6 rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
+          className="mt-6 rounded-2xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800"
         >
-          We couldn&rsquo;t reach the live rate feed just now. Try refreshing
-          in a moment.
+          We couldn&rsquo;t reach the live rate feed just now. Try refreshing in a moment.
         </div>
       </main>
     );
