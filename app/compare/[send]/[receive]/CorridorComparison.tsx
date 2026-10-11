@@ -12,6 +12,7 @@ import { money, rate } from "@/lib/format";
 import { CountryFlag } from "@/lib/flags";
 import { pairSlug } from "@/lib/provider-slug";
 import { withArticle } from "@/lib/geo";
+import { freshnessLevelFor } from "@/lib/freshness";
 import AmountEditor from "./AmountEditor";
 import ProviderRow from "./ProviderRow";
 import RateAlertForm from "./RateAlertForm";
@@ -139,6 +140,8 @@ function Comparison({
 
   const providers = result.providers;
   const ranked = providers.filter((p) => !p.benchmarkReference);
+  const manualPaypal = providers.find((p) => p.provider === "PayPal" && !p.autoRefreshed);
+  const manualPaypalFreshness = manualPaypal ? freshnessLevelFor(manualPaypal.dateChecked) : "fresh";
   const bestProvider = providers.find((p) => p.rank === 1)?.provider;
   const query = amountQuery(isDefault && !urlAmount ? null : amount);
   const pairHref =
@@ -222,6 +225,17 @@ function Comparison({
           <Notice tone="info">
             {result.lagAllowed.map((l) => l.provider).join(" and ")} reads slightly below mid-market. That is
             within the allowance for a reference rate that is published once a day.
+          </Notice>
+        )}
+        {manualPaypal && manualPaypalFreshness !== "fresh" && (
+          <Notice tone={manualPaypalFreshness === "stale" ? "warn" : "info"}>
+            <strong>
+              {manualPaypalFreshness === "stale"
+                ? "PayPal’s Xoom quote is overdue for a fresh check. "
+                : "PayPal’s Xoom quote may need a fresh check. "}
+            </strong>
+            It was last checked {shortDate(manualPaypal.dateChecked)} and isn&rsquo;t refreshed automatically.
+            Confirm the current quote with Xoom before relying on it.
           </Notice>
         )}
         {result.custom && result.custom.notEstimated.length > 0 && providers.length > 0 && (
