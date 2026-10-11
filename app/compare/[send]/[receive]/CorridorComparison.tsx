@@ -12,6 +12,7 @@ import { money, rate } from "@/lib/format";
 import { CountryFlag } from "@/lib/flags";
 import { pairSlug } from "@/lib/provider-slug";
 import { withArticle } from "@/lib/geo";
+import AmountEditor from "./AmountEditor";
 import ProviderRow from "./ProviderRow";
 import RateAlertForm from "./RateAlertForm";
 import RateTrendChart from "./RateTrendChart";
@@ -166,14 +167,13 @@ function Comparison({
         <span>{corridor.receiveCountryName}</span>
       </h1>
 
-      <p className="mt-3 text-base text-text-dim">
-        {isDefault && !urlAmount ? "A typical" : "Sending"}{" "}
-        <strong className="font-bold text-text">{money(sendCurrency, amount, 0)}</strong>
-        {" · "}
-        <Link href={`/${query}`} className="font-semibold text-link underline underline-offset-4">
-          {isDefault && !urlAmount ? "Set your own amount" : "Change amount"}
-        </Link>
-      </p>
+      <AmountEditor
+        className="mt-3 text-base text-text-dim"
+        currency={sendCurrency}
+        amount={amount}
+        hasCustom={Boolean(urlAmount)}
+        lead={isDefault && !urlAmount ? "A typical" : "Sending"}
+      />
 
       <section aria-labelledby="providers-heading" className="mt-8" aria-busy={loading}>
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">

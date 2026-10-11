@@ -71,7 +71,7 @@ function CorridorCard({ corridor, query }: { corridor: Corridor; query: string }
 }
 
 // `urlAmount` is whatever "?amount=" the page was opened with (the corridor
-// page's "Change amount" link sends people back with it), or null.
+// page's "All corridors" link sends people back with it), or null.
 function Home({
   corridors,
   urlAmount,

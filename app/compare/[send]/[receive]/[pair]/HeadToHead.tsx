@@ -11,6 +11,7 @@ import { pairSlug } from "@/lib/provider-slug";
 import { formatDelivery } from "@/lib/row-breakdown";
 import { verdict, type Verdict } from "@/lib/versus";
 import { withArticle } from "@/lib/geo";
+import AmountEditor from "../AmountEditor";
 import { useCorridorResult } from "../useCorridorResult";
 
 export type OtherCorridor = {
@@ -105,16 +106,14 @@ function Compared({
         <span aria-hidden="true">→</span>
         <CountryFlag code={corridor.receiveCountry} className="rounded-[2px]" />
         <span>{corridor.receiveCountryName}</span>
-        <span aria-hidden="true">·</span>
-        <span>
-          {isDefault && !urlAmount ? "a typical" : "sending"}{" "}
-          <strong className="font-bold text-text">{money(sendCurrency, amount, 0)}</strong>
-        </span>
-        <span aria-hidden="true">·</span>
-        <Link href={`/${query}`} className="font-semibold text-link underline underline-offset-4">
-          {isDefault && !urlAmount ? "Set your own amount" : "Change amount"}
-        </Link>
       </p>
+      <AmountEditor
+        className="mt-1.5 text-base text-text-dim"
+        currency={sendCurrency}
+        amount={amount}
+        hasCustom={Boolean(urlAmount)}
+        lead={isDefault && !urlAmount ? "A typical" : "Sending"}
+      />
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {([

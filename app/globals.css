@@ -145,3 +145,9 @@ input:focus-visible {
   outline: 2px solid var(--forest);
   outline-offset: 2px;
 }
+
+/* A field that sits inside a bordered wrapper shows its focus ring on the
+   wrapper (focus-within), not as a second box around the bare input. */
+input.field-in-wrapper:focus-visible {
+  outline: none;
+}
