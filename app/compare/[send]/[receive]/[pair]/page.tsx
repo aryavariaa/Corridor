@@ -11,6 +11,7 @@ import { allPairs, POPULAR_CORRIDORS, verdict } from "@/lib/versus";
 import { pairSlug, parsePairSlug, providerFromSlug } from "@/lib/provider-slug";
 import HeadToHead, { type OtherCorridor } from "./HeadToHead";
 import { withArticle } from "@/lib/geo";
+import { shareMetadata } from "@/lib/seo";
 
 // One page per (corridor, pair of providers that both have data there). Every
 // other combination, including a pair that exists on a different corridor, is
@@ -55,8 +56,11 @@ export async function generateMetadata({ params }: { params: Promise<PageParams>
   return {
     title,
     description,
-    openGraph: { title, description, url: `/compare/${corridor.sendCountry}/${corridor.receiveCountry}/${pairSlug(a, b)}` },
-    twitter: { card: "summary_large_image", title, description },
+    ...shareMetadata({
+      title,
+      description,
+      path: `/compare/${corridor.sendCountry}/${corridor.receiveCountry}/${pairSlug(a, b)}`,
+    }),
   };
 }
 

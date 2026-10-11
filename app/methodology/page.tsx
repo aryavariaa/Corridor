@@ -1,10 +1,15 @@
 import Link from "next/link";
 import { AMOUNT_MAX, AMOUNT_MIN } from "@/lib/amount";
+import { shareMetadata } from "@/lib/seo";
+
+const title = "How Corridor works";
+const description =
+  "How Corridor measures the real cost of sending money: the formula, where each number comes from, what Live means, and the checks that keep promotional rates out.";
 
 export const metadata = {
-  title: "How Corridor works",
-  description:
-    "How Corridor measures the real cost of sending money: the formula, where each number comes from, what Live means, and the checks that keep promotional rates out.",
+  title,
+  description,
+  ...shareMetadata({ title, description, path: "/methodology" }),
 };
 
 function Section({
@@ -28,7 +33,7 @@ export default function MethodologyPage() {
   return (
     <main className="mx-auto w-full max-w-2xl px-6 pb-20 pt-10">
       <Link href="/" className="inline-flex items-center gap-1 text-sm font-semibold text-link hover:underline">
-        <span aria-hidden="true">←</span> All corridors
+        <span aria-hidden="true">←</span> Back to compare
       </Link>
 
       <h1 className="mt-5 font-heading text-4xl font-extrabold leading-[1.02] tracking-[-0.045em] text-brand sm:text-5xl">

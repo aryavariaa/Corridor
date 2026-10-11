@@ -5,6 +5,7 @@ import { corridorId, findCorridor, getRankedProviders, listCorridors } from "@/l
 import { getPickExplainer, getAnomalyExplanation, getCostAnomalyExplanation } from "@/lib/ai";
 import { CountryFlag } from "@/lib/flags";
 import { withArticle } from "@/lib/geo";
+import { shareMetadata } from "@/lib/seo";
 import CorridorComparison from "./CorridorComparison";
 
 // Only the pairs in data/provider-data.json's corridors[] exist as pages.
@@ -52,12 +53,7 @@ export async function generateMetadata({
   return {
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: `/compare/${send}/${receive}`,
-    },
-    twitter: { card: "summary_large_image", title, description },
+    ...shareMetadata({ title, description, path: `/compare/${send}/${receive}` }),
   };
 }
 
@@ -83,7 +79,7 @@ export default async function ComparePage({
     return (
       <main className="mx-auto w-full max-w-4xl px-6 py-12">
         <Link href="/" className="inline-flex items-center gap-1 text-sm font-semibold text-link hover:underline">
-          <span aria-hidden="true">←</span> All corridors
+          <span aria-hidden="true">←</span> Compare another corridor
         </Link>
         <h1 className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-heading text-3xl font-extrabold tracking-[-0.04em] text-brand sm:text-5xl">
           <CountryFlag code={corridor.sendCountry} className="rounded-[3px]" />

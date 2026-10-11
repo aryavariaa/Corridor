@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getRankedProviders, listCorridors } from "@/lib/corridors";
 import { pickExample } from "@/lib/home-example";
 import HomeDirectory, { type HomeExampleData } from "./HomeDirectory";
@@ -7,6 +8,10 @@ import HomeDirectory, { type HomeExampleData } from "./HomeDirectory";
 // regenerated hourly (same window as the corridor pages); if the rate feed is
 // down at that moment the example is simply left out.
 export const revalidate = 3600;
+
+// The home page's share metadata comes from app/layout.tsx; this adds the
+// canonical, so ?amount=... variants point back at "/".
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 const EXAMPLE_CORRIDOR = { send: "US", receive: "IN" } as const;
 
