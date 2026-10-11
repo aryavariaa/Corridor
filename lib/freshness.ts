@@ -10,9 +10,9 @@ export type Freshness = "fresh" | "aging" | "stale";
 // no whole-corridor version: a homepage caption keyed to a corridor's oldest
 // row attributed one provider's staleness (usually hand-sourced PayPal) to
 // whichever provider the card named, so it was removed (2026-10-04).
-export function freshnessLevelFor(dateChecked: string): Freshness {
+export function freshnessLevelFor(dateChecked: string, now: number = Date.now()): Freshness {
   const days =
-    (Date.now() - new Date(dateChecked).getTime()) / (1000 * 60 * 60 * 24);
+    (now - new Date(dateChecked).getTime()) / (1000 * 60 * 60 * 24);
   return days <= 7 ? "fresh" : days <= 30 ? "aging" : "stale";
 }
 
