@@ -1,31 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useId, useMemo, useState } from "react";
 import { AMOUNT_PARAM, amountQuery, parseAmount } from "@/lib/amount";
 import { money } from "@/lib/format";
 import type { Corridor } from "@/lib/corridors";
-import { inProse } from "@/lib/geo";
-
-// The worked example under the headline, computed server-side in app/page.tsx
-// from stored data (see lib/home-example.ts). Absent when it can't be.
-export type HomeExampleData = {
-  sendCountry: string;
-  receiveCountry: string;
-  sendCurrency: string;
-  receiveCurrency: string;
-  sendCountryName: string;
-  receiveCountryName: string;
-  sendAmount: number;
-  best: { provider: string; amountReceived: number };
-  others: { provider: string; amountReceived: number }[];
-};
-
-// "X, Y or Z": the rows that lost, in the order they ranked.
-function orList(items: string[]): string {
-  return items.length < 2 ? (items[0] ?? "") : `${items.slice(0, -1).join(", ")} or ${items[items.length - 1]}`;
-}
 
 const fieldLabel = "block text-xs font-semibold uppercase tracking-wider text-text-dim";
 const fieldControl =
@@ -33,15 +12,7 @@ const fieldControl =
 
 // `urlAmount` is whatever "?amount=" the page was opened with (the corridor
 // page's "All corridors" link sends people back with it), or null.
-function Home({
-  corridors,
-  urlAmount,
-  example,
-}: {
-  corridors: Corridor[];
-  urlAmount: string | null;
-  example: HomeExampleData | null;
-}) {
+function Home({ corridors, urlAmount }: { corridors: Corridor[]; urlAmount: string | null }) {
   const router = useRouter();
   const formId = useId();
   const [sendCountry, setSendCountry] = useState("");
@@ -125,27 +96,6 @@ function Home({
             See what actually lands after fees and exchange-rate markup, ranked against the live
             mid-market rate.
           </p>
-          {example && (
-            <p className="mt-3 max-w-xl text-sm text-text-dim">
-              For example: send {money(example.sendCurrency, example.sendAmount, 0)} from{" "}
-              {inProse(example.sendCountryName)} to {inProse(example.receiveCountryName)} right now and{" "}
-              {example.best.provider} delivers {money(example.receiveCurrency, example.best.amountReceived)}, more
-              than{" "}
-              {orList(
-                example.others.map(
-                  (o) => `${o.provider}\u2019s ${money(example.receiveCurrency, o.amountReceived)}`
-                )
-              )}
-              .{" "}
-              <Link
-                href={`/compare/${example.sendCountry}/${example.receiveCountry}`}
-                className="font-semibold text-link underline underline-offset-4"
-              >
-                See it compared
-              </Link>
-              .
-            </p>
-          )}
 
           <form
             onSubmit={handleSubmit}
@@ -163,7 +113,7 @@ function Home({
                   onChange={(e) => handleSendChange(e.target.value)}
                   className={fieldControl}
                 >
-                  <option value="">Anywhere</option>
+                  <option value="">Select</option>
                   {sendOptions.map((c) => (
                     <option key={c.code} value={c.code}>
                       {c.name}
@@ -185,7 +135,7 @@ function Home({
                   }}
                   className={fieldControl}
                 >
-                  <option value="">Anywhere</option>
+                  <option value="">Select</option>
                   {receiveOptions.map((c) => (
                     <option key={c.code} value={c.code}>
                       {c.name}
@@ -252,24 +202,18 @@ function Home({
 
 // useSearchParams needs a Suspense boundary around anything statically
 // rendered. The fallback is the SAME page rendered without a URL amount, so the
-// static HTML still contains the whole page (headline, example, form)
+// static HTML still contains the whole page (headline, form)
 // instead of a blank shell; once hydrated, the real instance picks up
 // "?amount=" if the visitor arrived with one.
-function HomeWithUrlAmount({ corridors, example }: { corridors: Corridor[]; example: HomeExampleData | null }) {
+function HomeWithUrlAmount({ corridors }: { corridors: Corridor[] }) {
   const params = useSearchParams();
-  return <Home corridors={corridors} urlAmount={params.get(AMOUNT_PARAM)} example={example} />;
+  return <Home corridors={corridors} urlAmount={params.get(AMOUNT_PARAM)} />;
 }
 
-export default function HomeDirectory({
-  corridors,
-  example,
-}: {
-  corridors: Corridor[];
-  example: HomeExampleData | null;
-}) {
+export default function HomeDirectory({ corridors }: { corridors: Corridor[] }) {
   return (
-    <Suspense fallback={<Home corridors={corridors} urlAmount={null} example={example} />}>
-      <HomeWithUrlAmount corridors={corridors} example={example} />
+    <Suspense fallback={<Home corridors={corridors} urlAmount={null} />}>
+      <HomeWithUrlAmount corridors={corridors} />
     </Suspense>
   );
 }

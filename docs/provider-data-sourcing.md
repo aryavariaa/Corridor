@@ -1303,6 +1303,6 @@ personal-transfer limit. The feed contradicts that, so the comment was rewritten
   between 0.5x the lower and 5x the higher verified amount (`ESTIMATE_BELOW` / `ESTIMATE_ABOVE`). Outside that, left out.
 - `liveStatus` is now `live` or `unavailable`; `partial` no longer exists.
 
-**Homepage example** ("send $200 ... X delivers ...") is computed at render time by `app/page.tsx` from the US->IN
-Everyday rows (`lib/home-example.ts`), regenerated hourly. Rows labelled "Under review" are excluded, and nothing is shown
-if fewer than two rows remain or the top is a tie. It was briefly hardcoded; do not reintroduce literal figures there.
+**Homepage example** ("send $200 ... X delivers ...") was computed at render time (US->IN Everyday rows, "Under review"
+rows excluded) and then removed from the home page on 2026-10-11 at the owner's request; the helper was deleted with it.
+If a worked example comes back, compute it from stored data the same way, never type literal figures.
