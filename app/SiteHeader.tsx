@@ -11,9 +11,6 @@ export default function SiteHeader() {
           <Wordmark />
         </Link>
         <nav className="flex items-center gap-1 text-sm font-medium text-text-dim sm:gap-2">
-          <Link href="/" className="hidden rounded-full px-3 py-1.5 hover:bg-mint hover:text-brand sm:inline-block">
-            Corridors
-          </Link>
           <Link href="/methodology" className="rounded-full px-3 py-1.5 hover:bg-mint hover:text-brand">
             How it works
           </Link>

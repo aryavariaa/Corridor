@@ -8,10 +8,10 @@ export default function NotFound() {
       </h1>
       <p className="mt-4 max-w-xl text-lg leading-snug text-text-dim">
         This page doesn&rsquo;t exist. If you followed a link to a corridor, we may not have researched it yet or
-        may have discontinued it. Pick one of the corridors we do have data for.
+        may have discontinued it. Use the form on the home page to pick one we do have data for.
       </p>
       <Link href="/" className="btn-primary mt-8">
-        Browse all corridors
+        Compare a corridor
       </Link>
     </main>
   );

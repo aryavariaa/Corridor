@@ -6,13 +6,8 @@ import { Suspense, useId, useMemo, useState } from "react";
 import { AMOUNT_PARAM, amountQuery, parseAmount } from "@/lib/amount";
 import { money } from "@/lib/format";
 import type { Corridor } from "@/lib/corridors";
-import { CountryFlag } from "@/lib/flags";
-import { inProse, withArticle } from "@/lib/geo";
+import { inProse } from "@/lib/geo";
 
-// Directory sections group by send currency, not geography: every corridor
-// already carries a sendCurrency, so there's no separate field to derive. A
-// currency with no corridors (e.g. none left after a filter) is simply absent
-// from `grouped`, not rendered as an empty section.
 // The worked example under the headline, computed server-side in app/page.tsx
 // from stored data (see lib/home-example.ts). Absent when it can't be.
 export type HomeExampleData = {
@@ -32,43 +27,9 @@ function orList(items: string[]): string {
   return items.length < 2 ? (items[0] ?? "") : `${items.slice(0, -1).join(", ")} or ${items[items.length - 1]}`;
 }
 
-const SEND_CURRENCY_ORDER = ["USD", "GBP", "AUD", "EUR", "CAD"];
-
 const fieldLabel = "block text-xs font-semibold uppercase tracking-wider text-text-dim";
 const fieldControl =
   "mt-1.5 w-full rounded-xl border border-card-border bg-white px-3.5 py-3 text-base text-text";
-
-function CorridorCard({ corridor, query }: { corridor: Corridor; query: string }) {
-  return (
-    <Link
-      href={`/compare/${corridor.sendCountry}/${corridor.receiveCountry}${query}`}
-      className="group flex items-center justify-between gap-3 rounded-2xl border border-card-border bg-white px-4 py-3.5 transition hover:border-brand hover:shadow-[0_6px_20px_-8px_rgba(22,51,0,0.35)]"
-    >
-      <span className="min-w-0">
-        <span className="flex items-center gap-2">
-          <CountryFlag code={corridor.sendCountry} className="shrink-0 rounded-[2px]" />
-          <span className="text-text-faint" aria-hidden="true">
-            →
-          </span>
-          <CountryFlag code={corridor.receiveCountry} className="shrink-0 rounded-[2px]" />
-        </span>
-        <span className="mt-1.5 block truncate font-heading text-[1.05rem] font-bold text-brand">
-          {corridor.receiveCountryName}
-        </span>
-        <span className="block truncate text-xs text-text-dim">
-          from {withArticle(corridor.sendCountryName)}{" "}
-          · {corridor.sendCurrency} → {corridor.receiveCurrency}
-        </span>
-      </span>
-      <span
-        aria-hidden="true"
-        className="text-xl text-text-faint transition group-hover:translate-x-0.5 group-hover:text-brand"
-      >
-        ›
-      </span>
-    </Link>
-  );
-}
 
 // `urlAmount` is whatever "?amount=" the page was opened with (the corridor
 // page's "All corridors" link sends people back with it), or null.
@@ -138,43 +99,11 @@ function Home({
     e.preventDefault();
     if (amountError) return;
     if (!selected) {
-      setFormMessage("Choose where you're sending from and to, or pick a corridor below.");
+      setFormMessage("Choose where you're sending from and to.");
       return;
     }
     router.push(`/compare/${selected.sendCountry}/${selected.receiveCountry}${query}`);
   }
-
-  const filtered = useMemo(
-    () =>
-      corridors.filter(
-        (c) =>
-          (!sendCountry || c.sendCountry === sendCountry) &&
-          (!receiveCountry || c.receiveCountry === receiveCountry)
-      ),
-    [corridors, sendCountry, receiveCountry]
-  );
-
-  const grouped = useMemo(() => {
-    const byCurrency = new Map<string, Corridor[]>();
-    for (const c of filtered) {
-      const list = byCurrency.get(c.sendCurrency) ?? [];
-      list.push(c);
-      byCurrency.set(c.sendCurrency, list);
-    }
-    for (const list of byCurrency.values()) {
-      list.sort((a, b) =>
-        `${a.sendCountryName}${a.receiveCountryName}`.localeCompare(
-          `${b.sendCountryName}${b.receiveCountryName}`
-        )
-      );
-    }
-    return SEND_CURRENCY_ORDER.filter((c) => byCurrency.has(c)).map((currency) => ({
-      sendCurrency: currency,
-      corridors: byCurrency.get(currency)!,
-    }));
-  }, [filtered]);
-
-  const hasFilter = Boolean(sendCountry || receiveCountry);
 
   return (
     <main>
@@ -314,55 +243,16 @@ function Home({
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-5xl px-6 pb-20 pt-12">
-        <div className="flex items-end justify-between gap-4">
-          <h2 className="font-heading text-2xl font-extrabold tracking-[-0.03em] text-brand sm:text-3xl">
-            {hasFilter ? "Matching corridors" : "All corridors"}
-          </h2>
-          {hasFilter && (
-            <button
-              type="button"
-              onClick={() => {
-                setSendCountry("");
-                setReceiveCountry("");
-                setFormMessage(null);
-              }}
-              className="rounded-full px-3 py-1.5 text-sm font-semibold text-link underline underline-offset-4 hover:bg-mint"
-            >
-              Clear filters
-            </button>
-          )}
-        </div>
-
-        <div className="mt-8 space-y-10">
-          {grouped.length === 0 && (
-            <p className="text-sm text-text-dim">No corridors match that combination yet.</p>
-          )}
-          {grouped.map(({ sendCurrency: currency, corridors: list }) => (
-            <div key={currency}>
-              <h3 className="text-sm font-bold uppercase tracking-widest text-text-dim">
-                Sending {currency}
-              </h3>
-              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {list.map((c) => (
-                  <CorridorCard key={`${c.sendCountry}-${c.receiveCountry}`} corridor={c} query={query} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <p className="mt-14 border-t border-card-border pt-6 text-sm text-text-dim">
-          Corridor compares quotes. It doesn&rsquo;t move money.
-        </p>
-      </section>
+      <p className="mx-auto w-full max-w-5xl px-6 pb-16 pt-10 text-sm text-text-dim">
+        Corridor compares quotes. It doesn&rsquo;t move money.
+      </p>
     </main>
   );
 }
 
 // useSearchParams needs a Suspense boundary around anything statically
 // rendered. The fallback is the SAME page rendered without a URL amount, so the
-// static HTML still contains the whole page (headline, form, every corridor)
+// static HTML still contains the whole page (headline, example, form)
 // instead of a blank shell; once hydrated, the real instance picks up
 // "?amount=" if the visitor arrived with one.
 function HomeWithUrlAmount({ corridors, example }: { corridors: Corridor[]; example: HomeExampleData | null }) {

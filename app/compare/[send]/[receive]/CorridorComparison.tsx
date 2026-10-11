@@ -154,7 +154,7 @@ function Comparison({
         href={`/${query}`}
         className="inline-flex items-center gap-1 rounded-full py-1 pr-3 text-sm font-semibold text-link hover:underline"
       >
-        <span aria-hidden="true">←</span> All corridors
+        <span aria-hidden="true">←</span> Compare another corridor
       </Link>
 
       <h1 className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-heading text-3xl font-extrabold leading-tight tracking-[-0.04em] text-brand sm:text-5xl">
