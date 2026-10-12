@@ -1306,3 +1306,76 @@ personal-transfer limit. The feed contradicts that, so the comment was rewritten
 **Homepage example** ("send $200 ... X delivers ...") was computed at render time (US->IN Everyday rows, "Under review"
 rows excluded) and then removed from the home page on 2026-10-11 at the owner's request; the helper was deleted with it.
 If a worked example comes back, compute it from stored data the same way, never type literal figures.
+
+## 2026-10-11 — EUR-send expansion: 8 corridors (EUR->AU/CA/GB/MX/US/VN/BD/ZA)
+
+**Why.** Only 2 of 58 corridors sent from EUR (IN, PH) against 14 each for USD/GBP/AUD/CAD. EUR can't target
+the 8 Eurozone receive countries (that's sending to itself), so its ceiling is every non-Eurozone receive country
+already modeled for another send currency: AU, CA, GB, MX, VN, BD, US, ZA plus the existing IN, PH = **10**. All 8
+were checked and kept; none was invented. Corridors 58 -> 66, rows 506 -> 548.
+
+**Tiers.** EUR senders default to 200/2000 (the 2026-10-01 rule above: USD/GBP/EUR at 200/2000, AUD/CAD at
+300/3000). EUR->PH's 300/3000 is treated as the anomaly, not a precedent. Exceptions only where the receive
+country already has a deliberate exception for every comparable send currency:
+- AU, CA, MX, US: **200/2000**. (US: GBP->US is 200/2000; CAD/AUD->US are 300/3000 only because AUD/CAD senders always are.)
+- GB: **300/3000** -- the only existing precedents (CAD->GB, AUD->GB) are both 300/3000; GBP can't target itself.
+- VN, ZA: **300/3000** -- every existing corridor into them uses it, whatever the send currency.
+- BD: **300/2500** -- not a typo and not documented anywhere before now: it originates on the 2026-09-10 IT->BD
+  corridor (commit `6847d3d`), which became EUR->BD and was copied to GB->BD. So 300/2500 is EUR->BD's own
+  historical tier, restored as-is.
+
+**EUR->BD and EUR->ZA are re-additions.** Both were removed 2026-10-01 as Wise-only (see that entry). Wise's API
+now also returns Western Union for both (EUR->BD from IT, EUR->ZA from DE), so each clears the
+"one entry isn't a comparison" bar at 2 providers. If WU drops out of the feed for either, they degrade to
+Wise-only again and should be removed again under the same rule.
+
+**PayPal, per corridor.**
+- AU, CA, GB, MX, US: Wise's API **returns** PayPal (sourceCountry ES). Used as-is and left to the daily refresh --
+  **no `MANUAL_OVERRIDE`, no Xoom sourcing**. Precedent is the EUR-*send* side (EUR->PH, plus GB->IN, US->MX,
+  CA->PH, AU->PH, all API PayPal), not the Eurozone-*receive* corridors, whose Xoom override exists only for
+  consistency with 7 siblings that had no API PayPal. Keeping these on the API means the Lambda maintains them
+  with no code change and no redeploy, and avoids the promo-rate risk of hand-sourced Xoom rows. API PayPal is
+  the expensive option on all five (4.9-6.5% all-in at the Everyday tier); that is the real quote, not a bug.
+  Xoom was not checked for these and could be cheaper. If that is ever wanted, follow the Germany pattern
+  (override key + Lambda redeploy before the next run).
+- VN, BD, ZA: Wise's API returns **no** PayPal. Xoom from a Eurozone origin was not checked; these ship as
+  2-provider (Wise + Western Union), the same shape as CA/GB/AU->VN/ZA and GB->BD. A Xoom check is the
+  follow-up if a third provider is wanted.
+
+**Seeding.** Rows were written with `fetchWiseComparison` + `pickQuote` + `quoteBreakdown` from
+`scripts/lib/refresh-core.mjs` (the Lambda's code), with the same `source` string format and the same 8% peer
+guard (0 blocked), so a seeded row is byte-for-byte what the refresh would write. A dry run of
+`scripts/refresh-wise-rows.mjs` afterwards picked up all 44 new rows as existing rows with no value change. No
+change to `refresh-core.mjs`, so **no Lambda redeploy is needed**. Quotes captured 2026-10-11 (EUR send;
+received amount, rate, fee EUR):
+
+| Corridor | Tier | Wise | Western Union | PayPal |
+|---|---|---|---|---|
+| EUR->AU | 200 | 317.60 AUD (1.60348, 1.93) | 303.12 (1.530845817, 1.99, IT) | 301.12 (1.5362595764, 3.99, ES) |
+| EUR->AU | 2000 | 3191.50 (1.60348, 9.64) | 3122.70 (1.5629054205, 1.99, IT) | 3066.39 (1.5362595764, 3.99, ES) |
+| EUR->CA | 200 | 316.08 CAD (1.59756, 2.15) | 302.79 (1.5291488973, 1.99, IT) | 302.55 (1.5279345396, 1.99, ES) |
+| EUR->CA | 2000 | 3179.37 (1.59756, 9.86) | 3055.25 (1.5291488973, 1.99, IT) | 3052.83 (1.5279345396, 1.99, ES) |
+| EUR->GB | 300 | 251.84 GBP (0.84625, 2.41) | 247.67 (0.8338756537, 2.99, IT) | 241.85 (0.8115648026, 1.99, ES) |
+| EUR->GB | 3000 | 2525.79 (0.84625, 15.31) | 2498.30 (0.8338756537, 3.99, IT) | 2433.08 (0.8115648026, 1.99, ES) |
+| EUR->MX | 200 | 4077.67 MXN (20.6318, 2.36) | 4021.20 (20.3080777848, 1.99, IT) | 3818.74 (19.4823922481, 3.99, ES) |
+| EUR->MX | 2000 | 40975.17 (20.6318, 13.98) | 40575.74 (20.3080777848, 1.99, IT) | 38887.05 (19.4823922481, 3.99, ES) |
+| EUR->US | 200 | 221.30 USD (1.12035, 2.47) | 215.27 (1.0871596063, 1.99, IT) | 212.82 (1.0747797174, 1.99, ES) |
+| EUR->US | 2000 | 2228.50 (1.12035, 10.89) | 2183.32 (1.0927491164, 1.99, IT) | 2147.42 (1.0747797174, 1.99, ES) |
+| EUR->VN | 300 | 8589469 VND (29002.8, 3.84) | 8282718 (27793.4232402145, 1.99, IT) | -- |
+| EUR->VN | 3000 | 86360477 (29002.8, 22.34) | 83324961 (27793.4232402145, 1.99, IT) | -- |
+| EUR->BD | 300 | 40781.40 BDT (138.139, 4.78) | 40774.14 (136.8213840385, 1.99, IT) | -- |
+| EUR->BD | 2500 | 342185.50 (138.139, 22.89) | 341781.19 (136.8213840385, 1.99, IT) | -- |
+| EUR->ZA | 300 | 5457.05 ZAR (18.4941, 4.93) | 5379.71 (18.112881755, 2.99, DE) | -- |
+| EUR->ZA | 3000 | 55098.18 (18.4941, 20.77) | 54266.37 (18.112881755, 3.99, DE) | -- |
+
+EUR->ZA Western Union is the first EUR row to resolve to DE under `EUR_SOURCE_COUNTRY_PREFERENCE`: the API returned
+no ES or IT quote for it.
+
+**Also changed.** The site description (`app/layout.tsx`) and share image (`app/opengraph-image.tsx`) said "58
+corridors" as a literal; both now read `listCorridors().length`, so the next corridor change can't leave them stale.
+
+**Verification.** `tsc --noEmit`, `eslint`, `node --test lib/*.test.mjs` (38/38), `npm run aws:test` (26/26) clean;
+`next build` generated all 10 `/compare/EUR/*` pages, their head-to-head pages (3 pairs each for 3-provider
+corridors, 1 for VN/BD/ZA) and sitemap entries. On a local `next start`: EUR->MX, EUR->ZA, EUR->GB and
+EUR->AU/paypal-vs-wise render the right receive currency, real fee/rate, Wise as Best value; `/api/custom-amount`
+at EUR 750 returns all-live quotes for EUR->US (3 providers) and EUR->BD (2), with nothing estimated.

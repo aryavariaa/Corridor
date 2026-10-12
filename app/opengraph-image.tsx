@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { listCorridors } from "@/lib/corridors";
 
 export const alt = "Corridor: compare real remittance costs";
 export const size = { width: 1200, height: 630 };
@@ -44,7 +45,7 @@ export default async function Image() {
             maxWidth: 980,
           }}
         >
-          Compare real remittance costs across 58 corridors
+          {`Compare real remittance costs across ${listCorridors().length} corridors`}
         </div>
         <div
           style={{

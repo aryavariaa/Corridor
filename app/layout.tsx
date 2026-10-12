@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import SiteHeader from "./SiteHeader";
+import { listCorridors } from "@/lib/corridors";
 import "./globals.css";
 
 // Display face: wordmark, headings, big numbers. Bricolage Grotesque is a
@@ -27,8 +28,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 const siteTitle = "Corridor: compare real remittance costs";
-const siteDescription =
-  "See what actually lands after fees and exchange-rate markup, across 58 corridors, ranked cheapest first.";
+const siteDescription = `See what actually lands after fees and exchange-rate markup, across ${listCorridors().length} corridors, ranked cheapest first.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://corridor-red.vercel.app"),
