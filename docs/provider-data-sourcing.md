@@ -1345,7 +1345,7 @@ Wise-only again and should be removed again under the same rule.
 **Seeding.** Rows were written with `fetchWiseComparison` + `pickQuote` + `quoteBreakdown` from
 `scripts/lib/refresh-core.mjs` (the Lambda's code), with the same `source` string format and the same 8% peer
 guard (0 blocked), so a seeded row is byte-for-byte what the refresh would write. A dry run of
-`scripts/refresh-wise-rows.mjs` afterwards picked up all 44 new rows as existing rows with no value change. No
+`scripts/refresh-wise-rows.mjs` afterwards picked up all 42 new rows as existing rows with no value change. No
 change to `refresh-core.mjs`, so **no Lambda redeploy is needed**. Quotes captured 2026-10-11 (EUR send;
 received amount, rate, fee EUR):
 
