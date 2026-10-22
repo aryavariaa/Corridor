@@ -1249,8 +1249,8 @@ US->IN and the eight AU->Eurozone corridors. When a row is re-sourced, also dele
 **Labelled rows never get "Best value" (2026-10-22).** A row under review still displays with its label and keeps its
 sorted position, but the badge goes to the top-ranked row that is *not* under review (`lib/best-value.ts`), on the
 corridor page and on custom amounts alike; if every row is under review there is no badge. The "Why X wins" insight
-follows the same pick and compares against the next non-review row, so it can't narrate a doubtful quote (US->IN has
-only one such row left, so it shows no insight there). On a head-to-head page, when the row that would win is under
+follows the same pick and compares against the next non-review row, so it can't narrate a doubtful quote (on US->IN that
+is Western Union against Wise; Wise is a ranked row there because INR uses the Frankfurter benchmark). On a head-to-head page, when the row that would win is under
 review the verdict card says "No winner called" instead of naming it (`verdict()` returns `withheld`), and the
 other-corridors table shows "Under review" for that corridor. The case that prompted it: the Sep 1 US->IN PayPal row
 (18,953 for $200) sat below the live mid-market rate (-0.1% cost) once the rate moved, and ranked first.
