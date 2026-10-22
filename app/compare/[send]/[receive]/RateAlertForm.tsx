@@ -1,5 +1,6 @@
 "use client";
 
+import ErrorMessage from "@/app/ErrorMessage";
 import { useState } from "react";
 import type { Corridor } from "@/lib/corridors";
 import { corridorId } from "@/lib/corridor-id";
@@ -88,7 +89,7 @@ export default function RateAlertForm({ corridor }: { corridor: Corridor }) {
             }
           }}
           disabled={status === "submitting"}
-          className="w-full flex-1 rounded-full border border-card-border bg-white px-5 py-3 text-base disabled:opacity-60"
+          className="w-full flex-1 rounded-full border border-card-border bg-card px-5 py-3 text-base disabled:opacity-60"
         />
         <button type="submit" disabled={status === "submitting"} className="btn-primary px-7 disabled:cursor-not-allowed disabled:opacity-60">
           {status === "submitting" ? "Subscribing…" : "Notify me"}
@@ -98,9 +99,7 @@ export default function RateAlertForm({ corridor }: { corridor: Corridor }) {
         <p className="mt-3 text-sm font-medium text-link">You&rsquo;re subscribed. Check your inbox to confirm.</p>
       )}
       {status === "error" && error && (
-        <p role="alert" className="mt-3 text-sm font-medium text-red-700">
-          {error}
-        </p>
+        <ErrorMessage className="mt-3 text-sm">{error}</ErrorMessage>
       )}
     </section>
   );

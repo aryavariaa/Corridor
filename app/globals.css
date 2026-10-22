@@ -1,54 +1,85 @@
 @import "tailwindcss";
 
-/* SVG country flags (lib/flags.tsx) -- replaces emoji flags, which Windows
-   Chrome renders as plain two-letter text instead of a picture (no emoji
-   flag glyphs in Windows' font stack; confirmed by screenshot, not a bug
-   in this app). CSS background-image on a <span class="fi fi-xx">, not an
-   <img>, but still a real bundled SVG file load -- not font-dependent. */
-@import "flag-icons/css/flag-icons.min.css";
+/* THEMES. History, kept on purpose:
+   - 2026-10-07: went to ONE light theme. Dark mode, its toggle, the
+     [data-theme] attribute and the pre-hydration theme script were removed:
+     one theme designed properly, not two that each got half the attention.
+   - 2026-10-22: recoloured green to indigo (colours only).
+   - 2026-10-22: REVERSED the single-theme decision. The owner chose a coral
+     palette with a day scene (light theme) and a night scene (dark theme) for
+     the home page hero, so both themes are back, this time as a token swap:
+     everything reads tokens, nothing else branches on the theme. The
+     [data-theme] attribute, a no-flash script in app/layout.tsx and a toggle
+     in the header are back with it. Pages stay static: the theme is applied
+     in the browser before first paint, never read on the server.
 
-/* Single light theme (2026-10-07). Dark mode, its toggle, the [data-theme]
-   attribute and the pre-hydration theme script are gone on purpose: one
-   theme, designed properly, instead of two that each got half the attention.
+   Mechanism: :root holds the light tokens. [data-theme="dark"] on <html>
+   holds the dark ones. With no stored choice the layout script follows
+   prefers-color-scheme; the @media block repeats the dark tokens so a visitor
+   with JavaScript off still gets the OS theme. KEEP THE TWO DARK BLOCKS IN
+   SYNC (or move to one shared mechanism if a third theme ever appears).
 
-   Direction (2026-10-22): Stripe-style indigo. White text on an indigo
-   accent fill, deep navy ink, cool grey surfaces, pale indigo tints. It moved
-   off green because the green read as another site's brand. Layout, type,
-   spacing and shapes are unchanged.
+   Token NAMES are from the green version and kept to keep the change small.
+   Read them as roles: --lime is the coral accent fill, --forest the brand INK
+   (text and icons), --mint the pale accent tint. The old --forest was also a
+   navy card background; that role is now --surface-strong, because in dark
+   mode "ink" is light and "strong surface" is still dark.
 
-   Token NAMES are from the green version and were kept to keep the change
-   small: --lime is now the indigo accent fill, --forest the navy brand ink,
-   --mint the pale indigo tint. Read the names as roles, not colours.
+   Coral rule: white text on the coral fill is 2.82 and FAILS. Text on the
+   accent fill is navy (--on-accent, 5.52). Coral as TEXT on light surfaces is
+   also 2.82, so link/cost text is the darker --link (5.77 on white); in dark,
+   coral works as text (see the dark table in docs/design-system.md).
 
-   Contrast of every text pairing below was computed, not eyeballed:
-     ink / white 15.5    ink-dim / white 7.8    ink-faint / white 5.4
-     ink-faint / bg-soft 5.1    white / accent 4.7 (hover 6.2)
-     ink / tint 13.5    link / white 7.9    cost / white 7.9
-   White on the accent is the tightest pairing (4.7, just over AA for small
-   text), so keep text on the accent fill to bold button and badge text. Ink
-   on the accent is only 3.3: never put dark text on it. On the navy cards use
-   white, or --mint-deep (11.2) for emphasis; the accent itself is 3.3 on navy. */
-:root {
+   Contrast was computed (WCAG), not eyeballed; every pairing and its ratio is
+   listed in docs/design-system.md. */
+:root,
+.scope-light {
+  color-scheme: light;
   --bg: #ffffff;
   --bg-soft: #f6f9fc;
   --card: #ffffff;
   --card-border: #e3e8ee;
 
-  --forest: #0a2540; /* brand ink (navy): wordmark, headings, navy cards */
-  --lime: #635bff; /* brand accent (indigo): primary buttons, "best" badges, highlights */
-  --lime-hover: #5048e5;
-  --on-accent: #ffffff; /* text on the accent fill */
-  --mint: #efedff; /* soft tints (pale indigo), hero wash */
-  --mint-deep: #dad7ff;
+  --forest: #0a2540; /* brand ink: wordmark, headings, text on tints */
+  --surface-strong: #0a2540; /* dark card background (verdict card, compare bar) */
+  --on-strong-accent: #ffa58c; /* emphasis text on a strong surface */
+  --lime: #ff6b4a; /* brand accent (coral): primary buttons, "best" badges */
+  --lime-hover: #ff8a6a; /* lighter, not darker: navy on it is 6.73 (a darker coral drops under 4.5) */
+  --on-accent: #0a2540; /* text on the accent fill: navy, NOT white (white is 2.82) */
+  --mint: #fff1ec; /* soft accent tint: hover, selected, pills */
+  --mint-deep: #ffd9cc;
 
   --text: #0a2540;
   --text-dim: #425466;
   --text-faint: #5b6b80;
 
-  --link: #4338ca;
+  --link: #b93815;
   /* The cost percentage keeps exactly one meaning, as before: it is the
      number that says how much the provider takes. Nothing else uses it. */
-  --cost: #4338ca;
+  --cost: #b93815;
+  --ring: #0a2540; /* focus ring */
+
+  /* Notices. "Under review" and estimates use warn; failures use danger. */
+  --warn-text: #78350f;
+  --warn-bg: #fffbeb;
+  --warn-bg-strong: #fef3c7;
+  --warn-border: #fcd34d;
+  --danger: #b91c1c;
+  --danger-bg: #fef2f2;
+  --danger-border: #fca5a5;
+
+  /* Logo (app/Wordmark.tsx) */
+  --logo-tile: #0a2540;
+  --logo-arch: #ffffff;
+
+  /* Hero (home page): the solid colour that matches the top of each scene, so
+     the header row and the pre-load background are seamless with the image. */
+  --hero-top: #76c0fc;
+  /* Header row on the home page: samples of the scene's top edge left to right,
+     so the row and the artwork meet without a visible seam. */
+  --hero-top-bar: linear-gradient(90deg, #76befc, #76c1fc 25%, #75bffc 50%, #7ec4fc 75%, #89cefd);
+  --hero-em: #b93815; /* the coral-accented words in the hero headline */
+  --hero-sub: #425466; /* the hero subline over the sky */
 
   /* Freshness dots reuse the text hierarchy: older = darker = worth a second
      look. */
@@ -57,17 +88,98 @@
   --stale: var(--text);
 }
 
+/* Dark tokens, applied by [data-theme="dark"] and, as the no-JS fallback, by
+   the OS preference when no theme is set. Keep the two blocks identical. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b1220;
+  --bg-soft: #101828;
+  --card: #131c2e;
+  --card-border: #243049;
+
+  --forest: #f2f5f9;
+  --surface-strong: #1a2a4a;
+  --on-strong-accent: #ffa58c;
+  --lime: #ff6b4a;
+  --lime-hover: #ff8a6a;
+  --on-accent: #0a2540;
+  --mint: #1b2438;
+  --mint-deep: #26324d;
+
+  --text: #f2f5f9;
+  --text-dim: #aab6c6;
+  --text-faint: #8d9bb0;
+
+  --link: #ffa58c;
+  --cost: #ffa58c;
+  --ring: #f2f5f9;
+
+  --warn-text: #fcd34d;
+  --warn-bg: #2b2511;
+  --warn-bg-strong: #3a3114;
+  --warn-border: #6b5a1d;
+  --danger: #ff7a95;
+  --danger-bg: #2d1519;
+  --danger-border: #6b2a31;
+
+  --logo-tile: #ffffff;
+  --logo-arch: #0a2540;
+
+  --hero-top: #0a1d41;
+  --hero-top-bar: linear-gradient(90deg, #0c1b3f, #0b1b41 25%, #0c1d42 50%, #0d1f47 75%, #0d2045);
+  --hero-em: #ff8a6a;
+  --hero-sub: #d3dbe7;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    color-scheme: dark;
+    --bg: #0b1220;
+    --bg-soft: #101828;
+    --card: #131c2e;
+    --card-border: #243049;
+    --forest: #f2f5f9;
+    --surface-strong: #1a2a4a;
+    --on-strong-accent: #ffa58c;
+    --lime: #ff6b4a;
+    --lime-hover: #ff8a6a;
+    --on-accent: #0a2540;
+    --mint: #1b2438;
+    --mint-deep: #26324d;
+    --text: #f2f5f9;
+    --text-dim: #aab6c6;
+    --text-faint: #8d9bb0;
+    --link: #ffa58c;
+    --cost: #ffa58c;
+    --ring: #f2f5f9;
+    --warn-text: #fcd34d;
+    --warn-bg: #2b2511;
+    --warn-bg-strong: #3a3114;
+    --warn-border: #6b5a1d;
+    --danger: #ff7a95;
+    --danger-bg: #2d1519;
+    --danger-border: #6b2a31;
+    --logo-tile: #ffffff;
+    --logo-arch: #0a2540;
+    --hero-top: #0a1d41;
+    --hero-top-bar: linear-gradient(90deg, #0c1b3f, #0b1b41 25%, #0c1d42 50%, #0d1f47 75%, #0d2045);
+    --hero-em: #ff8a6a;
+    --hero-sub: #d3dbe7;
+  }
+}
+
 @theme inline {
   --color-background: var(--bg);
   --color-soft: var(--bg-soft);
   --color-card: var(--card);
   --color-card-border: var(--card-border);
   --color-brand: var(--forest);
+  --color-surface-strong: var(--surface-strong);
+  --color-on-strong-accent: var(--on-strong-accent);
   --color-lime: var(--lime);
   --color-lime-hover: var(--lime-hover);
   --color-mint: var(--mint);
   --color-mint-deep: var(--mint-deep);
-  /* "accent" = the indigo fill, "accent-contrast" = what sits on it (white). */
+  /* "accent" = the coral fill, "accent-contrast" = what sits on it (navy). */
   --color-accent: var(--lime);
   --color-accent-contrast: var(--on-accent);
   --color-accent-tint: var(--mint);
@@ -76,6 +188,13 @@
   --color-text: var(--text);
   --color-text-dim: var(--text-dim);
   --color-text-faint: var(--text-faint);
+  --color-warn: var(--warn-text);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-bg-strong: var(--warn-bg-strong);
+  --color-warn-border: var(--warn-border);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-border: var(--danger-border);
   --color-fresh: var(--fresh);
   --color-aging: var(--aging);
   --color-stale: var(--stale);
@@ -98,17 +217,171 @@ body {
   letter-spacing: -0.02em;
 }
 
-/* Hero wash: pale indigo with an accent glow, so the top of the page has
-   colour and depth instead of reading as a flat sheet. Pure CSS, no image. */
-.hero-wash {
-  background:
-    radial-gradient(60% 80% at 88% 0%, rgba(99, 91, 255, 0.22) 0%, rgba(99, 91, 255, 0) 70%),
-    radial-gradient(50% 60% at 0% 100%, rgba(218, 215, 255, 0.9) 0%, rgba(218, 215, 255, 0) 70%),
-    var(--mint);
+/* HOME HERO. Two raster scenes with the same composition, day (light theme)
+   and night (dark theme), so the toggle only changes the lighting. They live
+   in public/hero/ as scene-light.webp and scene-dark.webp, 1440x900. To use a
+   sharper pair (e.g. 2880x1800) replace the files under the same names; nothing
+   here depends on the pixel size, only on the 1440:900 aspect ratio.
+
+   The hero is a CSS background, not an <img>, so the headline stays real text.
+   Its height tracks the viewport width (62.5vw is 900px at 1440) between 760px
+   and 1400px (so the full artwork shows up to about 2240px wide), and its copy and form bar are placed by fractions of that height,
+   so they keep their position relative to the artwork's middle band instead of
+   drifting with the viewport. */
+.hero {
+  --hero-h: clamp(760px, 62.5vw, 1400px);
+  /* Which file, per theme (see the sizing rules below). s = 1440x900, m = 2880x1800,
+     l = 3840x2400. Only the file a rule selects is requested, so one image loads. */
+  --scene-s: url("/hero/scene-light-1x.webp");
+  --scene-m: url("/hero/scene-light.webp");
+  --scene-l: url("/hero/scene-light-4k.webp");
+  --scene: var(--scene-s);
+  position: relative;
+  isolation: isolate;
+  min-height: 860px;
+  background-color: var(--hero-top); /* the sky; also the colour before the image loads */
+}
+:root[data-theme="dark"] .hero {
+  --scene-s: url("/hero/scene-dark-1x.webp");
+  --scene-m: url("/hero/scene-dark.webp");
+  --scene-l: url("/hero/scene-dark-4k.webp");
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .hero {
+    --scene-s: url("/hero/scene-dark-1x.webp");
+    --scene-m: url("/hero/scene-dark.webp");
+    --scene-l: url("/hero/scene-dark-4k.webp");
+  }
+}
+/* Image sizing. The art is 16:10 at three sizes. Default: the 1440 file on a 1x
+   display up to 1440 CSS px wide. The 2880 file on any 2x display, and on a 1x
+   display wider than 1440 (the 1440 file would be stretched). The 3840 file on a
+   2x display wider than 1600 CSS px, and on anything wider than 2880 CSS px.
+   (The js in app/layout.tsx that preloads the scene mirrors these thresholds.) */
+@media (min-resolution: 1.5dppx), (min-width: 1441px) {
+  .hero {
+    --scene: var(--scene-m);
+  }
+}
+@media ((min-resolution: 1.5dppx) and (min-width: 1601px)), (min-width: 2881px) {
+  .hero {
+    --scene: var(--scene-l);
+  }
+}
+/* SMALL SCREENS (under 1024px): the copy and the stacked form fill the screen, and
+   the full scene would put its planes and the moon behind the headline. So only
+   the bottom part of the scene is used, as a band under the form: the hills, the
+   road home with the traveller, the village and the coins. Its top edge fades into
+   the plain sky colour above it. (The scene is 16:10; the band is its lower 500 of
+   900 rows, so the image is drawn 1.8 times the band's height, bottom aligned. The
+   planes sit in the top 350 rows and the moon in the top 170.) */
+.hero {
+  --band-h: 430px;
+  padding-bottom: 320px;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: var(--band-h);
+  z-index: -1;
+  background-image: var(--scene);
+  background-repeat: no-repeat;
+  background-size: auto calc(var(--band-h) * 1.8);
+  background-position: 100% bottom;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 150px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 150px);
+}
+@media (min-width: 640px) {
+  .hero {
+    --band-h: clamp(430px, 62vw, 560px);
+    min-height: 920px;
+  }
+}
+/* The night scene ends exactly on the dark page colour (#0b1220); the day
+   scene ends near white, so it needs this fade to --bg to avoid a seam. */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--bg));
+  pointer-events: none;
+  z-index: 0;
+}
+@media (min-width: 1024px) {
+  .hero {
+    height: var(--hero-h);
+    min-height: 0;
+    padding-bottom: 0;
+    background-image: var(--scene);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center bottom;
+  }
+  .hero::before {
+    display: none;
+  }
+  .hero-copy {
+    padding-top: calc(var(--hero-h) * 0.122);
+  }
+  .hero-bar {
+    position: absolute;
+    top: calc(var(--hero-h) * 0.5556);
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(800px, calc(100% - 48px));
+    z-index: 5;
+  }
+}
+.hero-header {
+  background: var(--hero-top-bar);
+}
+.hero-em {
+  color: var(--hero-em);
+  font-style: italic;
+}
+.hero-sub {
+  color: var(--hero-sub);
+}
+/* The form bar is frosted glass and stays LIGHT in both themes: it carries the
+   .scope-light token set (see :root, .scope-light above) so the field text,
+   borders and focus ring inside it never pick up the dark tokens. */
+.glass-bar {
+  background: rgba(255, 255, 255, 0.94); /* fallback: no backdrop-filter */
+  border-radius: 28px;
+  box-shadow: 0 18px 50px -18px rgba(10, 37, 64, 0.45);
+  color: var(--text);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .glass-bar {
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    backdrop-filter: blur(14px) saturate(1.2);
+  }
+  :root[data-theme="dark"] .glass-bar {
+    background: rgba(255, 255, 255, 0.92);
+  }
+}
+@media (prefers-color-scheme: dark) and (min-width: 0px) {
+  @supports (backdrop-filter: blur(1px)) {
+    :root:not([data-theme="light"]):not([data-theme="dark"]) .glass-bar {
+      background: rgba(255, 255, 255, 0.92);
+    }
+  }
+}
+/* Black primary button on the hero bar (light theme brief); it sits inside the
+   light glass bar in both themes, so it reads in both. */
+.btn-hero {
+  background: #0a0a0a;
+  color: #ffffff;
+}
+.btn-hero:hover {
+  background: #26262b;
 }
 
 @layer components {
-  /* Buttons. Primary = indigo fill with white text, the one loud element on a
+  /* Buttons. Primary = coral fill with navy text, the one loud element on a
      screen. Secondary = outlined, quiet. Both are real buttons/links with a
      visible focus ring. */
   .btn-primary,
@@ -154,12 +427,18 @@ a:focus-visible,
 button:focus-visible,
 select:focus-visible,
 input:focus-visible {
-  outline: 2px solid var(--forest);
+  outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
 /* A field that sits inside a bordered wrapper shows its focus ring on the
    wrapper (focus-within), not as a second box around the bare input. */
 input.field-in-wrapper:focus-visible {
+  outline: none;
+}
+
+/* Select/input inside a field box: the box shows the focus ring, not the control. */
+.glass-bar select:focus-visible,
+.glass-bar input:focus-visible {
   outline: none;
 }

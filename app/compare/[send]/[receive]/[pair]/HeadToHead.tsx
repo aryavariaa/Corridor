@@ -11,6 +11,7 @@ import { pairSlug } from "@/lib/provider-slug";
 import { formatDelivery } from "@/lib/row-breakdown";
 import { verdict, type Verdict } from "@/lib/versus";
 import { withArticle } from "@/lib/geo";
+import { AlertIcon } from "@/app/ErrorMessage";
 import AmountEditor from "../AmountEditor";
 import { useCorridorResult } from "../useCorridorResult";
 
@@ -33,10 +34,22 @@ type Props = {
 
 const sendName = (c: Corridor) => withArticle(c.sendCountryName);
 
-function Notice({ children }: { children: React.ReactNode }) {
+function Notice({ children, failure = false }: { children: React.ReactNode; failure?: boolean }) {
   return (
-    <div role="status" className="mt-3 rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-      {children}
+    <div role="status" className="mt-3 rounded-2xl border border-warn-border bg-warn-bg px-4 py-3 text-sm text-warn">
+      {failure ? (
+        // A notice about something that failed: alert icon plus "Error" for
+        // screen readers, never colour alone.
+        <span className="flex items-start gap-2">
+          <AlertIcon className="mt-0.5 h-4 w-4" />
+          <span>
+            <span className="sr-only">Error: </span>
+            {children}
+          </span>
+        </span>
+      ) : (
+        children
+      )}
     </div>
   );
 }
@@ -82,7 +95,7 @@ function Compared({
   }
 
   const selectClass =
-    "mt-1.5 w-full rounded-xl border border-card-border bg-white px-3.5 py-3 text-base font-semibold text-text";
+    "mt-1.5 w-full rounded-xl border border-card-border bg-card px-3.5 py-3 text-base font-semibold text-text";
   const label = "block text-xs font-semibold uppercase tracking-wider text-text-dim";
 
   return (
@@ -101,10 +114,10 @@ function Compared({
       </h1>
 
       <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-base text-text-dim">
-        <CountryFlag code={corridor.sendCountry} className="rounded-[2px]" />
+        <CountryFlag code={corridor.sendCountry} />
         <span>{sendName(corridor)}</span>
         <span aria-hidden="true">→</span>
-        <CountryFlag code={corridor.receiveCountry} className="rounded-[2px]" />
+        <CountryFlag code={corridor.receiveCountry} />
         <span>{corridor.receiveCountryName}</span>
       </p>
       <AmountEditor
@@ -143,7 +156,7 @@ function Compared({
       </div>
 
       {error && (
-        <Notice>
+        <Notice failure>
           We couldn&rsquo;t price {money(sendCurrency, error.requested, 0)} just now, so this shows a typical{" "}
           {money(sendCurrency, amount, 0)} instead.
         </Notice>
@@ -156,14 +169,14 @@ function Compared({
           <div className="h-64 animate-pulse rounded-3xl bg-card-border/40" />
         </div>
       ) : !rowA || !rowB || !v ? (
-        <p className="mt-6 rounded-2xl border border-card-border bg-white px-4 py-3 text-sm text-text-dim">
+        <p className="mt-6 rounded-2xl border border-card-border bg-card px-4 py-3 text-sm text-text-dim">
           One of these providers has no quote for this corridor right now.
         </p>
       ) : (
         <>
           <section
             aria-labelledby="verdict"
-            className="mt-6 rounded-3xl bg-brand px-6 py-7 text-white shadow-[0_18px_50px_-18px_rgba(10,37,64,0.6)] sm:px-8 sm:py-9"
+            className="mt-6 rounded-3xl bg-surface-strong px-6 py-7 text-white shadow-[0_18px_50px_-18px_rgba(10,37,64,0.6)] sm:px-8 sm:py-9"
           >
             <h2 id="verdict" className="sr-only">
               Verdict
@@ -171,9 +184,9 @@ function Compared({
             {v.kind === "winner" ? (
               <>
                 <p className="font-heading text-3xl font-extrabold leading-tight tracking-[-0.04em] sm:text-5xl">
-                  <span className="text-mint-deep">{v.winner}</span> sends you {money(receiveCurrency, v.diff)} more
+                  <span className="text-on-strong-accent">{v.winner}</span> sends you {money(receiveCurrency, v.diff)} more
                 </p>
-                <p className="mt-3 text-base text-mint sm:text-lg">
+                <p className="mt-3 text-base text-white/85 sm:text-lg">
                   On {money(sendCurrency, amount, 0)} that&rsquo;s {v.diffPercent.toFixed(1)}% more of your money
                   arriving than with {v.loser}.
                 </p>
@@ -183,7 +196,7 @@ function Compared({
                 <p className="font-heading text-3xl font-extrabold leading-tight tracking-[-0.04em] sm:text-5xl">
                   No winner called
                 </p>
-                <p className="mt-3 text-base text-mint sm:text-lg">
+                <p className="mt-3 text-base text-white/85 sm:text-lg">
                   {v.provider} reads cheaper on paper, but its quote is under review, so we&rsquo;re not naming it the
                   winner. Check {v.provider}&rsquo;s own quote before you send.
                 </p>
@@ -193,7 +206,7 @@ function Compared({
                 <p className="font-heading text-3xl font-extrabold leading-tight tracking-[-0.04em] sm:text-5xl">
                   Too close to call
                 </p>
-                <p className="mt-3 text-base text-mint sm:text-lg">
+                <p className="mt-3 text-base text-white/85 sm:text-lg">
                   {a} and {b} are within {money(receiveCurrency, Math.max(v.diff, 0.01))} of each other on{" "}
                   {money(sendCurrency, amount, 0)}, less than quotes move by before you check out.
                 </p>
@@ -223,7 +236,7 @@ function Compared({
             </Notice>
           )}
 
-          <div className="mt-6 overflow-x-auto rounded-3xl border border-card-border bg-white">
+          <div className="mt-6 overflow-x-auto rounded-3xl border border-card-border bg-card">
             <table className="w-full table-fixed text-left text-sm">
               <caption className="sr-only">
                 {a} compared with {b}, {fromLabel(corridor)} to {corridor.receiveCountryName}
@@ -330,7 +343,7 @@ function Compared({
           <p className="mt-1 text-sm text-text-dim">
             At a typical amount for each corridor, against that corridor&rsquo;s own live mid-market rate.
           </p>
-          <div className="mt-4 hidden overflow-x-auto rounded-3xl border border-card-border bg-white sm:block">
+          <div className="mt-4 hidden overflow-x-auto rounded-3xl border border-card-border bg-card sm:block">
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="border-b border-card-border text-xs uppercase tracking-wider text-text-dim">
@@ -356,11 +369,11 @@ function Compared({
                         href={`/compare/${o.corridor.sendCountry}/${o.corridor.receiveCountry}/${pairSlug(a, b)}${query}`}
                         className="inline-flex flex-wrap items-center gap-x-1.5 font-semibold text-brand hover:underline"
                       >
-                        <CountryFlag code={o.corridor.sendCountry} className="rounded-[2px]" />
+                        <CountryFlag code={o.corridor.sendCountry} />
                         <span aria-hidden="true" className="text-text-faint">
                           →
                         </span>
-                        <CountryFlag code={o.corridor.receiveCountry} className="rounded-[2px]" />
+                        <CountryFlag code={o.corridor.receiveCountry} />
                         <span>{o.corridor.receiveCountryName}</span>
                         <span className="text-xs font-medium text-text-dim">
                           from {money(o.corridor.sendCurrency, o.sendAmount, 0)}
@@ -396,17 +409,17 @@ function Compared({
             {others.map((o) => (
               <li
                 key={`${o.corridor.sendCountry}-${o.corridor.receiveCountry}`}
-                className="rounded-2xl border border-card-border bg-white p-4"
+                className="rounded-2xl border border-card-border bg-card p-4"
               >
                 <Link
                   href={`/compare/${o.corridor.sendCountry}/${o.corridor.receiveCountry}/${pairSlug(a, b)}${query}`}
                   className="inline-flex flex-wrap items-center gap-x-1.5 font-semibold text-brand hover:underline"
                 >
-                  <CountryFlag code={o.corridor.sendCountry} className="rounded-[2px]" />
+                  <CountryFlag code={o.corridor.sendCountry} />
                   <span aria-hidden="true" className="text-text-faint">
                     →
                   </span>
-                  <CountryFlag code={o.corridor.receiveCountry} className="rounded-[2px]" />
+                  <CountryFlag code={o.corridor.receiveCountry} />
                   <span>{o.corridor.receiveCountryName}</span>
                   <span className="text-xs font-medium text-text-dim">
                     from {money(o.corridor.sendCurrency, o.sendAmount, 0)}

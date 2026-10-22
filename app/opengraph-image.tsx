@@ -1,13 +1,13 @@
 import { ImageResponse } from "next/og";
-import { listCorridors } from "@/lib/corridors";
 
 export const alt = "Corridor: compare real remittance costs";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Same palette as app/globals.css: navy ground, indigo logo tile, white and
-// pale-indigo text.
-// ImageResponse can't read CSS variables, so the hex values are repeated here.
+// Same palette as app/globals.css: navy ground, the DARK-theme logo (white tile,
+// navy arches, coral door) and white / pale-coral text. ImageResponse can't read
+// CSS variables, so the hex values are repeated here, and the logo path data is
+// a fixed copy of the one in app/Wordmark.tsx.
 export default async function Image() {
   return new ImageResponse(
     (
@@ -26,10 +26,10 @@ export default async function Image() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           <svg width="72" height="72" viewBox="0 0 32 32">
-            <rect width="32" height="32" rx="9" fill="#635bff" />
-            <path d="M8 23c6 0 5-13 15-13" fill="none" stroke="#ffffff" strokeWidth="3.4" strokeLinecap="round" />
-            <circle cx="8" cy="23" r="2.4" fill="#dad7ff" />
-            <circle cx="24" cy="10" r="3.4" fill="#ffffff" />
+            <rect width="32" height="32" rx="9" fill="#ffffff" />
+            <path d="M5 28V16a11 11 0 0 1 22 0v12" fill="none" stroke="#0a2540" strokeWidth="2.4" strokeLinecap="round" />
+            <path d="M10 28V16.5a6 6 0 0 1 12 0V28" fill="none" stroke="#0a2540" strokeWidth="2.4" strokeLinecap="round" />
+            <path d="M14 28v-11a2 2 0 0 1 4 0v11Z" fill="#ff6b4a" />
           </svg>
           <div style={{ fontSize: 48, fontWeight: 800, display: "flex", color: "#ffffff" }}>
             Corridor
@@ -46,12 +46,12 @@ export default async function Image() {
             maxWidth: 980,
           }}
         >
-          {`Compare real remittance costs across ${listCorridors().length} corridors`}
+          Compare real remittance costs between countries
         </div>
         <div
           style={{
             fontSize: 30,
-            color: "#dad7ff",
+            color: "#ffd9cc",
             marginTop: 28,
             maxWidth: 900,
             display: "flex",

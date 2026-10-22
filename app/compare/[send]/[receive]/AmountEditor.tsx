@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useId, useRef, useState } from "react";
 import { AMOUNT_MAX, AMOUNT_MIN, amountQuery, parseAmount } from "@/lib/amount";
 import { money } from "@/lib/format";
+import ErrorMessage from "@/app/ErrorMessage";
 
 // "Sending $200 . Change amount": the amount in play, with the control to
 // change it right where it is shown. Opening it reveals a small field in
@@ -96,7 +97,7 @@ export default function AmountEditor({
             <label htmlFor={fieldId} className="sr-only">
               Amount to send in {currency}
             </label>
-            <div className="flex items-center rounded-xl border border-card-border bg-white focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-brand">
+            <div className="flex items-center rounded-xl border border-card-border bg-card focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-brand">
               <span aria-hidden="true" className="pl-3.5 text-sm font-semibold text-text-dim">
                 {currency}
               </span>
@@ -117,9 +118,9 @@ export default function AmountEditor({
               />
             </div>
             {error && (
-              <p id={errorId} role="alert" className="mt-1.5 max-w-xs text-sm text-red-700">
+              <ErrorMessage id={errorId} className="mt-1.5 max-w-xs text-sm">
                 {error}
-              </p>
+              </ErrorMessage>
             )}
           </div>
           <button type="submit" className="btn-primary px-5 py-2.5">

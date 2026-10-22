@@ -1,14 +1,21 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useId, useMemo, useState } from "react";
 import { AMOUNT_PARAM, amountQuery, parseAmount } from "@/lib/amount";
 import { money } from "@/lib/format";
+import CountrySelect from "./CountrySelect";
+import ErrorMessage from "./ErrorMessage";
 import type { Corridor } from "@/lib/corridors";
 
-const fieldLabel = "block text-xs font-semibold uppercase tracking-wider text-text-dim";
-const fieldControl =
-  "mt-1.5 w-full rounded-xl border border-card-border bg-white px-3.5 py-3 text-base text-text";
+// One field in the bar: a rounded box holding a small label over the value. The
+// control inside is bare, so the box carries the focus ring (focus-within).
+const fieldBox =
+  "relative rounded-2xl border border-card-border bg-white/70 px-4 pb-2 pt-2.5 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-brand";
+const fieldLabel = "block text-[0.68rem] font-semibold uppercase tracking-wider text-text-dim";
+const fieldSelect =
+  "mt-0.5 block w-full appearance-none bg-transparent pr-6 text-base font-semibold text-text outline-none";
 
 // `urlAmount` is whatever "?amount=" the page was opened with (the corridor
 // page's "All corridors" link sends people back with it), or null.
@@ -78,119 +85,120 @@ function Home({ corridors, urlAmount }: { corridors: Corridor[]; urlAmount: stri
 
   return (
     <main>
-      <section className="hero-wash">
-        <div className="mx-auto w-full max-w-5xl px-6 pb-14 pt-12 sm:pb-20 sm:pt-16">
-          <p className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3.5 py-1.5 text-sm font-semibold text-brand shadow-sm ring-1 ring-brand/10">
+      {/* Hero: the day/night scene is the CSS background of .hero (app/globals.css).
+          The copy sits at the top, the form bar in the artwork's middle band. */}
+      <section className="hero">
+        <div className="hero-copy relative z-10 mx-auto flex max-w-[1100px] flex-col items-center px-5 pb-6 pt-8 text-center">
+          <p className="scope-light inline-flex items-center gap-2 rounded-full bg-white/95 px-3.5 py-1.5 text-sm font-semibold text-link shadow-sm">
             <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime opacity-75 motion-reduce:hidden" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-lime" />
             </span>
             Live mid-market rates
           </p>
-          <p className="mt-2 text-sm text-text-dim">Refreshed daily at 06:17 UTC.</p>
 
-          <h1 className="mt-5 max-w-3xl font-heading text-[2.6rem] font-extrabold leading-[0.98] tracking-[-0.045em] text-brand sm:text-6xl lg:text-7xl">
-            Compare real remittance costs across {corridors.length} corridors
+          <h1 className="mt-5 max-w-[1100px] text-balance font-heading text-[2.5rem] font-extrabold leading-[0.98] tracking-[-0.045em] text-brand sm:text-[3.25rem] lg:text-[clamp(3rem,4.4vw,4rem)]">
+            Compare <em className="hero-em pr-[0.06em]">real remittance costs</em> between countries
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-snug text-text-dim">
-            See what actually lands after fees and exchange-rate markup, ranked against the live
-            mid-market rate.
+          <p className="hero-sub mt-5 max-w-xl text-balance text-lg leading-snug">
+            Fees and exchange rates together, ranked by what your recipient actually gets.
           </p>
 
-          <form
-            onSubmit={handleSubmit}
-            noValidate
-            className="mt-9 rounded-3xl bg-white p-4 shadow-[0_18px_50px_-18px_rgba(10,37,64,0.35)] ring-1 ring-brand/10 sm:p-5"
-          >
-            <div className="grid gap-3 sm:grid-cols-[1fr_1fr_0.8fr_auto] sm:items-end">
-              <div>
-                <label htmlFor={`${formId}-from`} className={fieldLabel}>
-                  Sending from
-                </label>
-                <select
-                  id={`${formId}-from`}
-                  value={sendCountry}
-                  onChange={(e) => handleSendChange(e.target.value)}
-                  className={fieldControl}
-                >
-                  <option value="">Select</option>
-                  {sendOptions.map((c) => (
-                    <option key={c.code} value={c.code}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+          <ul className="mt-6 flex flex-wrap justify-center gap-2">
+            <li className="scope-light rounded-full bg-white/95 px-4 py-1.5 text-sm font-semibold text-brand">
+              Free to use
+            </li>
+            <li className="scope-light rounded-full bg-white/95 px-4 py-1.5 text-sm font-semibold text-brand">
+              No account needed
+            </li>
+            <li className="scope-light rounded-full bg-white/95 text-sm font-semibold text-brand">
+              {/* Honest scope: the daily 06:17 UTC run (cron(17 6 * * ? *) in
+                  aws/template.yaml, confirmed on the deployed stack) refreshes
+                  Wise and Western Union on every corridor; PayPal only where the
+                  feed carries it, the rest is hand-entered and dated. The page
+                  /methodology says so in full. */}
+              <Link
+                href="/methodology"
+                title="Wise and Western Union are refreshed by a daily run at 06:17 UTC. PayPal is refreshed where the feed carries it and entered by hand, with its date, elsewhere."
+                className="block text-balance rounded-full px-4 py-1.5 text-center hover:underline"
+              >
+                Wise and Western Union refreshed daily, 06:17 UTC
+              </Link>
+            </li>
+          </ul>
+        </div>
 
-              <div>
-                <label htmlFor={`${formId}-to`} className={fieldLabel}>
-                  Sending to
-                </label>
-                <select
-                  id={`${formId}-to`}
-                  value={receiveCountry}
-                  onChange={(e) => {
-                    setReceiveCountry(e.target.value);
-                    setFormMessage(null);
-                  }}
-                  className={fieldControl}
-                >
-                  <option value="">Select</option>
-                  {receiveOptions.map((c) => (
-                    <option key={c.code} value={c.code}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="hero-bar glass-bar scope-light relative z-10 mx-auto mt-6 w-[calc(100%-2.5rem)] max-w-[800px] p-3 sm:p-3.5 lg:mt-0"
+        >
+          <div className="grid gap-3 md:grid-cols-[1fr_1fr_1fr_auto] md:items-stretch">
+            <CountrySelect
+              label="Sending from"
+              value={sendCountry}
+              onChange={handleSendChange}
+              options={sendOptions}
+              boxClassName={fieldBox}
+              labelClassName={fieldLabel}
+            />
 
-              <div>
-                <label htmlFor={`${formId}-amount`} className={fieldLabel}>
-                  You send
-                </label>
-                <div className="relative">
-                  <input
-                    id={`${formId}-amount`}
-                    name={AMOUNT_PARAM}
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="off"
-                    value={amountText}
-                    onChange={(e) => {
-                      setTyped(e.target.value);
-                      setFormMessage(null);
-                    }}
-                    placeholder="Typical amount"
-                    aria-invalid={amountError !== null}
-                    aria-describedby={`${formId}-amount-help`}
-                    className={`${fieldControl} pr-14 tabular-nums`}
-                  />
-                  {sendCurrency && (
-                    <span className="pointer-events-none absolute inset-y-0 right-3.5 top-1.5 flex items-center text-sm font-semibold text-text-dim">
-                      {sendCurrency}
-                    </span>
-                  )}
-                </div>
-              </div>
+            <CountrySelect
+              label="Sending to"
+              value={receiveCountry}
+              onChange={(code) => {
+                setReceiveCountry(code);
+                setFormMessage(null);
+              }}
+              options={receiveOptions}
+              boxClassName={fieldBox}
+              labelClassName={fieldLabel}
+            />
 
-              <button type="submit" className="btn-primary h-[3.1rem] px-7 text-base">
-                Compare
-              </button>
+            <div className={fieldBox}>
+              <label htmlFor={`${formId}-amount`} className={fieldLabel}>
+                You send
+              </label>
+              <input
+                id={`${formId}-amount`}
+                name={AMOUNT_PARAM}
+                type="text"
+                inputMode="numeric"
+                autoComplete="off"
+                value={amountText}
+                onChange={(e) => {
+                  setTyped(e.target.value);
+                  setFormMessage(null);
+                }}
+                placeholder="Typical amount"
+                aria-invalid={amountError !== null}
+                aria-describedby={`${formId}-amount-help`}
+                className={`${fieldSelect} field-in-wrapper ${sendCurrency ? "pr-12" : "pr-2"} tabular-nums`}
+              />
+              {sendCurrency && (
+                <span className="pointer-events-none absolute bottom-2.5 right-4 text-sm font-semibold text-text-dim">
+                  {sendCurrency}
+                </span>
+              )}
             </div>
 
-            <p
-              id={`${formId}-amount-help`}
-              role={amountError || formMessage ? "alert" : undefined}
-              className={`mt-3 min-h-5 text-sm ${amountError || formMessage ? "text-red-700" : "text-text-dim"}`}
-            >
-              {amountError ??
-                formMessage ??
-                (selected
-                  ? `Optional. Leave blank for a typical ${money(selected.sendCurrency, selected.everydayAmount, 0)}. It carries through to every corridor you open.`
-                  : "Optional. Leave the amount blank for a typical one (it varies by corridor). It carries through to every corridor you open.")}
+            <button type="submit" className="btn-primary btn-hero min-h-[3.5rem] px-8 text-base">
+              Compare
+            </button>
+          </div>
+
+          {amountError || formMessage ? (
+            <ErrorMessage id={`${formId}-amount-help`} className="mt-2.5 px-1 text-xs leading-snug">
+              {amountError ?? formMessage}
+            </ErrorMessage>
+          ) : (
+            <p id={`${formId}-amount-help`} className="mt-2.5 px-1 text-xs leading-snug text-text-dim">
+              {selected
+                ? `Optional. Leave blank for a typical ${money(selected.sendCurrency, selected.everydayAmount, 0)}. It carries through to every corridor you open.`
+                : "Optional. Leave the amount blank for a typical one (it varies by corridor). It carries through to every corridor you open."}
             </p>
-          </form>
-        </div>
+          )}
+        </form>
       </section>
 
       <p className="mx-auto w-full max-w-5xl px-6 pb-16 pt-10 text-sm text-text-dim">
@@ -202,7 +210,7 @@ function Home({ corridors, urlAmount }: { corridors: Corridor[]; urlAmount: stri
 
 // useSearchParams needs a Suspense boundary around anything statically
 // rendered. The fallback is the SAME page rendered without a URL amount, so the
-// static HTML still contains the whole page (headline, form)
+// static HTML still contains the whole page (headline, chips, form)
 // instead of a blank shell; once hydrated, the real instance picks up
 // "?amount=" if the visitor arrived with one.
 function HomeWithUrlAmount({ corridors }: { corridors: Corridor[] }) {

@@ -11,6 +11,7 @@ import {
   type RatePoint,
 } from "@/lib/rate-history";
 import { rate as formatRate } from "@/lib/format";
+import { AlertIcon } from "@/app/ErrorMessage";
 
 // Mid-market rate trend for one corridor's currency pair: headline rate, change
 // since the previous day, a 60D / 14D / 7D line chart, and a source line. The
@@ -113,15 +114,19 @@ export default function RateTrendChart({
   return (
     <section
       aria-labelledby={`${gradientId}-title`}
-      className="mt-10 rounded-3xl border border-card-border bg-white p-5 sm:p-7"
+      className="mt-10 rounded-3xl border border-card-border bg-card p-5 sm:p-7"
     >
       <h2 id={`${gradientId}-title`} className="font-heading text-xl font-extrabold tracking-[-0.03em] text-brand sm:text-2xl">
         Mid-market exchange rate
       </h2>
 
       {state.status === "error" && (
-        <p role="status" className="mt-2 text-sm text-text-dim">
-          Rate history isn&rsquo;t available right now. The live rate above is unaffected.
+        <p role="status" className="mt-2 flex items-start gap-1.5 text-sm text-text-dim">
+          <AlertIcon className="mt-0.5 h-4 w-4" />
+          <span>
+            <span className="sr-only">Error: </span>
+            Rate history isn&rsquo;t available right now. The live rate above is unaffected.
+          </span>
         </p>
       )}
 
@@ -144,7 +149,7 @@ export default function RateTrendChart({
                 change.pct > 0
                   ? "text-cost"
                   : change.pct < 0
-                    ? "text-red-700"
+                    ? "text-danger"
                     : "text-text-dim"
               }`}
             >

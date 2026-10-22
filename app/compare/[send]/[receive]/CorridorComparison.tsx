@@ -14,6 +14,7 @@ import { pairSlug } from "@/lib/provider-slug";
 import { withArticle } from "@/lib/geo";
 import AmountEditor from "./AmountEditor";
 import { bestValue } from "@/lib/best-value";
+import { AlertIcon } from "@/app/ErrorMessage";
 import ProviderRow from "./ProviderRow";
 import RateAlertForm from "./RateAlertForm";
 import RateTrendChart from "./RateTrendChart";
@@ -77,22 +78,42 @@ function costAnomalyMessage(
   );
 }
 
-function Notice({ children, tone = "warn" }: { children: React.ReactNode; tone?: "warn" | "info" }) {
+function Notice({
+  children,
+  tone = "warn",
+  failure = false,
+}: {
+  children: React.ReactNode;
+  tone?: "warn" | "info";
+  // A notice about something that failed (a price or a feed we couldn't get):
+  // shows the alert icon and "Error" for screen readers, never colour alone.
+  failure?: boolean;
+}) {
   return (
     <div
       role="status"
       className={`mt-3 rounded-2xl px-4 py-3 text-sm ${
-        tone === "warn" ? "border border-amber-300 bg-amber-50 text-amber-900" : "bg-soft text-text-dim"
+        tone === "warn" ? "border border-warn-border bg-warn-bg text-warn" : "bg-soft text-text-dim"
       }`}
     >
-      {children}
+      {failure ? (
+        <span className="flex items-start gap-2">
+          <AlertIcon className="mt-0.5 h-4 w-4" />
+          <span>
+            <span className="sr-only">Error: </span>
+            {children}
+          </span>
+        </span>
+      ) : (
+        children
+      )}
     </div>
   );
 }
 
 function RowSkeleton() {
   return (
-    <li aria-hidden="true" className="animate-pulse rounded-2xl border border-card-border bg-white p-5">
+    <li aria-hidden="true" className="animate-pulse rounded-2xl border border-card-border bg-card p-5">
       <div className="h-6 w-32 rounded bg-card-border/70" />
       <div className="mt-4 h-9 w-48 rounded bg-card-border/70" />
       <div className="mt-4 h-4 w-64 rounded bg-card-border/50" />
@@ -182,12 +203,12 @@ function Comparison({
       </Link>
 
       <h1 className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-heading text-3xl font-extrabold leading-tight tracking-[-0.04em] text-brand sm:text-5xl">
-        <CountryFlag code={corridor.sendCountry} className="rounded-[3px]" />
+        <CountryFlag code={corridor.sendCountry} className="-translate-y-[0.03em]" />
         <span>{withArticle(corridor.sendCountryName)}</span>
         <span aria-hidden="true" className="text-text-faint">
           →
         </span>
-        <CountryFlag code={corridor.receiveCountry} className="rounded-[3px]" />
+        <CountryFlag code={corridor.receiveCountry} className="-translate-y-[0.03em]" />
         <span>{corridor.receiveCountryName}</span>
       </h1>
 
@@ -205,14 +226,14 @@ function Comparison({
             {providers.length} {providers.length === 1 ? "provider" : "providers"}
           </h2>
           {result.rateStale ? (
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-400 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-900">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-warn-border bg-warn-bg px-2.5 py-1 text-xs font-bold text-warn">
               Rate delayed
             </span>
           ) : (
             <span className="inline-flex items-center gap-1.5 rounded-full bg-lime px-2.5 py-1 text-xs font-extrabold text-accent-contrast">
               <span className="relative flex h-2 w-2" aria-hidden="true">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-40 motion-reduce:hidden" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-contrast opacity-40 motion-reduce:hidden" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-contrast" />
               </span>
               Live
             </span>
@@ -223,13 +244,13 @@ function Comparison({
         </div>
 
         {error && (
-          <Notice>
+          <Notice failure>
             We couldn&rsquo;t price {money(sendCurrency, error.requested, 0)} just now, so this shows a typical{" "}
             {money(sendCurrency, amount, 0)} instead.
           </Notice>
         )}
         {result.rateStale && (
-          <Notice>
+          <Notice failure>
             {anomalyExplanation ??
               "We couldn't reach the live rate feed just now, so this uses the last rate we fetched, not a live one."}
           </Notice>
@@ -281,7 +302,7 @@ function Comparison({
             <RowSkeleton />
           </ul>
         ) : providers.length === 0 ? (
-          <p className="mt-6 rounded-2xl border border-card-border bg-white px-4 py-3 text-sm text-text-dim">
+          <p className="mt-6 rounded-2xl border border-card-border bg-card px-4 py-3 text-sm text-text-dim">
             {result.custom
               ? "No provider has a quote at this amount. Try a different amount."
               : "No provider data available for this corridor yet."}
@@ -329,7 +350,7 @@ function Comparison({
         <div
           role="region"
           aria-label="Compare two providers"
-          className="fixed inset-x-4 bottom-4 z-20 mx-auto flex max-w-md items-center justify-between gap-3 rounded-full bg-brand px-5 py-3 text-white shadow-[0_14px_40px_-10px_rgba(10,37,64,0.7)]"
+          className="fixed inset-x-4 bottom-4 z-20 mx-auto flex max-w-md items-center justify-between gap-3 rounded-full bg-surface-strong px-5 py-3 text-white shadow-[0_14px_40px_-10px_rgba(10,37,64,0.7)]"
         >
           <span className="min-w-0 truncate text-sm font-semibold">
             {picked.length === 1 ? `${picked[0]} selected. Pick one more.` : `${picked[0]} vs ${picked[1]}`}

@@ -67,7 +67,7 @@ function Basis({ p }: { p: RankedProvider }) {
       {p.basis === "estimated" && (
         <span
           title={p.source}
-          className="inline-flex items-center rounded-full border border-dashed border-amber-600 px-2.5 py-1 text-xs font-bold text-amber-800"
+          className="inline-flex items-center rounded-full border border-dashed border-warn-border px-2.5 py-1 text-xs font-bold text-warn"
         >
           Estimated
         </span>
@@ -75,7 +75,7 @@ function Basis({ p }: { p: RankedProvider }) {
       {p.underReview && (
         <span
           title="This quote looks unusually cheap for PayPal and is being confirmed"
-          className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-900"
+          className="inline-flex items-center rounded-full bg-warn-bg-strong px-2.5 py-1 text-xs font-bold text-warn"
         >
           Under review
         </span>
@@ -142,7 +142,7 @@ export default function ProviderRow({
 
   return (
     <li
-      className={`relative rounded-2xl bg-white p-4 sm:p-5 ${
+      className={`relative rounded-2xl bg-card p-4 sm:p-5 ${
         best
           ? "border-2 border-lime shadow-[0_10px_30px_-14px_rgba(10,37,64,0.45)]"
           : "border border-card-border"
@@ -166,7 +166,7 @@ export default function ProviderRow({
             <p className="mt-1 text-xs text-text-dim">Benchmark reference, not ranked</p>
           )}
           {p.underReview && (
-            <p className="mt-1 text-xs text-amber-900">Cheaper than PayPal usually is. Check PayPal&rsquo;s own quote.</p>
+            <p className="mt-1 text-xs text-warn">Cheaper than PayPal usually is. Check PayPal&rsquo;s own quote.</p>
           )}
           <div className="mt-3">
             <p className="text-[0.7rem] font-semibold uppercase tracking-wider text-text-faint">Recipient gets</p>
@@ -237,7 +237,7 @@ export default function ProviderRow({
                 checked={selected}
                 disabled={selectDisabled && !selected}
                 onChange={() => onToggleCompare(p.provider)}
-                className="h-4 w-4 rounded border-card-border accent-[#0a2540]"
+                className="h-4 w-4 rounded border-card-border accent-brand"
               />
               Compare
               <span className="sr-only"> {p.provider} with another provider</span>
@@ -312,7 +312,7 @@ export default function ProviderRow({
               </div>
             </dl>
             <p className="mt-3 border-t border-card-border pt-3 text-sm text-text-dim">{sourceNote(p)}</p>
-            {p.underReview && <p className="mt-2 text-sm font-medium text-amber-900">{UNDER_REVIEW_NOTE}</p>}
+            {p.underReview && <p className="mt-2 text-sm font-medium text-warn">{UNDER_REVIEW_NOTE}</p>}
           </div>
         )}
       </div>

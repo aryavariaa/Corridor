@@ -71,11 +71,12 @@ export default function MethodologyPage() {
           <p>
             <strong className="text-text">Wise, Western Union and PayPal</strong> are the three
             providers Corridor ranks, because they&rsquo;re the three that a real, public feed backs.
-            Their quotes come from Wise&rsquo;s public comparison feed, refreshed automatically every
-            day, and queried live for the exact amount you enter. Corridors where PayPal isn&rsquo;t in
-            that feed use PayPal&rsquo;s own rate, entered by hand from Xoom (its money transfer
-            service), and those rows show the date they were checked, because that date is the only
-            sign of how old the number is.
+            Their quotes come from Wise&rsquo;s public comparison feed. A daily run at 06:17 UTC
+            refreshes Wise and Western Union on every corridor, and PayPal only where the feed returns a
+            PayPal quote; the feed is also queried live for the exact amount you enter. Corridors where
+            the feed has no PayPal quote use PayPal&rsquo;s own rate, entered by hand from Xoom (its
+            money transfer service), and those rows show the date they were checked, because that date
+            is the only sign of how old the number is.
           </p>
           <p>
             Other providers aren&rsquo;t shown. We&rsquo;d rather list three you can trust than

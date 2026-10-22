@@ -48,12 +48,26 @@ export const metadata: Metadata = {
   },
 };
 
+// Runs in <head> before first paint so there is never a flash of the wrong
+// theme: stored choice (localStorage "theme"), else the OS preference. Pages
+// stay static; the theme is applied in the browser, never read on the server.
+// On the home page it also preloads the matching hero scene so the artwork
+// doesn't pop in: the same file the CSS in globals.css picks (1x file up to 1440
+// CSS px on a 1x display, 2880 on 2x or wider, 3840 on 2x above 1600 or anything
+// above 2880), so the preload never fetches a file the page then doesn't use. Storage can throw (private windows, blocked site data), so
+// every access is guarded and the page still renders.
+const THEME_SCRIPT = `(function(){var d=document.documentElement,t=null;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light"&&t!=="dark"){try{t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}catch(e){t="light"}}d.setAttribute("data-theme",t);if(location.pathname==="/"){var w=innerWidth,r=devicePixelRatio||1,f=(r>=1.5&&w>1600)||w>2880?"-4k":(r>=1.5||w>1440)?"":"-1x";var l=document.createElement("link");l.rel="preload";l.as="image";l.href="/hero/scene-"+t+f+".webp";document.head.appendChild(l)}})()`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${bricolage.variable} ${jakarta.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="min-h-full flex flex-col">
         <SiteHeader />
         {children}

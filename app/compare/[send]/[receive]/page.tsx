@@ -6,6 +6,7 @@ import { getPickExplainer, getAnomalyExplanation, getCostAnomalyExplanation } fr
 import { CountryFlag } from "@/lib/flags";
 import { withArticle } from "@/lib/geo";
 import { shareMetadata } from "@/lib/seo";
+import ErrorMessage from "@/app/ErrorMessage";
 import CorridorComparison from "./CorridorComparison";
 
 // Only the pairs in data/provider-data.json's corridors[] exist as pages.
@@ -82,17 +83,14 @@ export default async function ComparePage({
           <span aria-hidden="true">←</span> Compare another corridor
         </Link>
         <h1 className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-heading text-3xl font-extrabold tracking-[-0.04em] text-brand sm:text-5xl">
-          <CountryFlag code={corridor.sendCountry} className="rounded-[3px]" />
+          <CountryFlag code={corridor.sendCountry} className="-translate-y-[0.03em]" />
           {withArticle(corridor.sendCountryName)} to
-          <CountryFlag code={corridor.receiveCountry} className="rounded-[3px]" />
+          <CountryFlag code={corridor.receiveCountry} className="-translate-y-[0.03em]" />
           {corridor.receiveCountryName}
         </h1>
-        <div
-          role="alert"
-          className="mt-6 rounded-2xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800"
-        >
+        <ErrorMessage className="mt-6 rounded-2xl border border-danger-border bg-danger-bg px-4 py-3 text-sm">
           We couldn&rsquo;t reach the live rate feed just now. Try refreshing in a moment.
-        </div>
+        </ErrorMessage>
       </main>
     );
   }
