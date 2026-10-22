@@ -1,7 +1,7 @@
 // The Corridor logo: a mark plus the name set in the display face.
 //
 // The mark is a route that bends and lands on a dot (the winning path, the
-// idea the product is about), on a forest-green tile with the lime accent.
+// idea the product is about), on an indigo tile, drawn in white with a pale-indigo start dot.
 // It is drawn, not typed: text in a heading font is a name, not a logo.
 // `Mark` is exported separately for places that want only the symbol.
 

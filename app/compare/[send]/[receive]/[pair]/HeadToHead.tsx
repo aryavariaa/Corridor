@@ -178,6 +178,16 @@ function Compared({
                   arriving than with {v.loser}.
                 </p>
               </>
+            ) : v.kind === "withheld" ? (
+              <>
+                <p className="font-heading text-3xl font-extrabold leading-tight tracking-[-0.04em] sm:text-5xl">
+                  No winner called
+                </p>
+                <p className="mt-3 text-base text-mint sm:text-lg">
+                  {v.provider} reads cheaper on paper, but its quote is under review, so we&rsquo;re not naming it the
+                  winner. Check {v.provider}&rsquo;s own quote before you send.
+                </p>
+              </>
             ) : (
               <>
                 <p className="font-heading text-3xl font-extrabold leading-tight tracking-[-0.04em] sm:text-5xl">
@@ -371,6 +381,8 @@ function Compared({
                             +{money(o.corridor.receiveCurrency, o.verdict.diff)}
                           </span>
                         </>
+                      ) : o.verdict.kind === "withheld" ? (
+                        <span className="font-medium text-text-dim">Under review</span>
                       ) : (
                         <span className="font-medium text-text-dim">Too close</span>
                       )}
@@ -416,6 +428,8 @@ function Compared({
                       {o.verdict.winner} sends{" "}
                       <span className="text-cost">{money(o.corridor.receiveCurrency, o.verdict.diff)}</span> more
                     </>
+                  ) : o.verdict.kind === "withheld" ? (
+                    <span className="font-medium text-text-dim">Under review, no winner called</span>
                   ) : (
                     <span className="font-medium text-text-dim">Too close to call</span>
                   )}

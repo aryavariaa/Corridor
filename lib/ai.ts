@@ -12,6 +12,7 @@
 
 import type { CostAnomalyProvider, RankedProvidersResult } from "./corridors";
 import type { RateAnomaly } from "./fx";
+import { bestValue, runnerUpTo } from "./best-value";
 import { money, percent, rate as formatRate } from "./format";
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
@@ -108,8 +109,10 @@ export async function getPickExplainer(
   result: RankedProvidersResult,
   receiveCurrency: string
 ): Promise<string | null> {
-  const top = result.providers.find((p) => p.rank === 1);
-  const runnerUp = result.providers.find((p) => p.rank === 2);
+  // Same pick as the "Best value" badge: the top row that isn't under review,
+  // against the next such row, so the text never narrates a doubtful quote.
+  const top = bestValue(result.providers);
+  const runnerUp = top ? runnerUpTo(result.providers, top) : undefined;
   if (!top || !runnerUp) return null; // nothing to compare a single provider against
 
   // A negative costPercent means this row appears to pay out MORE than

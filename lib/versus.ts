@@ -11,6 +11,9 @@ export type VersusRow = {
   sendAmount: number;
   amountReceived: number;
   costPercent: number;
+  // Flagged in data/under-review.json (lib/under-review.ts): shown, but never
+  // named the winner.
+  underReview?: boolean;
 };
 
 export type Verdict =
@@ -23,7 +26,10 @@ export type Verdict =
       // That difference as a share of what the loser's recipient gets.
       diffPercent: number;
     }
-  | { kind: "tie"; diff: number };
+  | { kind: "tie"; diff: number }
+  // The row that would win is under review, so no winner is named (and no
+  // badge given): `provider` reads cheaper on paper, but its quote is doubtful.
+  | { kind: "withheld"; provider: string; other: string; diff: number };
 
 // Within 0.1% of each other the honest answer is "no meaningful difference":
 // quotes move by more than that between a page load and the provider's own
@@ -36,6 +42,9 @@ export function verdict(a: VersusRow, b: VersusRow): Verdict {
   const diff = hi.amountReceived - lo.amountReceived;
   if (lo.amountReceived <= 0 || diff / lo.amountReceived < TIE_THRESHOLD) {
     return { kind: "tie", diff };
+  }
+  if (hi.underReview) {
+    return { kind: "withheld", provider: hi.provider, other: lo.provider, diff };
   }
   return {
     kind: "winner",

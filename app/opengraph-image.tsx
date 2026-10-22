@@ -5,7 +5,8 @@ export const alt = "Corridor: compare real remittance costs";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Same palette as app/globals.css: forest ground, lime accent, mint text.
+// Same palette as app/globals.css: navy ground, indigo logo tile, white and
+// pale-indigo text.
 // ImageResponse can't read CSS variables, so the hex values are repeated here.
 export default async function Image() {
   return new ImageResponse(

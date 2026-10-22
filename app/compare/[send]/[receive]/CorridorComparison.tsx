@@ -13,6 +13,7 @@ import { CountryFlag } from "@/lib/flags";
 import { pairSlug } from "@/lib/provider-slug";
 import { withArticle } from "@/lib/geo";
 import AmountEditor from "./AmountEditor";
+import { bestValue } from "@/lib/best-value";
 import ProviderRow from "./ProviderRow";
 import RateAlertForm from "./RateAlertForm";
 import RateTrendChart from "./RateTrendChart";
@@ -139,7 +140,8 @@ function Comparison({
 
   const providers = result.providers;
   const ranked = providers.filter((p) => !p.benchmarkReference);
-  const bestProvider = providers.find((p) => p.rank === 1)?.provider;
+  // The top row that is not under review; none if every row is.
+  const bestProvider = bestValue(providers)?.provider;
   const query = amountQuery(isDefault && !urlAmount ? null : amount);
   const pairHref =
     picked.length === 2 && pairSlug(picked[0], picked[1])
@@ -270,7 +272,7 @@ function Comparison({
                 key={p.provider}
                 provider={p}
                 corridor={corridor}
-                best={p.rank === 1}
+                best={p.provider === bestProvider}
                 midRate={result.liveRate}
                 showCompare={ranked.length >= 2}
                 selected={picked.includes(p.provider)}

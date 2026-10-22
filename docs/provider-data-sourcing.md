@@ -1244,8 +1244,16 @@ head-to-head page. Which rows get it is `data/under-review.json` (corridor, prov
 logic in `lib/under-review.ts`). Like the allowlist, an entry only applies to that exact `dateChecked`, so
 re-sourcing the row removes the label by itself. `npm run check:paypal-spread` prints any flagged corridor that has
 no entry; `npm run test:under-review` fails if an entry no longer matches a real row. As of 2026-10-09 the label is on
-US->IN and the eight AU->Eurozone corridors. When a row is re-sourced, also delete its entry. Labelled rows are still
-ranked normally (US->IN PayPal currently ranks second, not Best value).
+US->IN and the eight AU->Eurozone corridors. When a row is re-sourced, also delete its entry.
+
+**Labelled rows never get "Best value" (2026-10-22).** A row under review still displays with its label and keeps its
+sorted position, but the badge goes to the top-ranked row that is *not* under review (`lib/best-value.ts`), on the
+corridor page and on custom amounts alike; if every row is under review there is no badge. The "Why X wins" insight
+follows the same pick and compares against the next non-review row, so it can't narrate a doubtful quote (US->IN has
+only one such row left, so it shows no insight there). On a head-to-head page, when the row that would win is under
+review the verdict card says "No winner called" instead of naming it (`verdict()` returns `withheld`), and the
+other-corridors table shows "Under review" for that corridor. The case that prompted it: the Sep 1 US->IN PayPal row
+(18,953 for $200) sat below the live mid-market rate (-0.1% cost) once the rate moved, and ranked first.
 
 **What it does not prove.** It only catches quotes that are too good to be true. A row above 1% is not thereby
 verified as a standard rate. The mid is Frankfurter's daily reference rate, not Xoom's intraday rate, so expect
