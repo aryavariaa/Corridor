@@ -18,17 +18,17 @@ export default async function Image() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "80px",
-          backgroundColor: "#163300",
+          backgroundColor: "#0a2540",
           color: "#ffffff",
           fontFamily: "Arial, Helvetica, sans-serif",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           <svg width="72" height="72" viewBox="0 0 32 32">
-            <rect width="32" height="32" rx="9" fill="#9fe870" />
-            <path d="M8 23c6 0 5-13 15-13" fill="none" stroke="#163300" strokeWidth="3.4" strokeLinecap="round" />
-            <circle cx="8" cy="23" r="2.4" fill="#163300" />
-            <circle cx="24" cy="10" r="3.4" fill="#163300" />
+            <rect width="32" height="32" rx="9" fill="#635bff" />
+            <path d="M8 23c6 0 5-13 15-13" fill="none" stroke="#ffffff" strokeWidth="3.4" strokeLinecap="round" />
+            <circle cx="8" cy="23" r="2.4" fill="#dad7ff" />
+            <circle cx="24" cy="10" r="3.4" fill="#ffffff" />
           </svg>
           <div style={{ fontSize: 48, fontWeight: 800, display: "flex", color: "#ffffff" }}>
             Corridor
@@ -41,7 +41,7 @@ export default async function Image() {
             marginTop: 44,
             lineHeight: 1.08,
             display: "flex",
-            color: "#9fe870",
+            color: "#ffffff",
             maxWidth: 980,
           }}
         >
@@ -50,7 +50,7 @@ export default async function Image() {
         <div
           style={{
             fontSize: 30,
-            color: "#e2f6d5",
+            color: "#dad7ff",
             marginTop: 28,
             maxWidth: 900,
             display: "flex",

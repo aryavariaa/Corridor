@@ -100,7 +100,7 @@ function Home({ corridors, urlAmount }: { corridors: Corridor[]; urlAmount: stri
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="mt-9 rounded-3xl bg-white p-4 shadow-[0_18px_50px_-18px_rgba(22,51,0,0.35)] ring-1 ring-brand/10 sm:p-5"
+            className="mt-9 rounded-3xl bg-white p-4 shadow-[0_18px_50px_-18px_rgba(10,37,64,0.35)] ring-1 ring-brand/10 sm:p-5"
           >
             <div className="grid gap-3 sm:grid-cols-[1fr_1fr_0.8fr_auto] sm:items-end">
               <div>

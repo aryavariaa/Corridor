@@ -11,32 +11,44 @@
    attribute and the pre-hydration theme script are gone on purpose: one
    theme, designed properly, instead of two that each got half the attention.
 
-   Direction: bright and simple, lime on deep forest green with mint tints
-   (the "Wise" end of the brief, not the Revolut end). Contrast of every text
-   pairing below was computed, not eyeballed:
-     ink / white 19.2    ink-dim / white 9.4    ink-faint / white 5.3
-     ink-faint / bg-soft 4.9    forest / lime 9.5    forest / mint 12.2
-     link / white 8.2    cost / white 6.3 */
+   Direction (2026-10-22): Stripe-style indigo. White text on an indigo
+   accent fill, deep navy ink, cool grey surfaces, pale indigo tints. It moved
+   off green because the green read as another site's brand. Layout, type,
+   spacing and shapes are unchanged.
+
+   Token NAMES are from the green version and were kept to keep the change
+   small: --lime is now the indigo accent fill, --forest the navy brand ink,
+   --mint the pale indigo tint. Read the names as roles, not colours.
+
+   Contrast of every text pairing below was computed, not eyeballed:
+     ink / white 15.5    ink-dim / white 7.8    ink-faint / white 5.4
+     ink-faint / bg-soft 5.1    white / accent 4.7 (hover 6.2)
+     ink / tint 13.5    link / white 7.9    cost / white 7.9
+   White on the accent is the tightest pairing (4.7, just over AA for small
+   text), so keep text on the accent fill to bold button and badge text. Ink
+   on the accent is only 3.3: never put dark text on it. On the navy cards use
+   white, or --mint-deep (11.2) for emphasis; the accent itself is 3.3 on navy. */
 :root {
   --bg: #ffffff;
-  --bg-soft: #f3f8ec;
+  --bg-soft: #f6f9fc;
   --card: #ffffff;
-  --card-border: #dde5d3;
+  --card-border: #e3e8ee;
 
-  --forest: #163300; /* brand: wordmark, headings, text on lime */
-  --lime: #9fe870; /* brand: primary buttons, "best" badges, highlights */
-  --lime-hover: #b4f08c;
-  --mint: #e2f6d5; /* soft fills, hero wash */
-  --mint-deep: #c9ecb0;
+  --forest: #0a2540; /* brand ink (navy): wordmark, headings, navy cards */
+  --lime: #635bff; /* brand accent (indigo): primary buttons, "best" badges, highlights */
+  --lime-hover: #5048e5;
+  --on-accent: #ffffff; /* text on the accent fill */
+  --mint: #efedff; /* soft tints (pale indigo), hero wash */
+  --mint-deep: #dad7ff;
 
-  --text: #0e0f0c;
-  --text-dim: #454745;
-  --text-faint: #6a6d66;
+  --text: #0a2540;
+  --text-dim: #425466;
+  --text-faint: #5b6b80;
 
-  --link: #1a5c00;
+  --link: #4338ca;
   /* The cost percentage keeps exactly one meaning, as before: it is the
      number that says how much the provider takes. Nothing else uses it. */
-  --cost: #17700a;
+  --cost: #4338ca;
 
   /* Freshness dots reuse the text hierarchy: older = darker = worth a second
      look. */
@@ -55,9 +67,9 @@
   --color-lime-hover: var(--lime-hover);
   --color-mint: var(--mint);
   --color-mint-deep: var(--mint-deep);
-  /* "accent" = the lime fill, "accent-contrast" = what sits on it. */
+  /* "accent" = the indigo fill, "accent-contrast" = what sits on it (white). */
   --color-accent: var(--lime);
-  --color-accent-contrast: var(--forest);
+  --color-accent-contrast: var(--on-accent);
   --color-accent-tint: var(--mint);
   --color-cost: var(--cost);
   --color-link: var(--link);
@@ -86,17 +98,17 @@ body {
   letter-spacing: -0.02em;
 }
 
-/* Hero wash: mint with a lime glow, so the top of the page has colour and
-   depth instead of reading as a flat sheet. Pure CSS, no image. */
+/* Hero wash: pale indigo with an accent glow, so the top of the page has
+   colour and depth instead of reading as a flat sheet. Pure CSS, no image. */
 .hero-wash {
   background:
-    radial-gradient(60% 80% at 88% 0%, rgba(159, 232, 112, 0.55) 0%, rgba(159, 232, 112, 0) 70%),
-    radial-gradient(50% 60% at 0% 100%, rgba(201, 236, 176, 0.7) 0%, rgba(201, 236, 176, 0) 70%),
+    radial-gradient(60% 80% at 88% 0%, rgba(99, 91, 255, 0.22) 0%, rgba(99, 91, 255, 0) 70%),
+    radial-gradient(50% 60% at 0% 100%, rgba(218, 215, 255, 0.9) 0%, rgba(218, 215, 255, 0) 70%),
     var(--mint);
 }
 
 @layer components {
-  /* Buttons. Primary = lime fill with forest text, the one loud element on a
+  /* Buttons. Primary = indigo fill with white text, the one loud element on a
      screen. Secondary = outlined, quiet. Both are real buttons/links with a
      visible focus ring. */
   .btn-primary,
@@ -116,7 +128,7 @@ body {
   }
   .btn-primary {
     background: var(--lime);
-    color: var(--forest);
+    color: var(--on-accent);
     padding: 0.75rem 1.25rem;
   }
   .btn-primary:hover {

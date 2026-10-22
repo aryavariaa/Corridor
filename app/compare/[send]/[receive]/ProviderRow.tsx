@@ -144,12 +144,12 @@ export default function ProviderRow({
     <li
       className={`relative rounded-2xl bg-white p-4 sm:p-5 ${
         best
-          ? "border-2 border-lime shadow-[0_10px_30px_-14px_rgba(22,51,0,0.45)]"
+          ? "border-2 border-lime shadow-[0_10px_30px_-14px_rgba(10,37,64,0.45)]"
           : "border border-card-border"
       }`}
     >
       {best && (
-        <span className="absolute -top-3 left-4 rounded-full bg-lime px-3 py-1 text-xs font-extrabold text-brand shadow-sm">
+        <span className="absolute -top-3 left-4 rounded-full bg-lime px-3 py-1 text-xs font-extrabold text-accent-contrast shadow-sm">
           {bestLabel}
         </span>
       )}
@@ -237,7 +237,7 @@ export default function ProviderRow({
                 checked={selected}
                 disabled={selectDisabled && !selected}
                 onChange={() => onToggleCompare(p.provider)}
-                className="h-4 w-4 rounded border-card-border accent-[#163300]"
+                className="h-4 w-4 rounded border-card-border accent-[#0a2540]"
               />
               Compare
               <span className="sr-only"> {p.provider} with another provider</span>

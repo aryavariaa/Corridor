@@ -5,20 +5,28 @@ on purpose: one theme designed properly beats two that each got half the attenti
 
 ## Direction
 
-Bright, simple and catchy (the "Wise" end of the brief, not the Revolut end): **lime on deep forest green, with mint
-tints**. Inspiration only; the wordmark, mark and every asset are Corridor's own.
+Recoloured 2026-10-22 from green to a Stripe-style **indigo**: white text on an indigo accent, deep navy ink, cool
+grey surfaces, pale indigo tints. The green read as another site's brand. Layout, type, spacing and shapes did not
+change. Inspiration only; the wordmark, mark and every asset are Corridor's own.
+
+**Token names are the green version's and were kept on purpose** (`--lime`, `--forest`, `--mint`) to keep the change
+small. Read them as roles: `--lime` is the indigo accent fill, `--forest` the navy brand ink, `--mint` the pale tint.
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--forest` / `brand` | `#163300` | wordmark, headings, text on lime |
-| `--lime` / `accent` | `#9fe870` | primary buttons, Best value, Live badge |
-| `--mint` | `#e2f6d5` | soft fills, hero wash |
-| `--text` / `--text-dim` / `--text-faint` | `#0e0f0c` / `#454745` / `#6a6d66` | text hierarchy |
-| `--link` | `#1a5c00` | links |
-| `--cost` | `#17700a` | the cost percentage, and nothing else |
+| `--forest` / `brand` | `#0a2540` | wordmark, headings, navy cards |
+| `--lime` / `accent` | `#635bff` | primary buttons, Best value, Live badge (hover `#5048e5`) |
+| `--on-accent` / `accent-contrast` | `#ffffff` | text on the accent fill |
+| `--mint` / `--mint-deep` | `#efedff` / `#dad7ff` | soft tints, hero wash; `--mint-deep` is also emphasis text on navy |
+| `--bg-soft` / `--card-border` | `#f6f9fc` / `#e3e8ee` | cool grey surfaces and borders |
+| `--text` / `--text-dim` / `--text-faint` | `#0a2540` / `#425466` / `#5b6b80` | text hierarchy |
+| `--link` | `#4338ca` | links |
+| `--cost` | `#4338ca` | the cost percentage, and nothing else |
 
-Contrast was computed, not eyeballed. Lowest text pairing: faint on soft background, 4.9:1 (AA is 4.5).
-ink/white 19.2, dim/white 9.4, forest/lime 9.5, forest/mint 12.2, link/white 8.2, cost/white 6.3.
+Contrast was computed, not eyeballed: ink/white 15.5, dim/white 7.8, faint/white 5.4, faint/soft 5.1, white/accent
+4.7 (hover 6.2), ink/tint 13.5, link/white 7.9, cost/white 7.9. **White on the accent (4.7) is the tightest pairing,
+so keep text on the accent fill to bold button and badge text.** Dark ink on the accent is only 3.3, so never put it
+there. On navy cards use white or `--mint-deep` (11.2); the accent itself is 3.3 on navy.
 
 ## Fonts
 
@@ -34,7 +42,7 @@ the body font, repeat that measurement.
 
 `app/globals.css` holds the button classes (`btn-primary`, `btn-secondary`) in `@layer components`, so Tailwind
 utilities on the same element (`px-6`, `whitespace-normal`) override them as you'd expect. Unlayered rules would
-silently beat the utilities. `hero-wash` is the homepage's mint/lime background, pure CSS.
+silently beat the utilities. `hero-wash` is the homepage's pale-indigo background with an accent glow, pure CSS.
 
 ## Layout rules that came out of the work
 

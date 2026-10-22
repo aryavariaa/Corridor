@@ -185,7 +185,7 @@ function Comparison({
               Rate delayed
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-lime px-2.5 py-1 text-xs font-extrabold text-brand">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-lime px-2.5 py-1 text-xs font-extrabold text-accent-contrast">
               <span className="relative flex h-2 w-2" aria-hidden="true">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-40 motion-reduce:hidden" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
@@ -306,7 +306,7 @@ function Comparison({
         <div
           role="region"
           aria-label="Compare two providers"
-          className="fixed inset-x-4 bottom-4 z-20 mx-auto flex max-w-md items-center justify-between gap-3 rounded-full bg-brand px-5 py-3 text-white shadow-[0_14px_40px_-10px_rgba(22,51,0,0.7)]"
+          className="fixed inset-x-4 bottom-4 z-20 mx-auto flex max-w-md items-center justify-between gap-3 rounded-full bg-brand px-5 py-3 text-white shadow-[0_14px_40px_-10px_rgba(10,37,64,0.7)]"
         >
           <span className="min-w-0 truncate text-sm font-semibold">
             {picked.length === 1 ? `${picked[0]} selected. Pick one more.` : `${picked[0]} vs ${picked[1]}`}

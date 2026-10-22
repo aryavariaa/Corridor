@@ -96,7 +96,7 @@ function Compared({
 
       <h1 className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-heading text-4xl font-extrabold leading-tight tracking-[-0.045em] text-brand sm:text-6xl">
         <span>{a}</span>
-        <span className="rounded-full bg-lime px-3 py-0.5 text-2xl sm:text-3xl">vs</span>
+        <span className="rounded-full bg-lime px-3 py-0.5 text-2xl text-accent-contrast sm:text-3xl">vs</span>
         <span>{b}</span>
       </h1>
 
@@ -163,7 +163,7 @@ function Compared({
         <>
           <section
             aria-labelledby="verdict"
-            className="mt-6 rounded-3xl bg-brand px-6 py-7 text-white shadow-[0_18px_50px_-18px_rgba(22,51,0,0.6)] sm:px-8 sm:py-9"
+            className="mt-6 rounded-3xl bg-brand px-6 py-7 text-white shadow-[0_18px_50px_-18px_rgba(10,37,64,0.6)] sm:px-8 sm:py-9"
           >
             <h2 id="verdict" className="sr-only">
               Verdict
@@ -171,7 +171,7 @@ function Compared({
             {v.kind === "winner" ? (
               <>
                 <p className="font-heading text-3xl font-extrabold leading-tight tracking-[-0.04em] sm:text-5xl">
-                  <span className="text-lime">{v.winner}</span> sends you {money(receiveCurrency, v.diff)} more
+                  <span className="text-mint-deep">{v.winner}</span> sends you {money(receiveCurrency, v.diff)} more
                 </p>
                 <p className="mt-3 text-base text-mint sm:text-lg">
                   On {money(sendCurrency, amount, 0)} that&rsquo;s {v.diffPercent.toFixed(1)}% more of your money
@@ -227,7 +227,7 @@ function Compared({
                         {p.provider}
                       </span>
                       {v.kind === "winner" && v.winner === p.provider && (
-                        <span className="mt-1 inline-block rounded-full bg-lime px-2.5 py-0.5 text-xs font-extrabold text-brand">
+                        <span className="mt-1 inline-block rounded-full bg-lime px-2.5 py-0.5 text-xs font-extrabold text-accent-contrast">
                           Better value
                         </span>
                       )}

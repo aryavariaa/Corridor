@@ -15,18 +15,18 @@ export function Mark({ size = 32, className = "" }: { size?: number; className?:
       focusable="false"
       className={className}
     >
-      <rect width="32" height="32" rx="9" fill="#163300" />
+      <rect width="32" height="32" rx="9" fill="#635bff" />
       {/* the route that wins */}
       <path
         d="M8 23c6 0 5-13 15-13"
         fill="none"
-        stroke="#9fe870"
+        stroke="#ffffff"
         strokeWidth="3.4"
         strokeLinecap="round"
       />
       {/* where it starts and where it lands */}
-      <circle cx="8" cy="23" r="2.4" fill="#e2f6d5" />
-      <circle cx="24" cy="10" r="3.4" fill="#9fe870" />
+      <circle cx="8" cy="23" r="2.4" fill="#dad7ff" />
+      <circle cx="24" cy="10" r="3.4" fill="#ffffff" />
     </svg>
   );
 }
