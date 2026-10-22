@@ -55,6 +55,28 @@ function customAnomalyMessage(
   return parts.join(" ");
 }
 
+// Wording for the amber banner when a stored (preset-amount) row reads below the
+// live mid-market rate and there is no AI-written explanation to show. It names
+// the rows, says why that is usually a stale number rather than a deal, and, when
+// every affected row is marked Under review, says that is why none of them can be
+// the best value. (Rows not under review can still rank first, so it doesn't
+// claim that for them.)
+function costAnomalyMessage(
+  anomalies: NonNullable<RankedProvidersResult["costAnomaly"]>,
+  providers: RankedProvidersResult["providers"]
+): string {
+  const names = anomalies.map((a) => a.provider);
+  const one = names.length === 1;
+  const allUnderReview = names.every((n) => providers.find((p) => p.provider === n)?.underReview);
+  return (
+    `${names.join(" and ")} ${one ? "reads" : "read"} below the live mid-market rate, which usually means ` +
+    `${one ? "that provider's" : "those providers'"} data is stale rather than a better deal. ` +
+    (allUnderReview
+      ? `${one ? "It's" : "They're"} marked Under review, so ${one ? "it" : "they"} can't be named the best value until re-verified.`
+      : `Treat ${one ? "that number" : "those numbers"} with care until re-verified.`)
+  );
+}
+
 function Notice({ children, tone = "warn" }: { children: React.ReactNode; tone?: "warn" | "info" }) {
   return (
     <div
@@ -216,8 +238,7 @@ function Comparison({
           <Notice>
             {result.custom
               ? customAnomalyMessage(result.custom.extrapolated, result.costAnomaly)
-              : (costAnomalyExplanation ??
-                "One or more rows read below the live mid-market rate, which usually means that provider's data is stale rather than a better deal. We're not explaining the top pick until it's re-verified.")}
+              : (costAnomalyExplanation ?? costAnomalyMessage(result.costAnomaly, providers))}
           </Notice>
         )}
         {result.lagAllowed && result.lagAllowed.length > 0 && (

@@ -208,10 +208,10 @@ export async function getCostAnomalyExplanation(
 DATA:
 - One or more providers in this comparison show a NEGATIVE cost, meaning they appear to pay out MORE than today's live mid-market rate -- something no real remittance provider actually does.
 - Affected: ${rows}
-- Current handling: this comparison's normal "why this pick" explanation is being withheld until the affected rate is re-verified, because it would otherwise be describing a broken number as if it were a good deal.
+- Current handling: the affected row stays on the page, but this note warns that its number should not be trusted until the rate is re-verified, because it would otherwise look like a good deal.
 - Likely cause: the affected provider's rate was last checked on the date given above and simply hasn't been re-verified since the live mid-market rate moved -- not a bug in this site's own calculation.
 
-Write exactly 1-2 sentences telling a curious visitor why the top pick isn't being explained right now. Do not describe the negative cost as a good deal or a low price. Plain English -- no internal jargon like "cost anomaly" or "getRankedProviders."`;
+Write exactly 1-2 sentences telling a curious visitor why the affected number shouldn't be trusted yet. Do not describe the negative cost as a good deal or a low price. Plain English -- no internal jargon like "cost anomaly" or "getRankedProviders."`;
 
   const text = await callClaude(prompt);
   if (text) costAnomalyExplanationCache.set(cacheKey, text);
